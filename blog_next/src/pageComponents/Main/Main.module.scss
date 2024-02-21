@@ -1,0 +1,26 @@
+.main {
+  flex-grow: 1;
+  width: 100vw;
+  background-color: var(--color-background-1);
+}
+.topSection {
+  height: 280px;
+  padding-top: 26px;
+  color: var(--color-primary-3);
+  text-align: center;
+  background-color: var(--color-primary-1);
+}
+.logo {
+  margin-right: 28px;
+  margin-bottom: 25px;
+}
+.mainTextBlock {
+  display: inline-block;
+}
+.mainHeader {
+  font-size: 57px; /*TODO fix size*/
+}
+.contentSection {
+  min-width: 1200px;
+  text-align: center;
+}
