@@ -1,6 +1,7 @@
 .main {
   flex-grow: 1;
   width: 100vw;
+  margin-top: 80px;
   background-color: var(--color-background-1);
 }
 .topSection {
@@ -17,8 +18,13 @@
 .mainTextBlock {
   display: inline-block;
 }
-.mainHeader {
-  font-size: 57px; /*TODO fix size*/
+.mainTitle {
+  font-weight: 900;
+  font-size: 77px;
+}
+.subtitle {
+  font-style: 17px;
+  font-weight: 600;
 }
 .contentSection {
   min-width: 1200px;
