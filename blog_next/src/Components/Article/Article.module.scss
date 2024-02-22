@@ -1,0 +1,64 @@
+.articleBlock {
+  width: 800px;
+  height: 475px;
+  margin: 10px 0;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background-color: var(--color-background-2);
+}
+.authorBlock {
+  gap: 50px;
+  display: flex;
+  padding: 15px 0 15px 50px;
+}
+.author {
+  color: var(--color-secondary-2);
+  font-weight: 600;
+  font-size: 17px;
+}
+.date {
+  color: var(--color-secondary-3);
+  font-weight: 600;
+  font-size: 13px;
+}
+.imageBlock {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 310px;
+  background-color: var(--color-background-3);
+}
+.line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 100%;
+  background-color: var(--color-primary-2);
+}
+.defaultImage {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: var(--color-primary-2);
+  background-image: url('../../../public/house-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.titleBlock {
+  padding: 15px;
+}
+.title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--color-secondary-1);
+  font-size: 20px;
+  line-height: 26px;
+}
+.link {
+  color: var(--color-link);
+}
