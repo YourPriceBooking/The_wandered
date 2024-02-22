@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import s from './Main.module.scss';
-import logo from '../../../public/house-icon.png';
+import logo from '../../../public/house-icon.svg';
 
 export default function Main() {
   return (
