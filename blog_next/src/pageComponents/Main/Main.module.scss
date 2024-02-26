@@ -32,3 +32,21 @@
   align-items: center;
   margin-top: -100px;
 }
+.navSection {
+  padding: 60px 0;
+}
+.navNumbers {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  & > li {
+    list-style-type: none;
+    color: var(--color-link);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 22px;
+  }
+}
+.activeLink {
+  color: var(--color-secondary-1);
+}
