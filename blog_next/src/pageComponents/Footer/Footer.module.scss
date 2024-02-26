@@ -4,36 +4,95 @@
   width: 100vw;
   height: 330px;
   background-color: var(--color-secondary-2);
+  @media (max-width: 540px) {
+    height: 290px;
+  }
+  @media (max-width: 320px) {
+    height: 220px;
+  }
 }
 .footerContent {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 1200px;
+  min-width: 1200px;
   padding: 70px 130px 23px;
   color: var(--color-primary-3);
+  @media (max-width: 768px) {
+    min-width: 768px;
+    padding: 60px 20px 20px;
+  }
+  @media (max-width: 540px) {
+    min-width: 540px;
+    padding: 50px 20px 20px;
+  }
+  @media (max-width: 480px) {
+    min-width: 480px;
+    padding: 40px 15px 15px 20px;
+  }
+  @media (max-width: 320px) {
+    min-width: 320px;
+    padding: 20px;
+  }
 }
 .navContainer {
   display: flex;
   justify-content: space-between;
-  width: 1000px;
+  width: 100%;
+  @media (max-width: 480px) {
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 320px) {
+    padding: 20px;
+  }
+}
+.navBlock {
+  width: 25%;
+  @media (max-width: 480px) {
+    width: 47%;
+  }
 }
 
 .linkTitle {
   color: var(--color-primary-2);
   font-weight: 700;
   font-size: 32px;
+  @media (max-width: 768px) {
+    font-size: 27px;
+  }
+  @media (max-width: 540px) {
+    font-size: 20px;
+  }
+  @media (max-width: 320px) {
+    font-size: 13px;
+  }
 }
 .linkBlock {
-  width: 200px;
   padding-top: 40px;
   text-align: left;
   & > li {
     margin: 8px 0 8px;
     list-style-type: none;
+    @media (max-width: 540px) {
+      font-size: 12px;
+    }
+    @media (max-width: 320px) {
+      font-size: 9px;
+    }
+  }
+  @media (max-width: 480px) {
+    padding-top: 15px;
+  }
+  @media (max-width: 320px) {
+    padding-top: 5px;
   }
 }
+
 .copyright {
   font-size: 12px;
   text-align: center;
+  @media (max-width: 320px) {
+    font-size: 11px;
+  }
 }

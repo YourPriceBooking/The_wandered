@@ -16,14 +16,22 @@ export default function Article({ title, imageSrc, author, date, updated }: Arti
     <div className={s.articleBlock}>
       <div className={s.authorBlock}>
         <p className={s.author}>{author}</p>
-        <p className={s.date}>{date}</p>
-        <p className={s.date}>{updated}</p>
+        <div className={s.dateBlock}>
+          <p className={s.date}>{date}</p>
+          <p className={s.date}>{updated}</p>
+        </div>
       </div>
       <Link href="#">
         <div className={s.imageBlock}>
           <div className={s.line}></div>
           {imageSrc ? (
-            <Image src={imageSrc} width={800} height={310} alt="article-image"></Image>
+            <Image
+              src={imageSrc}
+              width={800}
+              height={310}
+              alt="article-image"
+              className={s.image}
+            ></Image>
           ) : (
             <div className={s.defaultImage}></div>
           )}

@@ -12,7 +12,7 @@ export default function Main() {
         <Image src={logo} width={63} height={58} alt="logo-icon" className={s.logo} />
         <div className={s.mainTextBlock}>
           <h2 className={s.mainTitle}>the wandered</h2>
-          <h1 className={s.subtitle}>The official Your Price Booking blog</h1>
+          <h1 className={s.title}>The official Your Price Booking blog</h1>
         </div>
       </div>
       <div className={s.contentSection}>
