@@ -15,27 +15,32 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 1200px;
+  max-width: 1200px;
   padding: 70px 130px 23px;
   color: var(--color-primary-3);
+  @media (max-width: 1024px) {
+    max-width: 1024px;
+    padding: 60px 90px 20px;
+  }
   @media (max-width: 768px) {
-    min-width: 768px;
+    max-width: 768px;
     padding: 60px 20px 20px;
   }
   @media (max-width: 540px) {
-    min-width: 540px;
+    max-width: 540px;
     padding: 50px 20px 20px;
   }
   @media (max-width: 480px) {
-    min-width: 480px;
+    max-width: 480px;
     padding: 40px 15px 15px 20px;
   }
   @media (max-width: 320px) {
-    min-width: 320px;
+    max-width: 320px;
     padding: 20px;
   }
 }
 .navContainer {
+  gap: 2px;
   display: flex;
   justify-content: space-between;
   width: 100%;

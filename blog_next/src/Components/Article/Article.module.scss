@@ -10,6 +10,7 @@
   }
   @media (max-width: 540px) {
     max-width: 535px;
+    height: 440px;
   }
   @media (max-width: 480px) {
     max-width: 480px;
@@ -74,23 +75,28 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  width: 800px;
+  width: 100vw;
+  max-width: 800px;
   height: 310px;
   background-color: var(--color-background-3);
+  @media (max-width: 768px) {
+    max-width: 758px;
+  }
   @media (max-width: 540px) {
-    width: 540px;
+    max-width: 530px;
     height: 280px;
   }
   @media (max-width: 480px) {
-    width: 480px;
+    max-width: 480px;
     height: 200px;
   }
   @media (max-width: 320px) {
-    width: 320px;
+    max-width: 320px;
     height: 169px;
   }
 }
 .line {
+  z-index: 22;
   position: absolute;
   top: 0;
   left: 0;
@@ -99,18 +105,7 @@
   background-color: var(--color-primary-2);
 }
 .image {
-  @media (max-width: 540px) {
-    width: 540px;
-    height: 280px;
-  }
-  @media (max-width: 480px) {
-    width: 480px;
-    height: 200px;
-  }
-  @media (max-width: 320px) {
-    width: 320px;
-    height: 169px;
-  }
+  object-fit: cover;
 }
 .defaultImage {
   width: 160px;
