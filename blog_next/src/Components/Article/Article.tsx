@@ -25,13 +25,7 @@ export default function Article({ title, imageSrc, author, date, updated }: Arti
         <div className={s.imageBlock}>
           <div className={s.line}></div>
           {imageSrc ? (
-            <Image
-              src={imageSrc}
-              width={800}
-              height={310}
-              alt="article-image"
-              className={s.image}
-            ></Image>
+            <Image src={imageSrc} fill alt="article-image" className={s.image} />
           ) : (
             <div className={s.defaultImage}></div>
           )}
