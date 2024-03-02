@@ -8,7 +8,7 @@ export const footerLinkData = [
       },
       {
         name: 'Daily Journal of Your Price Booking Service History',
-        src: '#',
+        src: '/history',
       },
     ],
   },
