@@ -32,6 +32,16 @@
     padding: 15px 17px;
   }
 }
+.logo{
+  transition: 3s;
+  &:hover{
+    opacity: 60%;
+  }
+  @media (max-width: 320px){
+    width: 45px;
+    height: 41px;
+  }
+}
 .search {
   position: relative;
   width: 200px;
