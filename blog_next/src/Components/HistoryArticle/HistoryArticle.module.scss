@@ -2,7 +2,7 @@
   position: relative;
   max-width: 800px;
   height: 400px;
-  margin: 10px 0;
+  margin: 5px 0;
   padding: 25px 50px 76px 85px;
   border: 1px solid var(--color-border);
   border-radius: 5px;
@@ -10,11 +10,43 @@
   font-size: 18px;
   line-height: 24px;
   background-color: var(--color-background-2);
+  @media (max-width: 768px) {
+    max-width: 720px;
+    font-size: 17px;
+    line-height: 22px;
+    padding: 29px 50px 60px 80px;
+  }
+  @media (max-width: 540px){
+    max-width: 520px;
+    font-size: 15px;
+    line-height: 18px;
+    padding: 27px 45px 50px 73px;
+  }
+  @media (max-width: 480px){
+    font-size: 14px;
+    padding: 25px 38px 40px 68px;
+  }
+  @media (max-width: 320px) {
+    max-width: 318px;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 23px 30px 25px 63px;
+  }
 }
 .icon{
   position: absolute;
   top: 56px;
   left: 30px;
+  @media (max-width: 768px){
+    top: 68px;
+  }
+  @media (max-width: 480px){
+    width: 23px;
+    height: 23px;
+  }
+  @media (max-width: 320px){
+    top: 53px;
+  }
 }
 .date {
   margin-bottom: 5px;
@@ -22,9 +54,20 @@
   font-weight: 600;
   font-size: 13px;
   text-align: right;
+  @media (max-width: 768px){
+    margin-bottom: 16px;
+  }
+  @media (max-width: 540px){
+    font-size: 11px;
+  }
+  @media (max-width: 320px){
+    font-size: 9px;
+    margin-bottom: 14px;
+  }
 }
 .link {
   font-weight: 400;
+  overflow-wrap: anywhere
 }
 .title {
   margin: 20px 0;
@@ -33,9 +76,17 @@
 .line {
   z-index: 22;
   position: absolute;
-  top: 140px;
+  top: 50%;
+  transform:translate(0, -50%);
   left: 0;
   width: 15px;
   height: 115px;
   background-color: var(--color-link);
+  @media (max-width: 540px){
+    width: 10px;
+    height: 70px;
+  }
+  @media (max-width: 320px){
+    height: 53px;
+  }
 }
