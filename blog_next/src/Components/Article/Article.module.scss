@@ -32,7 +32,7 @@
     gap: 40px;
     padding: 15px 9px 12px 30px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     gap: 25px;
     height: 55px;
     padding: 6px 9px 7px 9px;
@@ -94,6 +94,9 @@
     max-width: 320px;
     height: 169px;
   }
+  @media (max-width: 400px) {
+    max-width: 400px;
+  }
 }
 .line {
   z-index: 22;
@@ -120,7 +123,7 @@
     width: 120px;
     height: 120px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     width: 96px;
     height: 96px;
   }
@@ -140,7 +143,7 @@
     font-size: 18px;
     line-height: 20px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     font-size: 11px;
     line-height: 14px;
   }
@@ -148,7 +151,7 @@
 .link {
   margin-top: 5px;
   color: var(--color-link);
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     margin-top: 15px;
     font-size: 14px;
     line-height: 18px;

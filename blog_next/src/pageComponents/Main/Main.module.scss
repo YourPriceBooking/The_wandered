@@ -3,8 +3,8 @@
   width: 100vw;
   margin-top: 80px;
   background-color: var(--color-background-1);
-  @media (max-width: 320px) {
-    min-width: 320px;
+  @media (max-width: 400px) {
+    min-width: 400px;
   }
 }
 .topSection {
@@ -16,7 +16,7 @@
   @media (max-width: 480px) {
     height: 240px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     height: 180px;
     padding-top: 23px;
   }
@@ -28,7 +28,7 @@
     width: 50px;
     height: 45px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     width: 31px;
     height: 29px;
     margin-right: 16px;
@@ -47,7 +47,7 @@
   @media (max-width: 480px) {
     font-size: 48px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     font-size: 33px;
   }
 }
@@ -57,7 +57,7 @@
   @media (max-width: 480px) {
     font-size: 15px;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     font-size: 12px;
   }
 }
@@ -66,12 +66,15 @@
   flex-direction: column;
   align-items: center;
   margin-top: -100px;
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     margin-top: -70px;
   }
 }
 .navSection {
   padding: 60px 0;
+  @media (max-width: 400px) {
+    padding: 50px 0;
+  }
 }
 .navNumbers {
   display: flex;
