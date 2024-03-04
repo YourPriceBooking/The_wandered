@@ -4,6 +4,9 @@
   width: 100vw;
   margin-top: 80px;
   background-color: var(--color-background-1);
+  @media (max-width: 400px) {
+    max-width: 400px;
+  }
   @media (max-width: 320px) {
     max-width: 320px;
   }
@@ -30,7 +33,7 @@
     height: 150px;
     padding: 45px 70px 0;
   }
-  @media (max-width: 320px) {
+  @media (max-width: 400px) {
     height: 110px;
     padding: 30px 60px 0;
   }
