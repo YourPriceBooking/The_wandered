@@ -4,12 +4,15 @@ import logo from '../../../public/house-icon.svg';
 import s from './page.module.scss';
 import Header from '@/pageComponents/Header/Header';
 import Footer from '@/pageComponents/Footer/Footer';
+import { historyData } from '../../defaultData/historyData';
+import HistoryArticle from '@/Components/HistoryArticle/HistoryArticle';
 
 export default function Home() {
   return (
     <>
       <Header></Header>
       <main className={s.main}>
+        <div className={s.gradient}></div>
         <div className={s.topSection}>
           <svg
             className={s.logo}
@@ -28,11 +31,24 @@ export default function Home() {
               fill="#FF6000"
             />
           </svg>
-          {/* <Image src={logo} width={50} height={45} alt="logo-icon" className={s.logo} /> */}
           <div className={s.mainTextBlock}>
             <h2 className={s.mainTitle}>Daily Journal of Your Price Booking Services History</h2>
             <h1 className={s.title}>www.yourpricebooking.com</h1>
           </div>
+        </div>
+        
+        <div className={s.contentSection}>
+          {historyData.map((article) => {
+            return (
+              <HistoryArticle
+                key={article.id}
+                text={article.text}
+                title={article.title}
+                date={article.date}
+                link={article.link}
+              />
+            );
+          })}
         </div>
       </main>
       <Footer></Footer>
