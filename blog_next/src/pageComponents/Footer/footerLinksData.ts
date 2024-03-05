@@ -4,7 +4,7 @@ export const footerLinkData = [
     links: [
       {
         name: 'Your Price Booking ОÜ',
-        src: '#',
+        src: 'https://www.yourpricebooking.com/about-company',
       },
       {
         name: 'Daily Journal of Your Price Booking Service History',
@@ -17,11 +17,11 @@ export const footerLinkData = [
     links: [
       {
         name: 'Yourpricebooking.com',
-        src: '#',
+        src: 'https://www.yourpricebooking.com',
       },
       {
         name: 'Help center',
-        src: '#',
+        src: 'https://www.yourpricebooking.com/support',
       },
     ],
   },
@@ -38,8 +38,8 @@ export const footerLinkData = [
     title: 'Social Links',
     links: [
       {
-        name: 'x',
-        src: '#',
+        name: 'X',
+        src: 'https://twitter.com/BTravelq',
       },
     ],
   },
