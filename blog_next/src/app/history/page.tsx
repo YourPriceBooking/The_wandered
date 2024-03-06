@@ -1,5 +1,5 @@
 import '../../../node_modules/modern-normalize/modern-normalize.css';
-import s from './page.module.scss';
+import s from './historyPage.module.scss';
 import { historyData } from '../../defaultData/historyData';
 import HistoryArticle from '@/Components/HistoryArticle/HistoryArticle';
 import type { Metadata } from 'next';
