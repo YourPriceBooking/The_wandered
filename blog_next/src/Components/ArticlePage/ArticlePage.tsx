@@ -26,14 +26,32 @@ export default function ArticlePage() {
 						<p>{post.updated}</p>
 					</div>
 					<p className={s.author}>{post.author}</p>
-					<p className={s.text}>{post.text}</p>
+					{post.text.split('\n').map((textBlock, i) => {
+						return (
+							<p className={s.text} key={i}>
+								{textBlock}
+							</p>
+						);
+					})}
 					<h2 className={s.subtitle}>{post.subtitle}</h2>
-					<p className={s.text}>{post.subtext}</p>
+					{post.subtext.split('\n').map((textBlock, i) => {
+						return (
+							<p className={s.text} key={i}>
+								{textBlock}
+							</p>
+						);
+					})}
 					{post.additional?.map((block, i) => {
 						return (
 							<div>
 								<h3 className={s.blockSubtitle}>{block.title}</h3>
-								<p className={s.text}>{block.text}</p>
+								{block.text.split('\n').map((textBlock, i) => {
+									return (
+										<p className={s.text} key={i}>
+											{textBlock}
+										</p>
+									);
+								})}
 							</div>
 						);
 					})}
