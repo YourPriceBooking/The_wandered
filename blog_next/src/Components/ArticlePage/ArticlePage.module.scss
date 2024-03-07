@@ -126,16 +126,16 @@
 		font-size: 9px;
 	}
 }
-
 .text {
-	margin: 5px 0 20px;
 	font-size: 14px;
+	text-indent: 15px;
 	white-space: pre-wrap;
 	@media (max-width: 400px) {
 		font-size: 9px;
 	}
 }
 .subtitle {
+	margin: 20px 0 5px;
 	font-weight: 700;
 	font-size: 18px;
 	@media (max-width: 400px) {
@@ -144,6 +144,7 @@
 	}
 }
 .blockSubtitle {
+	margin: 20px 0 5px;
 	font-weight: 700;
 	font-size: 16px;
 	@media (max-width: 400px) {
