@@ -1,44 +1,20 @@
-'use client';
-import Image from 'next/image';
 import { articleData } from '@/defaultData/articleData';
-import s from './post.module.scss';
-import { usePathname } from 'next/navigation';
+import { Metadata } from 'next';
+import ArticlePage from '@/Components/ArticlePage/ArticlePage';
+
+export async function generateMetadata({
+	params,
+}: {
+	params: { slug: string };
+}): Promise<Metadata> {
+	//TODO ------- get data from server
+	const post = articleData.find((elem) => elem.slug === params.slug);
+	return {
+		title: post?.metaTitle,
+		description: post?.description,
+	};
+}
 
 export default function Post() {
-	const pathname = usePathname();
-
-	const post = articleData.find((elem) => elem.slug === pathname.substring(1, pathname.length));
-
-	return (
-		post && (
-			<main className={s.postBlock}>
-				<div className={s.imageBlock}>
-					{post.imageSrc ? (
-						<Image src={post.imageSrc} fill alt="article-image" className={s.image} />
-					) : (
-						<div className={s.defaultImage}></div>
-					)}
-				</div>
-				<div className={s.textBlock}>
-					<h1 className={s.title}>{post.title}</h1>
-					<div className={s.dateBlock}>
-						<p>{post.date}</p>
-						<p>{post.updated}</p>
-					</div>
-					<p className={s.author}>{post.author}</p>
-					<p className={s.text}>{post.text}</p>
-					<h2 className={s.subtitle}>{post.subtitle}</h2>
-					<p className={s.text}>{post.subtext}</p>
-					{post.additional?.map((block, i) => {
-						return (
-							<div>
-								<h3 className={s.blockSubtitle}>{block.title}</h3>
-								<p className={s.text}>{block.text}</p>
-							</div>
-						);
-					})}
-				</div>
-			</main>
-		)
-	);
+	return <ArticlePage />;
 }
