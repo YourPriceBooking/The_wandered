@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
-
+import Header from '@/Components/Header/Header';
+import Footer from '@/Components/Footer/Footer';
+import '../../node_modules/modern-normalize/modern-normalize.css';
 import '../styles/index.scss';
 
 export const metadata: Metadata = {
@@ -15,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+      <Header />
+        {children}
+      <Footer />
+      </body>
     </html>
   );
 }

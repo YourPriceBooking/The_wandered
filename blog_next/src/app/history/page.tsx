@@ -1,16 +1,17 @@
 import '../../../node_modules/modern-normalize/modern-normalize.css';
-import Image from 'next/image';
-import logo from '../../../public/house-icon.svg';
-import s from './page.module.scss';
-import Header from '@/pageComponents/Header/Header';
-import Footer from '@/pageComponents/Footer/Footer';
+import s from './historyPage.module.scss';
 import { historyData } from '../../defaultData/historyData';
 import HistoryArticle from '@/Components/HistoryArticle/HistoryArticle';
+import type { Metadata } from 'next';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
+  description:
+    'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
+};
+
+export default function HistoryPage() {
   return (
-    <>
-      <Header></Header>
       <main className={s.main}>
         <div className={s.gradient}></div>
         <div className={s.topSection}>
@@ -51,7 +52,5 @@ export default function Home() {
           })}
         </div>
       </main>
-      <Footer></Footer>
-    </>
   );
 }

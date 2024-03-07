@@ -1,0 +1,19 @@
+{
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "never",
+    "source.fixAll.eslint": "explicit"
+  },
+  "cSpell.words": ["Hanaichuk", "NIKITENKO", "Oleksandr", "Rosliy", "SLAVA"],
+  "cSpell.language": "uk,en,lorem",
+  "files.eol": "\n",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "runOnSave.commands": [
+    {
+      "match": "\\.scss$",
+      "runIn": "vscode",
+      "commandBeforeSaving": "sort-css-declarations.sort-all"
+    }
+  ]
+}
