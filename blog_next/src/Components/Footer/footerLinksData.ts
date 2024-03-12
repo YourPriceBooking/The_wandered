@@ -1,46 +1,46 @@
 export const footerLinkData = [
-  {
-    title: 'Company',
-    links: [
-      {
-        name: 'Your Price Booking ОÜ',
-        src: 'https://www.yourpricebooking.com/about-company',
-      },
-      {
-        name: 'Daily Journal of Your Price Booking Service History',
-        src: '/history',
-      },
-    ],
-  },
-  {
-    title: 'Community',
-    links: [
-      {
-        name: 'Yourpricebooking.com',
-        src: 'https://www.yourpricebooking.com',
-      },
-      {
-        name: 'Help center',
-        src: 'https://www.yourpricebooking.com/support',
-      },
-    ],
-  },
-  {
-    title: 'Privacy & Safety',
-    links: [
-      {
-        name: 'Privacy Policy',
-        src: '#',
-      },
-    ],
-  },
-  {
-    title: 'Social Links',
-    links: [
-      {
-        name: 'X',
-        src: 'https://twitter.com/BTravelq',
-      },
-    ],
-  },
+	{
+		title: 'Company',
+		links: [
+			{
+				name: 'Your Price Booking ОÜ',
+				src: 'https://www.yourpricebooking.com/about-company',
+			},
+			{
+				name: 'Daily Journal of Your Price Booking Service History',
+				src: '/history',
+			},
+		],
+	},
+	{
+		title: 'Community',
+		links: [
+			{
+				name: 'Yourpricebooking.com',
+				src: 'https://www.yourpricebooking.com',
+			},
+			{
+				name: 'Help center',
+				src: 'https://www.yourpricebooking.com/support',
+			},
+		],
+	},
+	{
+		title: 'Privacy & Safety',
+		links: [
+			{
+				name: 'Privacy Policy',
+				src: '/private-policy',
+			},
+		],
+	},
+	{
+		title: 'Social Links',
+		links: [
+			{
+				name: 'X',
+				src: 'https://twitter.com/BTravelq',
+			},
+		],
+	},
 ];
