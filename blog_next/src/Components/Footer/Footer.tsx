@@ -14,9 +14,13 @@ export default function Footer() {
 								<h2 className={s.linkTitle}>{block.title}</h2>
 								<ul className={s.linkBlock}>
 									{block.links.map((link, i) => {
+										const target =
+											link.src[0] !== '/'
+												? { target: 'blank', rel: 'nofollow noreferrer noopener' }
+												: {};
 										return (
 											<li key={i}>
-												<Link href={link.src} target="blank">
+												<Link href={link.src} {...target}>
 													{link.name}
 												</Link>
 											</li>
