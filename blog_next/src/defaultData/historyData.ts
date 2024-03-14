@@ -58,14 +58,14 @@ export const historyData = [
 	{
 		id: '09',
 		date: 'March 6, 2024',
-		link: 'https://www.yourpricebooking.com/en/terms-conditions-hoteliers',
+		link: ' https://www.yourpricebooking.com/en/terms-and-conditions-for-hoteliers',
 		title: 'Your Price Booking Online Service Terms and Conditions for Hoteliers',
 		text: 'Explore the terms and conditions of our online service for hoteliers on Your Price Booking. Register, list your accommodations, and provide comfortable conditions for guests.',
 	},
 	{
 		id: '10',
 		date: 'March 6, 2024',
-		link: 'https://www.yourpricebooking.com/en/privacy-policy-hoteliers ',
+		link: 'https://www.yourpricebooking.com/en/privacy-policy-for-hoteliers',
 		title: 'Your Price Booking Hotelier Privacy Policy: Confidentiality, Security, and Information Management',
 		text: `We are committed to safeguarding the confidentiality and security of hoteliers' information on Your Price Booking. Learn how we collect, use, and protect your data when using our online booking and rental platform.`,
 	},
