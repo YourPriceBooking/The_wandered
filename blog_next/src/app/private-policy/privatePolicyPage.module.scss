@@ -28,6 +28,14 @@
 	background-color: var(--color-background-2);
 	line-height: 1.33;
 	color: var(--color-secondary-4);
+	@media (min-width: 320px) {
+		max-width: none;
+		width: calc(100% - 11px);
+	}
+	@media (min-width: 480px) {
+		max-width: none;
+		width: 469px;
+	}
 	@media (min-width: 768px) {
 		max-width: none;
 		width: 720px;
@@ -37,52 +45,80 @@
 		padding-left: 489px;
 		width: 1115px;
 	}
-	h1 {
+}
+
+.title {
+	font-size: 14px;
+	font-weight: 700;
+	margin-bottom: 40px;
+	@media (min-width: 321px) {
+		font-size: 16px;
+	}
+	@media (min-width: 400px) {
+		font-size: 18px;
+	}
+	@media (min-width: 768px) {
+		font-size: 22px;
+		margin-bottom: 30px;
+		padding-right: 20px;
+	}
+}
+
+.revisionDateText {
+	font-size: 12px;
+	line-height: 1.33;
+	margin-bottom: 27px;
+	@media (min-width: 321px) {
 		font-size: 14px;
-		font-weight: 700;
-		margin-bottom: 40px;
-		@media (min-width: 768px) {
-			font-size: 22px;
-			margin-bottom: 30px;
-			padding-right: 20px;
-		}
 	}
+	@media (min-width: 401px) {
+		font-size: 18px;
+	}
+	@media (min-width: 768px) {
+		font-size: 22px;
+		margin-bottom: 54px;
+	}
+}
 
-	p {
+.subtitle {
+	font-size: 9px;
+	line-height: 1.9;
+	@media (min-width: 321px) {
+		font-size: 10px;
+		line-height: 1.7;
+	}
+	@media (min-width: 401px) {
 		font-size: 12px;
-		line-height: 1.33;
-		margin-bottom: 27px;
-		@media (min-width: 768px) {
-			font-size: 22px;
-			margin-bottom: 54px;
-		}
+		line-height: 1.4;
 	}
-
-	h2 {
-		font-size: 9px;
-		@media (min-width: 768px) {
-			font-size: 14px;
-		}
+	@media (min-width: 768px) {
+		font-size: 14px;
+		line-height: 1.2;
 	}
-	ul {
-		line-height: 1.9;
-		@media (min-width: 768px) {
-			line-height: 1.2;
-		}
-		li {
-			font-size: 9px;
-			margin-bottom: 17px;
+}
 
-			& > p {
-				margin-bottom: 0;
-				text-align: justify;
-				@media (min-width: 768px) {
-					font-size: 14px;
-				}
-			}
-			&:first-child h2 {
-				margin-bottom: 17px;
-			}
-		}
+.item {
+	margin-bottom: 17px;
+	&:first-child h2 {
+		margin-bottom: 17px;
+	}
+}
+
+.text {
+	font-size: 9px;
+	margin-bottom: 0;
+	line-height: 1.9;
+	text-align: justify;
+	@media (min-width: 321px) {
+		font-size: 10px;
+		line-height: 1.7;
+	}
+	@media (min-width: 400px) {
+		font-size: 12px;
+		line-height: 1.4;
+	}
+	@media (min-width: 768px) {
+		font-size: 14px;
+		line-height: 1.2;
 	}
 }

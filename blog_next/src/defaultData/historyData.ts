@@ -9,7 +9,7 @@ export const historyData = [
 	{
 		id: '02',
 		date: 'March 6, 2024',
-		link: 'https://www.yourpricebooking.com/en/for-hoteliers',
+		link: 'https://www.yourpricebooking.com/en/for-hotelier',
 		title: 'Your Price Booking - Unlocking Individualized Booking Solutions for Hoteliers',
 		text: 'Welcome to Your Price Booking, the online platform that empowers hoteliers with the freedom to set their own prices and offer individualized booking options to travelers. With a minimal 5% commission, you get paid before check-in, giving you more control over your business.',
 	},

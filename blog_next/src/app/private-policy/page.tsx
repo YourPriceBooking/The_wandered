@@ -13,7 +13,7 @@ export default function PrivatePolicy() {
 		<main className={s.main}>
 			<section className={s.section}>
 				<div className={s.container}>
-					<h1>
+					<h1 className={s.title}>
 						{privatePolicyData.title.map((item, index) => (
 							<span
 								key={index}
@@ -26,7 +26,7 @@ export default function PrivatePolicy() {
 							</span>
 						))}
 					</h1>
-					<p>
+					<p className={s.revisionDateText}>
 						{`${privatePolicyData.revisionDated.text} ${format(
 							privatePolicyData.revisionDated.date,
 							'MMMM dd, yyyy',
@@ -34,14 +34,17 @@ export default function PrivatePolicy() {
 					</p>
 					<ul>
 						{privatePolicyData.articles.map(({ subTitle, paragraphText }, index) => (
-							<li key={subTitle}>
-								<h2>{subTitle}</h2>
+							<li key={subTitle} className={s.item}>
+								<h2 className={s.subtitle}>{subTitle}</h2>
 								{Array.isArray(paragraphText) ? (
-									paragraphText.map((item) => <p key={item}>{item}</p>)
+									paragraphText.map((item) => (
+										<p className={s.text} key={item}>
+											{item}
+										</p>
+									))
 								) : (
-									<p>{paragraphText}</p>
+									<p className={s.text}>{paragraphText}</p>
 								)}
-								<p></p>
 							</li>
 						))}
 					</ul>
