@@ -1,5 +1,5 @@
-import article1 from '../../public/article1.jpg';
-import article2 from '../../public/article2.jpg';
+import article2 from '../../public/article1.jpg';
+import article1 from '../../public/article2.jpg';
 
 export const articleData = [
 	{
