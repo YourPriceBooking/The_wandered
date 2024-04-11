@@ -34,20 +34,82 @@
 		font-size: 12px;
 		line-height: 15px;
 	}
+	& .infoPostContent {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		@media (max-width: 768px) {
+			flex-direction: column-reverse;
+			&:first-child {
+				justify-content: center;
+				align-items: flex-start;
+			}
+			&:last-child {
+				justify-content: center;
+				align-items: center;
+			}
+		}
+		&Link {
+			width: 75%;
+			display: flex;
+			align-items: center;
+			@media (max-width: 768px) {
+				width: 100%;
+			}
+		}
+		article {
+			width: 70%;
+			flex-direction: column;
+			& .text {
+				opacity: 0.6;
+				@media (max-width: 768px) {
+					font-size: 12px;
+				}
+			}
+			@media (max-width: 768px) {
+				width: 100%;
+			}
+		}
+		&Image {
+			width: 166px;
+			height: 123px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: solid 1px var(--color-link);
+			border-radius: 10px;
+			background-color: var(--color-link);
+			@media (max-width: 768px) {
+				width: 40%;
+				height: 180px;
+				margin-bottom: 10px;
+			}
+			@media (max-width: 640px) {
+				width: 50%;
+			}
+			@media (max-width: 540px) {
+				width: 70%;
+			}
+			&Content {
+				width: 100%;
+				height: 100%;
+				border-radius: 10px;
+			}
+		}
+	}
+	& .mainPostContentLink {
+	}
 }
 .icon {
 	position: absolute;
-	top: 56px;
-	left: 30px;
+	transform: translateX(-150%);
 	@media (max-width: 768px) {
-		top: 68px;
 	}
 	@media (max-width: 480px) {
 		width: 23px;
 		height: 23px;
 	}
 	@media (max-width: 400px) {
-		top: 53px;
 	}
 }
 .date {
@@ -70,18 +132,39 @@
 .link {
 	font-weight: 400;
 	overflow-wrap: anywhere;
+	@media (max-width: 768px) {
+		font-size: 14px;
+	}
+	&Text {
+		text-decoration: underline;
+		font-weight: bold;
+		color: var(--color-link);
+		transition: all 0.5s;
+		&:hover {
+			opacity: 0.5;
+		}
+	}
 }
 .title {
 	margin: 20px 0;
 	font-weight: 600;
-	@media (max-width: 540px) {
-		margin: 10px 0;
+	&:last-child {
+		display: none;
+	}
+	@media (max-width: 768px) {
+		&:first-child {
+			display: none;
+		}
+		&:last-child {
+			display: block;
+			text-align: center;
+		}
 	}
 }
 .line {
 	z-index: 22;
 	position: absolute;
-	top: 50%;
+	top: 35%;
 	transform: translate(0, -50%);
 	left: 0;
 	width: 15px;
