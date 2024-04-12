@@ -9,7 +9,7 @@ export default function MainPage() {
 	return (
 		<main className={s.main}>
 			<div className={s.topSection}>
-				<Image src={logo} width={63} height={58} alt="logo-icon" className={s.logo} />
+				<Image src={logo} width={63} height={58} alt="logo-icon" className={s.logo} priority={true} />
 				<div className={s.mainTextBlock}>
 					<h2 className={s.mainTitle}>the wandered</h2>
 					<h1 className={s.title}>The official Your Price Booking blog</h1>

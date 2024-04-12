@@ -1,0 +1,17 @@
+.date {
+	margin-bottom: 5px;
+	color: var(--color-secondary-3);
+	font-weight: 600;
+	font-size: 13px;
+	text-align: right;
+	@media (max-width: 768px) {
+		margin-bottom: 16px;
+	}
+	@media (max-width: 540px) {
+		font-size: 11px;
+	}
+	@media (max-width: 400px) {
+		font-size: 9px;
+		margin-bottom: 14px;
+	}
+}

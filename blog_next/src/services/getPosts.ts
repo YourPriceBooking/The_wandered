@@ -5,6 +5,7 @@ export default async function getPosts() {
 	const res = await fetch(POSTS_URL);
 
 	if (!res.ok) {
+		console.log(res);
 		throw new Error('Failed to fetch data');
 	}
 
