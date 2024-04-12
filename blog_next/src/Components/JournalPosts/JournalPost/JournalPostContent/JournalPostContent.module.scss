@@ -43,6 +43,7 @@
 		border: solid 1px var(--color-link);
 		border-radius: 10px;
 		background-color: var(--color-link);
+		z-index: 12;
 		@media (max-width: 768px) {
 			width: 40%;
 			height: 180px;
@@ -64,6 +65,8 @@
 .title {
 	margin: 20px 0;
 	font-weight: 600;
+	z-index: 12;
+
 	&:last-child {
 		display: none;
 	}
