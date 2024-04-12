@@ -1,0 +1,16 @@
+.link {
+	font-weight: 400;
+	overflow-wrap: anywhere;
+	@media (max-width: 768px) {
+		font-size: 14px;
+	}
+	&Text {
+		text-decoration: underline;
+		font-weight: bold;
+		color: var(--color-link);
+		transition: all 0.5s;
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+}

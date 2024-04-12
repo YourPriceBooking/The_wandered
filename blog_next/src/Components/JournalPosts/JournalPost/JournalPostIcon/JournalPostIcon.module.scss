@@ -1,0 +1,12 @@
+.icon {
+	position: absolute;
+	transform: translateX(-150%);
+	@media (max-width: 768px) {
+	}
+	@media (max-width: 480px) {
+		width: 23px;
+		height: 23px;
+	}
+	@media (max-width: 400px) {
+	}
+}
