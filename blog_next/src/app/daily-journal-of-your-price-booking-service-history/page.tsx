@@ -4,15 +4,8 @@ import type { Metadata } from 'next';
 import getPosts from '../../services/getPosts';
 import s from './historyPage.module.scss';
 import JournalPosts from '@/Components/JournalPosts/JournalPosts';
-import { JournalPostType } from '@/types/historyTypes'
-
-interface Post {
-	id: string;
-	title: string;
-	description: string;
-	date: string;
-	url: string;
-}
+import { JournalPostType } from '@/types/historyTypes';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
 	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
@@ -42,12 +35,6 @@ export default async function HistoryPage() {
 		},
 	];
 
-	const currentDate = new Date().toLocaleDateString('en-US', {
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-	});
-
 	return (
 		<main className={s.main}>
 			<div className={s.gradient}></div>
@@ -71,7 +58,9 @@ export default async function HistoryPage() {
 				</svg>
 				<div className={s.mainTextBlock}>
 					<h2 className={s.mainTitle}>Daily Journal of Your Price Booking Services History</h2>
-					<h1 className={s.title}>www.yourpricebooking.com</h1>
+					<Link href="www.yourpricebooking.com" className={s.title}>
+						www.yourpricebooking.com
+					</Link>
 				</div>
 			</div>
 			<div className={s.contentSection}>
