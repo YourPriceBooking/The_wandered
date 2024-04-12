@@ -13,8 +13,8 @@ export interface JournalPost {
 const JournalPost: React.FC<JournalPost> = ({ post }) => {
 	return (
 		<div className={s.articleBlock}>
-			<div className={s.infoPostContent}>
-				<div className={s.infoPostContentLink}>
+			<div className={s.headerPostContent}>
+				<div className={s.headerPostContentLink}>
 					<JournalPostIcon />
 					<JournalPostLink link={post.url} />
 				</div>
