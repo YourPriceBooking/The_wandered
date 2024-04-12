@@ -35,3 +35,27 @@
 		line-height: 15px;
 	}
 }
+.headerPostContent {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	@media (max-width: 768px) {
+		flex-direction: column-reverse;
+		&:first-child {
+			justify-content: center;
+			align-items: flex-start;
+		}
+		&:last-child {
+			justify-content: center;
+			align-items: center;
+		}
+	}
+	& .headerPostContentLink {
+		width: 75%;
+		display: flex;
+		align-items: center;
+		@media (max-width: 768px) {
+			width: 100%;
+		}
+	}
+}
