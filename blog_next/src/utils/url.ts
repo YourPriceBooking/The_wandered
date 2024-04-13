@@ -1,0 +1,1 @@
+export const apiUrl = 'https://ypbooking.chost.com.ua/blog/'
