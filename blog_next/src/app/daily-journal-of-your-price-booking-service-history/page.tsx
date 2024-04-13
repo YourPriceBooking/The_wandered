@@ -1,7 +1,7 @@
 import '../../../node_modules/modern-normalize/modern-normalize.css';
 import type { Metadata } from 'next';
 
-import getPosts from '../../services/getPosts';
+import { getPosts } from '../../services/getPosts';
 import s from './historyPage.module.scss';
 import JournalPosts from '@/Components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
