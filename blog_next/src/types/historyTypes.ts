@@ -4,4 +4,5 @@ export interface JournalPostType {
 	description: string;
 	date: Date;
 	url: string;
+	linkOnPhoto: string;
 }

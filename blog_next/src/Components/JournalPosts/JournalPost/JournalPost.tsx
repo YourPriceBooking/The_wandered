@@ -19,9 +19,13 @@ const JournalPost: React.FC<JournalPost> = ({ post }) => {
 					<JournalPostLink link={post.url} />
 				</div>
 
-				<JournalPostDate date={post.date} />
+				<JournalPostDate date={post.date || new Date()} />
 			</div>
-			<JournalPostContent title={post.title} description={post.description} />
+			<JournalPostContent
+				title={post.title}
+				description={post.description}
+				img={post.linkOnPhoto}
+			/>
 		</div>
 	);
 };
