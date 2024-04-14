@@ -1,12 +1,9 @@
 import '../../../node_modules/modern-normalize/modern-normalize.css';
-import type { GetServerSideProps, InferGetServerSidePropsType, Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import getPosts from '../../services/getPosts';
 import s from './historyPage.module.scss';
 import JournalPosts from '@/Components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
-import Link from 'next/link';
-import Loading from '../loading';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 
 export const metadata: Metadata = {
@@ -42,9 +39,9 @@ export default async function HistoryPage() {
 				</svg>
 				<div className={s.mainTextBlock}>
 					<h2 className={s.mainTitle}>Daily Journal of Your Price Booking Services History</h2>
-					<Link href="www.yourpricebooking.com" className={s.title}>
+					<a href="https://www.yourpricebooking.com" target="_blank" className={s.title}>
 						www.yourpricebooking.com
-					</Link>
+					</a>
 				</div>
 			</div>
 			<div className={s.contentSection}>{<JournalPosts posts={posts} />}</div>
