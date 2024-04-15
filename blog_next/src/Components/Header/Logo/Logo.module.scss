@@ -1,0 +1,10 @@
+.logo {
+	transition: 3s;
+	&:hover {
+		opacity: 60%;
+	}
+	@media (max-width: 400px) {
+		width: 45px;
+		height: 41px;
+	}
+}
