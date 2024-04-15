@@ -1,11 +1,11 @@
 'use client';
-import { RootState } from '@/lib/store';
+import { usePathname } from 'next/navigation';
 
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 const Page = () => {
-	const stringg = useSelector((state: RootState) => state.searchData.string);
+	const pathname = usePathname().split('/')[2];
+	console.log(pathname);
 	return (
 		<div
 			style={{
@@ -22,7 +22,7 @@ const Page = () => {
 				}}
 			>
 				{' '}
-				{stringg}
+				{pathname}
 			</p>
 		</div>
 	);
