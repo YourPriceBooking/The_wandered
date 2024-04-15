@@ -5,8 +5,8 @@ import Footer from '@/Components/Footer/Footer';
 import Header from '@/Components/Header/Header';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-
 import Loading from './loading';
+import StoreProvider from './StoreProvider';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: Your Journey to Discovery',
@@ -20,12 +20,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body>
-				<Header />
-				<Suspense fallback={<Loading />}>{children}</Suspense>
-				<Footer />
-			</body>
-		</html>
+		<StoreProvider>
+			<html lang="en">
+				<body>
+					<Header />
+					<Suspense fallback={<Loading />}>{children}</Suspense>
+					<Footer />
+				</body>
+			</html>
+		</StoreProvider>
 	);
 }

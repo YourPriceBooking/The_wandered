@@ -1,84 +1,38 @@
 .header {
-  display: flex;
-  z-index: 77;
-  position: fixed;
-  justify-content: center;
-  width: 100vw;
-  height: 80px;
-  background-color: var(--color-background-2);
-  @media (max-width: 400px) {
-    height: 70px;
-  }
+	display: flex;
+	z-index: 77;
+	position: fixed;
+	justify-content: center;
+	width: 100vw;
+	height: 80px;
+	background-color: var(--color-background-2);
+	@media (max-width: 400px) {
+		height: 70px;
+	}
 }
 .headerContent {
-  display: flex;
-  justify-content: space-between;
-  min-width: 1199px;
-  padding: 15px 175px;
-  @media (max-width: 768px) {
-    min-width: 768px;
-    padding: 15px 115px;
-  }
-  @media (max-width: 540px) {
-    min-width: 540px;
-    padding: 15px 80px;
-  }
-  @media (max-width: 480px) {
-    min-width: 480px;
-    padding: 15px 40px;
-  }
-  @media (max-width: 400px) {
-    min-width: 400px;
-    padding: 15px 17px;
-  }
-  @media (max-width: 320px) {
-    min-width: 320px;
-  }
-}
-.logo{
-  transition: 3s;
-  &:hover{
-    opacity: 60%;
-  }
-  @media (max-width: 400px){
-    width: 45px;
-    height: 41px;
-  }
-}
-.search {
-  position: relative;
-  width: 200px;
-  height: 50px;
-  color: var(--color-secondary-3);
-  @media (max-width: 400px) {
-    width: 177px;
-    height: 42px;
-  }
-}
-.input {
-  width: 100%;
-  height: 100%;
-  padding: 15px 35px 15px 15px;
-  border: 0.5px #c9c9c9 solid;
-  font-weight: 700;
-  background-color: #f9f9f9;
-  &:focus {
-    outline: none;
-    color: var(--color-secondary-3);
-    font-weight: normal;
-  }
-  &::-webkit-search-cancel-button {
-    display: none;
-  }
+	display: flex;
+	justify-content: space-between;
+	min-width: 1199px;
+	padding: 15px 175px;
+	@media (max-width: 768px) {
+		min-width: 768px;
+		padding: 15px 115px;
+	}
+	@media (max-width: 540px) {
+		min-width: 540px;
+		padding: 15px 80px;
+	}
+	@media (max-width: 480px) {
+		min-width: 480px;
+		padding: 15px 40px;
+	}
+	@media (max-width: 400px) {
+		min-width: 400px;
+		padding: 15px 17px;
+	}
+	@media (max-width: 320px) {
+		min-width: 320px;
+	}
 }
 
-.submit {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 20px;
-  height: 20px;
-  border: none;
-  cursor: pointer;
-  background: url('../../../public/search.svg');
-}
