@@ -5,6 +5,8 @@ import Logo from './Logo/Logo';
 import SearchField from './SearchField/SearchField';
 import { useParams, usePathname } from 'next/navigation';
 import TopSection from '../TopSection/TopSection';
+import Loading from '@/app/loading';
+import { Suspense } from 'react';
 
 export default function Header() {
 	const pathname = usePathname();
@@ -15,7 +17,9 @@ export default function Header() {
 		<header className={s.header}>
 			<div className={s.headerContent}>
 				<Logo />
-				<SearchField />
+				<Suspense fallback={<Loading />}>
+					<SearchField />
+				</Suspense>
 			</div>
 		</header>
 	);

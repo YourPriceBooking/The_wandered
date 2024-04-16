@@ -3,6 +3,8 @@ import s from './TopSection.module.scss';
 import logo from './../../../public/house-icon.svg';
 import Link from 'next/link';
 import SearchField from '../Header/SearchField/SearchField';
+import { Suspense } from 'react';
+import Loading from '@/app/loading';
 
 interface TopSectionProps {
 	isLink?: boolean;
@@ -39,7 +41,9 @@ const TopSection: React.FC<TopSectionProps> = ({ isLink = false, isSearchField =
 			</div>
 			{isSearchField && (
 				<div className={s.searchBox}>
-					<SearchField inputClass={s.inputClass} />
+					<Suspense fallback={<Loading />}>
+						<SearchField inputClass={s.inputClass} />
+					</Suspense>
 				</div>
 			)}
 		</div>
