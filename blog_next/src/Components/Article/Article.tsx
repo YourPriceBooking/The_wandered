@@ -13,12 +13,23 @@ interface ArticleProps {
 }
 
 export default function Article({ slug, title, imageSrc, author, date, updated }: ArticleProps) {
+	const dateStr = date;
+	const newDate = new Date(dateStr);
+
+	const options = {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	};
+	//@ts-ignore
+	const readableDate = newDate.toLocaleDateString('en-US', options);
+
 	return (
 		<article className={s.articleBlock}>
 			<div className={s.authorBlock}>
 				<p className={s.author}>{author}</p>
 				<div className={s.dateBlock}>
-					<p className={s.date}>{date}</p>
+					<p className={s.date}>{readableDate}</p>
 					<p className={s.date}>{updated}</p>
 				</div>
 			</div>

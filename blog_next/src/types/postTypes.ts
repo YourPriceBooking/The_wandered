@@ -9,6 +9,7 @@ type postData = {
     imageUrl: string[],
     description: string
     articleUrl: string
+    publicationDate: string
 }
 export type postsDataType = {
     result: postData[]

@@ -30,7 +30,7 @@ export default async function MainPage() {
 							title={article.title}
 							imageSrc={article.imageUrl[0]}
 							author={article.author}
-							date={""}
+							date={article.publicationDate}
 							updated={""}
 						></Article>
 					);
