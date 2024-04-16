@@ -4,59 +4,42 @@ import Article from '@/Components/Article/Article';
 import { articleData } from '@/defaultData/articleData';
 import Link from 'next/link';
 import TopSection from '@/Components/TopSection/TopSection';
+import { getPosts, getAllPosts } from '@/services/getPosts';
+import { postsDataType } from '@/types/postTypes';
 
-export default function MainPage() {
+export default async function MainPage() {
+	const data: postsDataType = await getPosts({ page: 1 });
+	const Alldata: postsDataType = await getAllPosts();
+	const length = Math.ceil((Alldata.result.length) / 7)
+
 	return (
 		<main className={s.main}>
 			<TopSection />
 			<div className={s.contentSection}>
-				{articleData.map((article) => {
+				{data.result.map((article) => {
 					return (
 						<Article
-							key={article.id}
-							slug={article.slug}
+							key={article._id}
+							slug={''}
 							title={article.title}
-							imageSrc={article.imageSrc}
+							imageSrc={article.imageUrl[0]}
 							author={article.author}
-							date={article.date}
-							updated={article.updated}
+							date={article.publicationDate}
+							updated={""}
 						></Article>
 					);
 				})}
 				<div className={s.navSection}>
 					<ul className={s.navNumbers}>
-						<li>
-							<Link href="#" className={s.activeLink}>
-								1
-							</Link>
-						</li>
-						<li>
-							<Link href="#">2</Link>
-						</li>
-						<li>
-							<Link href="#">3</Link>
-						</li>
-						<li>
-							<Link href="#">4</Link>
-						</li>
-						<li>
-							<Link href="#">5</Link>
-						</li>
-						<li>
-							<Link href="#">6</Link>
-						</li>
-						<li>
-							<Link href="#">7</Link>
-						</li>
-						<li>
-							<Link href="#">8</Link>
-						</li>
-						<li>
-							<Link href="#">9</Link>
-						</li>
-						<li>
-							<Link href="#">10</Link>
-						</li>
+						{Array.from({ length: length }, (_, index) => (
+							<li>
+								<Link href="#" className={s.activeLink}>
+									{index + 1}
+								</Link>
+							</li>
+						))
+						}
+
 					</ul>
 				</div>
 			</div>
