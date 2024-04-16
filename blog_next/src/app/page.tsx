@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import s from './mainPage.module.scss';
-import logo from '../../public/house-icon.svg';
 import Article from '@/Components/Article/Article';
 import { articleData } from '@/defaultData/articleData';
 import Link from 'next/link';
+import TopSection from '@/Components/TopSection/TopSection';
 import { getPosts, getAllPosts } from '@/services/getPosts';
 import { postsDataType } from '@/types/postTypes';
 
@@ -14,13 +14,7 @@ export default async function MainPage() {
 
 	return (
 		<main className={s.main}>
-			<div className={s.topSection}>
-				<Image src={logo} width={63} height={58} alt="logo-icon" className={s.logo} priority={true} />
-				<div className={s.mainTextBlock}>
-					<h2 className={s.mainTitle}>the wandered</h2>
-					<h1 className={s.title}>The official Your Price Booking blog</h1>
-				</div>
-			</div>
+			<TopSection />
 			<div className={s.contentSection}>
 				{data.result.map((article) => {
 					return (

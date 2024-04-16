@@ -1,0 +1,8 @@
+.mainContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 50vh;
+	width: 100%;
+	background-color: var(--color-background-4);
+}

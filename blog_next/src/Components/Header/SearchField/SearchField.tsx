@@ -1,21 +1,30 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './SearchField.module.scss';
 import SearchBtnIcon from './SearchBtnIcon/SearchBtnIcon';
-import { useRouter } from 'next/navigation';
-
-const SearchField = () => {
-	const [searchFieldData, setSearchFieldData] = useState('');
+import { useRouter, redirect, useSearchParams } from 'next/navigation';
+import { PagesEnum } from '@/types/enums/pagesEnums';
+interface SearchFieldProps {
+	inputClass?: string;
+	initialValue?: string;
+	isPage?: boolean;
+}
+const SearchField: React.FC<SearchFieldProps> = ({ inputClass = s.searchBlock }) => {
+	const searchParams = useSearchParams().get('search');
+	const [searchFieldData, setSearchFieldData] = useState<string>(searchParams || '');
 	const router = useRouter();
+
+	useEffect(() => {
+		setSearchFieldData(searchParams || '');
+	}, [searchParams]);
 
 	const searchHandle = async () => {
 		if (searchFieldData.length !== 0) {
-			router.push(`wandered-posts/${searchFieldData}`);
-			setSearchFieldData('');
+			router.push(`${PagesEnum.SEARCH_DATA_PAGE}?search=${searchFieldData}`);
 		}
 	};
 	return (
-		<div className={s.searchBlock}>
+		<div className={inputClass}>
 			<input
 				type="text"
 				name=""
