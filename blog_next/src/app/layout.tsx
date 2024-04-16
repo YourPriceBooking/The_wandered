@@ -5,7 +5,6 @@ import Footer from '@/Components/Footer/Footer';
 import Header from '@/Components/Header/Header';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-
 import Loading from './loading';
 
 export const metadata: Metadata = {

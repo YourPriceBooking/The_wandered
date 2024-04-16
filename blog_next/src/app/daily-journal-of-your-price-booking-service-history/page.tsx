@@ -5,7 +5,7 @@ import { getPosts } from '../../services/getPosts';
 import s from './historyPage.module.scss';
 import JournalPosts from '@/Components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
-import Link from 'next/link';
+import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 
 export const metadata: Metadata = {
 	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
@@ -14,26 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function HistoryPage() {
-	// const data = await getPosts();
-	// const posts: Post[] = data.result;
-	const posts: JournalPostType[] = [
-		{
-			id: '65f2ac4054e953de02abffea',
-			url: 'https://xaeycpio.yourpricebooking.com/zdati-zhitlo-dobovo-kyiv-kyivska-oblast-ukraina-uk',
-			title: 'Продаж бронювання готелів та добової оренда житла - Київ, Україна | Your Price Booking - найкращі умови для готельєрів.',
-			description:
-				"Здавайте житло добово - Київ, Україна за допомогою Your Price Booking. Отримуйте оплату перед заселенням. 5% комісії, гнучкі ціни, реєстрація об'єктів онлайн. Задовольняйте потреби бронюючих гостей, запропоновуючи індивідуальні ціни. Привертайте подорожуючих, які знають, що наші комісії для господарів є мінімальними. Реєструйте готелі, квартири, будинки та багато іншого вже сьогодні і приваблюйте клієнтів! Найкращі умови для готельєрів тіки на онлайн сервісі бронювання Your Price Booking.",
-			date: new Date(),
-		},
-		{
-			id: '65f2ac4054e953de02abfff0',
-			url: 'https://xaeycpio.yourpricebooking.com/zdati-nomer-u-moteli-kyiv-kyivska-oblast-ukraina-uk',
-			title: 'Здати номера в мотелі з Your Price Booking | Київ, Україна',
-			description:
-				'Здайте номер у вашому мотелі у локації Київ, на ваших умовах із Your Price Booking. Отримуйте оплату до заселення, і наша комісія складає лише 5%. Ви маєте повний контроль над цінами, і ви можете пропонувати індивідуальні пропозиції конфіденційно. Бачіть усіх користувачів, зацікавлених у вашій оренді, та створюйте акційні пропозиції. Мандрівники знають, що ми пропонуємо мінімальні комісії готелям та очікують від вас вигідних цін. У нас немає принципу паритету цін, лише гнучкість та прозорість. Зареєструйте свій мотель прямо зараз, пройдіть онлайн-верифікацію і почніть залучати нових клієнтів. Реєстрація займе лише 2 хвилини.',
-			date: new Date(),
-		},
-	];
+	const data = await getDailyJournalPosts();
+	const posts: JournalPostType[] = data.result;
 
 	return (
 		<main className={s.main}>
@@ -58,14 +40,12 @@ export default async function HistoryPage() {
 				</svg>
 				<div className={s.mainTextBlock}>
 					<h2 className={s.mainTitle}>Daily Journal of Your Price Booking Services History</h2>
-					<Link href="www.yourpricebooking.com" className={s.title}>
+					<a href="https://www.yourpricebooking.com" target="_blank" className={s.title}>
 						www.yourpricebooking.com
-					</Link>
+					</a>
 				</div>
 			</div>
-			<div className={s.contentSection}>
-				<JournalPosts posts={posts} />
-			</div>
+			<div className={s.contentSection}>{<JournalPosts posts={posts} />}</div>
 		</main>
 	);
 }
