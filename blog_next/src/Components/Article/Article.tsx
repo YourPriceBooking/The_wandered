@@ -30,7 +30,7 @@ export default function Article({ slug, title, imageSrc, author, date, updated }
 				<p className={s.author}>{author}</p>
 				<div className={s.dateBlock}>
 					<p className={s.date}>{readableDate}</p>
-					<p className={s.date}>{updated}</p>
+					<p className={s.updateDate}>{updated}</p>
 				</div>
 			</div>
 			<Link href={`/${slug}`}>
@@ -49,7 +49,7 @@ export default function Article({ slug, title, imageSrc, author, date, updated }
 					<p className={s.link}>READ MORE</p>
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16">
 						<path
-							fill-rule="evenodd"
+							fillRule="evenodd"
 							d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
 						/>
 					</svg>

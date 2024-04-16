@@ -22,21 +22,21 @@ const Page = () => {
 					textAlign: 'center',
 				}}
 			>
-				<p>Posts: {searchParams}</p>
-				{postsData.map((article) => {
-					return (
-						<Article
-							key={article.id}
-							slug={article.slug}
-							title={article.title}
-							imageSrc={article.imageSrc}
-							author={article.author}
-							date={article.date}
-							updated={article.updated}
-						></Article>
-					);
-				})}
+				Posts: {searchParams}
 			</p>
+			{postsData.map((article) => {
+				return (
+					<Article
+						key={article.id}
+						slug={article.slug}
+						title={article.title}
+						imageSrc={article.imageSrc}
+						author={article.author}
+						date={article.date}
+						updated={article.updated}
+					></Article>
+				);
+			})}
 		</div>
 	);
 };
