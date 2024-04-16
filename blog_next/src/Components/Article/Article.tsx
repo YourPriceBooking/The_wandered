@@ -11,7 +11,7 @@ interface ArticleProps {
 	date: string;
 	updated: string;
 }
-
+//upd
 export default function Article({ slug, title, imageSrc, author, date, updated }: ArticleProps) {
 	const dateStr = date;
 	const newDate = new Date(dateStr);
