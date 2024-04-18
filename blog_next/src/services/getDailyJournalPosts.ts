@@ -1,4 +1,4 @@
-const revalidateTime = 30;
+const revalidateTime = 86400;
 
 export async function getDailyJournalPosts() {
 	const res = await fetch(
