@@ -1,4 +1,4 @@
-import Link from 'next/link';
+
 import s from './JournalPost.module.scss';
 import { JournalPostType } from '@/types/historyTypes';
 import JournalPostIcon from './JournalPostIcon/JournalPostIcon';

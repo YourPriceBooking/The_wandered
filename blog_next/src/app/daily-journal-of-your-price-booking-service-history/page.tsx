@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 	description:
 		'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
 };
-
+const INITIAL_NUMBER_OF_USERS = 5;
 export default async function HistoryPage() {
-	const data = await getDailyJournalPosts();
+	const data = await getDailyJournalPosts(1, INITIAL_NUMBER_OF_USERS);
 	const posts: JournalPostType[] = data.result;
 
 	return (
