@@ -7,11 +7,10 @@ import { useParams, usePathname } from 'next/navigation';
 import TopSection from '../TopSection/TopSection';
 import Loading from '@/app/loading';
 import { Suspense } from 'react';
-
 export default function Header() {
 	const pathname = usePathname();
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
-		return <TopSection isLink={true} isSearchField={true} />;
+		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 
 	return (
 		<header className={s.header}>

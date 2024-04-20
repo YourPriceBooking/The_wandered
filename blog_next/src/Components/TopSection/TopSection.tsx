@@ -5,15 +5,24 @@ import Link from 'next/link';
 import SearchField from '../Header/SearchField/SearchField';
 import { Suspense } from 'react';
 import Loading from '@/app/loading';
+import classNames from 'classnames';
 
 interface TopSectionProps {
 	isLink?: boolean;
 	isSearchField?: boolean;
+	isWhite?: boolean;
 }
 
-const TopSection: React.FC<TopSectionProps> = ({ isLink = false, isSearchField = false }) => {
+const TopSection: React.FC<TopSectionProps> = ({
+	isLink = false,
+	isSearchField = false,
+	isWhite = false,
+}) => {
+	const headerClass = classNames(s.topSection, {
+		[s.white]: isWhite,
+	});
 	return (
-		<div className={s.topSection}>
+		<div className={headerClass}>
 			{isLink ? (
 				<Link href="/">
 					<Image
