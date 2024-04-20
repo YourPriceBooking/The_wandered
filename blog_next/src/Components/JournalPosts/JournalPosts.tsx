@@ -32,14 +32,14 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ posts }) => {
 		const handleScroll = debounce(() => {
 			if (
 				document.documentElement.scrollTop <=
-					document.documentElement.offsetHeight - window.innerHeight * 2 ||
+					document.documentElement.offsetHeight - window.innerHeight * 7 ||
 				loading
 			) {
 				return;
 			}
 
 			loadMorePosts();
-		}, 100);
+		}, 50);
 
 		window.addEventListener('scroll', handleScroll);
 
