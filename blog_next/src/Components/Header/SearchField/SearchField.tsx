@@ -1,9 +1,9 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import s from './SearchField.module.scss';
-import SearchBtnIcon from './SearchBtnIcon/SearchBtnIcon';
-import { useRouter, redirect, useSearchParams } from 'next/navigation';
-import { PagesEnum } from '@/types/enums/pagesEnums';
+import { PagesEnum } from '@/types/enums/pagesEnums'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import SearchBtnIcon from './SearchBtnIcon/SearchBtnIcon'
+import s from './SearchField.module.scss'
 interface SearchFieldProps {
 	inputClass?: string;
 	initialValue?: string;
