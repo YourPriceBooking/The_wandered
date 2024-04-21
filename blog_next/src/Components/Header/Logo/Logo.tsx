@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import s from './Logo.module.scss';
+
 const Logo: React.FC = () => {
 	return (
 		<Link href="/">
