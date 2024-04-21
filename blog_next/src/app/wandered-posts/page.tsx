@@ -15,14 +15,6 @@ const Page = () => {
 
 	return (
 		<div className={s.mainContainer}>
-			<p
-				style={{
-					width: '75%',
-					textAlign: 'center',
-				}}
-			>
-				Posts: {searchParams}
-			</p>
 			{postsData.map((article) => {
 				return (
 					<Article

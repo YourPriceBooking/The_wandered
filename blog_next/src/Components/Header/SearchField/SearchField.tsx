@@ -1,9 +1,9 @@
 'use client';
-import { PagesEnum } from '@/types/enums/pagesEnums'
-import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import SearchBtnIcon from './SearchBtnIcon/SearchBtnIcon'
-import s from './SearchField.module.scss'
+import { PagesEnum } from '@/types/enums/pagesEnums';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import SearchBtnIcon from './SearchBtnIcon/SearchBtnIcon';
+import s from './SearchField.module.scss';
 interface SearchFieldProps {
 	inputClass?: string;
 	initialValue?: string;
@@ -34,6 +34,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ inputClass = s.searchBlock })
 				onChange={(e) => {
 					setSearchFieldData(e.target.value);
 				}}
+				onKeyDown={(e) => e.key === 'Enter' && searchHandle()}
 			/>
 			<div className={s.searchBtn} onClick={searchHandle}>
 				<SearchBtnIcon />
