@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import s from './TopSection.module.scss';
 import logo from './../../../public/house-icon.svg';
+import logoOrange from './../../../public/houseIconOrange.svg';
 import Link from 'next/link';
 import SearchField from '../Header/SearchField/SearchField';
 import { Suspense } from 'react';
 import Loading from '@/app/loading';
 import classNames from 'classnames';
+import BackArrow from './BackArrow/BackArrow';
 
 interface TopSectionProps {
 	isLink?: boolean;
@@ -23,29 +25,34 @@ const TopSection: React.FC<TopSectionProps> = ({
 	});
 	return (
 		<div className={headerClass}>
-			{isLink ? (
-				<Link href="/">
-					<Image
-						src={logo}
-						width={63}
-						height={58}
-						alt="logo-icon"
-						className={s.logo}
-						priority={true}
-					/>
-				</Link>
-			) : (
-				<Image
-					src={logo}
-					width={63}
-					height={58}
-					alt="logo-icon"
-					className={s.logo}
-					priority={true}
-				/>
-			)}
+			{isLink && <BackArrow />}
+
 			<div className={s.mainTextBlock}>
-				<h2 className={s.mainTitle}>the wandered</h2>
+				<div className={s.logoBlock}>
+					{isLink ? (
+						<Link href="/">
+							<Image
+								src={logoOrange}
+								width={63}
+								height={58}
+								alt="logo-icon"
+								className={s.logo}
+								priority={true}
+							/>
+						</Link>
+					) : (
+						<Image
+							src={logo}
+							width={63}
+							height={58}
+							alt="logo-icon"
+							className={s.logo}
+							priority={true}
+						/>
+					)}
+					<h2 className={s.mainTitle}>the wandered</h2>
+				</div>
+
 				<h1 className={s.title}>The official Your Price Booking blog</h1>
 			</div>
 			{isSearchField && (
