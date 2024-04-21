@@ -4,7 +4,7 @@ import Link from 'next/link';
 import s from './Article.module.scss';
 
 interface ArticleProps {
-	slug: string;
+	slug: string | undefined;
 	title: string;
 	imageSrc: string;
 	author: string;
@@ -15,7 +15,6 @@ interface ArticleProps {
 export default function Article({ slug, title, imageSrc, author, date, updated }: ArticleProps) {
 	const dateStr = date;
 	const newDate = new Date(dateStr);
-
 	const options = {
 		year: 'numeric',
 		month: 'long',
@@ -33,7 +32,7 @@ export default function Article({ slug, title, imageSrc, author, date, updated }
 					<p className={s.updateDate}>{updated}</p>
 				</div>
 			</div>
-			<Link href={`/${slug}`}>
+			<Link href={`/${slug || ''}`}>
 				<div className={s.imageBlock}>
 					<div className={s.line}></div>
 					{imageSrc ? (

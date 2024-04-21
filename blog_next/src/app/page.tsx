@@ -10,7 +10,7 @@ import { postsDataType } from '@/types/postTypes';
 export default async function MainPage() {
 	const data: postsDataType = await getPosts({ page: 1 });
 	const Alldata: postsDataType = await getAllPosts();
-	const length = Math.ceil((Alldata.result.length) / 7)
+	const length = Math.ceil(Alldata.result.length / 7);
 
 	return (
 		<main className={s.main}>
@@ -20,12 +20,12 @@ export default async function MainPage() {
 					return (
 						<Article
 							key={article._id}
-							slug={''}
+							slug={article.articleUrl.split('/').pop()}
 							title={article.title}
 							imageSrc={article.imageUrl[0]}
 							author={article.author}
 							date={article.publicationDate}
-							updated={""}
+							updated={''}
 						></Article>
 					);
 				})}
@@ -37,9 +37,7 @@ export default async function MainPage() {
 									{index + 1}
 								</Link>
 							</li>
-						))
-						}
-
+						))}
 					</ul>
 				</div>
 			</div>
