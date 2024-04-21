@@ -13,26 +13,8 @@
 
 .headerContent {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
-	min-width: 1199px;
-	padding: 15px 175px;
-	@media (max-width: 768px) {
-		min-width: 768px;
-		padding: 15px 115px;
-	}
-	@media (max-width: 540px) {
-		min-width: 540px;
-		padding: 15px 80px;
-	}
-	@media (max-width: 480px) {
-		min-width: 480px;
-		padding: 15px 40px;
-	}
-	@media (max-width: 400px) {
-		min-width: 400px;
-		padding: 15px 17px;
-	}
-	@media (max-width: 320px) {
-		min-width: 320px;
-	}
+	width: 100%;
+	padding: 0 20px;
 }

@@ -27,8 +27,8 @@ const TopSection: React.FC<TopSectionProps> = ({
 		<div className={headerClass}>
 			{isLink && <BackArrow />}
 
-			<div className={s.mainTextBlock}>
-				<div className={s.logoBlock}>
+			<div className={isWhite ? s.mainTextBlock : s.mainTextBlockOrange}>
+				<div className={isWhite ? s.logoBlock : s.logoBlockOrange}>
 					{isLink ? (
 						<Link href="/">
 							<Image

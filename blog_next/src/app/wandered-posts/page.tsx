@@ -8,7 +8,6 @@ import Article from '@/Components/Article/Article';
 const Page = () => {
 	const searchParams = useSearchParams().get('search');
 	const [postsData, setPostsData] = useState<any[]>(articleData);
-
 	useEffect(() => {
 		setPostsData(articleData);
 		console.log('upd');
