@@ -10,9 +10,18 @@ interface ArticleProps {
 	author: string;
 	date: string;
 	updated: string;
+	description: string;
 }
 //upd
-export default function Article({ slug, title, imageSrc, author, date, updated }: ArticleProps) {
+export default function Article({
+	slug,
+	title,
+	imageSrc,
+	author,
+	date,
+	updated,
+	description,
+}: ArticleProps) {
 	const dateStr = date;
 	const newDate = new Date(dateStr);
 	const options = {
@@ -34,6 +43,10 @@ export default function Article({ slug, title, imageSrc, author, date, updated }
 			</div>
 			<Link href={`/${slug || ''}`}>
 				<div className={s.imageBlock}>
+					<article className={s.hoverBlock}>
+						<h3>{title}</h3>
+						<p>{description}</p>
+					</article>
 					<div className={s.line}></div>
 					{imageSrc ? (
 						<Image src={imageSrc} fill alt="article-image" className={s.image} />

@@ -15,6 +15,97 @@
 		width: 98%;
 	}
 	z-index: 10;
+	& .imageBlock img {
+		transition: all 0.5s;
+	}
+	&:hover .imageBlock .hoverBlock {
+		opacity: 1;
+	}
+	&:hover .imageBlock img {
+		filter: blur(5px) brightness(40%);
+	}
+	& .imageBlock {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		max-width: 800px;
+		height: 310px;
+		margin-bottom: 15px;
+		background-color: var(--color-background-3);
+		@media (max-width: 768px) {
+			max-width: 758px;
+		}
+		@media (max-width: 540px) {
+			max-width: 530px;
+			height: 280px;
+		}
+		@media (max-width: 480px) {
+			max-width: 480px;
+			height: 200px;
+		}
+		@media (max-width: 320px) {
+			max-width: 320px;
+			height: 169px;
+		}
+		@media (max-width: 400px) {
+			max-width: 400px;
+		}
+		& .hoverBlock {
+			position: absolute;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+			align-items: center;
+			width: 85%;
+			height: 100%;
+			z-index: 10;
+			text-align: center;
+			color: white;
+			opacity: 0;
+			transition: all 0.7s;
+
+			& h3 {
+				font-size: 20px;
+			}
+			& p {
+				font-size: 16px;
+			}
+			@media (max-width: 768px) {
+				& h3 {
+					font-size: 19px;
+				}
+				& p {
+					font-size: 15px;
+				}
+			}
+			@media (max-width: 540px) {
+				& h3 {
+					font-size: 17px;
+				}
+				& p {
+					font-size: 14px;
+				}
+			}
+			@media (max-width: 480px) {
+				& h3 {
+					font-size: 15px;
+				}
+				& p {
+					font-size: 13px;
+				}
+			}
+			@media (max-width: 320px) {
+				& h3 {
+					font-size: 12px;
+				}
+				& p {
+					font-size: 9px;
+				}
+			}
+		}
+	}
 }
 .authorBlock {
 	width: 90%;
@@ -86,35 +177,7 @@
 		text-overflow: ellipsis;
 	}
 }
-.imageBlock {
-	display: flex;
-	position: relative;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	max-width: 800px;
-	height: 310px;
-	margin-bottom: 15px;
-	background-color: var(--color-background-3);
-	@media (max-width: 768px) {
-		max-width: 758px;
-	}
-	@media (max-width: 540px) {
-		max-width: 530px;
-		height: 280px;
-	}
-	@media (max-width: 480px) {
-		max-width: 480px;
-		height: 200px;
-	}
-	@media (max-width: 320px) {
-		max-width: 320px;
-		height: 169px;
-	}
-	@media (max-width: 400px) {
-		max-width: 400px;
-	}
-}
+
 .line {
 	z-index: 22;
 	position: absolute;
