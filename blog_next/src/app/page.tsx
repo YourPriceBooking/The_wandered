@@ -26,6 +26,7 @@ export default async function MainPage() {
 							author={article.author}
 							date={article.publicationDate}
 							updated={''}
+							description={article.description}
 						></Article>
 					);
 				})}
