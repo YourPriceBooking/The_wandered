@@ -25,6 +25,7 @@ const Page = () => {
 						author={article.author}
 						date={article.date}
 						updated={article.updated}
+						description=""
 					></Article>
 				);
 			})}
