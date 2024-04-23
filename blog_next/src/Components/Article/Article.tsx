@@ -1,9 +1,10 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import s from './Article.module.scss';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -34,21 +35,32 @@ export default function Article({
 	//@ts-ignore
 	const readableDate = newDate.toLocaleDateString('en-US', options);
 	const [isHovered, setIsHovered] = useState(false);
+	const [lastTap, setLastTap] = useState<number | null>(null);
+	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const router = useRouter();
 
-	const handleTouchStart = () => {
-		console.log('asd')
-		setIsHovered(true);
+	const handleTouch = (event: React.TouchEvent<HTMLDivElement>) => {
+		const currentTime = new Date().getTime();
+		const tapLength = lastTap ? currentTime - lastTap : null;
+
+		if (lastTap && tapLength !== null && tapLength < 500) {
+			router.push(`/${slug}`);
+
+			if (timerRef.current) {
+				clearTimeout(timerRef.current);
+				timerRef.current = null;
+			}
+		} else {
+			timerRef.current = setTimeout(() => {
+				setIsHovered(!isHovered);
+			}, 100);
+		}
+
+		setLastTap(currentTime);
 	};
 
-	const handleTouchEnd = () => {
-		setIsHovered(false);
-	};
 	return (
-		<article
-			className={s.articleBlock}
-			onTouchStart={handleTouchStart}
-			onTouchEnd={handleTouchEnd}
-		>
+		<article className={s.articleBlock} onTouchStart={handleTouch}>
 			<div className={s.authorBlock}>
 				<p className={s.author}>{author}</p>
 				<div className={s.dateBlock}>
@@ -56,22 +68,22 @@ export default function Article({
 					<p className={s.updateDate}>{updated}</p>
 				</div>
 			</div>
+			<div className={s.imageBlock}>
+				<article className={`${s.hoverBlock} ${isHovered ? s.isHovered : ''}`}>
+					<h3>{title}</h3>
+					<p>{description}</p>
+				</article>
+				<div className={s.line}></div>
+				{imageSrc ? (
+					<Image src={imageSrc} fill alt="article-image" className={s.image} />
+				) : (
+					<div className={s.defaultImage}></div>
+				)}
+			</div>
+			<div className={s.titleBlock}>
+				<p className={s.title}>{title}</p>
+			</div>
 			<Link href={`/${slug || ''}`}>
-				<div className={s.imageBlock}>
-					<article className={`${s.hoverBlock} ${isHovered ? s.isHovered : ''}`}>
-						<h3>{title}</h3>
-						<p>{description}</p>
-					</article>
-					<div className={s.line}></div>
-					{imageSrc ? (
-						<Image src={imageSrc} fill alt="article-image" className={s.image} />
-					) : (
-						<div className={s.defaultImage}></div>
-					)}
-				</div>
-				<div className={s.titleBlock}>
-					<p className={s.title}>{title}</p>
-				</div>
 				<div className={s.readMore}>
 					<p className={s.link}>READ MORE</p>
 					<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16">
