@@ -34,7 +34,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 			<div className={s.titleBlock}>
 				<p className={s.title}>{title}</p>
 			</div>
-			<div className={s.readMore}>
+			<Link href={`/${slug}`} className={s.readMore}>
 				<p className={s.link}>READ MORE</p>
 				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16">
 					<path
@@ -42,7 +42,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 						d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
 					/>
 				</svg>
-			</div>
+			</Link>
 		</>
 	);
 };

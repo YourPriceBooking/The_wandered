@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { isMobile } from 'react-device-detect';
 
 import s from './Article.module.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 
 interface ArticleProps {
@@ -36,36 +36,42 @@ export default function Article({
 	};
 	//@ts-ignore
 	const readableDate = newDate.toLocaleDateString('en-US', options);
+	const articleRef = useRef<HTMLDivElement>(null);
 	const [isHovered, setIsHovered] = useState(false);
-	const [lastTap, setLastTap] = useState<number | null>(null);
-	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const [isTapped, setIsTapped] = useState(false);
 	const router = useRouter();
 
-	const handleTouch = (e: React.TouchEvent) => {
-		const currentTime = new Date().getTime();
-		const tapLength = lastTap ? currentTime - lastTap : null;
-
-		if (lastTap && tapLength !== null && tapLength < 500) {
+	const handleTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+		e.stopPropagation();
+		if (isTapped) {
 			router.push(`/${slug}`);
-
-			if (timerRef.current) {
-				clearTimeout(timerRef.current);
-				timerRef.current = null;
-			}
 		} else {
-			timerRef.current = setTimeout(() => {
-				setIsHovered(!isHovered);
-			}, 100);
+			setIsTapped(true);
 		}
-
-		setLastTap(currentTime);
 	};
-	const handleClick = (e: React.MouseEvent) => {
+
+	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		e.stopPropagation();
 		router.push(`/${slug}`);
 	};
 
+	useEffect(() => {
+		const handleGlobalClick = (e: MouseEvent) => {
+			if (articleRef.current && !articleRef.current.contains(e.target as Node)) {
+				setIsTapped(false);
+			}
+		};
+
+		document.addEventListener('click', handleGlobalClick);
+
+		return () => {
+			document.removeEventListener('click', handleGlobalClick);
+		};
+	}, []);
+
 	return (
 		<article
+			ref={articleRef}
 			className={s.articleBlock}
 			onTouchStart={handleTouch}
 			onClick={isMobile ? () => {} : handleClick}
