@@ -1,7 +1,9 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import s from './Article.module.scss';
+import { useState } from 'react';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -31,9 +33,22 @@ export default function Article({
 	};
 	//@ts-ignore
 	const readableDate = newDate.toLocaleDateString('en-US', options);
+	const [isHovered, setIsHovered] = useState(false);
 
+	const handleTouchStart = () => {
+		console.log('asd')
+		setIsHovered(true);
+	};
+
+	const handleTouchEnd = () => {
+		setIsHovered(false);
+	};
 	return (
-		<article className={s.articleBlock}>
+		<article
+			className={s.articleBlock}
+			onTouchStart={handleTouchStart}
+			onTouchEnd={handleTouchEnd}
+		>
 			<div className={s.authorBlock}>
 				<p className={s.author}>{author}</p>
 				<div className={s.dateBlock}>
@@ -43,7 +58,7 @@ export default function Article({
 			</div>
 			<Link href={`/${slug || ''}`}>
 				<div className={s.imageBlock}>
-					<article className={s.hoverBlock}>
+					<article className={`${s.hoverBlock} ${isHovered ? s.isHovered : ''}`}>
 						<h3>{title}</h3>
 						<p>{description}</p>
 					</article>

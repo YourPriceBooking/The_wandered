@@ -17,10 +17,11 @@ export default async function MainPage() {
 			<TopSection />
 			<div className={s.contentSection}>
 				{data.result.map((article) => {
+					console.log(article.articleUrl);
 					return (
 						<Article
 							key={article._id}
-							slug={article.articleUrl.split('/').pop()}
+							slug={article?.articleUrl?.split('/').pop()}
 							title={article.title}
 							imageSrc={article.imageUrl[0]}
 							author={article.author}

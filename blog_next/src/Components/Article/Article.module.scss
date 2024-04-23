@@ -15,14 +15,21 @@
 		width: 98%;
 	}
 	z-index: 10;
+	& .imageBlock {
+		transition: all 0.5s;
+	}
 	& .imageBlock img {
 		transition: all 0.5s;
 	}
 	&:hover .imageBlock .hoverBlock {
 		opacity: 1;
 	}
-	&:hover .imageBlock img {
-		filter: blur(5px) brightness(40%);
+	&:hover .imageBlock img,
+	&:hover .imageBlock .defaultImage {
+		filter: blur(5px) brightness(20%);
+	}
+	&:hover .imageBlock {
+		background-color: #15344c9b;
 	}
 	& .imageBlock {
 		display: flex;
@@ -51,6 +58,9 @@
 		}
 		@media (max-width: 400px) {
 			max-width: 400px;
+		}
+		& .isHovered {
+			opacity: 1;
 		}
 		& .hoverBlock {
 			position: absolute;
@@ -199,6 +209,7 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 50%;
+	transition: all 0.5s;
 	@media (max-width: 480px) {
 		width: 120px;
 		height: 120px;
