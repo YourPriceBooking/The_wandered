@@ -39,7 +39,7 @@ export default function Article({
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const router = useRouter();
 
-	const handleTouch = (event: React.TouchEvent<HTMLDivElement>) => {
+	const handleTouch = () => {
 		const currentTime = new Date().getTime();
 		const tapLength = lastTap ? currentTime - lastTap : null;
 
@@ -60,7 +60,7 @@ export default function Article({
 	};
 
 	return (
-		<article className={s.articleBlock} onTouchStart={handleTouch}>
+		<article className={s.articleBlock} onClick={handleTouch}>
 			<div className={s.authorBlock}>
 				<p className={s.author}>{author}</p>
 				<div className={s.dateBlock}>
