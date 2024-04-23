@@ -8,19 +8,17 @@ interface ArticleLinkContentProps {
 	title: string;
 	imageSrc: string;
 	description: string;
-	isHovered: boolean;
 }
 const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	slug,
 	title,
 	imageSrc,
 	description,
-	isHovered,
 }) => {
 	return (
 		<>
 			<div className={s.imageBlock}>
-				<article className={`${s.hoverBlock} ${isHovered ? s.isHovered : ''}`}>
+				<article className={`${s.hoverBlock}`}>
 					<h3>{title}</h3>
 					<p>{description}</p>
 				</article>
