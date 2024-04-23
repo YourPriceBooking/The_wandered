@@ -17,7 +17,6 @@ export default async function MainPage() {
 			<TopSection />
 			<div className={s.contentSection}>
 				{data.result.map((article) => {
-					console.log(article.articleUrl);
 					return (
 						<Article
 							key={article._id}

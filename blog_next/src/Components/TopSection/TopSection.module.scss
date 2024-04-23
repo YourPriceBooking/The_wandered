@@ -9,11 +9,11 @@
 	justify-content: center;
 	background-color: var(--color-primary-1);
 	@media (max-width: 480px) {
-		height: 240px;
+		height: 270px;
 	}
-	@media (max-width: 400px) {
-		height: 180px;
-		padding-top: 23px;
+	@media (max-width: 420px) {
+		height: 260px;
+		padding: 15px 0 25px;
 	}
 	& a:last-child svg {
 		width: 63px;
