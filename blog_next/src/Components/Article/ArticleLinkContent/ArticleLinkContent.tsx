@@ -11,12 +11,14 @@ interface ArticleLinkContentProps {
 	title: string;
 	imageSrc: string;
 	description: string;
+	id: string;
 }
 const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	slug,
 	title,
 	imageSrc,
 	description,
+	id,
 }) => {
 	const articleRef = useRef<HTMLDivElement>(null);
 	const [isTapped, setIsTapped] = useState(false);
@@ -44,7 +46,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
 		console.log(isTapped, isFrstTapped);
 		if (isTapped && !isFrstTapped) {
-			router.push(`/${slug}`);
+			router.push(`/${id}`);
 		} else if (isTapped && isFrstTapped) {
 			setIsFrstTapped(false);
 		}
@@ -53,16 +55,12 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 
 	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.stopPropagation();
-		router.push(`/${slug}`);
+		router.push(`/${id}`);
 	};
 
 	useEffect(() => {
 		const handleGlobalClick = (e: MouseEvent) => {
-			if (
-				articleRef.current &&
-				!articleRef.current.contains(e.target as Node) &&
-				articleRef.current.parentNode
-			) {
+			if (articleRef.current && !articleRef.current.contains(e.target as Node)) {
 				setIsTapped(false);
 				setIsFrstTapped(true);
 			}
