@@ -7,18 +7,28 @@ import { useParams, usePathname } from 'next/navigation';
 import TopSection from '../TopSection/TopSection';
 import Loading from '@/app/loading';
 import { Suspense } from 'react';
+import BackArrow from '../TopSection/BackArrow/BackArrow';
 export default function Header() {
 	const pathname = usePathname();
+	const isPostPage = Object.keys(useParams())[0] === 'postPageId';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 
 	return (
 		<header className={s.header}>
-			<div className={s.headerContent}>
+			{isPostPage && <BackArrow />}
+			<div
+				style={{
+					justifyContent: isPostPage ? 'center' : 'space-between',
+				}}
+				className={s.headerContent}
+			>
 				<Logo />
-				<Suspense fallback={<Loading />}>
-					<SearchField />
-				</Suspense>
+				{!isPostPage && (
+					<Suspense fallback={<Loading />}>
+						<SearchField />
+					</Suspense>
+				)}
 			</div>
 		</header>
 	);

@@ -2,7 +2,7 @@ type additionalType = {
 	title: string;
 	text: string;
 };
-type postData = {
+export type postData = {
 	_id: string;
 	title: string;
 	author: string;
@@ -10,7 +10,9 @@ type postData = {
 	description: string;
 	articleUrl: string;
 	publicationDate: string;
+	changeDate: string;
 	slug: string;
+	markup: string;
 };
 export type postsDataType = {
 	result: postData[];

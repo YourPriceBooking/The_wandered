@@ -2,19 +2,52 @@
 import Image from 'next/image';
 import { articleData } from '@/defaultData/articleData';
 import s from './ArticlePage.module.scss';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
+import { getPostData } from '@/services/getPostData';
+import { useEffect, useState } from 'react';
+import { postData } from '@/types/postTypes';
+import { sanitize } from 'dompurify';
+import Loading from '@/app/loading';
+
+const formatDate = (isoString: string | Date) => {
+	const date = new Date(isoString);
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day
+		.toString()
+		.padStart(2, '0')}`;
+
+	const hours = date.getHours();
+	const minutes = date.getMinutes();
+	const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+		.toString()
+		.padStart(2, '0')}`;
+
+	return `${formattedDate} ${formattedTime}`;
+};
 
 export default function ArticlePage() {
 	const pathname = usePathname();
+	const params = useParams();
 
-	const post = articleData.find((elem) => elem.slug === pathname.substring(1, pathname.length));
+	const [post, setPost] = useState<postData | null>(null);
 
+	useEffect(() => {
+		(async () => {
+			const data = await getPostData({
+				postId: String(params.postPageId),
+			});
+			setPost(data);
+		})();
+	}, []);
+	if (!post) return <Loading />;
 	return (
 		post && (
 			<main className={s.postBlock}>
 				<div className={s.imageBlock}>
-					{post.imageSrc ? (
-						<Image src={post.imageSrc} fill alt="article-image" className={s.image} />
+					{post.imageUrl ? (
+						<Image src={post.imageUrl[0]} fill alt="article-image" className={s.image} />
 					) : (
 						<div className={s.defaultImage}></div>
 					)}
@@ -22,39 +55,18 @@ export default function ArticlePage() {
 				<div className={s.textBlock}>
 					<h1 className={s.title}>{post.title}</h1>
 					<div className={s.dateBlock}>
-						<p>{post.date}</p>
-						<p>{post.updated}</p>
+						<p>{formatDate(post.publicationDate)}</p>
+						{/* <p>{formatDate(post.changeDate)}</p> */}
 					</div>
 					<p className={s.author}>{post.author}</p>
-					{post.text.split('\n').map((textBlock, i) => {
+					{post.description.split('\n').map((textBlock, i) => {
 						return (
 							<p className={s.text} key={i}>
 								{textBlock}
 							</p>
 						);
 					})}
-					<h2 className={s.subtitle}>{post.subtitle}</h2>
-					{post.subtext.split('\n').map((textBlock, i) => {
-						return (
-							<p className={s.text} key={i}>
-								{textBlock}
-							</p>
-						);
-					})}
-					{post.additional?.map((block, i) => {
-						return (
-							<div>
-								<h3 className={s.blockSubtitle}>{block.title}</h3>
-								{block.text.split('\n').map((textBlock, i) => {
-									return (
-										<p className={s.text} key={i}>
-											{textBlock}
-										</p>
-									);
-								})}
-							</div>
-						);
-					})}
+					<div dangerouslySetInnerHTML={{ __html: sanitize(post.markup) }}></div>
 				</div>
 			</main>
 		)
