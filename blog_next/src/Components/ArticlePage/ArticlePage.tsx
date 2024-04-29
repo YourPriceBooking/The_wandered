@@ -39,6 +39,7 @@ export default function ArticlePage() {
 				postId: String(params.postPageId),
 			});
 			setPost(data);
+			console.log(data);
 		})();
 	}, []);
 	if (!post) return <Loading />;
