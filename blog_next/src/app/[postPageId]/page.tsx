@@ -1,8 +1,7 @@
-import { articleData } from '@/defaultData/articleData';
-import { Metadata } from 'next';
 import ArticlePage from '@/Components/ArticlePage/ArticlePage';
 import { getPostData } from '@/services/getPostData';
 import { postData } from '@/types/postTypes';
+import { Metadata } from 'next';
 
 export async function generateMetadata({
 	params,
@@ -15,9 +14,14 @@ export async function generateMetadata({
 	return {
 		title: data.title,
 		description: data.description,
-		icons: './houseIconOrange.svg',
 		openGraph: {
-			images: data.imageUrl[0],
+			images: [
+				{
+					url: data.imageUrl[0],
+					width: 1200,
+					height: 630,
+				},
+			],
 		},
 	};
 }
