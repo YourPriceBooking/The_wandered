@@ -8,6 +8,7 @@ import { getPostsBySearch } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
 import Loading from '../loading';
 
+
 const Page = () => {
 	const searchParams = useSearchParams().get('search');
 	const [postsData, setPostsData] = useState<postData[] | []>([]);
