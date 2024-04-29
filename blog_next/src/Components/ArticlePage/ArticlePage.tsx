@@ -66,7 +66,10 @@ export default function ArticlePage() {
 							</p>
 						);
 					})}
-					<div dangerouslySetInnerHTML={{ __html: sanitize(post.markup) }}></div>
+					<div
+						className={s.markup}
+						dangerouslySetInnerHTML={{ __html: sanitize(post.markup) }}
+					></div>
 				</div>
 			</main>
 		)

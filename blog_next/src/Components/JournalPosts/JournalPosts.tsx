@@ -5,22 +5,24 @@ import JournalPost from './JournalPost/JournalPost';
 import { useEffect, useState } from 'react';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import debounce from 'lodash/debounce';
+import { daysSinceDate } from '@/services/daysCounter';
 
 interface JournalPostsProps {
 	posts: JournalPostType[];
 }
-const NUMBER_OF_USERS_TO_FETCH = 5;
 const JournalPosts: React.FC<JournalPostsProps> = ({ posts }) => {
 	const [initialPosts, setInitialPosts] = useState<JournalPostType[]>(posts);
-	const [page, setPage] = useState(2);
+	const [page, setPage] = useState(daysSinceDate() * 5 - 1);
 	const [loading, setLoading] = useState(false);
+	const [isFinished, setIsFinished] = useState(false);
+	const [lastScrollTop, setLastScrollTop] = useState(0);
 
 	const loadMorePosts = async () => {
 		setLoading(true);
 		try {
-			const newPosts = await getDailyJournalPosts(page, NUMBER_OF_USERS_TO_FETCH);
+			const newPosts = await getDailyJournalPosts(page);
 			setInitialPosts((prevPosts) => [...prevPosts, ...newPosts.result]);
-			setPage((prevPage) => prevPage + 1);
+			setPage((prevPage) => prevPage - 1);
 		} catch (error) {
 			console.error('Error loading more posts:', error);
 		} finally {
@@ -29,23 +31,23 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ posts }) => {
 	};
 
 	useEffect(() => {
-		const handleScroll = debounce(() => {
-			if (
-				document.documentElement.scrollTop <=
-					document.documentElement.offsetHeight - window.innerHeight * 7 ||
-				loading
-			) {
-				return;
-			}
+		if (page > 0) {
+			const handleScroll = debounce(() => {
+				const currentScrollTop = document.documentElement.scrollTop;
+				if (currentScrollTop > lastScrollTop + 3500 && !loading) {
+					setLastScrollTop(currentScrollTop);
+					loadMorePosts();
+				}
+			}, 250);
 
-			loadMorePosts();
-		}, 50);
+			window.addEventListener('scroll', handleScroll);
 
-		window.addEventListener('scroll', handleScroll);
-
-		return () => {
-			window.removeEventListener('scroll', handleScroll);
-		};
+			return () => {
+				window.removeEventListener('scroll', handleScroll);
+			};
+		} else if (page === 0) {
+			setIsFinished(true);
+		}
 	}, [loading, page]);
 
 	return (
