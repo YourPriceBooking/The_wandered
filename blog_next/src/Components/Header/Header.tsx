@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
 export default function Header() {
 	const pathname = usePathname();
-	const isPostPage = Object.keys(useParams())[0] === 'postPageId';
+	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 

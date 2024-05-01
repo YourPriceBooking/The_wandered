@@ -8,12 +8,13 @@
 	@media (max-width: 940px) {
 		width: 758px;
 	}
-	@media (max-width: 820px) {
-		width: 658px;
-	}
-	@media (max-width: 698px) {
+	@media (max-width: 768px) {
 		width: 98%;
 	}
+	@media (max-width: 480px) {
+		width: 100%;
+	}
+
 	z-index: 10;
 	& .imageBlock {
 		transition: all 0.5s;
