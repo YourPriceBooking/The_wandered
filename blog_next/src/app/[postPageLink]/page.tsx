@@ -6,10 +6,10 @@ import { Metadata } from 'next';
 export async function generateMetadata({
 	params,
 }: {
-	params: { postPageId: string };
+	params: { postPageLink: string };
 }): Promise<Metadata> {
 	const data: postData = await getPostData({
-		postId: String(params.postPageId),
+		pageLink: String(params.postPageLink),
 	});
 	return {
 		title: data.title,

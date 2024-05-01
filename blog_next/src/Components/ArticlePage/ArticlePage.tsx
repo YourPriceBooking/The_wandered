@@ -36,10 +36,9 @@ export default function ArticlePage() {
 	useEffect(() => {
 		(async () => {
 			const data = await getPostData({
-				postId: String(params.postPageId),
+				pageLink: String(params.postPageLink),
 			});
 			setPost(data);
-			console.log(data);
 		})();
 	}, []);
 	if (!post) return <Loading />;
