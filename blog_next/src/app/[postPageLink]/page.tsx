@@ -23,6 +23,10 @@ export async function generateMetadata({
 				},
 			],
 		},
+		icons: {
+			icon: data.imageUrl[0],
+			shortcut: data.imageUrl[0],
+		},
 	};
 }
 
