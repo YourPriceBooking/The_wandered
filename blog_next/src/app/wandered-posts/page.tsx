@@ -58,6 +58,7 @@ const Page = () => {
 						updated={''}
 						description={article.description}
 						id={article._id}
+						heading={article.heading}
 					/>
 				);
 			})}

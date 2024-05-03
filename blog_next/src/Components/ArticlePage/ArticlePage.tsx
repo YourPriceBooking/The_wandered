@@ -53,19 +53,12 @@ export default function ArticlePage() {
 					)}
 				</div>
 				<div className={s.textBlock}>
-					<h1 className={s.title}>{post.title}</h1>
+					<h1 className={s.title}>{post.heading}</h1>
 					<div className={s.dateBlock}>
 						<p>{formatDate(post.publicationDate)}</p>
 						{/* <p>{formatDate(post.changeDate)}</p> */}
 					</div>
 					<p className={s.author}>{post.author}</p>
-					{post.description.split('\n').map((textBlock, i) => {
-						return (
-							<p className={s.text} key={i}>
-								{textBlock}
-							</p>
-						);
-					})}
 					<div
 						className={s.markup}
 						dangerouslySetInnerHTML={{ __html: sanitize(post.markup) }}

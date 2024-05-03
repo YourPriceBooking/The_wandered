@@ -12,7 +12,7 @@ export async function generateMetadata({
 		pageLink: String(params.postPageLink),
 	});
 	return {
-		title: data.title,
+		title: data.heading,
 		description: data.description,
 		openGraph: {
 			images: [

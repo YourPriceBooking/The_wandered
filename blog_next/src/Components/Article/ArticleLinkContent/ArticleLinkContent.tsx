@@ -12,6 +12,7 @@ interface ArticleLinkContentProps {
 	imageSrc: string;
 	description: string;
 	id: string;
+	heading: string;
 }
 const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	slug,
@@ -19,6 +20,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	imageSrc,
 	description,
 	id,
+	heading,
 }) => {
 	const articleRef = useRef<HTMLDivElement>(null);
 	const [isTapped, setIsTapped] = useState(false);
@@ -94,7 +96,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 				)}
 			</div>
 			<div className={s.titleBlock}>
-				<p className={s.title}>{title}</p>
+				<p className={s.title}>{heading}</p>
 			</div>
 			<Link href={`/${slug}`} className={s.readMore}>
 				<p className={s.link}>READ MORE</p>

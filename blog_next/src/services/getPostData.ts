@@ -6,6 +6,7 @@ export async function getPostData({ pageLink }: { pageLink: string }) {
 		const { data } = await axios.get(
 			`${apiUrl}api/post/get-by-url?articleUrl=https://www.thewandered.com/${pageLink}`,
 		);
+
 		return data.result;
 	} catch (error: any) {
 		console.log(error);
