@@ -15,6 +15,7 @@ interface ArticleProps {
 	updated: string;
 	description: string;
 	id: string;
+	heading: string;
 }
 //upd
 export default function Article({
@@ -26,6 +27,7 @@ export default function Article({
 	updated,
 	description,
 	id,
+	heading,
 }: ArticleProps) {
 	const dateStr = date;
 	const newDate = new Date(dateStr);
@@ -49,6 +51,7 @@ export default function Article({
 			<ArticleLinkContent
 				slug={slug || ''}
 				title={title}
+				heading={heading}
 				imageSrc={imageSrc}
 				description={description}
 				id={id}

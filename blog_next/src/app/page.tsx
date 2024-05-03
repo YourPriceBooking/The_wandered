@@ -1,22 +1,19 @@
-import Image from 'next/image';
 import s from './mainPage.module.scss';
 import Article from '@/Components/Article/Article';
-import { articleData } from '@/defaultData/articleData';
 import Link from 'next/link';
 import TopSection from '@/Components/TopSection/TopSection';
 import { getPosts, getAllPosts } from '@/services/getPosts';
-import { postsDataType } from '@/types/postTypes';
+import { postData, postsDataType } from '@/types/postTypes';
 
 export default async function MainPage() {
 	const data: postsDataType = await getPosts({ page: 1 });
 	const Alldata: postsDataType = await getAllPosts();
 	const length = Math.ceil(Alldata.result.length / 7);
-
 	return (
 		<main className={s.main}>
 			<TopSection />
 			<div className={s.contentSection}>
-				{data.result.map((article) => {
+				{data.result.map((article: postData) => {
 					return (
 						<Article
 							key={article._id}
@@ -28,6 +25,7 @@ export default async function MainPage() {
 							updated={''}
 							description={article.description}
 							id={article._id}
+							heading={article.heading}
 						></Article>
 					);
 				})}

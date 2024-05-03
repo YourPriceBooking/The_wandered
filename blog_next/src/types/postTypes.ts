@@ -13,6 +13,7 @@ export type postData = {
 	changeDate: string;
 	slug: string;
 	markup: string;
+	heading: string;
 };
 export type postsDataType = {
 	result: postData[];
