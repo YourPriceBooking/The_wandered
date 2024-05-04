@@ -42,6 +42,7 @@ export default function ArticlePage() {
 		})();
 	}, []);
 	if (!post) return <Loading />;
+  
 	return (
 		post && (
 			<main className={s.postBlock}>

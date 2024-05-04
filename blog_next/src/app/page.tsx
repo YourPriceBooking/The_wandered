@@ -9,6 +9,7 @@ export default async function MainPage() {
 	const data: postsDataType = await getPosts({ page: 1 });
 	const Alldata: postsDataType = await getAllPosts();
 	const length = Math.ceil(Alldata.result.length / 7);
+  
 	return (
 		<main className={s.main}>
 			<TopSection />
