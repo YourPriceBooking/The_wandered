@@ -168,7 +168,7 @@
 		font-size: 20px;
 	}
 	& p:has(a) {
-		text-align: center;
+		text-align: left;
 	}
 	& p:nth-last-child(2):not(a) {
 		padding-top: 20px;
