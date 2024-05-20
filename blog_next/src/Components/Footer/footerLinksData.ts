@@ -16,7 +16,7 @@ export const footerLinkData = [
 		title: 'Community',
 		links: [
 			{
-				name: 'Yourpricebooking.com',
+				name: 'yourpricebooking.com',
 				src: 'https://www.yourpricebooking.com',
 			},
 			{
