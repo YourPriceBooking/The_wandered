@@ -42,7 +42,7 @@ export default function ArticlePage() {
 		})();
 	}, []);
 	if (!post) return <Loading />;
-  
+
 	return (
 		post && (
 			<main className={s.postBlock}>
@@ -62,7 +62,11 @@ export default function ArticlePage() {
 					<p className={s.author}>{post.author}</p>
 					<div
 						className={s.markup}
-						dangerouslySetInnerHTML={{ __html: sanitize(post.markup) }}
+						dangerouslySetInnerHTML={{
+							__html: sanitize(post.markup, {
+								ADD_ATTR: ['target'],
+							}),
+						}}
 					></div>
 				</div>
 			</main>
