@@ -33,12 +33,27 @@ export default function ArticlePage() {
 
 	const [post, setPost] = useState<postData | null>(null);
 
+	const removeStyles = (htmlStr: string) => {
+		const parser = new DOMParser();
+		const doc = parser.parseFromString(htmlStr, 'text/html');
+		const elementsWithStyle = doc.querySelectorAll('[style]');
+
+		elementsWithStyle.forEach((element) => {
+			element.removeAttribute('style');
+		});
+
+		return doc.body.innerHTML;
+	};
+
 	useEffect(() => {
 		(async () => {
 			const data = await getPostData({
 				pageLink: String(params.postPageLink),
 			});
-			setPost(data);
+
+			const updatedData = { ...data, markup: removeStyles(data.markup) };
+
+			setPost(updatedData);
 		})();
 	}, []);
 	if (!post) return <Loading />;
