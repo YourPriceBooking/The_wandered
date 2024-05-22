@@ -11,6 +11,9 @@ export async function generateMetadata({
 	const data: postData = await getPostData({
 		pageLink: String(params.postPageLink),
 	});
+
+	const faviconUrl = data.imageUrl[0].slice(0, 4) + 's' + data.imageUrl[0].slice(4);
+
 	return {
 		title: data.heading,
 		description: data.description,
@@ -24,8 +27,8 @@ export async function generateMetadata({
 			],
 		},
 		icons: {
-			icon: data.imageUrl[0],
-			shortcut: data.imageUrl[0],
+			icon: faviconUrl,
+      		shortcut: faviconUrl,
 		},
 	};
 }
