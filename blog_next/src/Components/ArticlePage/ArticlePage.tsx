@@ -6,7 +6,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { getPostData } from '@/services/getPostData';
 import { useEffect, useState } from 'react';
 import { postData } from '@/types/postTypes';
-import { sanitize } from 'dompurify';
+import DOMPurify from 'dompurify';
 import Loading from '@/app/loading';
 
 const formatDate = (isoString: string | Date) => {
@@ -33,13 +33,26 @@ export default function ArticlePage() {
 
 	const [post, setPost] = useState<postData | null>(null);
 
-	const removeStyles = (htmlStr: string) => {
+	const editingHTMLData = (htmlStr: string) => {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(htmlStr, 'text/html');
 		const elementsWithStyle = doc.querySelectorAll('[style]');
 
 		elementsWithStyle.forEach((element) => {
 			element.removeAttribute('style');
+		});
+
+		const headers = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+		headers.forEach((header) => {
+			const previousSibling = header.previousElementSibling;
+			if (
+				!previousSibling ||
+				!(previousSibling.tagName === 'P' && previousSibling.innerHTML === '<br>')
+			) {
+				const paragraph = doc.createElement('p');
+				paragraph.innerHTML = '<br/>';
+				header.parentNode?.insertBefore(paragraph, header);
+			}
 		});
 
 		return doc.body.innerHTML;
@@ -51,7 +64,7 @@ export default function ArticlePage() {
 				pageLink: String(params.postPageLink),
 			});
 
-			const updatedData = { ...data, markup: removeStyles(data.markup) };
+			const updatedData = { ...data, markup: editingHTMLData(data.markup) };
 
 			setPost(updatedData);
 		})();
@@ -78,7 +91,7 @@ export default function ArticlePage() {
 					<div
 						className={s.markup}
 						dangerouslySetInnerHTML={{
-							__html: sanitize(post.markup, {
+							__html: DOMPurify.sanitize(post.markup, {
 								ADD_ATTR: ['target'],
 							}),
 						}}
