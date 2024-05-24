@@ -1,14 +1,26 @@
 import { getPosts } from '@/services/getPosts';
+import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { postData } from '@/types/postTypes';
+import { JournalPostType } from '@/types/historyTypes';
 
 export default async function sitemap() {
 	const baseUrl = 'https://www.thewandered.com';
 
-	const data = await getPosts({ page: 1 });
-	const articleUrls =
-		data.result.map((article: postData) => {
+	const articles = await getPosts({ page: 1 });
+	const journals = await getDailyJournalPosts();
+
+	const articlesUrls =
+		articles.result.map((article: postData) => {
 			return {
 				url: article.articleUrl,
+				lastModified: new Date().toISOString(),
+			};
+		}) ?? [];
+
+	const journalsUrls =
+		journals.result.map((journal: JournalPostType) => {
+			return {
+				url: journal.url,
 				lastModified: new Date().toISOString(),
 			};
 		}) ?? [];
@@ -18,6 +30,15 @@ export default async function sitemap() {
 			url: baseUrl,
 			lastModified: new Date().toISOString(),
 		},
-		...articleUrls,
+		{
+			url: `${baseUrl}/private-policy`,
+			lastModified: new Date().toISOString(),
+		},
+		{
+			url: `${baseUrl}/daily-journal-of-your-price-booking-service-history`,
+			lastModified: new Date().toISOString(),
+		},
+		...articlesUrls,
+		...journalsUrls,
 	];
 }
