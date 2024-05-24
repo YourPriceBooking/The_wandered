@@ -5,11 +5,13 @@ import TopSection from '@/Components/TopSection/TopSection';
 import { getPosts, getAllPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
 
+export const dynamic = 'force-dynamic';
+
 export default async function MainPage() {
 	const data: postsDataType = await getPosts({ page: 1 });
 	const Alldata: postsDataType = await getAllPosts();
 	const length = Math.ceil(Alldata.result.length / 7);
-  
+
 	return (
 		<main className={s.main}>
 			<TopSection />
