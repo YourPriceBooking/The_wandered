@@ -12,8 +12,6 @@ export async function generateMetadata({
 		pageLink: String(params.postPageLink),
 	});
 
-	const faviconUrl = data.imageUrl[0].slice(0, 4) + 's' + data.imageUrl[0].slice(4);
-
 	return {
 		title: data.heading,
 		description: data.description,
@@ -27,8 +25,8 @@ export async function generateMetadata({
 			],
 		},
 		icons: {
-			icon: faviconUrl,
-      		shortcut: faviconUrl,
+			icon: './favicon.ico',
+			shortcut: './favicon.ico',
 		},
 	};
 }
