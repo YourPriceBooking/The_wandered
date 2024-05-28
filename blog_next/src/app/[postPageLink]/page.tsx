@@ -25,8 +25,8 @@ export async function generateMetadata({
 			],
 		},
 		icons: {
-			icon: './favicon',
-			shortcut: './favicon',
+			icon: './favicon.ico',
+			shortcut: './favicon.ico',
 		},
 	};
 }
