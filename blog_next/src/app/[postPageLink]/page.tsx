@@ -12,25 +12,25 @@ export async function generateMetadata({
 		pageLink: String(params.postPageLink),
 	});
 
-	const faviconUrl = data.imageUrl[0].slice(0, 4) + 's' + data.imageUrl[0].slice(4);
-
-	return {
-		title: data.heading,
-		description: data.description,
-		openGraph: {
-			images: [
-				{
-					url: data.imageUrl[0],
-					width: 1200,
-					height: 630,
-				},
-			],
-		},
-		icons: {
-			icon: faviconUrl,
-      		shortcut: faviconUrl,
-		},
-	};
+	return (
+		data && {
+			title: data.heading,
+			description: data.description,
+			openGraph: {
+				images: [
+					{
+						url: data.imageUrl[0],
+						width: 1200,
+						height: 630,
+					},
+				],
+			},
+			icons: {
+				icon: './favicon',
+				shortcut: './favicon',
+			},
+		}
+	);
 }
 
 export default function Post({}) {

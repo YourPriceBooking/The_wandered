@@ -23,7 +23,7 @@ export async function getPosts({ page }: { page: number }) {
 }
 export async function getAllPosts() {
 	try {
-		const { data } = await axios.get(`${apiUrl}api/post/get-all?`, {
+		const { data } = await axios.get(`${apiUrl}api/post/get-all`, {
 			headers: {
 				'Cache-Control': 'no-cache, no-store, must-revalidate',
 				Pragma: 'no-cache',
