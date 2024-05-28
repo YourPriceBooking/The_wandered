@@ -12,25 +12,23 @@ export async function generateMetadata({
 		pageLink: String(params.postPageLink),
 	});
 
-	return (
-		data && {
-			title: data.heading,
-			description: data.description,
-			openGraph: {
-				images: [
-					{
-						url: data.imageUrl[0],
-						width: 1200,
-						height: 630,
-					},
-				],
-			},
-			icons: {
-				icon: './favicon',
-				shortcut: './favicon',
-			},
-		}
-	);
+	return {
+		title: data.heading,
+		description: data.description,
+		openGraph: {
+			images: [
+				{
+					url: data.imageUrl[0],
+					width: 1200,
+					height: 630,
+				},
+			],
+		},
+		icons: {
+			icon: './favicon',
+			shortcut: './favicon',
+		},
+	};
 }
 
 export default function Post({}) {
