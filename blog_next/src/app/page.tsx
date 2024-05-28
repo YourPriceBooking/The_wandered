@@ -10,8 +10,8 @@ export const dynamic = 'force-dynamic';
 export default async function MainPage() {
 	const data: postsDataType = await getPosts({ page: 1 });
 	const Alldata: postsDataType = await getAllPosts();
-	const length = Math.ceil(Alldata.result.length / 7);
-
+	// const length = Math.ceil(Alldata.result.length / 7);
+	console.log('---------', Alldata);
 	return (
 		<main className={s.main}>
 			<TopSection />
@@ -34,7 +34,7 @@ export default async function MainPage() {
 				})}
 				<div className={s.navSection}>
 					<ul className={s.navNumbers}>
-						{Array.from({ length: length }, (_, index) => (
+						{Array.from({ length: 7 }, (_, index) => (
 							<li>
 								<Link href="#" className={s.activeLink}>
 									{index + 1}
