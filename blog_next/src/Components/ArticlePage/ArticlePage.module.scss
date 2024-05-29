@@ -167,6 +167,13 @@
 	h2 {
 		font-size: 20px;
 	}
+	img {
+		width: 100%;
+	}
+	& p:has(img) {
+		display: flex;
+		justify-content: center;
+	}
 	& p:has(a) {
 		text-align: left;
 	}

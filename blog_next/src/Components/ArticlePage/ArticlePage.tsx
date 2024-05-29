@@ -42,16 +42,16 @@ export default function ArticlePage() {
 			element.removeAttribute('style');
 		});
 
-		const headers = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
-		headers.forEach((header) => {
-			const previousSibling = header.previousElementSibling;
+		const elements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, img');
+		elements.forEach((element) => {
+			const previousSibling = element.previousElementSibling;
 			if (
 				!previousSibling ||
 				!(previousSibling.tagName === 'P' && previousSibling.innerHTML === '<br>')
 			) {
 				const paragraph = doc.createElement('p');
 				paragraph.innerHTML = '<br/>';
-				header.parentNode?.insertBefore(paragraph, header);
+				element.parentNode?.insertBefore(paragraph, element);
 			}
 		});
 
