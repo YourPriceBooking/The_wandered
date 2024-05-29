@@ -1,4 +1,4 @@
-import { getPosts } from '@/services/getPosts';
+import { getAllPosts } from '@/services/getPosts';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { postData } from '@/types/postTypes';
 import { JournalPostType } from '@/types/historyTypes';
@@ -6,7 +6,7 @@ import { JournalPostType } from '@/types/historyTypes';
 export default async function sitemap() {
 	const baseUrl = 'https://www.thewandered.com';
 
-	const articles = await getPosts({ page: 1 });
+	const articles = await getAllPosts();
 	const journals = await getDailyJournalPosts();
 
 	const articlesUrls =
