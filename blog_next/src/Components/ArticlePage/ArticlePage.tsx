@@ -42,7 +42,7 @@ export default function ArticlePage() {
 			element.removeAttribute('style');
 		});
 
-		const elements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, img');
+		const elements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, img, iframe');
 		elements.forEach((element) => {
 			const previousSibling = element.previousElementSibling;
 			if (
@@ -92,7 +92,8 @@ export default function ArticlePage() {
 						className={s.markup}
 						dangerouslySetInnerHTML={{
 							__html: DOMPurify.sanitize(post.markup, {
-								ADD_ATTR: ['target'],
+								ADD_ATTR: ['target', 'allowfullscreen', 'frameborder', 'src'],
+								ADD_TAGS: ['iframe'],
 							}),
 						}}
 					></div>
