@@ -20,6 +20,10 @@ export const footerLinkData = [
 				src: 'https://www.yourpricebooking.com',
 			},
 			{
+				name: 'Authors',
+				src: '/',
+			},
+			{
 				name: 'Help center',
 				src: 'https://www.yourpricebooking.com/support',
 			},
