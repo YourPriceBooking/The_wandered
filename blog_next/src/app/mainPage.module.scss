@@ -36,6 +36,9 @@
 		line-height: 22px;
 	}
 }
-.activeLink {
+.pageNumber {
+	color: var(--color-border);
+}
+.activePage {
 	color: var(--color-secondary-1);
 }
