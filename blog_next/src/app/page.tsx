@@ -7,8 +7,14 @@ import { postData, postsDataType } from '@/types/postTypes';
 
 export const dynamic = 'force-dynamic';
 
-export default async function MainPage() {
-	const data: postsDataType = await getPosts({ page: 1 });
+export default async function MainPage({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
+	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+
+	const data: postsDataType = await getPosts({ page: paramsPage });
 	const Alldata: postsDataType = await getAllPosts();
 	const length = Math.ceil(Alldata.result.length / 7);
 
@@ -36,7 +42,10 @@ export default async function MainPage() {
 					<ul className={s.navNumbers}>
 						{Array.from({ length }, (_, index) => (
 							<li>
-								<Link href="#" className={s.activeLink}>
+								<Link
+									href={`/?page=${index + 1}`}
+									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
+								>
 									{index + 1}
 								</Link>
 							</li>
