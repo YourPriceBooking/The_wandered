@@ -154,6 +154,7 @@
 }
 .markup {
 	padding-top: 20px;
+	line-height: 20px;
 	h1,
 	h2,
 	h3,
@@ -178,6 +179,9 @@
 		@media (max-width: 768px) {
 			height: 200px;
 		}
+	}
+	& li:has(> strong) {
+		margin: 8px 0;
 	}
 	& p:has(img) {
 		display: flex;
