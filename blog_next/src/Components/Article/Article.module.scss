@@ -5,6 +5,7 @@
 	border-radius: 5px;
 	background-color: var(--color-background-2);
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	z-index: 10;
 	@media (max-width: 940px) {
 		width: 758px;
 	}
@@ -15,24 +16,6 @@
 		width: 100%;
 	}
 
-	z-index: 10;
-	& .imageBlock {
-		transition: all 0.5s;
-	}
-	& .imageBlock img {
-		transition: all 0.5s;
-	}
-	&:hover .imageBlock .hoverBlock {
-		opacity: 1;
-	}
-	&:hover .imageBlock img,
-	&:hover .imageBlock .defaultImage {
-		filter: blur(5px);
-		padding: 5px;
-	}
-	&:hover .imageBlock {
-		background-color: #15344c9b;
-	}
 	& .imageBlock {
 		display: flex;
 		position: relative;
@@ -43,6 +26,23 @@
 		height: 310px;
 		margin-bottom: 15px;
 		background-color: var(--color-background-3);
+		transition: all 0.5s;
+
+		& img {
+			transition: all 0.5s;
+		}
+		&:hover .hoverBlock {
+			opacity: 1;
+		}
+		&:hover img,
+		&:hover .defaultImage {
+			filter: blur(5px);
+			padding: 5px;
+		}
+		&:hover {
+			background-color: #15344c9b;
+		}
+
 		@media (max-width: 768px) {
 			max-width: 758px;
 		}

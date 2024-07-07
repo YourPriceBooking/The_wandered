@@ -183,6 +183,9 @@
 	& li:has(> strong) {
 		margin: 8px 0;
 	}
+	& p:has(> strong) {
+		margin: 8px 0;
+	}
 	& p:has(img) {
 		display: flex;
 		justify-content: center;
