@@ -116,45 +116,47 @@ export default function Article({
 			<div className={s.authorBlock}>
 				<div
 					ref={tooltipRef}
-					className={`${s.authorTooltip} ${tooltipVisible ? s.visible : ''}`}
+					className={`${s.authorTooltipWrapper} ${tooltipVisible ? s.visible : ''}`}
 					onMouseEnter={() => setTooltipVisible(true)}
 					onMouseLeave={() => setTooltipVisible(false)}
 				>
-					{currentAuthor && (
-						<>
-							<div className={s.tooltipMainInfo}>
-								<img
-									className={s.tooltipMainImg}
-									src={currentAuthor.image}
-									alt="Author Photo"
-									onError={(e) => {
-										e.currentTarget.src = 'no-photo.webp';
-									}}
-								/>
-								<div>
-									<p className={s.tooltipName}>{currentAuthor.name}</p>
-									<div className={s.tooltipLinks}>
-										{currentAuthor.links.map((link, index) => {
-											const parsedLink = JSON.parse(link) as Record<string, string>;
-											const [platform, url] = Object.entries(parsedLink)[0];
+					<div className={s.authorTooltip}>
+						{currentAuthor && (
+							<>
+								<div className={s.tooltipMainInfo}>
+									<img
+										className={s.tooltipMainImg}
+										src={currentAuthor.image}
+										alt="Author Photo"
+										onError={(e) => {
+											e.currentTarget.src = 'no-photo.webp';
+										}}
+									/>
+									<div>
+										<p className={s.tooltipName}>{currentAuthor.name}</p>
+										<div className={s.tooltipLinks}>
+											{currentAuthor.links.map((link, index) => {
+												const parsedLink = JSON.parse(link) as Record<string, string>;
+												const [platform, url] = Object.entries(parsedLink)[0];
 
-											return (
-												<a
-													key={index}
-													href={url}
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													<img src={socialMediaIcons[platform]} alt={platform} />
-												</a>
-											);
-										})}
+												return (
+													<a
+														key={index}
+														href={url}
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														<img src={socialMediaIcons[platform]} alt={platform} />
+													</a>
+												);
+											})}
+										</div>
 									</div>
 								</div>
-							</div>
-							<p className={s.tooltipBio}>{currentAuthor.description}</p>
-						</>
-					)}
+								<p className={s.tooltipBio}>{currentAuthor.description}</p>
+							</>
+						)}
+					</div>
 				</div>
 				<p
 					ref={authorRef}
