@@ -308,6 +308,19 @@
 		text-overflow: ellipsis;
 	}
 }
+.viewCounter {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	color: var(--color-secondary-3);
+	font-weight: 600;
+	font-size: 15px;
+
+	& img {
+		width: 20px;
+		height: 20px;
+	}
+}
 
 .line {
 	z-index: 22;
