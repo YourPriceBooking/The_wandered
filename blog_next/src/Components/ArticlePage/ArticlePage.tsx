@@ -87,6 +87,10 @@ export default function ArticlePage() {
 						<p>{formatDate(post.publicationDate)}</p>
 						{/* <p>{formatDate(post.changeDate)}</p> */}
 					</div>
+					<div className={s.viewCounter}>
+						<p>0</p>
+						<img src="eye.png" alt="views icon" />
+					</div>
 					<p className={s.author}>{post.author}</p>
 					<div
 						className={s.markup}

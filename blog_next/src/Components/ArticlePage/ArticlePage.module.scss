@@ -126,6 +126,21 @@
 		font-size: 9px;
 	}
 }
+.viewCounter {
+	margin-bottom: 12px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	color: var(--color-secondary-3);
+	font-weight: 600;
+	font-size: 16px;
+
+	& img {
+		margin-top: 2px;
+		width: 20px;
+		height: 20px;
+	}
+}
 .text {
 	font-size: 14px;
 	text-indent: 15px;
