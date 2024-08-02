@@ -33,6 +33,19 @@ export default function ArticlePage() {
 
 	const [post, setPost] = useState<postData | null>(null);
 
+	let readableDate = '';
+	const dateStr = post?.publicationDate;
+	if (dateStr) {
+		const newDate = new Date(dateStr);
+		const options = {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		};
+		//@ts-ignore
+		readableDate = newDate.toLocaleDateString('en-US', options);
+	}
+
 	const editingHTMLData = (htmlStr: string) => {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(htmlStr, 'text/html');
@@ -84,7 +97,7 @@ export default function ArticlePage() {
 				<div className={s.textBlock}>
 					<h1 className={s.title}>{post.heading}</h1>
 					<div className={s.dateBlock}>
-						<p>{formatDate(post.publicationDate)}</p>
+						<p>{readableDate}</p>
 						{/* <p>{formatDate(post.changeDate)}</p> */}
 					</div>
 					<div className={s.viewCounter}>

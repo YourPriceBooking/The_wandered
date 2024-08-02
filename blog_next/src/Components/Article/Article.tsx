@@ -69,6 +69,7 @@ export default function Article({
 	};
 	//@ts-ignore
 	const readableDate = newDate.toLocaleDateString('en-US', options);
+
 	const authorRef = useRef<HTMLDivElement>(null);
 	const tooltipRef = useRef<HTMLDivElement>(null);
 	const [tooltipVisible, setTooltipVisible] = useState(false);
