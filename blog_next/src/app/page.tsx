@@ -15,6 +15,7 @@ export default async function MainPage({
 	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
 	const data: postsDataType = await getPosts({ page: paramsPage });
+
 	const Alldata: postsDataType = await getAllPosts();
 	const length = Math.ceil(Alldata.result.length / 7);
 

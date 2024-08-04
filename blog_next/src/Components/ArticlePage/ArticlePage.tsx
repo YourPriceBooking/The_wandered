@@ -9,24 +9,6 @@ import { postData } from '@/types/postTypes';
 import DOMPurify from 'dompurify';
 import Loading from '@/app/loading';
 
-const formatDate = (isoString: string | Date) => {
-	const date = new Date(isoString);
-	const year = date.getFullYear();
-	const month = date.getMonth() + 1;
-	const day = date.getDate();
-	const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day
-		.toString()
-		.padStart(2, '0')}`;
-
-	const hours = date.getHours();
-	const minutes = date.getMinutes();
-	const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
-		.toString()
-		.padStart(2, '0')}`;
-
-	return `${formattedDate} ${formattedTime}`;
-};
-
 export default function ArticlePage() {
 	const pathname = usePathname();
 	const params = useParams();
@@ -98,7 +80,6 @@ export default function ArticlePage() {
 					<h1 className={s.title}>{post.heading}</h1>
 					<div className={s.dateBlock}>
 						<p>{readableDate}</p>
-						{/* <p>{formatDate(post.changeDate)}</p> */}
 					</div>
 					<div className={s.viewCounter}>
 						<p>0</p>
