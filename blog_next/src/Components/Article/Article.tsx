@@ -26,7 +26,7 @@ type Repo = {
 	image: string;
 	description: string;
 	skills: string;
-	links: string[];
+	links: string;
 };
 
 type Data = {
@@ -111,6 +111,16 @@ export default function Article({
 	}, []);
 
 	const currentAuthor = authors.repos.find((repo) => repo.name === author);
+	let parsedLinks = [];
+	if (currentAuthor) {
+		parsedLinks = JSON.parse(currentAuthor?.links);
+	}
+
+	const truncateText = (text: string, wordLimit: number): string => {
+		const words = text.split(' ');
+		if (words.length <= wordLimit) return text;
+		return words.slice(0, wordLimit).join(' ') + '...';
+	};
 
 	return (
 		<article className={s.articleBlock}>
@@ -137,28 +147,32 @@ export default function Article({
 										<div>
 											<p className={s.tooltipName}>{currentAuthor.name}</p>
 											<div className={s.tooltipLinks}>
-												{currentAuthor.links.map((link, index) => {
-													const parsedLink = JSON.parse(link) as Record<
-														string,
-														string
-													>;
-													const [platform, url] = Object.entries(parsedLink)[0];
+												{parsedLinks.map((link: any, index: number) => {
+													const platform = Object.keys(link)[0];
+													const url = Object.values(link)[0];
 
 													return (
-														<a
-															key={index}
-															href={url}
-															target="_blank"
-															rel="noopener noreferrer"
-														>
-															<img src={socialMediaIcons[platform]} alt={platform} />
-														</a>
+														url && (
+															<a
+																key={index}
+																href={link[platform]}
+																target="_blank"
+																rel="noopener noreferrer"
+															>
+																<img
+																	src={socialMediaIcons[platform]}
+																	alt={platform}
+																/>
+															</a>
+														)
 													);
 												})}
 											</div>
 										</div>
 									</div>
-									<p className={s.tooltipBio}>{currentAuthor.description}</p>
+									<p className={s.tooltipBio}>
+										{truncateText(currentAuthor.description, 30)}
+									</p>
 								</>
 							)}
 						</div>
