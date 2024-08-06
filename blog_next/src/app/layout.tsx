@@ -1,6 +1,6 @@
 import '../../node_modules/modern-normalize/modern-normalize.css';
 import '../styles/index.scss';
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import Footer from '@/Components/Footer/Footer';
 import Header from '@/Components/Header/Header';
@@ -26,7 +26,7 @@ export default function RootLayout({
 				<Suspense fallback={<Loading />}>{children}</Suspense>
 				<Footer />
 			</body>
-			<GoogleAnalytics gaId="G-FCL1VEWL9G" />
+			<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 		</html>
 	);
 }
