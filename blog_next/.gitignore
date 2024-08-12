@@ -52,3 +52,6 @@ _temp*
 #history
 .history
 .lh
+
+# Ignore service account key file
+the-wandered-957bac979b04.json
