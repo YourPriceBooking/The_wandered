@@ -7,6 +7,8 @@ import s from './Article.module.scss';
 import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { fetchPageviews } from '@/lib/features/gadataSlice';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -70,6 +72,10 @@ export default function Article({
 	//@ts-ignore
 	const readableDate = newDate.toLocaleDateString('en-US', options);
 
+	const dispatch = useAppDispatch();
+
+	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
+
 	const authorRef = useRef<HTMLDivElement>(null);
 	const tooltipRef = useRef<HTMLDivElement>(null);
 	const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -91,6 +97,7 @@ export default function Article({
 		};
 
 		fetchAuthors();
+		dispatch(fetchPageviews());
 	}, []);
 
 	useEffect(() => {
@@ -192,7 +199,7 @@ export default function Article({
 					<p className={s.updateDate}>{updated}</p>
 				</div>
 				<div className={s.viewCounter}>
-					<p>0</p>
+					<p>{pageviews['/' + slug] || 0}</p>
 					<img src="eye.png" alt="views icon" />
 				</div>
 			</div>

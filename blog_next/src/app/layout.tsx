@@ -7,6 +7,7 @@ import Header from '@/Components/Header/Header';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Loading from './loading';
+import StoreProvider from './StoreProvider';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: Your Journey to Discovery',
@@ -22,11 +23,13 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<Header />
-				<Suspense fallback={<Loading />}>{children}</Suspense>
-				<Footer />
+				<StoreProvider>
+					<Header />
+					<Suspense fallback={<Loading />}>{children}</Suspense>
+					<Footer />
+				</StoreProvider>
+				<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 			</body>
-			<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 		</html>
 	);
 }

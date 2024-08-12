@@ -2,17 +2,21 @@
 import Image from 'next/image';
 import { articleData } from '@/defaultData/articleData';
 import s from './ArticlePage.module.scss';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { getPostData } from '@/services/getPostData';
 import { useEffect, useState } from 'react';
 import { postData } from '@/types/postTypes';
 import DOMPurify from 'dompurify';
 import Loading from '@/app/loading';
 
-export default function ArticlePage() {
-	const pathname = usePathname();
-	const params = useParams();
+import { fetchPageviews } from '@/lib/features/gadataSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
+export default function ArticlePage() {
+	const { postPageLink } = useParams();
+	const dispatch = useAppDispatch();
+
+	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 	const [post, setPost] = useState<postData | null>(null);
 
 	let readableDate = '';
@@ -56,14 +60,17 @@ export default function ArticlePage() {
 	useEffect(() => {
 		(async () => {
 			const data = await getPostData({
-				pageLink: String(params.postPageLink),
+				pageLink: String(postPageLink),
 			});
 
 			const updatedData = { ...data, markup: editingHTMLData(data.markup) };
 
 			setPost(updatedData);
+
+			dispatch(fetchPageviews());
 		})();
-	}, []);
+	}, [postPageLink, dispatch]);
+
 	if (!post) return <Loading />;
 
 	return (
@@ -82,7 +89,7 @@ export default function ArticlePage() {
 						<p>{readableDate}</p>
 					</div>
 					<div className={s.viewCounter}>
-						<p>0</p>
+						<p>{pageviews['/' + decodeURI(String(postPageLink))] || 0}</p>
 						<img src="eye.png" alt="views icon" />
 					</div>
 					<p className={s.author}>{post.author}</p>
