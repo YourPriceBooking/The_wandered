@@ -36,7 +36,6 @@ export async function GET(req: any) {
 		const response = await analytics.properties.runReport({
 			property: `properties/453172943`,
 			requestBody: {
-				// dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
 				dateRanges: [{ startDate: '2024-08-01', endDate: 'today' }],
 				metrics: [{ name: 'screenPageViews' }],
 				dimensions: [{ name: 'pagePath' }],

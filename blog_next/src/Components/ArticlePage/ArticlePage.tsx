@@ -1,20 +1,16 @@
 'use client';
-import Image from 'next/image';
-import { articleData } from '@/defaultData/articleData';
 import s from './ArticlePage.module.scss';
+import Image from 'next/image';
+import DOMPurify from 'dompurify';
+import Loading from '@/app/loading';
 import { useParams } from 'next/navigation';
 import { getPostData } from '@/services/getPostData';
 import { useEffect, useState } from 'react';
 import { postData } from '@/types/postTypes';
-import DOMPurify from 'dompurify';
-import Loading from '@/app/loading';
-
-import { fetchPageviews } from '@/lib/features/gadataSlice';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { useAppSelector } from '@/lib/hooks';
 
 export default function ArticlePage() {
 	const { postPageLink } = useParams();
-	const dispatch = useAppDispatch();
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 	const [post, setPost] = useState<postData | null>(null);
@@ -66,10 +62,8 @@ export default function ArticlePage() {
 			const updatedData = { ...data, markup: editingHTMLData(data.markup) };
 
 			setPost(updatedData);
-
-			dispatch(fetchPageviews());
 		})();
-	}, [postPageLink, dispatch]);
+	}, [postPageLink]);
 
 	if (!post) return <Loading />;
 
