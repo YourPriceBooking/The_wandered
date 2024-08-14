@@ -3,12 +3,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import testSlice from './features/search/testSlice';
 import gaDataSlice from './features/gadataSlice';
+import allAuthorsSlice from './features/allAuthorsSlice';
 
 export const store = () => {
 	return configureStore({
 		reducer: {
 			test: testSlice,
 			gaData: gaDataSlice,
+			allAuthors: allAuthorsSlice,
 		},
 	});
 };

@@ -10,6 +10,8 @@ import { Suspense, useEffect } from 'react';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
 import { useAppDispatch } from '@/lib/hooks';
 import { fetchPageviews } from '@/lib/features/gadataSlice';
+import { fetchAllAuthors } from '@/lib/features/allAuthorsSlice';
+
 export default function Header() {
 	const pathname = usePathname();
 	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
@@ -21,6 +23,8 @@ export default function Header() {
 	useEffect(() => {
 		// request GA4 data collection once
 		dispatch(fetchPageviews());
+		// request all authors array data collection once
+		dispatch(fetchAllAuthors());
 	}, [dispatch]);
 
 	return (
