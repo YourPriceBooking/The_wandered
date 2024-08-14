@@ -49,7 +49,17 @@ export async function GET(req: any) {
 				pageviews: row.metricValues?.[0]?.value,
 			})) || [];
 
-		return NextResponse.json({ pageviewsData });
+		// return NextResponse.json({ pageviewsData });
+		const res = NextResponse.json({ pageviewsData });
+
+		res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+		res.headers.set('Pragma', 'no-cache');
+		res.headers.set('Expires', '0');
+		res.headers.set('Surrogate-Control', 'no-store');
+
+		res.headers.set('ETag', '');
+
+		return res;
 	} catch (error) {
 		console.error('Error fetching GA data:', error);
 		return NextResponse.json({ error: 'Failed to fetch GA data' });
