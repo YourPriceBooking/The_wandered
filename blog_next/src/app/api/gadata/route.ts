@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server';
 import { getAllPosts } from '@/services/getPosts';
 import { postData } from '@/types/postTypes';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: any) {
 	const { result } = await getAllPosts();
 
