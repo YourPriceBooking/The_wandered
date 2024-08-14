@@ -1,9 +1,12 @@
-import { google } from 'googleapis';
 import path from 'path';
+import dotenv from 'dotenv';
+import { google } from 'googleapis';
 import { promises as fs } from 'fs';
 import { NextResponse } from 'next/server';
 import { getAllPosts } from '@/services/getPosts';
 import { postData } from '@/types/postTypes';
+
+dotenv.config();
 
 export const dynamic = 'force-dynamic';
 
@@ -14,11 +17,14 @@ export async function GET(req: any) {
 
 	try {
 		const keyFile = path.join(process.cwd(), 'the-wandered-957bac979b04.json');
-		const key = JSON.parse(await fs.readFile(keyFile, 'utf8'));
+		// const key = JSON.parse(await fs.readFile(keyFile, 'utf8'));
 
-		const client = new google.auth.JWT(key.client_email, undefined, key.private_key, [
-			'https://www.googleapis.com/auth/analytics.readonly',
-		]);
+		const client = new google.auth.JWT(
+			process.env.GA4_CLIENT_EMAIL,
+			undefined,
+			process.env.GA4_PRIVATE_KEY!.replace(/\\n/gm, '\n'),
+			['https://www.googleapis.com/auth/analytics.readonly'],
+		);
 
 		await client.authorize();
 
