@@ -1,7 +1,6 @@
 import { daysSinceDate } from './daysCounter';
 
 const revalidateTime = 86400;
-const url = 'https://ypbooking.chost.com.ua/api/acsess-to-admin/get-titles-and-description';
 
 export async function getDailyJournalPosts(page: number = daysSinceDate() * 5, limit: number = 5) {
 	const res = await fetch(

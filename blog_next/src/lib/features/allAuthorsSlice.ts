@@ -1,19 +1,14 @@
-import { AuthorType } from '@/types/authorTypes';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { getAuthors } from '@/services/getAuthors';
+import { AuthorType } from '@/types/authorTypes';
 
 const initialState = {
 	allAuthorsData: [] as AuthorType[],
 };
 
 export const fetchAllAuthors = createAsyncThunk('allAuthors/fetchAllAuthors', async () => {
-	const response = await axios.get(
-		'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors',
-	);
-
-	const allAuthors: AuthorType[] = response.data.result;
-
-	return allAuthors as AuthorType[];
+	const authors = await getAuthors();
+	return authors as AuthorType[];
 });
 
 const allAuthorsSlice = createSlice({

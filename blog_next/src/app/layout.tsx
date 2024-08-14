@@ -1,13 +1,14 @@
 import '../../node_modules/modern-normalize/modern-normalize.css';
 import '../styles/index.scss';
-import { GoogleAnalytics } from '@next/third-parties/google';
 
-import Footer from '@/Components/Footer/Footer';
 import Header from '@/Components/Header/Header';
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
+import Footer from '@/Components/Footer/Footer';
 import Loading from './loading';
 import StoreProvider from './StoreProvider';
+import { Suspense } from 'react';
+import { GoogleAnalytics } from '@next/third-parties/google';
+
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: Your Journey to Discovery',

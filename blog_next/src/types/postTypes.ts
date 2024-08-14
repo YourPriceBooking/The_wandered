@@ -1,7 +1,3 @@
-type additionalType = {
-	title: string;
-	text: string;
-};
 export type postData = {
 	_id: string;
 	title: string;
@@ -15,6 +11,7 @@ export type postData = {
 	markup: string;
 	heading: string;
 };
+
 export type postsDataType = {
 	result: postData[];
 };

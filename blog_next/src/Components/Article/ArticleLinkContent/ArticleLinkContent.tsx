@@ -1,7 +1,8 @@
-import Link from 'next/link';
-import React from 'react';
-import Image from 'next/image';
 import s from './../Article.module.scss';
+
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { isMobile } from 'react-device-detect';
 import { useEffect, useRef, useState } from 'react';
@@ -14,6 +15,7 @@ interface ArticleLinkContentProps {
 	id: string;
 	heading: string;
 }
+
 const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	slug,
 	title,
@@ -22,11 +24,12 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	id,
 	heading,
 }) => {
+	const router = useRouter();
 	const articleRef = useRef<HTMLDivElement>(null);
+
 	const [isTapped, setIsTapped] = useState(false);
 	const [isFrstTapped, setIsFrstTapped] = useState(true);
 	const [startTouch, setStartTouch] = useState<{ x: number; y: number } | null>(null);
-	const router = useRouter();
 
 	const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
 		const touch = e.touches[0];
