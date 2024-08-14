@@ -52,8 +52,18 @@ export async function GET(req: any) {
 			})) || [];
 
 		return NextResponse.json({ pageviewsData });
-	} catch (error) {
+	} catch (error: any) {
 		console.error('Error fetching GA data:', error);
-		return NextResponse.json({ error: 'Failed to fetch GA data' });
+		if (error.response) {
+			console.error('Error Response:', error.response.data);
+			console.error('Error Status:', error.response.status);
+			console.error('Error Headers:', error.response.headers);
+		} else if (error.request) {
+			console.error('Error Request:', error.request);
+		} else {
+			console.error('Error Message:', error.message);
+		}
+
+		return NextResponse.json({ error: 'Failed to fetch GA data', details: error.message });
 	}
 }
