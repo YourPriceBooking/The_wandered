@@ -1,14 +1,10 @@
 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
-
 import s from './Article.module.scss';
 
+import axios from 'axios';
 import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { fetchPageviews } from '@/lib/features/gadataSlice';
+import { useAppSelector } from '@/lib/hooks';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -72,8 +68,6 @@ export default function Article({
 	//@ts-ignore
 	const readableDate = newDate.toLocaleDateString('en-US', options);
 
-	const dispatch = useAppDispatch();
-
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 
 	const authorRef = useRef<HTMLDivElement>(null);
@@ -97,7 +91,6 @@ export default function Article({
 		};
 
 		fetchAuthors();
-		dispatch(fetchPageviews());
 	}, []);
 
 	useEffect(() => {

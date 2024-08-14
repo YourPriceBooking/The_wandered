@@ -6,13 +6,22 @@ import SearchField from './SearchField/SearchField';
 import { useParams, usePathname } from 'next/navigation';
 import TopSection from '../TopSection/TopSection';
 import Loading from '@/app/loading';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
+import { useAppDispatch } from '@/lib/hooks';
+import { fetchPageviews } from '@/lib/features/gadataSlice';
 export default function Header() {
 	const pathname = usePathname();
 	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
+
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		// request GA4 data collection once
+		dispatch(fetchPageviews());
+	}, [dispatch]);
 
 	return (
 		<header className={s.header}>
