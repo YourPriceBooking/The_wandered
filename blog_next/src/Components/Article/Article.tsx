@@ -1,10 +1,10 @@
 'use client';
 import s from './Article.module.scss';
 
-import axios from 'axios';
 import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/lib/hooks';
+import { AuthorType } from '@/types/authorTypes';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -17,20 +17,6 @@ interface ArticleProps {
 	id: string;
 	heading: string;
 }
-
-type Repo = {
-	_id: number;
-	name: string;
-	image: string;
-	description: string;
-	skills: string;
-	links: string;
-};
-
-type Data = {
-	loading: boolean;
-	repos: Repo[];
-};
 
 type SocialMediaIcons = {
 	[key: string]: string;
@@ -70,28 +56,11 @@ export default function Article({
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 
+	const authors = useAppSelector((state: any) => state.allAuthors.allAuthorsData || []);
+
 	const authorRef = useRef<HTMLDivElement>(null);
 	const tooltipRef = useRef<HTMLDivElement>(null);
 	const [tooltipVisible, setTooltipVisible] = useState(false);
-	const [authors, setAuthors] = useState<Data>({
-		loading: true,
-		repos: [],
-	});
-
-	useEffect(() => {
-		const fetchAuthors = async () => {
-			const response = await axios.get(
-				'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors',
-			);
-			const allRepos: Repo[] = response.data.result;
-
-			if (allRepos.length) {
-				setAuthors({ loading: false, repos: allRepos });
-			}
-		};
-
-		fetchAuthors();
-	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -110,7 +79,7 @@ export default function Article({
 		};
 	}, []);
 
-	const currentAuthor = authors.repos.find((repo) => repo.name === author);
+	const currentAuthor = authors.find((repo: AuthorType) => repo.name === author);
 	let parsedLinks = [];
 	if (currentAuthor) {
 		parsedLinks = JSON.parse(currentAuthor?.links);
