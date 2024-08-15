@@ -1,13 +1,13 @@
-import Image from 'next/image';
 import s from './TopSection.module.scss';
-import logo from './../../../public/house-icon.svg';
-import logoOrange from './../../../public/houseIconOrange.svg';
 import Link from 'next/link';
-import SearchField from '../Header/SearchField/SearchField';
-import { Suspense } from 'react';
+import Image from 'next/image';
+import logo from './../../../public/house-icon.svg';
 import Loading from '@/app/loading';
+import logoOrange from './../../../public/houseIconOrange.svg';
+import SearchField from '../Header/SearchField/SearchField';
 import classNames from 'classnames';
 import BackArrow from './BackArrow/BackArrow';
+import { Suspense } from 'react';
 
 interface TopSectionProps {
 	isLink?: boolean;

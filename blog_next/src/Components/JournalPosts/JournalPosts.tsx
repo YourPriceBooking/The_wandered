@@ -1,10 +1,11 @@
 'use client';
 
-import { JournalPostType } from '@/types/historyTypes';
-import JournalPost from './JournalPost/JournalPost';
-import { useEffect, useState } from 'react';
-import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import debounce from 'lodash/debounce';
+import JournalPost from './JournalPost/JournalPost';
+
+import { useEffect, useState } from 'react';
+import { JournalPostType } from '@/types/historyTypes';
+import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { daysSinceDate } from '@/services/daysCounter';
 
 interface JournalPostsProps {

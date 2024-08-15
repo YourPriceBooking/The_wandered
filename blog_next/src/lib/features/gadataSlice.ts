@@ -12,6 +12,7 @@ interface IGaDataSlice {
 const initialState: IGaDataSlice = {
 	pageviews: {},
 };
+
 export const fetchPageviews = createAsyncThunk('pageviews/fetchPageviews', async () => {
 	const response = await axios.get('/api/gadata');
 
