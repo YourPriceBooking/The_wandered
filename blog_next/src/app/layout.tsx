@@ -28,8 +28,8 @@ export default function RootLayout({
 					<Header />
 					<Suspense fallback={<Loading />}>{children}</Suspense>
 					<Footer />
+					<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 				</StoreProvider>
-				<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 			</body>
 		</html>
 	);

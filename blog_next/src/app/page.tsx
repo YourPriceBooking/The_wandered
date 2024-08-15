@@ -4,6 +4,7 @@ import Link from 'next/link';
 import TopSection from '@/Components/TopSection/TopSection';
 import { getPosts, getAllPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
+import GetDataClient from '@/Components/GetDataClient/GetDataClient';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,7 @@ export default async function MainPage({
 	return (
 		<main className={s.main}>
 			<TopSection />
+			<GetDataClient />
 			<div className={s.contentSection}>
 				{data.result.map((article: postData) => {
 					return (
