@@ -1,16 +1,19 @@
+'use client';
 import React from 'react';
 import s from './BackArrow.module.scss';
 import BackArrowIcon from './BackArrowIcon/BackArrowIcon';
-import Link from 'next/link';
 
 interface BackArrowProps {
 	className?: string;
 }
 const BackArrow: React.FC<BackArrowProps> = ({}) => {
+	const handleGoBack = () => {
+		window.history.back();
+	};
 	return (
-		<Link href="/" className={s.backArrowBox}>
+		<div onClick={handleGoBack} className={s.backArrowBox}>
 			<BackArrowIcon />
-		</Link>
+		</div>
 	);
 };
 
