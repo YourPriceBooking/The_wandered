@@ -50,6 +50,21 @@ export default function ArticlePage() {
 			}
 		});
 
+		const blockquotes = doc.querySelectorAll('blockquote');
+		blockquotes.forEach((blockquote) => {
+			const blockquoteText = blockquote.innerHTML;
+
+			// Split the content at the last occurrence of "—"
+			const lastDashIndex = blockquoteText.lastIndexOf('—');
+			if (lastDashIndex !== -1) {
+				const quoteText = blockquoteText.substring(0, lastDashIndex);
+				const authorText = blockquoteText.substring(lastDashIndex + 1).trim();
+
+				// Wrap the author part in a <span class="author">
+				blockquote.innerHTML = `${quoteText} — <span class="author">${authorText}</span>`;
+			}
+		});
+
 		return doc.body.innerHTML;
 	};
 
