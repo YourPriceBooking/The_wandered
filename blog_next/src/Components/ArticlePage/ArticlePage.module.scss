@@ -189,6 +189,13 @@
 	img {
 		width: 100%;
 	}
+	a {
+		text-decoration: underline;
+
+		&:hover {
+			opacity: 60%;
+		}
+	}
 	blockquote {
 		margin-left: 30px;
 		padding-left: 15px;
