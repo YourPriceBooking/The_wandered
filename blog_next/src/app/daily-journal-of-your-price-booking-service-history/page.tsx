@@ -41,7 +41,7 @@ export default async function HistoryPage() {
 					/>
 				</svg>
 				<div className={s.mainTextBlock}>
-					<h2 className={s.mainTitle}>Daily Journal of Your Price Booking Services History</h2>
+					<h2 className={s.mainTitle}>Daily journal of Your Price Booking services history</h2>
 					<a href="https://www.yourpricebooking.com" target="_blank" className={s.title}>
 						www.yourpricebooking.com
 					</a>
