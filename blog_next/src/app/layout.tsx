@@ -9,6 +9,7 @@ import { Suspense } from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import type { Metadata } from 'next';
+import GetDataClient from '@/Components/GetDataClient/GetDataClient';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: Your Journey to Discovery',
@@ -26,6 +27,7 @@ export default function RootLayout({
 			<body>
 				<StoreProvider>
 					<Header />
+					<GetDataClient />
 					<Suspense fallback={<Loading />}>{children}</Suspense>
 					<Footer />
 					<GoogleAnalytics gaId="G-3SDMVMQQVR" />

@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import testSlice from './features/search/testSlice';
 import gaDataSlice from './features/gadataSlice';
 import allAuthorsSlice from './features/allAuthorsSlice';
+import allPostsSlice from './features/allPosts';
 
 export const store = () => {
 	return configureStore({
@@ -11,6 +12,7 @@ export const store = () => {
 			test: testSlice,
 			gaData: gaDataSlice,
 			allAuthors: allAuthorsSlice,
+			allPosts: allPostsSlice,
 		},
 	});
 };

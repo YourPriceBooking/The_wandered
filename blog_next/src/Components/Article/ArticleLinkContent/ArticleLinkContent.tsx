@@ -98,6 +98,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 					<div className={s.defaultImage}></div>
 				)}
 			</div>
+
 			<div className={s.titleBlock}>
 				<p className={s.title}>{heading}</p>
 			</div>

@@ -8,12 +8,17 @@ import { getPostData } from '@/services/getPostData';
 import { useEffect, useState } from 'react';
 import { postData } from '@/types/postTypes';
 import { useAppSelector } from '@/lib/hooks';
+import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
+
+import { getPosts } from '@/services/getPosts';
 
 export default function ArticlePage() {
 	const { postPageLink } = useParams();
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
+	const allPosts = useAppSelector((state: any) => state.allPosts.allPostsData);
 	const [post, setPost] = useState<postData | null>(null);
+	const [suggestedArticles, setSuggestedArticles] = useState<postData[] | []>([]);
 
 	let readableDate = '';
 	const dateStr = post?.publicationDate;
@@ -54,18 +59,39 @@ export default function ArticlePage() {
 		blockquotes.forEach((blockquote) => {
 			const blockquoteText = blockquote.innerHTML;
 
-			// Split the content at the last occurrence of "—"
 			const lastDashIndex = blockquoteText.lastIndexOf('—');
 			if (lastDashIndex !== -1) {
 				const quoteText = blockquoteText.substring(0, lastDashIndex);
 				const authorText = blockquoteText.substring(lastDashIndex + 1).trim();
 
-				// Wrap the author part in a <span class="author">
 				blockquote.innerHTML = `${quoteText} — <span class="author">${authorText}</span>`;
 			}
 		});
 
 		return doc.body.innerHTML;
+	};
+
+	const getSuggestedArticles = async () => {
+		//@ts-ignore
+		const articleIndex = allPosts.findIndex((item: postData) => item._id === post._id);
+
+		const suggestions = [];
+
+		const suggestionIndex1 = articleIndex - 7;
+		if (suggestionIndex1 >= 0 && suggestionIndex1 < allPosts.length) {
+			suggestions.push(allPosts[suggestionIndex1]);
+		} else if (articleIndex + 7 < allPosts.length) {
+			suggestions.push(allPosts[articleIndex + 7]);
+		}
+
+		const suggestionIndex2 = articleIndex - 8;
+		if (suggestionIndex2 >= 0 && suggestionIndex2 < allPosts.length) {
+			suggestions.push(allPosts[suggestionIndex2]);
+		} else if (articleIndex + 8 < allPosts.length) {
+			suggestions.push(allPosts[articleIndex + 8]);
+		}
+
+		setSuggestedArticles(suggestions);
 	};
 
 	useEffect(() => {
@@ -79,6 +105,12 @@ export default function ArticlePage() {
 			setPost(updatedData);
 		})();
 	}, [postPageLink]);
+
+	useEffect(() => {
+		if (post && allPosts.length > 0) {
+			getSuggestedArticles();
+		}
+	}, [allPosts, post]);
 
 	if (!post) return <Loading />;
 
@@ -112,6 +144,9 @@ export default function ArticlePage() {
 						}}
 					></div>
 				</div>
+				{suggestedArticles.length === 2 && (
+					<SuggestedArticles suggestedArticles={suggestedArticles} />
+				)}
 			</main>
 		)
 	);
