@@ -16,6 +16,7 @@ interface ArticleProps {
 	description: string;
 	id: string;
 	heading: string;
+	isSuggested?: boolean;
 }
 
 type SocialMediaIcons = {
@@ -43,6 +44,7 @@ export default function Article({
 	description,
 	id,
 	heading,
+	isSuggested,
 }: ArticleProps) {
 	const dateStr = date;
 	const newDate = new Date(dateStr);
@@ -92,7 +94,7 @@ export default function Article({
 	};
 
 	return (
-		<article className={s.articleBlock}>
+		<article className={`${s.articleBlock} ${isSuggested ? s.suggested : ''}`}>
 			<div className={s.authorBlock}>
 				{currentAuthor && (
 					<div
