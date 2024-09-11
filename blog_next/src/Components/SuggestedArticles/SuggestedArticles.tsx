@@ -5,10 +5,11 @@ import React, { useEffect, useState } from 'react';
 
 function SuggestedArticles({ suggestedArticles }: any) {
 	const [article1, article2] = suggestedArticles;
-	const [isMobile, setIsMobile] = useState(false);
+
+	const isMobile = window.innerWidth <= 462 ? true : false;
 
 	function truncateString(str: string) {
-		const maxLength = isMobile ? 45 : 55;
+		const maxLength = isMobile ? 35 : 55;
 
 		if (str.length <= maxLength) {
 			return str;
@@ -25,21 +26,10 @@ function SuggestedArticles({ suggestedArticles }: any) {
 			truncatedStr += (truncatedStr ? ' ' : '') + words[i];
 		}
 
-		return truncatedStr.length > 35 && truncatedStr.length < maxLength
+		return truncatedStr.length > 20 && truncatedStr.length < maxLength
 			? truncatedStr + '...'
 			: str;
 	}
-
-	function handleResize() {
-		setIsMobile(window.innerWidth < 462);
-	}
-
-	useEffect(() => {
-		handleResize();
-		window.addEventListener('resize', handleResize);
-
-		return () => window.removeEventListener('resize', handleResize);
-	}, []);
 
 	return (
 		<div className={s.suggestedArticlesWrapper}>
