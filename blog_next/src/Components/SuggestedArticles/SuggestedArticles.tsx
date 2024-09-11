@@ -1,12 +1,16 @@
-import Article from '../Article/Article';
+'use client';
 import s from './SuggestedArticles.module.scss';
-import React from 'react';
+import Article from '../Article/Article';
+import React, { useEffect, useState } from 'react';
 
 function SuggestedArticles({ suggestedArticles }: any) {
 	const [article1, article2] = suggestedArticles;
+	const [isMobile, setIsMobile] = useState(false);
 
 	function truncateString(str: string) {
-		if (str.length <= 55) {
+		const maxLength = isMobile ? 45 : 55;
+
+		if (str.length <= maxLength) {
 			return str;
 		}
 
@@ -14,19 +18,28 @@ function SuggestedArticles({ suggestedArticles }: any) {
 		let truncatedStr = '';
 
 		for (let i = 0; i < words.length; i++) {
-			if ((truncatedStr + words[i]).length + 3 > 55) {
+			if ((truncatedStr + words[i]).length + 3 > maxLength) {
 				break;
 			}
 
 			truncatedStr += (truncatedStr ? ' ' : '') + words[i];
 		}
 
-		if (truncatedStr.length > 35 && truncatedStr.length < 55) {
-			return truncatedStr + '...';
-		} else {
-			return str;
-		}
+		return truncatedStr.length > 35 && truncatedStr.length < maxLength
+			? truncatedStr + '...'
+			: str;
 	}
+
+	function handleResize() {
+		setIsMobile(window.innerWidth < 462);
+	}
+
+	useEffect(() => {
+		handleResize();
+		window.addEventListener('resize', handleResize);
+
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
 	return (
 		<div className={s.suggestedArticlesWrapper}>
