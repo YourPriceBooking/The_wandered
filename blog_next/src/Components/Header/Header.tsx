@@ -7,13 +7,17 @@ import Loading from '@/app/loading';
 import TopSection from '../TopSection/TopSection';
 import SearchField from './SearchField/SearchField';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 
 import { PagesEnum } from '@/types/enums/pagesEnums';
+import Link from 'next/link';
+
+const routes = ['home', 'urkaine', 'poland', 'USA', 'canada'];
 
 export default function Header() {
 	const pathname = usePathname();
+	const [activeLinkIndex, setActiveLinkIndex] = useState(0);
 
 	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
@@ -29,6 +33,23 @@ export default function Header() {
 				className={s.headerContent}
 			>
 				<Logo />
+				<nav className={s.navMenu}>
+					{routes.map((item: string, index: number) => {
+						return (
+							<div
+								onClick={() => setActiveLinkIndex(index)}
+								className={`${s.linkContainer} ${
+									activeLinkIndex === index ? s.active : ''
+								} `}
+							>
+								<span className={s.linkDot}>•</span>
+								<Link className={s.navLink} href={`/`}>
+									{item}
+								</Link>
+							</div>
+						);
+					})}
+				</nav>
 				{!isPostPage && (
 					<Suspense fallback={<Loading />}>
 						<SearchField />
