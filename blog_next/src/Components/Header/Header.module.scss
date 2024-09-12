@@ -6,11 +6,16 @@
 	width: 100vw;
 	height: 80px;
 	background-color: var(--color-background-2);
+
 	@media (max-width: 850px) {
 		height: 160px;
 	}
 	@media (max-width: 430px) {
 		height: 140px;
+	}
+
+	&.postPage {
+		height: 80px;
 	}
 }
 
@@ -49,6 +54,10 @@
 			margin-bottom: 5px;
 			color: #6aff79;
 			user-select: none;
+
+			@media (max-width: 450px) {
+				margin-bottom: 2px;
+			}
 		}
 		.navLink {
 			font-size: 22px;

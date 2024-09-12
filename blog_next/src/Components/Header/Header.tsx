@@ -24,7 +24,7 @@ export default function Header() {
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 
 	return (
-		<header className={s.header}>
+		<header className={`${s.header} ${isPostPage ? s.postPage : ''}`}>
 			{isPostPage && <BackArrow />}
 			<div
 				style={{
@@ -33,23 +33,25 @@ export default function Header() {
 				className={s.headerContent}
 			>
 				<Logo />
-				<nav className={s.navMenu}>
-					{routes.map((item: string, index: number) => {
-						return (
-							<div
-								onClick={() => setActiveLinkIndex(index)}
-								className={`${s.linkContainer} ${
-									activeLinkIndex === index ? s.active : ''
-								} `}
-							>
-								<span className={s.linkDot}>•</span>
-								<Link className={s.navLink} href={`/`}>
-									{item}
-								</Link>
-							</div>
-						);
-					})}
-				</nav>
+				{!isPostPage && (
+					<nav className={s.navMenu}>
+						{routes.map((item: string, index: number) => {
+							return (
+								<div
+									onClick={() => setActiveLinkIndex(index)}
+									className={`${s.linkContainer} ${
+										activeLinkIndex === index ? s.active : ''
+									} `}
+								>
+									<span className={s.linkDot}>•</span>
+									<Link className={s.navLink} href={`/`}>
+										{item}
+									</Link>
+								</div>
+							);
+						})}
+					</nav>
+				)}
 				{!isPostPage && (
 					<Suspense fallback={<Loading />}>
 						<SearchField />
