@@ -38,6 +38,7 @@ export default function Header() {
 						{routes.map((item: string, index: number) => {
 							return (
 								<div
+									key={index}
 									onClick={() => setActiveLinkIndex(index)}
 									className={`${s.linkContainer} ${
 										activeLinkIndex === index ? s.active : ''

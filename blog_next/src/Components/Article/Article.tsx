@@ -5,6 +5,7 @@ import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import { AuthorType } from '@/types/authorTypes';
+import dynamic from 'next/dynamic';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -34,7 +35,7 @@ const socialMediaIcons: SocialMediaIcons = {
 };
 
 //upd
-export default function Article({
+function Article({
 	slug,
 	title,
 	imageSrc,
@@ -178,3 +179,5 @@ export default function Article({
 		</article>
 	);
 }
+
+export default dynamic(() => Promise.resolve(Article), { ssr: false });
