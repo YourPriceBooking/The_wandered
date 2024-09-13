@@ -13,7 +13,7 @@ import { useParams, usePathname } from 'next/navigation';
 import { PagesEnum } from '@/types/enums/pagesEnums';
 import Link from 'next/link';
 
-const routes = ['home', 'urkaine', 'poland', 'USA', 'canada'];
+const routes = ['home', 'ukraine', 'poland', 'USA', 'canada'];
 
 export default function Header() {
 	const pathname = usePathname();
