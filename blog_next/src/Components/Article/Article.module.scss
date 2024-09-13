@@ -413,6 +413,11 @@
 	& svg {
 		transition: all 0.3s;
 		fill: var(--color-link);
+		margin-bottom: 2px;
+
+		@media (max-width: 462px) {
+			margin-bottom: 4px;
+		}
 	}
 }
 

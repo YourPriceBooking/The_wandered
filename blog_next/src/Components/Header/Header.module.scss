@@ -49,18 +49,17 @@
 		gap: 12px;
 
 		.linkDot {
-			display: none;
 			font-size: 40px;
 			margin-bottom: 5px;
-			color: #6aff79;
+			color: #ffffff00;
 			user-select: none;
 
 			@media (max-width: 450px) {
-				margin-bottom: 2px;
+				margin-bottom: 0px;
 			}
 		}
 		.navLink {
-			font-size: 22px;
+			font-size: 18px;
 			text-transform: capitalize;
 			font-weight: 600;
 			color: #312b2b;
@@ -94,7 +93,7 @@
 
 		&.active {
 			.linkDot {
-				display: inline;
+				color: #6aff79;
 			}
 			.navLink::after {
 				content: '';
@@ -109,7 +108,7 @@
 		}
 
 		@media (max-width: 450px) {
-			gap: 5px;
+			gap: 2px;
 		}
 	}
 
