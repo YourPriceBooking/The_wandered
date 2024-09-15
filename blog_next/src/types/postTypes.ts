@@ -3,6 +3,7 @@ export type postData = {
 	title: string;
 	author: string;
 	imageUrl: string[];
+	country: string;
 	description: string;
 	articleUrl: string;
 	publicationDate: string;

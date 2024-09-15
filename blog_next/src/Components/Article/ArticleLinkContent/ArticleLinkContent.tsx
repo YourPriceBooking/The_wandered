@@ -14,6 +14,7 @@ interface ArticleLinkContentProps {
 	description: string;
 	id: string;
 	heading: string;
+	country: string;
 }
 
 const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
@@ -23,6 +24,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	description,
 	id,
 	heading,
+	country,
 }) => {
 	const router = useRouter();
 	const articleRef = useRef<HTMLDivElement>(null);
