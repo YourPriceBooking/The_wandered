@@ -11,7 +11,6 @@ interface ArticleProps {
 	slug: string | undefined;
 	title: string;
 	imageSrc: string;
-	country: string;
 	author: string;
 	date: string;
 	updated: string;
@@ -40,7 +39,6 @@ function Article({
 	slug,
 	title,
 	imageSrc,
-	country,
 	author,
 	date,
 	updated,
@@ -159,7 +157,7 @@ function Article({
 					onMouseLeave={() => setTooltipVisible(false)}
 					className={s.author}
 				>
-					{author} {country}
+					{author}
 				</p>
 				<div className={s.dateBlock}>
 					<p className={s.date}>{readableDate}</p>
@@ -177,7 +175,6 @@ function Article({
 				imageSrc={imageSrc}
 				description={description}
 				id={id}
-				country={country}
 			/>
 		</article>
 	);
