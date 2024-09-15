@@ -21,7 +21,6 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	title,
 	imageSrc,
 	description,
-	id,
 	heading,
 }) => {
 	const router = useRouter();

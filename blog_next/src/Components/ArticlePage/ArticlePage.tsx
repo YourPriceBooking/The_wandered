@@ -10,9 +10,7 @@ import { postData } from '@/types/postTypes';
 import { useAppSelector } from '@/lib/hooks';
 import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
 
-import { getPosts } from '@/services/getPosts';
-
-export default function ArticlePage() {
+export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
@@ -98,6 +96,7 @@ export default function ArticlePage() {
 		(async () => {
 			const data = await getPostData({
 				pageLink: String(postPageLink),
+				country,
 			});
 
 			const updatedData = { ...data, markup: editingHTMLData(data.markup) };

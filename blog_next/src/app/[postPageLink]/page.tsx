@@ -10,6 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const data: postData = await getPostData({
 		pageLink: String(params.postPageLink),
+		country: 'home',
 	});
 
 	return {

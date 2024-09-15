@@ -24,6 +24,8 @@ export default async function MainPage({
 			<TopSection />
 			<div className={s.contentSection}>
 				{data.result.map((article: postData) => {
+					// const subSlug = article.country && article.country !== 'home' ? article.country : '';
+
 					return (
 						<Article
 							key={article._id}
@@ -44,6 +46,7 @@ export default async function MainPage({
 						{Array.from({ length }, (_, index) => (
 							<li>
 								<Link
+									key={index}
 									href={`/?page=${index + 1}`}
 									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
 								>
