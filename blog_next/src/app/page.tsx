@@ -44,9 +44,8 @@ export default async function MainPage({
 				<div className={s.navSection}>
 					<ul className={s.navNumbers}>
 						{Array.from({ length }, (_, index) => (
-							<li>
+							<li key={index}>
 								<Link
-									key={index}
 									href={`/?page=${index + 1}`}
 									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
 								>

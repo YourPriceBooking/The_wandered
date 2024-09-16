@@ -191,7 +191,7 @@
 	}
 	a {
 		text-decoration: underline;
-
+		word-break: break-all;
 		&:hover {
 			opacity: 60%;
 		}
@@ -237,6 +237,7 @@
 		justify-content: center;
 	}
 	& p:has(a) {
+		word-wrap: break-word;
 		text-align: left;
 	}
 	& p:nth-last-child(2):not(a) {
