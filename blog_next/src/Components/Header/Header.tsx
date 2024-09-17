@@ -12,12 +12,12 @@ import { useParams, usePathname } from 'next/navigation';
 
 import { PagesEnum } from '@/types/enums/pagesEnums';
 import Link from 'next/link';
-
-const routes = ['home', 'ukraine', 'poland', 'USA', 'canada'];
+import { routes } from '../TopSection/TopSection';
 
 export default function Header() {
 	const pathname = usePathname();
-	const [activeLinkIndex, setActiveLinkIndex] = useState(0);
+	const [activeLink, setActiveLink] = useState(pathname.split('/')[1]);
+	console.log('ACTIVE LINK: ', activeLink);
 
 	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
@@ -35,18 +35,18 @@ export default function Header() {
 				<Logo />
 				{!isPostPage && (
 					<nav className={s.navMenu}>
-						{routes.map((item: string, index: number) => {
+						{routes.map((item, index: number) => {
 							return (
 								<div
 									key={index}
-									onClick={() => setActiveLinkIndex(index)}
+									onClick={() => setActiveLink(item.path)}
 									className={`${s.linkContainer} ${
-										activeLinkIndex === index ? s.active : ''
+										activeLink === item.path ? s.active : ''
 									} `}
 								>
 									<span className={s.linkDot}>•</span>
-									<Link className={s.navLink} href={`/`}>
-										{item}
+									<Link className={s.navLink} href={`/${item.path}`}>
+										{item.name}
 									</Link>
 								</div>
 							);

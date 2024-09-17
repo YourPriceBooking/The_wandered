@@ -24,8 +24,6 @@ export default async function MainPage({
 			<TopSection />
 			<div className={s.contentSection}>
 				{data.result.map((article: postData) => {
-					// const subSlug = article.country && article.country !== 'home' ? article.country : '';
-
 					return (
 						<Article
 							key={article._id}

@@ -25,13 +25,13 @@ type SocialMediaIcons = {
 };
 
 const socialMediaIcons: SocialMediaIcons = {
-	tiktok: 'social_media_icons/tiktok-logo.svg',
-	instagram: 'social_media_icons/instagram-logo.svg',
-	youtube: 'social_media_icons/youtube-logo.svg',
-	xsolid: 'social_media_icons/x-logo.svg',
-	linkedin: 'social_media_icons/linkedin-logo.svg',
-	pinterest: 'social_media_icons/pinterest-logo.svg',
-	facebook: 'social_media_icons/facebook-logo.svg',
+	tiktok: '/social_media_icons/tiktok-logo.svg',
+	instagram: '/social_media_icons/instagram-logo.svg',
+	youtube: '/social_media_icons/youtube-logo.svg',
+	xsolid: '/social_media_icons/x-logo.svg',
+	linkedin: '/social_media_icons/linkedin-logo.svg',
+	pinterest: '/social_media_icons/pinterest-logo.svg',
+	facebook: '/social_media_icons/facebook-logo.svg',
 };
 
 //upd
@@ -165,7 +165,7 @@ function Article({
 				</div>
 				<div className={s.viewCounter}>
 					<p>{pageviews['/' + slug] || 0}</p>
-					<img src="eye.png" alt="views icon" />
+					<img src="/eye.png" alt="views icon" />
 				</div>
 			</div>
 			<ArticleLinkContent
