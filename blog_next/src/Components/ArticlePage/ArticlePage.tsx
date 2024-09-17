@@ -131,7 +131,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 					</div>
 					<div className={s.viewCounter}>
 						<p>{pageviews['/' + decodeURI(String(postPageLink))] || 0}</p>
-						<img src="eye.png" alt="views icon" />
+						<img src="/eye.png" alt="views icon" />
 					</div>
 					<p className={s.author}>{post.author}</p>
 					<div
@@ -169,7 +169,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 						</div>
 						<img
 							className={s.bannerImage}
-							src="banner-img.png"
+							src="/banner-img.png"
 							alt="Banner image Your Price Booking"
 						/>
 					</div>

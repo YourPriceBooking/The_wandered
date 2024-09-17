@@ -13,16 +13,48 @@ interface TopSectionProps {
 	isLink?: boolean;
 	isSearchField?: boolean;
 	isWhite?: boolean;
+	country?: string;
 }
+
+export const routes = [
+	{
+		name: 'Home',
+		path: '',
+		title: '',
+	},
+	{
+		name: 'Ukraine',
+		path: 'ukraine',
+		title: 'Україна',
+	},
+	{
+		name: 'Poland',
+		path: 'poland',
+		title: '',
+	},
+	{
+		name: 'USA',
+		path: 'usa',
+		title: 'USA',
+	},
+	{
+		name: 'Canada',
+		path: 'canada',
+		title: '',
+	},
+];
 
 const TopSection: React.FC<TopSectionProps> = ({
 	isLink = false,
 	isSearchField = false,
 	isWhite = false,
+	country,
 }) => {
 	const headerClass = classNames(s.topSection, {
 		[s.white]: isWhite,
 	});
+	const subtitle = routes.find((item) => item.path === country)?.title;
+
 	return (
 		<div className={headerClass}>
 			{isLink && <BackArrow />}
@@ -53,7 +85,9 @@ const TopSection: React.FC<TopSectionProps> = ({
 					<h2 className={s.mainTitle}>the wandered</h2>
 				</div>
 
-				<h1 className={s.title}>The official Your Price Booking blog</h1>
+				<h1 className={s.title}>
+					{subtitle && subtitle.length > 0 ? subtitle : 'The official Your Price Booking blog'}
+				</h1>
 			</div>
 			{isSearchField && (
 				<div className={s.searchBox}>
