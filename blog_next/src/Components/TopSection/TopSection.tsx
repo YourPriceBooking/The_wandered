@@ -30,7 +30,7 @@ export const routes = [
 	{
 		name: 'Poland',
 		path: 'poland',
-		title: '',
+		title: 'Poland',
 	},
 	{
 		name: 'USA',
@@ -40,7 +40,7 @@ export const routes = [
 	{
 		name: 'Canada',
 		path: 'canada',
-		title: '',
+		title: 'Canada',
 	},
 ];
 
