@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import { AuthorType } from '@/types/authorTypes';
 import dynamic from 'next/dynamic';
+import { getReadableDate } from '@/services/getReadableDate';
 
 interface ArticleProps {
 	slug: string | undefined;
@@ -18,6 +19,7 @@ interface ArticleProps {
 	id: string;
 	heading: string;
 	isSuggested?: boolean;
+	country?: string;
 }
 
 type SocialMediaIcons = {
@@ -46,16 +48,9 @@ function Article({
 	id,
 	heading,
 	isSuggested,
+	country,
 }: ArticleProps) {
-	const dateStr = date;
-	const newDate = new Date(dateStr);
-	const options = {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	};
-	//@ts-ignore
-	const readableDate = newDate.toLocaleDateString('en-US', options);
+	const readableDate = getReadableDate(date, country);
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 

@@ -30,6 +30,7 @@ export default async function MainPage({
 							slug={article?.articleUrl?.split('/').pop()}
 							title={article.title}
 							imageSrc={article.imageUrl[0]}
+							country={article.country}
 							author={article.author}
 							date={article.publicationDate}
 							updated={''}

@@ -30,7 +30,7 @@ export const routes = [
 	{
 		name: 'Poland',
 		path: 'poland',
-		title: 'Poland',
+		title: 'Polska',
 	},
 	{
 		name: 'USA',

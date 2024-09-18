@@ -50,7 +50,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
 		console.log(isTapped, isFrstTapped);
 		if (isTapped && !isFrstTapped) {
-			router.push(`/post/${slug}`);
+			router.push(`/${slug}`);
 		} else if (isTapped && isFrstTapped) {
 			setIsFrstTapped(false);
 		}
@@ -59,7 +59,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 
 	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.stopPropagation();
-		router.push(`/post/${slug}`);
+		router.push(`/${slug}`);
 	};
 
 	useEffect(() => {
@@ -101,7 +101,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 			<div className={s.titleBlock}>
 				<p className={s.title}>{heading}</p>
 			</div>
-			<Link href={`/post/${slug}`} className={s.readMore}>
+			<Link href={`/${slug}`} className={s.readMore}>
 				<p className={s.link}>READ MORE</p>
 				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16">
 					<path

@@ -17,7 +17,6 @@ import { routes } from '../TopSection/TopSection';
 export default function Header() {
 	const pathname = usePathname();
 	const [activeLink, setActiveLink] = useState(pathname.split('/')[1]);
-	console.log('ACTIVE LINK: ', activeLink);
 
 	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
