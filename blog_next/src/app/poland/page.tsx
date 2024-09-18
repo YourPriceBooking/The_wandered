@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
 import TopSection from '@/Components/TopSection/TopSection';
 import { postData, postsDataType } from '@/types/postTypes';
-import { getAllPosts } from '@/services/getPosts';
+import { getAllPosts, getPosts } from '@/services/getPosts';
 import Article from '@/Components/Article/Article';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,19 +18,23 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-async function page() {
+async function page({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
 	const country = 'poland';
-	const allData: postsDataType = await getAllPosts();
-	const filteredData = allData.result
-		.filter((item: postData) => item.country === country)
-		.reverse();
+
+	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+
+	const data: postsDataType = await getPosts({ page: paramsPage, country });
 
 	return (
 		<main className={s.main}>
 			<TopSection country={country} />
 			<div className={s.contentSection}>
-				{filteredData.length > 0 ? (
-					filteredData.map((article: postData) => {
+				{data.result.length > 0 ? (
+					data.result.map((article: postData) => {
 						return (
 							<Article
 								key={article._id}
