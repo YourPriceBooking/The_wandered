@@ -10,6 +10,7 @@ import { postData } from '@/types/postTypes';
 import { useAppSelector } from '@/lib/hooks';
 import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
 import Link from 'next/link';
+import { getReadableDate } from '@/services/getReadableDate';
 
 export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
@@ -20,16 +21,8 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 	const [suggestedArticles, setSuggestedArticles] = useState<postData[] | []>([]);
 
 	let readableDate = '';
-	const dateStr = post?.publicationDate;
-	if (dateStr) {
-		const newDate = new Date(dateStr);
-		const options = {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-		};
-		//@ts-ignore
-		readableDate = newDate.toLocaleDateString('en-US', options);
+	if (post?.publicationDate) {
+		readableDate = getReadableDate(post?.publicationDate, country);
 	}
 
 	const editingHTMLData = (htmlStr: string) => {
