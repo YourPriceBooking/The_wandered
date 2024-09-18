@@ -1,15 +1,18 @@
 import axios from '../utils/axios';
 import { apiUrl } from '@/utils/url';
 
-export async function getPosts({ page }: { page: number }) {
+export async function getPosts({ page, country }: { page: number; country: string }) {
 	try {
-		const { data } = await axios.get(`${apiUrl}api/post/get-all?page=${page}&limit=7`, {
-			headers: {
-				'Cache-Control': 'no-cache, no-store, must-revalidate',
-				Pragma: 'no-cache',
-				Expires: '0',
+		const { data } = await axios.get(
+			`${apiUrl}api/post/get-all?page=${page}&limit=7&typeOfPage=${country}`,
+			{
+				headers: {
+					'Cache-Control': 'no-cache, no-store, must-revalidate',
+					Pragma: 'no-cache',
+					Expires: '0',
+				},
 			},
-		});
+		);
 
 		return data;
 	} catch (error: any) {
