@@ -17,7 +17,6 @@ const INITIAL_NUMBER_OF_USERS = 1;
 export default async function HistoryPage() {
 	const data = await getDailyJournalPosts();
 	const posts: JournalPostType[] = data.result;
-	console.log(data.result.length);
 
 	return (
 		<main className={s.main}>

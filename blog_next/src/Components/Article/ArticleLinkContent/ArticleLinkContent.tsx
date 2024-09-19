@@ -48,7 +48,6 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	};
 
 	const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-		console.log(isTapped, isFrstTapped);
 		if (isTapped && !isFrstTapped) {
 			router.push(`/${slug}`);
 		} else if (isTapped && isFrstTapped) {
