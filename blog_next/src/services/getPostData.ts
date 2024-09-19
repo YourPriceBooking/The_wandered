@@ -1,7 +1,7 @@
 import { apiUrl } from '@/utils/url';
 import axios from '../utils/axios';
 
-export async function getPostData({ pageLink, country }: { pageLink: string; country: string }) {
+export async function getPostData({ pageLink, country }: { pageLink: string; country?: string }) {
 	try {
 		let fullPageLink = '';
 
