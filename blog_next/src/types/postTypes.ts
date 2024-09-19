@@ -15,5 +15,4 @@ export type postData = {
 
 export type postsDataType = {
 	result: postData[];
-	total: number;
 };

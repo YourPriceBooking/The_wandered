@@ -12,7 +12,7 @@ import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
 import Link from 'next/link';
 import { getReadableDate } from '@/services/getReadableDate';
 
-export default function ArticlePage({ country }: { country?: string }) {
+export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
@@ -111,7 +111,7 @@ export default function ArticlePage({ country }: { country?: string }) {
 		post && (
 			<main className={s.postBlock}>
 				<div className={s.imageBlock}>
-					{post.imageUrl.length > 0 ? (
+					{post.imageUrl ? (
 						<Image src={post.imageUrl[0]} fill alt="article-image" className={s.image} />
 					) : (
 						<div className={s.defaultImage}></div>

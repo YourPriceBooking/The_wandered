@@ -28,7 +28,6 @@ async function page({
 	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
 	const data: postsDataType = await getPosts({ page: paramsPage, country });
-	
 
 	return (
 		<main className={s.main}>
