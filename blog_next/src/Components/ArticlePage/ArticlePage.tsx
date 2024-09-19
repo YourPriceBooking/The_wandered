@@ -111,7 +111,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 		post && (
 			<main className={s.postBlock}>
 				<div className={s.imageBlock}>
-					{post.imageUrl ? (
+					{post.imageUrl.length > 0 ? (
 						<Image src={post.imageUrl[0]} fill alt="article-image" className={s.image} />
 					) : (
 						<div className={s.defaultImage}></div>
