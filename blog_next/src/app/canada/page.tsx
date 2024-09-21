@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
 import TopSection from '@/Components/TopSection/TopSection';
 import { postData, postsDataType } from '@/types/postTypes';
-import { getAllPosts, getPosts } from '@/services/getPosts';
+import {  getPosts } from '@/services/getPosts';
 import Article from '@/Components/Article/Article';
 
 export async function generateMetadata(): Promise<Metadata> {

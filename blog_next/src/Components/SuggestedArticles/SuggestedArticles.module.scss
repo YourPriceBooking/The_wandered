@@ -2,18 +2,15 @@
 	max-width: 1080px;
 	width: 100%;
 	background-color: white;
-	display: flex;
-	justify-content: space-around;
-	height: 600px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	padding: 0 40px;
+	height: auto;
 
 	@media (max-width: 1144px) {
+		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: start;
-		height: 1050px;
-	}
-
-	@media (max-width: 475px) {
-		height: 790px;
+		justify-content: flex-start;
 	}
 }

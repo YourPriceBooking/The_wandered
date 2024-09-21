@@ -8,6 +8,7 @@ import SearchField from '../Header/SearchField/SearchField';
 import classNames from 'classnames';
 import BackArrow from './BackArrow/BackArrow';
 import { Suspense } from 'react';
+import { routes } from '@/app/routes';
 
 interface TopSectionProps {
 	isLink?: boolean;
@@ -15,34 +16,6 @@ interface TopSectionProps {
 	isWhite?: boolean;
 	country?: string;
 }
-
-export const routes = [
-	{
-		name: 'Home',
-		path: '',
-		title: '',
-	},
-	{
-		name: 'Ukraine',
-		path: 'ukraine',
-		title: 'Україна',
-	},
-	{
-		name: 'Poland',
-		path: 'poland',
-		title: 'Polska',
-	},
-	{
-		name: 'USA',
-		path: 'usa',
-		title: 'USA',
-	},
-	{
-		name: 'Canada',
-		path: 'canada',
-		title: 'Canada',
-	},
-];
 
 const TopSection: React.FC<TopSectionProps> = ({
 	isLink = false,

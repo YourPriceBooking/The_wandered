@@ -7,12 +7,12 @@ import Loading from '@/app/loading';
 import TopSection from '../TopSection/TopSection';
 import SearchField from './SearchField/SearchField';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 
 import { PagesEnum } from '@/types/enums/pagesEnums';
 import Link from 'next/link';
-import { routes } from '../TopSection/TopSection';
+import { routes } from '@/app/routes';
 
 export default function Header() {
 	const pathname = usePathname();
@@ -21,6 +21,13 @@ export default function Header() {
 	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
+
+	useEffect(() => {
+		const currentRoute = routes.find((item) => item.path === pathname.split('/')[1]);
+		if (currentRoute) {
+			setActiveLink(currentRoute?.path);
+		}
+	}, [pathname]);
 
 	return (
 		<header className={`${s.header} ${isPostPage ? s.postPage : ''}`}>
@@ -38,7 +45,6 @@ export default function Header() {
 							return (
 								<div
 									key={index}
-									onClick={() => setActiveLink(item.path)}
 									className={`${s.linkContainer} ${
 										activeLink === item.path ? s.active : ''
 									} `}

@@ -16,7 +16,24 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 	const { postPageLink } = useParams();
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
-	const allPosts = useAppSelector((state: any) => state.allPosts.allPostsData);
+
+	const allPosts = useAppSelector((state: any) => {
+		switch (country) {
+			case 'ukraine':
+				return state.allPosts.allPostsUkraine;
+			case 'poland':
+				return state.allPosts.allPostsPoland;
+			case 'usa':
+				return state.allPosts.allPostsUSA;
+			case 'canada':
+				return state.allPosts.allPostsCanada;
+			case 'home':
+				return state.allPosts.allPostsHome;
+			default:
+				return state.allPosts.allPostsData;
+		}
+	});
+
 	const [post, setPost] = useState<postData | null>(null);
 	const [suggestedArticles, setSuggestedArticles] = useState<postData[] | []>([]);
 
@@ -34,7 +51,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 			element.removeAttribute('style');
 		});
 
-		const elements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, img, iframe');
+		const elements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, img, iframe, blockquote');
 		elements.forEach((element) => {
 			const previousSibling = element.previousElementSibling;
 			if (
@@ -67,23 +84,39 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 		//@ts-ignore
 		const articleIndex = allPosts.findIndex((item: postData) => item._id === post._id);
 
-		const suggestions = [];
+		if (articleIndex === -1) return [];
 
-		const suggestionIndex1 = articleIndex - 7;
-		if (suggestionIndex1 >= 0 && suggestionIndex1 < allPosts.length) {
-			suggestions.push(allPosts[suggestionIndex1]);
-		} else if (articleIndex + 7 < allPosts.length) {
-			suggestions.push(allPosts[articleIndex + 7]);
+		const suggestions = new Set<postData>();
+
+		const addSuggestion = (index: number) => {
+			if (index >= 0 && index < allPosts.length && index !== articleIndex) {
+				suggestions.add(allPosts[index]);
+			}
+		};
+
+		addSuggestion(articleIndex - 7);
+		addSuggestion(articleIndex + 7);
+		addSuggestion(articleIndex - 8);
+		addSuggestion(articleIndex + 8);
+		addSuggestion(articleIndex - 12);
+		addSuggestion(articleIndex + 12);
+		addSuggestion(articleIndex - 13);
+		addSuggestion(articleIndex + 13);
+
+		if (allPosts.length >= 3 && allPosts.length <= 8) {
+			for (let i = 0; i < allPosts.length; i++) {
+				if (suggestions.size < 2) {
+					addSuggestion(i);
+				}
+			}
 		}
 
-		const suggestionIndex2 = articleIndex - 8;
-		if (suggestionIndex2 >= 0 && suggestionIndex2 < allPosts.length) {
-			suggestions.push(allPosts[suggestionIndex2]);
-		} else if (articleIndex + 8 < allPosts.length) {
-			suggestions.push(allPosts[articleIndex + 8]);
+		const suggestedArticles = Array.from(suggestions);
+		if (suggestedArticles.length >= 4) {
+			setSuggestedArticles(suggestedArticles.slice(0, 4));
+		} else {
+			setSuggestedArticles(suggestedArticles.slice(0, 2));
 		}
-
-		setSuggestedArticles(suggestions);
 	};
 
 	useEffect(() => {
@@ -137,7 +170,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 						}}
 					></div>
 				</div>
-				{suggestedArticles.length === 2 && (
+				{suggestedArticles.length >= 2 && (
 					<SuggestedArticles suggestedArticles={suggestedArticles} />
 				)}
 

@@ -4,7 +4,7 @@ import s from '../mainPage.module.scss';
 import TopSection from '@/Components/TopSection/TopSection';
 import Article from '@/Components/Article/Article';
 import { postData, postsDataType } from '@/types/postTypes';
-import { getAllPosts, getPosts } from '@/services/getPosts';
+import { getPosts } from '@/services/getPosts';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {

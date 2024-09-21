@@ -6,11 +6,11 @@ import { JournalPostType } from '@/types/historyTypes';
 export default async function sitemap() {
 	const baseUrl = 'https://www.thewandered.com';
 
-	const articles = await getAllPosts();
+	const articles: postData[] | [] = (await getAllPosts()) || [];
 	const journals = await getDailyJournalPosts();
 
 	const articlesUrls =
-		articles.result.map((article: postData) => {
+		articles.map((article: postData) => {
 			return {
 				url: article.articleUrl,
 				lastModified: new Date().toISOString(),
