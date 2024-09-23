@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { isMobile } from 'react-device-detect';
 import { useEffect, useRef, useState } from 'react';
+import { routes } from '@/app/routes';
 
 interface ArticleLinkContentProps {
 	slug: string;
@@ -14,6 +15,7 @@ interface ArticleLinkContentProps {
 	description: string;
 	id: string;
 	heading: string;
+	country?: string;
 }
 
 const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
@@ -22,6 +24,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 	imageSrc,
 	description,
 	heading,
+	country,
 }) => {
 	const router = useRouter();
 	const articleRef = useRef<HTMLDivElement>(null);
@@ -75,6 +78,8 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 		};
 	}, []);
 
+	const readMoreLanguage = routes.find((item) => item.path === country);
+
 	return (
 		<>
 			<div
@@ -101,7 +106,9 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 				<p className={s.title}>{heading}</p>
 			</div>
 			<Link href={`/${slug}`} className={s.readMore}>
-				<p className={s.link}>READ MORE</p>
+				<p className={s.link}>
+					{readMoreLanguage?.readmore ? readMoreLanguage?.readmore : 'READ MORE'}
+				</p>
 				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16">
 					<path
 						fillRule="evenodd"

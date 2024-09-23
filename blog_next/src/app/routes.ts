@@ -1,4 +1,6 @@
-export const routes = [
+import { routeType } from '@/types/routeType';
+
+export const routes: routeType[] = [
 	{
 		name: 'Home',
 		path: '',
@@ -8,11 +10,15 @@ export const routes = [
 		name: 'Ukraine',
 		path: 'ukraine',
 		title: 'Україна',
+		readmore: 'ЧИТАТИ ДАЛІ',
+		search: 'Пошук статті',
 	},
 	{
 		name: 'Poland',
 		path: 'poland',
 		title: 'Polska',
+		readmore: 'CZYTAJ WIĘCEJ',
+		search: 'Wyszukaj artykuł',
 	},
 	{
 		name: 'USA',
