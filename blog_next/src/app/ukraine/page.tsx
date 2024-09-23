@@ -5,6 +5,7 @@ import TopSection from '@/Components/TopSection/TopSection';
 import { getPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
 import Article from '@/Components/Article/Article';
+import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -28,6 +29,7 @@ async function page({
 	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
 	const data: postsDataType = await getPosts({ page: paramsPage, country });
+	const length = Math.ceil(data.total / 7);
 
 	return (
 		<main className={s.main}>
@@ -54,6 +56,21 @@ async function page({
 				) : (
 					<div className={s.temporary}></div>
 				)}
+
+				<div className={s.navSection}>
+					<ul className={s.navNumbers}>
+						{Array.from({ length }, (_, index) => (
+							<li key={index}>
+								<Link
+									href={`/ukraine/?page=${index + 1}`}
+									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
+								>
+									{index + 1}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
 			</div>
 		</main>
 	);
