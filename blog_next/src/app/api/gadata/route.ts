@@ -13,7 +13,19 @@ export async function GET(req: any) {
 	const data: postData[] | string | undefined = await getAllPosts();
 
 	if (Array.isArray(data)) {
-		const urls: string[] = data.map((item: postData) => '/' + item.articleUrl.split('/').pop());
+		const urls: string[] = data.flatMap((item: postData) => {
+			const articleSlug = item.articleUrl.split('/').pop();
+
+			let baseUrl = '';
+
+			if (item.country !== 'home') {
+				baseUrl = `/${item.country}/${articleSlug}`;
+			} else {
+				baseUrl = `/${articleSlug}`;
+			}
+
+			return baseUrl;
+		});
 
 		try {
 			const keyFile = path.join(process.cwd(), 'the-wandered-957bac979b04.json');
