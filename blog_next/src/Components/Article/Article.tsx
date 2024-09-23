@@ -170,6 +170,7 @@ function Article({
 				imageSrc={imageSrc}
 				description={description}
 				id={id}
+				country={country}
 			/>
 		</article>
 	);
