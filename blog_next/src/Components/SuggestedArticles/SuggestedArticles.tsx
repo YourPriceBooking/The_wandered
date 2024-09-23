@@ -36,7 +36,7 @@ function SuggestedArticles({ suggestedArticles }: any) {
 				return (
 					<Article
 						key={article._id}
-						slug={article?.articleUrl?.split('/').pop()}
+						slug={article.country + '/' + article?.articleUrl?.split('/').pop()}
 						title={article.title}
 						imageSrc={article.imageUrl[0]}
 						country={article.country}
