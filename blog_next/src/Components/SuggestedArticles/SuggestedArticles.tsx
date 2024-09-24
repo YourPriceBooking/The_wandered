@@ -33,10 +33,15 @@ function SuggestedArticles({ suggestedArticles }: any) {
 	return (
 		<div className={s.suggestedArticlesWrapper}>
 			{suggestedArticles.map((article: postData) => {
+				const fullSlug =
+					article.country === 'home'
+						? article.articleUrl.split('/').pop()
+						: `${article.country}/${article.articleUrl.split('/').pop()}`;
+
 				return (
 					<Article
 						key={article._id}
-						slug={article.country + '/' + article?.articleUrl?.split('/').pop()}
+						slug={fullSlug}
 						title={article.title}
 						imageSrc={article.imageUrl[0]}
 						country={article.country}
