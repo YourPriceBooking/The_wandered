@@ -24,6 +24,10 @@
 	max-width: 1080px;
 	height: 413px;
 	background-color: var(--color-background-3);
+
+	@media (max-width: 950px) {
+		margin-top: 50px;
+	}
 	@media (max-width: 768px) {
 		max-width: 768px;
 		height: 300px;

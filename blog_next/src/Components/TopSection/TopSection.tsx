@@ -30,7 +30,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 
 	return (
 		<div className={headerClass}>
-			{isLink && <BackArrow />}
+			{isLink && <BackArrow country={country} />}
 
 			<div className={isWhite ? s.mainTextBlock : s.mainTextBlockOrange}>
 				<div className={isWhite ? s.logoBlock : s.logoBlockOrange}>
