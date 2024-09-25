@@ -14,6 +14,7 @@ import { getReadableDate } from '@/services/getReadableDate';
 
 export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
+  const MARKUP_SPLIT_KEY = 'imgUrlByIdx'
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 
@@ -128,7 +129,16 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 
 			const updatedData = { ...data, markup: editingHTMLData(data.markup) };
 
-			setPost(updatedData);
+      const splitedMarkup = updatedData.markup.split(MARKUP_SPLIT_KEY);
+      let resultMarkup = splitedMarkup[0];
+
+      for (let i = 1; i < data.imageUrl.length; i++) {
+        resultMarkup += data.imageUrl[i] + splitedMarkup[i];
+      }
+
+      console.log(resultMarkup);
+
+			setPost({...data, markup: resultMarkup});
 		})();
 	}, [postPageLink]);
 
