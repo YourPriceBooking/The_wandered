@@ -127,18 +127,18 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 				country,
 			});
 
-			const updatedData = { ...data, markup: editingHTMLData(data.markup) };
+			const updatedMarkup = editingHTMLData(data.markup);
 
-      const splitedMarkup = updatedData.markup.split(MARKUP_SPLIT_KEY);
+      const splitedMarkup = updatedMarkup.split(MARKUP_SPLIT_KEY);
       let resultMarkup = splitedMarkup[0];
 
-      for (let i = 1; i < data.imageUrl.length; i++) {
+      for (let i = 1; i < splitedMarkup.length; i++) {
         resultMarkup += data.imageUrl[i] + splitedMarkup[i];
       }
 
-      console.log(resultMarkup);
+      const updatedData = { ...data, markup: resultMarkup }
 
-			setPost({...data, markup: resultMarkup});
+			setPost(updatedData);
 		})();
 	}, [postPageLink]);
 
