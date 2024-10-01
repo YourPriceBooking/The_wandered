@@ -14,7 +14,7 @@ import { getReadableDate } from '@/services/getReadableDate';
 
 export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
-  const MARKUP_SPLIT_KEY = 'imgUrlByIdx'
+	const MARKUP_SPLIT_KEY = 'imgUrlByIdx';
 
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 
@@ -104,9 +104,9 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 		addSuggestion(articleIndex - 13);
 		addSuggestion(articleIndex + 13);
 
-		if (allPosts.length >= 3 && allPosts.length <= 8) {
+		if (allPosts.length >= 3 && allPosts.length <= 7) {
 			for (let i = 0; i < allPosts.length; i++) {
-				if (suggestions.size < 2) {
+				if (suggestions.size < 4) {
 					addSuggestion(i);
 				}
 			}
@@ -129,14 +129,14 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 
 			const updatedMarkup = editingHTMLData(data.markup);
 
-      const splitedMarkup = updatedMarkup.split(MARKUP_SPLIT_KEY);
-      let resultMarkup = splitedMarkup[0];
+			const splitedMarkup = updatedMarkup.split(MARKUP_SPLIT_KEY);
+			let resultMarkup = splitedMarkup[0];
 
-      for (let i = 1; i < splitedMarkup.length; i++) {
-        resultMarkup += data.imageUrl[i] + splitedMarkup[i];
-      }
+			for (let i = 1; i < splitedMarkup.length; i++) {
+				resultMarkup += data.imageUrl[i] + splitedMarkup[i];
+			}
 
-      const updatedData = { ...data, markup: resultMarkup }
+			const updatedData = { ...data, markup: resultMarkup };
 
 			setPost(updatedData);
 		})();

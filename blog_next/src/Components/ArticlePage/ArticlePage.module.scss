@@ -76,6 +76,7 @@
 	line-height: 17px;
 	text-align: justify;
 	background-color: var(--color-background-2);
+
 	@media (max-width: 768px) {
 		padding: 30px 25px;
 	}
@@ -175,6 +176,13 @@
 .markup {
 	padding-top: 20px;
 	line-height: 29px;
+	font-size: 17px;
+
+	@media (max-width: 768px) {
+		line-height: 24px;
+		font-size: 14px;
+	}
+
 	h1,
 	h2,
 	h3,
@@ -196,10 +204,12 @@
 	a {
 		text-decoration: underline;
 		word-break: break-all;
+
 		&:hover {
 			opacity: 60%;
 		}
 	}
+
 	blockquote {
 		margin-left: 30px;
 		padding-left: 15px;
