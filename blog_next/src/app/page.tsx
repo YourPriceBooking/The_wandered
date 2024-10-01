@@ -39,6 +39,10 @@ export default async function MainPage({
 						></Article>
 					);
 				})}
+				<div className={s.paginationText}>
+					<img src="/green-home.png" alt="pagination text icon" />
+					<p>the waaandered</p>
+				</div>
 				<div className={s.navSection}>
 					<ul className={s.navNumbers}>
 						{Array.from({ length }, (_, index) => (
