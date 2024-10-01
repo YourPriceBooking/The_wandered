@@ -40,13 +40,16 @@ const TopSection: React.FC<TopSectionProps> = ({
 	};
 	const locale = getLocaleFromCountry(country);
 
-	const formattedDate = new Intl.DateTimeFormat(locale, {
+	let formattedDate = new Intl.DateTimeFormat(locale, {
 		weekday: 'long',
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
 	}).format(new Date());
 
+	if (locale === 'uk-UA') {
+		formattedDate = formattedDate.replace(' р.', '');
+	}
 	return (
 		<div className={headerClass}>
 			{isLink && <BackArrow country={country} />}

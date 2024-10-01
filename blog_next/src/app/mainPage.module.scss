@@ -19,10 +19,7 @@
 	margin-top: -60px;
 }
 .navSection {
-	padding: 60px 0;
-	@media (max-width: 400px) {
-		padding: 50px 0;
-	}
+	margin-bottom: 70px;
 }
 .navNumbers {
 	display: flex;
@@ -46,4 +43,35 @@
 .temporary {
 	padding-top: 100px;
 	height: 500px;
+}
+.paginationText {
+	display: flex;
+	width: auto;
+	margin: 16px 0 10px 0;
+
+	align-items: center;
+
+	p {
+		font-size: 28px;
+		font-weight: 700;
+		background: #131212;
+		background: linear-gradient(to top, #131212 0%, #6aff79 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		user-select: none;
+
+		@media (max-width: 768px) {
+			font-size: 18px;
+		}
+	}
+
+	img {
+		width: 27px;
+		margin-right: 13px;
+
+		@media (max-width: 768px) {
+			width: 17px;
+			margin-right: 5px;
+		}
+	}
 }

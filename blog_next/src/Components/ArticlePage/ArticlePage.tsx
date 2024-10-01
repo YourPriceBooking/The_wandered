@@ -104,7 +104,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 		addSuggestion(articleIndex - 13);
 		addSuggestion(articleIndex + 13);
 
-		if (allPosts.length >= 3 && allPosts.length <= 7) {
+		if (allPosts.length >= 3 && allPosts.length <= 13) {
 			for (let i = 0; i < allPosts.length; i++) {
 				if (suggestions.size < 4) {
 					addSuggestion(i);
