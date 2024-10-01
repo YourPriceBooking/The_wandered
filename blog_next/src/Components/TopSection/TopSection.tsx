@@ -28,11 +28,31 @@ const TopSection: React.FC<TopSectionProps> = ({
 	});
 	const subtitle = routes.find((item) => item.path === country)?.title;
 
+	const getLocaleFromCountry = (country: string = ''): string => {
+		switch (country.toLowerCase()) {
+			case 'ukraine':
+				return 'uk-UA';
+			case 'poland':
+				return 'pl-PL';
+			default:
+				return 'en-US';
+		}
+	};
+	const locale = getLocaleFromCountry(country);
+
+	const formattedDate = new Intl.DateTimeFormat(locale, {
+		weekday: 'long',
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	}).format(new Date());
+
 	return (
 		<div className={headerClass}>
 			{isLink && <BackArrow country={country} />}
 
 			<div className={isWhite ? s.mainTextBlock : s.mainTextBlockOrange}>
+				<p className={s.date}>{formattedDate}</p>
 				<div className={isWhite ? s.logoBlock : s.logoBlockOrange}>
 					{isLink ? (
 						<Link href="/">
@@ -55,6 +75,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 							priority={true}
 						/>
 					)}
+
 					<h2 className={s.mainTitle}>the wandered</h2>
 				</div>
 
