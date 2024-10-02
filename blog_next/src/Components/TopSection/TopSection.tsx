@@ -38,18 +38,33 @@ const TopSection: React.FC<TopSectionProps> = ({
 				return 'en-US';
 		}
 	};
+
 	const locale = getLocaleFromCountry(country);
+	const currentDate = new Date();
 
 	let formattedDate = new Intl.DateTimeFormat(locale, {
-		weekday: 'long',
+		weekday: locale === 'uk-UA' ? undefined : 'long',
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
-	}).format(new Date());
+	}).format(currentDate);
 
 	if (locale === 'uk-UA') {
-		formattedDate = formattedDate.replace(' р.', '');
+		const weekdaysNominative = [
+			'неділя',
+			'понеділок',
+			'вівторок',
+			'середа',
+			'четвер',
+			'п’ятниця',
+			'субота',
+		];
+		formattedDate = `${weekdaysNominative[currentDate.getDay()]}, ${formattedDate.replace(
+			' р.',
+			'',
+		)}`;
 	}
+
 	return (
 		<div className={headerClass}>
 			{isLink && <BackArrow country={country} />}
