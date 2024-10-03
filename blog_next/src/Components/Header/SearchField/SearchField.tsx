@@ -11,13 +11,15 @@ interface SearchFieldProps {
 	isPage?: boolean;
 }
 const SearchField: React.FC<SearchFieldProps> = ({ inputClass = s.searchBlock }) => {
-	const searchParams = useSearchParams().get('search');
-	const [searchFieldData, setSearchFieldData] = useState<string>(searchParams || '');
+	const searchParams = useSearchParams();
+	const searchQuery = searchParams ? searchParams.get('search') : '';
+
+	const [searchFieldData, setSearchFieldData] = useState<string>(searchQuery || '');
 	const router = useRouter();
 	const pathname = usePathname();
 
 	useEffect(() => {
-		setSearchFieldData(searchParams || '');
+		setSearchFieldData(searchQuery || '');
 	}, [searchParams]);
 
 	const searchHandle = async () => {
