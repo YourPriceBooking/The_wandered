@@ -16,14 +16,13 @@ import { routes } from '@/app/routes';
 
 export default function Header() {
 	const pathname = usePathname();
+	const params = useParams();
 
 	const [activeLink, setActiveLink] = useState(
 		pathname.includes('-') ? '' : pathname.split('/')[1],
 	);
 
-	const isPostPage = Object.keys(useParams())[0] === 'postPageLink';
-	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
-		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
+	const isPostPage = Object.keys(params)[0] === 'postPageLink';
 
 	useEffect(() => {
 		const currentRoute = routes.find((item) => item.path === pathname.split('/')[1]);
@@ -31,6 +30,9 @@ export default function Header() {
 			setActiveLink(currentRoute?.path);
 		}
 	}, [pathname]);
+
+	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
+		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 
 	return (
 		<header className={`${s.header} ${isPostPage ? s.postPage : ''}`}>
