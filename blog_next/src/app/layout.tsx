@@ -29,6 +29,7 @@ export default function RootLayout({
 					<Header />
 					<GetDataClient />
 					<Suspense fallback={<Loading />}>{children}</Suspense>
+
 					<Footer />
 					<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 				</StoreProvider>
