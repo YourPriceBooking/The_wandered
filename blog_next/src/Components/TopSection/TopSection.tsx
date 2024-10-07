@@ -65,12 +65,19 @@ const TopSection: React.FC<TopSectionProps> = ({
 		)}`;
 	}
 
+	const fontSyle =
+		country === 'ukraine'
+			? { fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', fontWeight: 500 }
+			: { fontFamily: 'Sen' };
+
 	return (
 		<div className={headerClass}>
 			{isLink && <BackArrow country={country} />}
 
 			<div className={isWhite ? s.mainTextBlock : s.mainTextBlockOrange}>
-				<p className={s.date}>{formattedDate}</p>
+				<p style={fontSyle} className={s.date}>
+					{formattedDate}
+				</p>
 				<div className={isWhite ? s.logoBlock : s.logoBlockOrange}>
 					{isLink ? (
 						<Link href="/">

@@ -180,7 +180,7 @@
 
 	@media (max-width: 768px) {
 		line-height: 24px;
-		font-size: 14px;
+		font-size: 15px;
 	}
 
 	h1,
@@ -421,7 +421,6 @@
 	overflow: hidden;
 
 	&::before {
-		// background: linear-gradient(to right, fade_out(#fff, 1) 0%, fade_out(#fff, 0.7) 100%);
 		background: linear-gradient(to right, fade_out(#ffffff, 1) 0%, fade_out(#ffffff, 0.7) 100%);
 		content: '';
 		display: block;
