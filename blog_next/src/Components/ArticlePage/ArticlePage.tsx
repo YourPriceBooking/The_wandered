@@ -151,6 +151,10 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 
 	if (!post) return <Loading />;
 
+	const pageViewsByUrl = `/${country !== 'home' ? country + '/' : ''}${decodeURI(
+		String(postPageLink),
+	)}`;
+
 	return (
 		post && (
 			<main className={s.postBlock}>
@@ -167,7 +171,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 						<p>{readableDate}</p>
 					</div>
 					<div className={s.viewCounter}>
-						<p>{pageviews['/' + decodeURI(String(postPageLink))] || 0}</p>
+						<p>{pageviews[pageViewsByUrl] || 0}</p>
 						<img src="/eye.png" alt="views icon" />
 					</div>
 					<p className={s.author}>{post.author}</p>
