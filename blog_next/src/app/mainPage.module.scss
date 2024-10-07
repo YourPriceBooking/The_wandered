@@ -35,9 +35,14 @@
 }
 .pageNumber {
 	color: var(--color-border);
+
+	&:hover {
+		text-decoration: underline;
+	}
 }
 .activePage {
 	color: var(--color-secondary-1);
+	text-decoration: underline;
 }
 
 .temporary {

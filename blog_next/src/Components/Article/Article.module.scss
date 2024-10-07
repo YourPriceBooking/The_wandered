@@ -6,6 +6,12 @@
 	background-color: var(--color-background-2);
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	z-index: 10;
+	transition: all 0.2s ease-in;
+
+	&:hover {
+		background-color: #fff0e1;
+	}
+
 	@media (max-width: 940px) {
 		width: 758px;
 	}

@@ -11,6 +11,7 @@ import { useAppSelector } from '@/lib/hooks';
 import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
 import Link from 'next/link';
 import { getReadableDate } from '@/services/getReadableDate';
+import ScrollToTop from '../ScrollToTop/ScrollToTop';
 
 export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
@@ -210,6 +211,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 						/>
 					</div>
 				</Link>
+				<ScrollToTop />
 				<div className={s.whiteSpace}></div>
 			</main>
 		)
