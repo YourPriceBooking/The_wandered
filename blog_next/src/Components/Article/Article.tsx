@@ -83,7 +83,13 @@ function Article({
 		parsedLinks = JSON.parse(currentAuthor?.links);
 	}
 
+	const isMobile = window.innerWidth <= 768 ? true : false;
+
 	const truncateText = (text: string, wordLimit: number): string => {
+		if (!isMobile) {
+			return text;
+		}
+
 		const words = text.split(' ');
 		if (words.length <= wordLimit) return text;
 		return words.slice(0, wordLimit).join(' ') + '...';
@@ -137,9 +143,7 @@ function Article({
 											</div>
 										</div>
 									</div>
-									<p className={s.tooltipBio}>
-										{truncateText(currentAuthor.description, 30)}
-									</p>
+									<p className={s.tooltipBio}>{currentAuthor.description}</p>
 								</>
 							)}
 						</div>
@@ -168,7 +172,7 @@ function Article({
 				title={title}
 				heading={heading}
 				imageSrc={imageSrc}
-				description={description}
+				description={truncateText(description, 50)}
 				id={id}
 				country={country}
 			/>

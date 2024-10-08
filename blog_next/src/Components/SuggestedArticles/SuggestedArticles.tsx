@@ -8,7 +8,7 @@ function SuggestedArticles({ suggestedArticles }: any) {
 	const isMobile = window.innerWidth <= 462 ? true : false;
 
 	function truncateString(str: string) {
-		const maxLength = isMobile ? 35 : 55;
+		const maxLength = isMobile ? 30 : 55;
 
 		if (str.length <= maxLength) {
 			return str;
@@ -25,7 +25,7 @@ function SuggestedArticles({ suggestedArticles }: any) {
 			truncatedStr += (truncatedStr ? ' ' : '') + words[i];
 		}
 
-		return truncatedStr.length > 20 && truncatedStr.length < maxLength
+		return truncatedStr.length > 15 && truncatedStr.length < maxLength
 			? truncatedStr + '...'
 			: str;
 	}
