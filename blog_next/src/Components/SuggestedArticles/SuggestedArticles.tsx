@@ -1,14 +1,14 @@
 'use client';
 import s from './SuggestedArticles.module.scss';
 import Article from '../Article/Article';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { postData } from '@/types/postTypes';
 
 function SuggestedArticles({ suggestedArticles }: any) {
 	const isMobile = window.innerWidth <= 462 ? true : false;
 
 	function truncateString(str: string) {
-		const maxLength = isMobile ? 30 : 55;
+		const maxLength = isMobile ? 30 : 45;
 
 		if (str.length <= maxLength) {
 			return str;
