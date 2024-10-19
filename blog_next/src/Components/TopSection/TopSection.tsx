@@ -39,7 +39,23 @@ const TopSection: React.FC<TopSectionProps> = ({
 		}
 	};
 
+	const getTimezoneFromCountry = (country: string = ''): string => {
+		switch (country.toLowerCase()) {
+			case 'ukraine':
+				return 'Europe/Kyiv';
+			case 'poland':
+				return 'Europe/Warsaw';
+			case 'usa':
+				return 'America/New_York';
+			case 'canada':
+				return 'America/Toronto';
+			default:
+				return 'UTC';
+		}
+	};
+
 	const locale = getLocaleFromCountry(country);
+	const timeZone = getTimezoneFromCountry(country);
 	const currentDate = new Date();
 
 	let formattedDate = new Intl.DateTimeFormat(locale, {
@@ -47,6 +63,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
+		timeZone: timeZone,
 	}).format(currentDate);
 
 	if (locale === 'uk-UA') {
@@ -59,7 +76,10 @@ const TopSection: React.FC<TopSectionProps> = ({
 			'п’ятниця',
 			'субота',
 		];
-		formattedDate = `${weekdaysNominative[currentDate.getDay()]}, ${formattedDate.replace(
+		const ukraineDate = new Date(
+			currentDate.toLocaleString('en-US', { timeZone: 'Europe/Kyiv' }),
+		);
+		formattedDate = `${weekdaysNominative[ukraineDate.getDay()]}, ${formattedDate.replace(
 			' р.',
 			'',
 		)}`;
