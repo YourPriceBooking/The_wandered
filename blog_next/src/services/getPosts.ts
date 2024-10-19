@@ -7,13 +7,6 @@ export async function getPosts({ page, country }: { page: number; country: strin
 	try {
 		const { data } = await axios.get(
 			`${apiUrl}api/post/get-all?page=${page}&limit=7&typeOfPage=${country}`,
-			{
-				headers: {
-					'Cache-Control': 'no-cache, no-store, must-revalidate',
-					Pragma: 'no-cache',
-					Expires: '0',
-				},
-			},
 		);
 
 		return data;
