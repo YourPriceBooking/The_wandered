@@ -9,9 +9,9 @@ import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
-		title: 'The Wandered: Your Journey to Discovery',
+		title: 'The Wandered: Explore the USA – Travel Tips, Destinations & Hacks for U.S. Travelers',
 		description:
-			'Embark on a journey of wanderlust with The Wandered, the official Your Price Booking blog. Explore travel tales, tips, and exclusive insights into breathtaking destinations. Let us be your guide to seamless adventures and unforgettable moments. Your Price Booking - Your Passport to a World of Exploration.',
+			"Discover the best travel destinations, tips, and hacks for exploring the USA and beyond with 'The Wandered.' Whether you're planning a road trip across the states or looking for budget-friendly travel options, we have got you covered. Explore must-see spots, hidden gems, and expert advice tailored for U.S. residents and travelers from around the world.",
 		icons: {
 			icon: '../favicon.ico',
 			shortcut: '../favicon.ico',
@@ -56,7 +56,7 @@ async function page({
 				) : (
 					<div className={s.temporary}></div>
 				)}
-	<div className={s.paginationText}>
+				<div className={s.paginationText}>
 					<img src="/green-home.png" alt="pagination text icon" />
 					<p>the waaandered</p>
 				</div>
