@@ -157,7 +157,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 
 	return (
 		post && (
-			<main className={s.postBlock}>
+			<article className={s.postBlock}>
 				<div className={s.imageBlock}>
 					{post.imageUrl.length > 0 ? (
 						<Image src={post.imageUrl[0]} fill alt="article-image" className={s.image} />
@@ -217,7 +217,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 				</Link>
 				<ScrollToTop />
 				<div className={s.whiteSpace}></div>
-			</main>
+			</article>
 		)
 	);
 }
