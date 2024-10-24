@@ -97,7 +97,7 @@ function Article({
 
 	return (
 		<article className={`${s.articleBlock} ${isSuggested ? s.suggested : ''}`}>
-			<div className={s.authorBlock}>
+			<header className={s.authorBlock}>
 				{currentAuthor && (
 					<div
 						ref={tooltipRef}
@@ -166,7 +166,7 @@ function Article({
 					<p>{pageviews['/' + slug] || 0}</p>
 					<img src="/eye.png" alt="views icon" />
 				</div>
-			</div>
+			</header>
 			<ArticleLinkContent
 				slug={slug || ''}
 				title={title}

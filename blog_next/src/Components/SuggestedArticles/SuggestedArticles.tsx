@@ -31,7 +31,7 @@ function SuggestedArticles({ suggestedArticles }: any) {
 	}
 
 	return (
-		<div className={s.suggestedArticlesWrapper}>
+		<aside className={s.suggestedArticlesWrapper}>
 			{suggestedArticles.map((article: postData) => {
 				const fullSlug =
 					article.country === 'home'
@@ -55,7 +55,7 @@ function SuggestedArticles({ suggestedArticles }: any) {
 					></Article>
 				);
 			})}
-		</div>
+		</aside>
 	);
 }
 

@@ -1,3 +1,4 @@
+'use client';
 import s from './TopSection.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -48,6 +49,8 @@ const TopSection: React.FC<TopSectionProps> = ({
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
 		timeZone: userTimeZone,
 	}).format(currentDate);
 
@@ -70,6 +73,8 @@ const TopSection: React.FC<TopSectionProps> = ({
 		country === 'ukraine'
 			? { fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', fontWeight: 500 }
 			: { fontFamily: 'Sen' };
+
+	console.log('USER TIME ZONE ========', userTimeZone);
 
 	return (
 		<div className={headerClass}>

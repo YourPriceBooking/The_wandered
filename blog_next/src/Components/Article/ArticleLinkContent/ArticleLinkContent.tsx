@@ -91,7 +91,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 				onClick={isMobile ? () => {} : handleClick}
 			>
 				<article className={`${s.hoverBlock}`}>
-					<h3>{title}</h3>
+					<h1>{title}</h1>
 					<p>{description}</p>
 				</article>
 				<div className={s.line}></div>
@@ -103,7 +103,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 			</div>
 
 			<div className={s.titleBlock}>
-				<p className={s.title}>{heading}</p>
+				<h1 className={s.title}>{heading}</h1>
 			</div>
 			<Link href={`/${slug}`} className={s.readMore}>
 				<p className={s.link}>
