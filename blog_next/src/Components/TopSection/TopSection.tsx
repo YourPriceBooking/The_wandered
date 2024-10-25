@@ -8,7 +8,7 @@ import logoOrange from './../../../public/houseIconOrange.svg';
 import SearchField from '../Header/SearchField/SearchField';
 import classNames from 'classnames';
 import BackArrow from './BackArrow/BackArrow';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { routes } from '@/app/routes';
 
 interface TopSectionProps {
@@ -29,6 +29,8 @@ const TopSection: React.FC<TopSectionProps> = ({
 	});
 	const subtitle = routes.find((item) => item.path === country)?.title;
 
+	const [currentDate, setCurrentDate] = useState(new Date());
+
 	const getLocaleFromCountry = (country: string = ''): string => {
 		switch (country.toLowerCase()) {
 			case 'ukraine':
@@ -42,7 +44,6 @@ const TopSection: React.FC<TopSectionProps> = ({
 
 	const locale = getLocaleFromCountry(country);
 	const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-	const currentDate = new Date();
 
 	let formattedDate = new Intl.DateTimeFormat(locale, {
 		weekday: locale === 'uk-UA' ? undefined : 'long',
@@ -51,6 +52,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 		day: 'numeric',
 		hour: '2-digit',
 		minute: '2-digit',
+
 		timeZone: userTimeZone,
 	}).format(currentDate);
 
@@ -66,15 +68,21 @@ const TopSection: React.FC<TopSectionProps> = ({
 		];
 
 		const ukraineWeekday = weekdaysNominative[currentDate.getDay()];
-		formattedDate = `${ukraineWeekday}, ${formattedDate.replace(' р.', '')}`;
+		formattedDate = `${ukraineWeekday}, ${formattedDate.replace('р. о', '')}`;
 	}
+
+	useEffect(() => {
+		const intervalId = setInterval(() => {
+			setCurrentDate(new Date());
+		}, 10000);
+
+		return () => clearInterval(intervalId);
+	}, []);
 
 	const fontSyle =
 		country === 'ukraine'
 			? { fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', fontWeight: 500 }
 			: { fontFamily: 'Sen' };
-
-	console.log('USER TIME ZONE ========', userTimeZone);
 
 	return (
 		<div className={headerClass}>
