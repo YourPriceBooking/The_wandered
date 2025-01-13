@@ -18,19 +18,7 @@
 		height: 58px;
 	}
 }
-.date {
-	text-transform: capitalize;
-	margin-bottom: 10px;
-	font-size: 14px;
-	padding-bottom: 10px;
-	font-family: inherit;
 
-	@media (max-width: 570px) {
-		padding-bottom: 20px;
-		margin-bottom: 0px;
-		font-size: 12px;
-	}
-}
 .white {
 	background-color: white;
 	color: var(--color-primary-2);
@@ -40,6 +28,7 @@
 	flex-direction: column;
 
 	& .mainTitle {
+		margin-left: 1.5rem;
 		font-weight: 900;
 		font-size: 77px;
 		@media (max-width: 886px) {

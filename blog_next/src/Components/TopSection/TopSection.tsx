@@ -1,14 +1,14 @@
-'use client';
+
 import s from './TopSection.module.scss';
 import Link from 'next/link';
-import Image from 'next/image';
-import logo from './../../../public/house-icon.svg';
+import HouseIcon from '../../../public/HouseIcon';
+import DateBlock from './dateblock/DateBlock';
+
 import Loading from '@/app/loading';
-import logoOrange from './../../../public/houseIconOrange.svg';
 import SearchField from '../Header/SearchField/SearchField';
 import classNames from 'classnames';
 import BackArrow from './BackArrow/BackArrow';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense} from 'react';
 import { routes } from '@/app/routes';
 
 interface TopSectionProps {
@@ -29,90 +29,78 @@ const TopSection: React.FC<TopSectionProps> = ({
 	});
 	const subtitle = routes.find((item) => item.path === country)?.title;
 
-	const [currentDate, setCurrentDate] = useState(new Date());
+	// const [currentDate, setCurrentDate] = useState(new Date());
 
-	const getLocaleFromCountry = (country: string = ''): string => {
-		switch (country.toLowerCase()) {
-			case 'ukraine':
-				return 'uk-UA';
-			case 'poland':
-				return 'pl-PL';
-			default:
-				return 'en-US';
-		}
-	};
+	// const getLocaleFromCountry = (country: string = ''): string => {
+	// 	switch (country.toLowerCase()) {
+	// 		case 'ukraine':
+	// 			return 'uk-UA';
+	// 		case 'poland':
+	// 			return 'pl-PL';
+	// 		default:
+	// 			return 'en-US';
+	// 	}
+	// };
 
-	const locale = getLocaleFromCountry(country);
-	const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+	// const locale = getLocaleFromCountry(country);
+	// const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-	let formattedDate = new Intl.DateTimeFormat(locale, {
-		weekday: locale === 'uk-UA' ? undefined : 'long',
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
+	// let formattedDate = new Intl.DateTimeFormat(locale, {
+	// 	weekday: locale === 'uk-UA' ? undefined : 'long',
+	// 	year: 'numeric',
+	// 	month: 'long',
+	// 	day: 'numeric',
+	// 	hour: '2-digit',
+	// 	minute: '2-digit',
 
-		timeZone: userTimeZone,
-	}).format(currentDate);
+	// 	timeZone: userTimeZone,
+	// }).format(currentDate);
 
-	if (locale === 'uk-UA') {
-		const weekdaysNominative = [
-			'неділя',
-			'понеділок',
-			'вівторок',
-			'середа',
-			'четвер',
-			'п’ятниця',
-			'субота',
-		];
+	// if (locale === 'uk-UA') {
+	// 	const weekdaysNominative = [
+	// 		'неділя',
+	// 		'понеділок',
+	// 		'вівторок',
+	// 		'середа',
+	// 		'четвер',
+	// 		'п’ятниця',
+	// 		'субота',
+	// 	];
 
-		const ukraineWeekday = weekdaysNominative[currentDate.getDay()];
-		formattedDate = `${ukraineWeekday}, ${formattedDate.replace('р. о', '')}`;
-	}
+	// 	const ukraineWeekday = weekdaysNominative[currentDate.getDay()];
+	// 	formattedDate = `${ukraineWeekday}, ${formattedDate.replace('р. о', '')}`;
+	// }
 
-	useEffect(() => {
-		const intervalId = setInterval(() => {
-			setCurrentDate(new Date());
-		}, 10000);
+	// useEffect(() => {
+	// 	const intervalId = setInterval(() => {
+	// 		setCurrentDate(new Date());
+	// 	}, 10000);
 
-		return () => clearInterval(intervalId);
-	}, []);
+	// 	return () => clearInterval(intervalId);
+	// }, []);
 
-	const fontSyle =
-		country === 'ukraine'
-			? { fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', fontWeight: 500 }
-			: { fontFamily: 'Sen' };
+	// const fontSyle =
+	// 	country === 'ukraine'
+	// 		? { fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', fontWeight: 500 }
+	// 		: { fontFamily: 'Sen' };
 
 	return (
 		<div className={headerClass}>
 			{isLink && <BackArrow country={country} />}
 
 			<div className={isWhite ? s.mainTextBlock : s.mainTextBlockOrange}>
-				<p style={fontSyle} className={s.date}>
+				<DateBlock isWhite={isWhite} country={country} />
+
+				{/* <p style={fontSyle} className={s.date}>
 					{formattedDate}
-				</p>
+				</p> */}
 				<div className={isWhite ? s.logoBlock : s.logoBlockOrange}>
 					{isLink ? (
-						<Link href="/">
-							<Image
-								src={logoOrange}
-								width={63}
-								height={58}
-								alt="logo-icon"
-								className={s.logo}
-								priority={true}
-							/>
+						<Link href="/" className={s.logo}>
+							<HouseIcon/>
 						</Link>
 					) : (
-						<Image
-							src={logo}
-							width={63}
-							height={58}
-							alt="logo-icon"
-							className={s.logo}
-							priority={true}
-						/>
+						isWhite ? <HouseIcon/> : <HouseIcon color='white'/>
 					)}
 
 					<h2 className={s.mainTitle}>the wandered</h2>

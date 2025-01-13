@@ -1,5 +1,5 @@
-.logo {
-	transition: 3s;
+.logo > svg {
+	transition: all 3s ease;
 	&:hover {
 		opacity: 60%;
 	}

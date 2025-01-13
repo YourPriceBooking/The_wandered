@@ -1,3 +1,4 @@
+"use client"
 import s from './../Article.module.scss';
 
 import React from 'react';
@@ -63,6 +64,15 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 		e.stopPropagation();
 		router.push(`/${slug}`);
 	};
+	const truncateText = (text: string, wordLimit: number): string => {
+		if (!isMobile) {
+			return text;
+		}
+
+		const words = text.split(' ');
+		if (words.length <= wordLimit) return text;
+		return words.slice(0, wordLimit).join(' ') + '...';
+	};
 
 	useEffect(() => {
 		const handleGlobalClick = (e: MouseEvent) => {
@@ -92,7 +102,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 			>
 				<article className={`${s.hoverBlock}`}>
 					<h1>{title}</h1>
-					<p>{description}</p>
+					<p>{truncateText(description, 50)}</p>
 				</article>
 				<div className={s.line}></div>
 				{imageSrc ? (
