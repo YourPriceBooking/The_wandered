@@ -3,7 +3,7 @@ import s from './Header.module.scss';
 
 import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
-import Loading from '@/app/loading';
+
 import TopSection from '../TopSection/TopSection';
 import SearchField from './SearchField/SearchField';
 
@@ -57,10 +57,7 @@ export default function Header() {
 						);
 					})}
 				</nav>
-
-				<Suspense fallback={<Loading />}>
 					<SearchField />
-				</Suspense>
 			</div>
 		</header>
 	);

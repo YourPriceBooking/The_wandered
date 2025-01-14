@@ -115,7 +115,7 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 			<div className={s.titleBlock}>
 				<h1 className={s.title}>{heading}</h1>
 			</div>
-			<Link href={`/${slug}`} className={s.readMore}>
+			<Link href={`/${slug}`} className={s.readMore} title={`learn more ${title}`} aria-label={`learn more ${title}`}>
 				<p className={s.link}>
 					{readMoreLanguage?.readmore ? readMoreLanguage?.readmore : 'READ MORE'}
 				</p>

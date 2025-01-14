@@ -4,7 +4,7 @@ import Link from 'next/link';
 import HouseIcon from '../../../public/HouseIcon';
 import DateBlock from './dateblock/DateBlock';
 
-import Loading from '@/app/loading';
+
 import SearchField from '../Header/SearchField/SearchField';
 import classNames from 'classnames';
 import BackArrow from './BackArrow/BackArrow';
@@ -112,9 +112,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 			</div>
 			{isSearchField && (
 				<div className={s.searchBox}>
-					<Suspense fallback={<Loading />}>
 						<SearchField inputClass={s.inputClass} />
-					</Suspense>
 				</div>
 			)}
 		</div>

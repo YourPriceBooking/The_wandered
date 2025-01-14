@@ -2,7 +2,7 @@
 import s from './ArticlePage.module.scss';
 import Image from 'next/image';
 import DOMPurify from 'dompurify';
-import Loading from '@/app/loading';
+
 import { useParams } from 'next/navigation';
 import { getPostData } from '@/services/getPostData';
 import { useEffect, useState } from 'react';
@@ -149,7 +149,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 		}
 	}, [allPosts, post]);
 
-	if (!post) return <Loading />;
+	if (!post) return ;// need add if error
 
 	const pageViewsByUrl = `/${country !== 'home' ? country + '/' : ''}${decodeURI(
 		String(postPageLink),
