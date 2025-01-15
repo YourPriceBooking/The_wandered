@@ -48,6 +48,6 @@ export async function getPostsBySearch({ search }: { search: string }) {
 		const { data } = await axios.get(`${apiUrl}api/post/search-query?search=${search}`);
 		return data.result;
 	} catch (error: any) {
-		console.log(error);
+		console.warn(error);
 	}
 }
