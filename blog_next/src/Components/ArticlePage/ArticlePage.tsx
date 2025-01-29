@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import { postData } from '@/types/postTypes';
 import { useAppSelector } from '@/lib/hooks';
 import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
-import Link from 'next/link';
 import { getReadableDate } from '@/services/getReadableDate';
 import ScrollToTop from '../ScrollToTop/ScrollToTop';
+import Banner from '../banner/Banner';
 
 export default function ArticlePage({ country = 'home' }: { country?: string }) {
 	const { postPageLink } = useParams();
@@ -188,33 +188,7 @@ export default function ArticlePage({ country = 'home' }: { country?: string }) 
 				{suggestedArticles.length >= 2 && (
 					<SuggestedArticles suggestedArticles={suggestedArticles} />
 				)}
-
-				<Link
-					href="https://www.yourpricebooking.com"
-					target="blank"
-					className={s.bannerWrapper}
-				>
-					<div className={`${s.banner} ${s.shine}`}>
-						<div className={s.bannerTextWrapper}>
-							<p className={s.title}>
-								<span>Your Price </span>
-								Booking
-							</p>
-							<div className={s.strips}>
-								<div></div>
-								<div></div>
-								<div></div>
-								<div></div>
-								<div></div>
-							</div>
-						</div>
-						<img
-							className={s.bannerImage}
-							src="/banner-img.png"
-							alt="Banner image Your Price Booking"
-						/>
-					</div>
-				</Link>
+				<Banner />
 				<ScrollToTop />
 				<div className={s.whiteSpace}></div>
 			</article>
