@@ -5,6 +5,7 @@
 	cursor: pointer;
 	position: relative;
 	padding-top: 50px;
+	padding-bottom: 80px;
 
 	@media (max-width: 480px) {
 		padding-top: 0;
@@ -71,7 +72,7 @@
 				height: 60%;
 				font-size: 22px;
 			}
-			
+
 			$bg-sizes: (default: 42px, 655px: 39px, 540px: 33px, 480px: 28px);
 			@each $breakpoint, $size in $bg-sizes {
 				@if $breakpoint == default {

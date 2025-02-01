@@ -1,4 +1,4 @@
-'use client';
+//'use client';
 import s from './SuggestedArticles.module.scss';
 import Article from '../Article/Article';
 import React from 'react';
