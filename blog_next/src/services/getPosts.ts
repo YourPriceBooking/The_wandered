@@ -29,7 +29,7 @@ export async function getAllPosts() {
 
 		return allPosts || [];
 	} catch (error: any) {
-		console.log(error);
+		// console.log(error);
 	}
 }
 
@@ -39,7 +39,7 @@ export async function getPostsByCountry({ country }: { country: string }) {
 
 		return data.result;
 	} catch (error: any) {
-		console.log(error);
+		// console.log(error);
 	}
 }
 

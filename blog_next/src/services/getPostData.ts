@@ -17,6 +17,6 @@ export async function getPostData({ pageLink, country }: { pageLink: string; cou
 
 		return data.result;
 	} catch (error: any) {
-		console.log(error);
+		// console.log(error);
 	}
 }

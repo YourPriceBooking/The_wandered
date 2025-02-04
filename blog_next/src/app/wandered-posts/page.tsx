@@ -1,68 +1,62 @@
-'use client';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import s from './wandered-posts.module.scss';
-import React, { useEffect, useState } from 'react';
 import Article from '@/Components/Article/Article';
 import { getPostsBySearch } from '@/services/getPosts';
 import { postData } from '@/types/postTypes';
 
-const Page = () => {
-	const searchParams = useSearchParams().get('search');
-	const [postsData, setPostsData] = useState<postData[] | []>([]);
+interface PageProps {
+  searchParams: { search: string };
+}
 
-	useEffect(() => {
-		(async () => {
-			const posts = await getPostsBySearch({
-				search: searchParams || '',
-			});
-			setPostsData(posts);
-		})();
-	}, [searchParams]);
+const Page = async ({ searchParams }: PageProps) => {
+  const postsData: postData[] = await getPostsBySearch({
+    search: searchParams.search || '',
+  });
 
-	if (!postsData)
-		return (
-			<div
-				style={{
-					height: '600px',
-					width: '100%',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
-				<p
-					style={{
-						fontSize: '24px',
-						fontWeight: 'bold',
-						textTransform: 'uppercase',
-					}}
-				>
-					Not found
-				</p>
-			</div>
-		);
+  if (!postsData.length) {
+    return (
+      <div
+        style={{
+          height: '600px',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <p
+          style={{
+            fontSize: '24px',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+          }}
+        >
+          Not found
+        </p>
+      </div>
+    );
+  }
 
-	return (
-		<div className={s.mainContainer}>
-			{postsData.map((article) => {
-				const country = article.country === 'home' ? '' : article.country + '/';
-				return (
-					<Article
-						key={article._id}
-						slug={country + article?.articleUrl?.split('/').pop()}
-						title={article.title}
-						imageSrc={article.imageUrl[0]}
-						author={article.author}
-						date={article.publicationDate}
-						updated={''}
-						description={article.description}
-						id={article._id}
-						heading={article.heading}
-					/>
-				);
-			})}
-		</div>
-	);
+  return (
+    <div className={s.mainContainer}>
+      {postsData.map((article) => {
+        const country = article.country === 'home' ? '' : article.country + '/';
+        return (
+          <Article
+            key={article._id}
+            slug={country + article?.articleUrl?.split('/').pop()}
+            title={article.title}
+            imageSrc={article.imageUrl[0]}
+            author={article.author}
+            date={article.publicationDate}
+            updated={''}
+            description={article.description}
+            id={article._id}
+            heading={article.heading}
+          />
+        );
+      })}
+    </div>
+  );
 };
 
 export default Page;
