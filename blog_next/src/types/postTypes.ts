@@ -17,3 +17,8 @@ export type postsDataType = {
 	result: postData[];
 	total: number;
 };
+
+export interface PostPageProps {
+	country: string;
+	postPageLink: string
+}

@@ -57,7 +57,9 @@ export default function Header() {
 						);
 					})}
 				</nav>
+				<Suspense fallback={null}>
 					<SearchField />
+				</Suspense>
 			</div>
 		</header>
 	);

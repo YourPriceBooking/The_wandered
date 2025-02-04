@@ -57,7 +57,9 @@ const TopSection: React.FC<TopSectionProps> = ({
 			</div>
 			{isSearchField && (
 				<div className={s.searchBox}>
+						<Suspense fallback={null}>
 						<SearchField inputClass={s.inputClass} />
+						</Suspense>
 				</div>
 			)}
 		</div>

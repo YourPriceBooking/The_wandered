@@ -4,7 +4,6 @@ import '../styles/index.scss';
 import Header from '@/Components/Header/Header';
 import Footer from '@/Components/Footer/Footer';
 import StoreProvider from './StoreProvider';
-import { Suspense } from 'react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import type { Metadata } from 'next';

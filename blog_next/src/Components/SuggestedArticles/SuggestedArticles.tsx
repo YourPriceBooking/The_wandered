@@ -1,62 +1,83 @@
 'use client';
 import s from './SuggestedArticles.module.scss';
 import Article from '../Article/Article';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { postData } from '@/types/postTypes';
+import { getSuggestedArticles } from '@/services/getSuggestedArticles';
+import { useAppSelector } from '@/lib/hooks';
 
-function SuggestedArticles({ suggestedArticles }: any) {
-	const isMobile = window.innerWidth <= 462 ? true : false;
+function SuggestedArticles({ data, country }: { data: postData; country: string }) {
+    const allPosts = useAppSelector((state: any) =>
+        state.allPosts[`allPosts${country.charAt(0).toUpperCase() + country.slice(1)}`] || []
+    );
 
-	function truncateString(str: string) {
-		const maxLength = isMobile ? 30 : 45;
+    const suggestedArticles = data ? getSuggestedArticles(data, allPosts) : [];
 
-		if (str.length <= maxLength) {
-			return str;
-		}
+    const [isMobile, setIsMobile] = useState(false);
 
-		const words = str.split(' ');
-		let truncatedStr = '';
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 462);
+        };
 
-		for (let i = 0; i < words.length; i++) {
-			if ((truncatedStr + words[i]).length + 3 > maxLength) {
-				break;
-			}
+        handleResize();
+        window.addEventListener('resize', handleResize);
 
-			truncatedStr += (truncatedStr ? ' ' : '') + words[i];
-		}
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
-		return truncatedStr.length > 15 && truncatedStr.length < maxLength
-			? truncatedStr + '...'
-			: str;
-	}
+    function truncateString(str: string) {
+        const maxLength = isMobile ? 30 : 45;
 
-	return (
-		<aside className={s.suggestedArticlesWrapper}>
-			{suggestedArticles.map((article: postData) => {
-				const fullSlug =
-					article.country === 'home'
-						? article.articleUrl.split('/').pop()
-						: `${article.country}/${article.articleUrl.split('/').pop()}`;
+        if (str.length <= maxLength) {
+            return str;
+        }
 
-				return (
-					<Article
-						key={article._id}
-						slug={fullSlug}
-						title={article.title}
-						imageSrc={article.imageUrl[0]}
-						country={article.country}
-						author={article.author}
-						date={article.publicationDate}
-						updated={''}
-						description={article.description}
-						id={article._id}
-						heading={truncateString(article.heading)}
-						isSuggested={true}
-					></Article>
-				);
-			})}
-		</aside>
-	);
+        const words = str.split(' ');
+        let truncatedStr = '';
+
+        for (let i = 0; i < words.length; i++) {
+            if ((truncatedStr + words[i]).length + 3 > maxLength) {
+                break;
+            }
+
+            truncatedStr += (truncatedStr ? ' ' : '') + words[i];
+        }
+
+        return truncatedStr.length > 15 && truncatedStr.length < maxLength
+            ? truncatedStr + '...'
+            : str;
+    }
+
+    return (
+        <aside className={s.suggestedArticlesWrapper}>
+            {suggestedArticles.map((article: postData) => {
+                const fullSlug =
+                    article.country === 'home'
+                        ? article.articleUrl.split('/').pop()
+                        : `${article.country}/${article.articleUrl.split('/').pop()}`;
+
+                return (
+                    <Article
+                        key={article._id}
+                        slug={fullSlug}
+                        title={article.title}
+                        imageSrc={article.imageUrl[0]}
+                        country={article.country}
+                        author={article.author}
+                        date={article.publicationDate}
+                        updated={''}
+                        description={article.description}
+                        id={article._id}
+                        heading={truncateString(article.heading)}
+                        isSuggested={true}
+                    ></Article>
+                );
+            })}
+        </aside>
+    );
 }
 
 export default SuggestedArticles;
