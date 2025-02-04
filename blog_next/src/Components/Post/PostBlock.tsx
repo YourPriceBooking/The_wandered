@@ -1,10 +1,10 @@
-'use client'
+ 'use client'
 import React from "react";
 import HouseIcon from "../../../public/HouseIcon";
 import style from "./PostBlock.module.scss";
 import Image from "next/image";
 import SuggestedArticles from "../SuggestedArticles/SuggestedArticles";
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 import { getPostData } from '@/services/getPostData';
 import { postData } from '@/types/postTypes';
 import { getReadableDate } from '@/services/getReadableDate';
@@ -16,20 +16,52 @@ interface PostBlockProps {
 	country: string;
  }
 
-
+ let data: postData | null = null;
 const PostBlock: React.FC<PostBlockProps> = ({ country }) => {
+
 
 	const { postPageLink } = useParams();
 	const allPosts = useAppSelector((state: any) =>
 		state.allPosts[`allPosts${country.charAt(0).toUpperCase() + country.slice(1)}`] || []
 	 );
-	const postPageLinkString = Array.isArray(postPageLink) ? postPageLink[0] : postPageLink;
+	//const postPageLinkString = Array.isArray(postPageLink) ? postPageLink[0] : postPageLink;
 	const MARKUP_SPLIT_KEY = 'imgUrlByIdx';
-	const [data, setData] = useState<postData | null>(null);
+	//const [data, setData] = useState<postData | null>(null);
+
 	const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
 	const pageViewsByUrl = `/${country !== 'home' ? country + '/' : ''}${decodeURI(
 		String(postPageLink),
 	)}`;
+
+
+
+
+	const fetchData = async () => {
+		const fetchData = await getPostData({ pageLink: String(postPageLink), country });
+		return fetchData;
+	  };
+
+	 const dataMarkup = async () => {
+		const data = await fetchData();
+		const updatedMarkup = editingHTMLData(data.markup);
+
+		const splitedMarkup = updatedMarkup.split(MARKUP_SPLIT_KEY);
+		let resultMarkup = splitedMarkup[0];
+
+		for (let i = 1; i < splitedMarkup.length; i++) {
+		  resultMarkup += data.imageUrl[i] + splitedMarkup[i];
+		}
+
+		return { ...data, markup: resultMarkup };
+	  };
+	  const init = async () => {
+		data = await dataMarkup();
+		console.log(data);
+	  };
+  		init();
+
+
+
 	const editingHTMLData = (htmlStr: string) => {
 		const parser = new DOMParser();
 		const doc = parser.parseFromString(htmlStr, 'text/html');
@@ -72,23 +104,26 @@ const PostBlock: React.FC<PostBlockProps> = ({ country }) => {
 	if (data?.publicationDate) {
 		readableDate = getReadableDate(data?.publicationDate, country);
 	}
-	useEffect(() => {
-		(async () => {
-		  const data = await getPostData({ pageLink: String(postPageLink), country });
-		  const updatedMarkup = editingHTMLData(data.markup);
 
-			const splitedMarkup = updatedMarkup.split(MARKUP_SPLIT_KEY);
-			let resultMarkup = splitedMarkup[0];
 
-			for (let i = 1; i < splitedMarkup.length; i++) {
-				resultMarkup += data.imageUrl[i] + splitedMarkup[i];
-			}
 
-			const updatedData = { ...data, markup: resultMarkup };
+	// useEffect(() => {
+	// 	(async () => {
+	// 	  const data = await getPostData({ pageLink: String(postPageLink), country });
+	// 	  const updatedMarkup = editingHTMLData(data.markup);
 
-		  setData(updatedData);
-		})();
-	 }, [postPageLinkString, country]);
+	// 		const splitedMarkup = updatedMarkup.split(MARKUP_SPLIT_KEY);
+	// 		let resultMarkup = splitedMarkup[0];
+
+	// 		for (let i = 1; i < splitedMarkup.length; i++) {
+	// 			resultMarkup += data.imageUrl[i] + splitedMarkup[i];
+	// 		}
+
+	// 		const updatedData = { ...data, markup: resultMarkup };
+
+	// 	  setData(updatedData);
+	// 	})();
+	//  }, [postPageLinkString, country]);
 	 /*        */
 	 const getSuggestedArticles = (post: postData, allPosts: postData[]) => {
 		if (!post || allPosts.length === 0) return [];
