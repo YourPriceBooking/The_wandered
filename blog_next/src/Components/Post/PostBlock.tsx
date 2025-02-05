@@ -7,7 +7,7 @@ import { getPostData } from '@/services/getPostData';
 import { postData, PostPageProps } from '@/types/postTypes';
 import { getReadableDate } from '@/services/getReadableDate';
 import { notFound, useParams } from 'next/navigation';
-import DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from "isomorphic-dompurify";
 import PageViewes from "../PageViewes";
 import { dataMarkup } from "./helpers/dataMarkup";
 
