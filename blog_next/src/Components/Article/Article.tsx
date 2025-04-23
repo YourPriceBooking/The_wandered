@@ -1,5 +1,7 @@
-//   'use client';
+//'use client';
+//import { useEffect, useState } from 'react';
 import s from './Article.module.scss';
+
 import ArticleHeader from './ArticleHeader/ArticleHeader';
 import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 //import { useEffect, useRef, useState } from 'react';
@@ -50,6 +52,8 @@ function Article({
 	isSuggested,
 	country,
 }: ArticleProps) {
+	
+	
 	// const readableDate = getReadableDate(date, country);
 
 	// const authors = useAppSelector((state: any) => state.allAuthors.allAuthorsData || []);
@@ -60,16 +64,15 @@ function Article({
 	// 	parsedLinks = JSON.parse(currentAuthor?.links);
 	// }
 
-	// const isMobile = window.innerWidth <= 768 ? true : false;
-
+	// const isMobile = window.innerWidth <= 768 ? true : false;	
 	return (
 		<article className={`${s.articleBlock} ${isSuggested ? s.suggested : ''}`}>
 			<ArticleHeader  author={author}
-        		date={date}
-        		updated={updated}
-        		slug={slug || ''}
-        		// authorData={authors}
-		  />
+				date={date}
+				updated={updated}
+				slug={slug || ''}
+				// authorData={authors}
+			/>
 			<ArticleLinkContent
 				slug={slug || ''}
 				title={title}
