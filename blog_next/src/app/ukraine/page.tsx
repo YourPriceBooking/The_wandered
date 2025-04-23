@@ -28,11 +28,12 @@ async function page({
 
 	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-	const data: postsDataType = await getPosts({ page: paramsPage, country });
+	const data: postsDataType = await getPosts({ page: paramsPage, country });  
 	const length = Math.ceil(data.total / 7);
-
+	
 	return (
 		<main className={s.main}>
+			
 			<TopSection country={country} />
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
