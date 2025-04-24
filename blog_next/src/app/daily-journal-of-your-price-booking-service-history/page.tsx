@@ -7,12 +7,13 @@ import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { daysSinceDate } from '@/services/daysCounter';
 
+export const dynamic = 'error';
+
 export const metadata: Metadata = {
 	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
 	description:
 		'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
 };
-const INITIAL_NUMBER_OF_USERS = 1;
 
 export default async function HistoryPage() {
 	const data = await getDailyJournalPosts();
@@ -46,7 +47,9 @@ export default async function HistoryPage() {
 					</a>
 				</div>
 			</div>
-			<div className={s.contentSection}>{<JournalPosts posts={posts} />}</div>
+			<div className={s.contentSection}>
+				<JournalPosts posts={posts} />
+			</div>
 		</main>
 	);
 }
