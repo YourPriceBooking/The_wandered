@@ -35,7 +35,8 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
   const authorRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [tooltipVisible, setTooltipVisible] = useState(false);
-
+  
+  
 
   useEffect(() => {
 	const handleClickOutside = (event: MouseEvent) => {
@@ -54,6 +55,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
 	};
  }, [setTooltipVisible]);
 
+
  if (!currentAuthor) return (
   <div className={`${s.articleBlock} ${s.skeleton}`}> 
     <div className={s.skeletonHeader}>
@@ -62,62 +64,60 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
       </div>
   </div>)
 
-
   const parsedLinks = JSON.parse(currentAuthor.links);
-
   return (
     <header className={s.authorBlock}>
-      <div
-        className={`${s.authorTooltipWrapper} ${tooltipVisible ? s.visible : ''}`}
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
-      >
-        <div className={s.authorTooltip}>
-          <div className={s.tooltipMainInfo}>
-            <img
-              className={s.tooltipMainImg}
-              src={currentAuthor.image}
-              alt="Author Photo"
-              onError={(e) => (e.currentTarget.src = 'no-photo.webp')}
-            />
-            <div>
-              <p className={s.tooltipName}>{currentAuthor.name}</p>
-              <div className={s.tooltipLinks}>
-                {parsedLinks.map((link: any, index: number) => {
-                  const platform = Object.keys(link)[0];
-                  const url = Object.values(link)[0];
+    <div
+      className={`${s.authorTooltipWrapper} ${tooltipVisible ? s.visible : ''}`}
+      onMouseEnter={() => setTooltipVisible(true)}
+      onMouseLeave={() => setTooltipVisible(false)}
+    >
+      <div className={s.authorTooltip}>
+        <div className={s.tooltipMainInfo}>
+          <img
+            className={s.tooltipMainImg}
+            src={currentAuthor.image}
+            alt="Author Photo"
+            onError={(e) => (e.currentTarget.src = 'no-photo.webp')}
+          />
+          <div>
+            <p className={s.tooltipName}>{currentAuthor.name}</p>
+            <div className={s.tooltipLinks}>
+              {parsedLinks.map((link: any, index: number) => {
+                const platform = Object.keys(link)[0];
+                const url = Object.values(link)[0];
 
-                  return (
-                    url && (
-                      <Link key={index} href={url} target="_blank" rel="noopener noreferrer">
-                        <img src={`/social_media_icons/${platform}-logo.svg`} alt={platform} />
-                      </Link>
-                    )
-                  );
-                })}
-              </div>
+                return (
+                  url && (
+                    <Link key={index} href={url} target="_blank" rel="noopener noreferrer">
+                      <img src={`/social_media_icons/${platform}-logo.svg`} alt={platform} />
+                    </Link>
+                  )
+                );
+              })}
             </div>
           </div>
-          <p className={s.tooltipBio}>{currentAuthor.description}</p>
         </div>
+        <p className={s.tooltipBio}>{currentAuthor.description}</p>
       </div>
-      <p
-        className={s.author}
-        onClick={() => setTooltipVisible(!tooltipVisible)}
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
-      >
-        {author}
-      </p>
-      <div className={s.dateBlock}>
-        <p className={s.date}>{readableDate}</p>
-        <p className={s.updateDate}>{updated}</p>
-      </div>
-      <div className={s.viewCounter}>
-        <p>{pageviews['/' + slug] || 0}</p>
-        <img src="/eye.png" alt="views icon" />
-      </div>
-    </header>
+    </div>
+    <p
+      className={s.author}
+      onClick={() => setTooltipVisible(!tooltipVisible)}
+      onMouseEnter={() => setTooltipVisible(true)}
+      onMouseLeave={() => setTooltipVisible(false)}
+    >
+      {author}
+    </p>
+    <div className={s.dateBlock}>
+      <p className={s.date}>{readableDate}</p>
+      <p className={s.updateDate}>{updated}</p>
+    </div>
+    <div className={s.viewCounter}>
+      <p>{pageviews['/' + slug] || 0}</p>
+      <img src="/eye.png" alt="views icon" />
+    </div>
+  </header>
   );
 };
 
