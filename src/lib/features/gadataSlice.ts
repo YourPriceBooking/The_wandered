@@ -24,19 +24,18 @@ const gaDataSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
-		builder
-		.addCase(fetchPageviews.fulfilled, (state, action) => {
+		builder.addCase(fetchPageviews.fulfilled, (state, action) => {
 			const data = action.payload;
 
 			if (!Array.isArray(data)) {
-				 console.error('fetchPageviews: отримано некоректні дані', data);
-				 return;
+				console.error('fetchPageviews: отримано некоректні дані', data);
+				return;
 			}
 
 			data.forEach(({ url, pageviews }: { url: string; pageviews: string }) => {
-				 state.pageviews[url] = pageviews;
+				state.pageviews[url] = pageviews;
 			});
-	  });
+		});
 	},
 });
 

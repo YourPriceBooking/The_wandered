@@ -1,12 +1,12 @@
-"use client"
+'use client';
+
 import s from './../Article.module.scss';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { isMobile } from 'react-device-detect';
-import { useEffect, useRef, useState } from 'react';
 import { routes } from '@/app/routes';
 
 interface ArticleLinkContentProps {
@@ -64,11 +64,11 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 		e.stopPropagation();
 		router.push(`/${slug}`);
 	};
+
 	const truncateText = (text: string, wordLimit: number): string => {
 		if (!isMobile) {
 			return text;
 		}
-
 		const words = text.split(' ');
 		if (words.length <= wordLimit) return text;
 		return words.slice(0, wordLimit).join(' ') + '...';
@@ -100,13 +100,21 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 				onTouchEnd={handleTouchEnd}
 				onClick={isMobile ? () => {} : handleClick}
 			>
-				<article className={`${s.hoverBlock}`}>
+				<article className={s.hoverBlock}>
 					<h1>{title}</h1>
 					<p>{truncateText(description, 50)}</p>
 				</article>
 				<div className={s.line}></div>
+
 				{imageSrc ? (
-					<Image src={imageSrc} fill alt="article-image" className={s.image} />
+					<Image
+						src={imageSrc}
+						alt="article-image"
+						className={s.image}
+						fill
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+						priority // якщо хочеш пришвидшити завантаження важливих зображень
+					/>
 				) : (
 					<div className={s.defaultImage}></div>
 				)}
@@ -115,9 +123,15 @@ const ArticleLinkContent: React.FC<ArticleLinkContentProps> = ({
 			<div className={s.titleBlock}>
 				<h1 className={s.title}>{heading}</h1>
 			</div>
-			<Link href={`/${slug}`} className={s.readMore} title={`learn more ${title}`} aria-label={`learn more ${title}`}>
+
+			<Link
+				href={`/${slug}`}
+				className={s.readMore}
+				title={`learn more ${title}`}
+				aria-label={`learn more ${title}`}
+			>
 				<p className={s.link}>
-					{readMoreLanguage?.readmore ? readMoreLanguage?.readmore : 'READ MORE'}
+					{readMoreLanguage?.readmore ? readMoreLanguage.readmore : 'READ MORE'}
 				</p>
 				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16">
 					<path
