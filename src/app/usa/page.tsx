@@ -1,8 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
-import TopSection from '@/Components/TopSection/TopSection';
-import Article from '@/Components/Article/Article';
+import TopSection from '@/components/TopSection/TopSection';
+import Article from '@/components/Article/Article';
 import { postData, postsDataType } from '@/types/postTypes';
 import { getPosts } from '@/services/getPosts';
 import Link from 'next/link';

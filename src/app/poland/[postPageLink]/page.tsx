@@ -1,4 +1,4 @@
-import ArticlePage from '@/Components/ArticlePage/ArticlePage';
+import ArticlePage from '@/components/ArticlePage/ArticlePage';
 import { getPostData } from '@/services/getPostData';
 import { postData } from '@/types/postTypes';
 import { Metadata } from 'next';

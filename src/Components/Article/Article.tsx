@@ -1,7 +1,7 @@
 'use client';
 
 import s from './Article.module.scss';
-import UiSuspense from '@/Components/ui/UiSuspense';
+import UiSuspense from '@/components/ui/UiSuspense';
 import ArticleSkeleton from './Skeletons/ArticleSkeleton';
 import ArticleHeader from './ArticleHeader/ArticleHeader';
 import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';

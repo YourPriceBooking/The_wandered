@@ -1,10 +1,10 @@
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
-import TopSection from '@/Components/TopSection/TopSection';
+import TopSection from '@/components/TopSection/TopSection';
 import { getPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
-import Article from '@/Components/Article/Article';
+import Article from '@/components/Article/Article';
 import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,12 +28,11 @@ async function page({
 
 	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-	const data: postsDataType = await getPosts({ page: paramsPage, country });  
+	const data: postsDataType = await getPosts({ page: paramsPage, country });
 	const length = Math.ceil(data.total / 7);
-	
+
 	return (
 		<main className={s.main}>
-			
 			<TopSection country={country} />
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
