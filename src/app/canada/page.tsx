@@ -1,10 +1,10 @@
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
-import TopSection from '@/Components/TopSection/TopSection';
+import TopSection from '@/components/TopSection/TopSection';
 import { postData, postsDataType } from '@/types/postTypes';
 import { getPosts } from '@/services/getPosts';
-import Article from '@/Components/Article/Article';
+import Article from '@/components/Article/Article';
 import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {

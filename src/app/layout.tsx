@@ -1,13 +1,13 @@
 import '../../node_modules/modern-normalize/modern-normalize.css';
 import '../styles/index.scss';
 
-import Header from '@/Components/Header/Header';
-import Footer from '@/Components/Footer/Footer';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 import type { Metadata } from 'next';
-import GetDataClient from '@/Components/GetDataClient/GetDataClient';
+import GetDataClient from '@/components/GetDataClient/GetDataClient';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: your journey to discovery',

@@ -1,7 +1,7 @@
 import s from './mainPage.module.scss';
-import Article from '@/Components/Article/Article';
+import Article from '@/components/Article/Article';
 import Link from 'next/link';
-import TopSection from '@/Components/TopSection/TopSection';
+import TopSection from '@/components/TopSection/TopSection';
 import { getPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
 

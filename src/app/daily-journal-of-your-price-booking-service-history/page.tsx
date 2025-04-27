@@ -2,7 +2,7 @@ import '../../../node_modules/modern-normalize/modern-normalize.css';
 import type { Metadata } from 'next';
 
 import s from './historyPage.module.scss';
-import JournalPosts from '@/Components/JournalPosts/JournalPosts';
+import JournalPosts from '@/components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { daysSinceDate } from '@/services/daysCounter';
