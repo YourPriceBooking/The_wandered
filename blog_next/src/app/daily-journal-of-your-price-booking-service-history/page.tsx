@@ -1,28 +1,16 @@
-import '../../../node_modules/modern-normalize/modern-normalize.css';
-'use client';
+'use client'; 
 
 import { useEffect, useState } from 'react';
-import type { Metadata } from 'next';
-
 import s from './historyPage.module.scss';
 import JournalPosts from '@/Components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 
-export const metadata: Metadata = {
-	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
-	description:
-		'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
-};
-const INITIAL_NUMBER_OF_USERS = 1;
-
-export default async function HistoryPage() {
-	const [posts, setPosts] = useState<JournalPostType[]>([]);
+export default function HistoryPage() {
+  const [posts, setPosts] = useState<JournalPostType[]>([]);
 
   useEffect(() => {
-    fetch('/api/journal-posts')
-      .then((res) => res.json())
-      .then((data) => setPosts(data.result));
+    getDailyJournalPosts().then((data) => setPosts(data.result));
   }, []);
 
 	return (
