@@ -2,23 +2,24 @@ import '../../../node_modules/modern-normalize/modern-normalize.css';
 import type { Metadata } from 'next';
 
 import s from './historyPage.module.scss';
-import JournalPosts from '@/components/JournalPosts/JournalPosts';
+import JournalPosts from '@/Components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { daysSinceDate } from '@/services/daysCounter';
-
-export const dynamic = 'error';
 
 export const metadata: Metadata = {
 	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
 	description:
 		'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
 };
-
+const INITIAL_NUMBER_OF_USERS = 1;
+const POSTS_LIMIT = 100;
 export default async function HistoryPage() {
 	const data = await getDailyJournalPosts();
 	const posts: JournalPostType[] = data.result;
 
+
+	const limitedPosts = posts.slice(0, POSTS_LIMIT);
 	return (
 		<main className={s.main}>
 			<div className={s.gradient}></div>
@@ -47,9 +48,7 @@ export default async function HistoryPage() {
 					</a>
 				</div>
 			</div>
-			<div className={s.contentSection}>
-				<JournalPosts posts={posts} />
-			</div>
+			<div className={s.contentSection}>{<JournalPosts posts={limitedPosts} />}</div>
 		</main>
 	);
 }
