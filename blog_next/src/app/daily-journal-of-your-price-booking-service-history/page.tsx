@@ -1,11 +1,13 @@
 import '../../../node_modules/modern-normalize/modern-normalize.css';
+'use client';
+
+import { useEffect, useState } from 'react';
 import type { Metadata } from 'next';
 
 import s from './historyPage.module.scss';
 import JournalPosts from '@/Components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
-import { daysSinceDate } from '@/services/daysCounter';
 
 export const metadata: Metadata = {
 	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
@@ -15,8 +17,13 @@ export const metadata: Metadata = {
 const INITIAL_NUMBER_OF_USERS = 1;
 
 export default async function HistoryPage() {
-	const data = await getDailyJournalPosts();
-	const posts: JournalPostType[] = data.result;
+	const [posts, setPosts] = useState<JournalPostType[]>([]);
+
+  useEffect(() => {
+    fetch('/api/journal-posts')
+      .then((res) => res.json())
+      .then((data) => setPosts(data.result));
+  }, []);
 
 	return (
 		<main className={s.main}>
