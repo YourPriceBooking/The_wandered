@@ -57,10 +57,8 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
 
   if (!currentAuthor) return ( 
     <div className={`${s.articleBlock} ${s.skeleton}`}>  
-      <div className={s.skeletonHeader}>
-          <div className={s.skeletonAuthor}></div>
-          <div className={s.skeletonDate}></div>
-        </div>
+          <div className={s.skeletonHeader}></div>
+          <div className={s.skeletonAuthor}></div> 
     </div>)
 
   const parsedLinks = JSON.parse(currentAuthor.links);
