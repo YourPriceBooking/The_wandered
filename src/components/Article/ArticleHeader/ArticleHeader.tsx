@@ -4,7 +4,7 @@ import { AuthorType } from '@/types/authorTypes';
 import Link from 'next/link';
 import { useAppSelector } from '@/lib/hooks';
 import { useEffect, useRef, useState } from 'react';
-import { getReadableDate } from '@/services/getReadableDate';
+import { getArticleDate } from '@/services/getArticleDate';
 
 type ArticleHeaderProps = {
   author: string;
@@ -30,7 +30,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
 
 
   const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
-  const readableDate = getReadableDate(date, country);
+  const readableDate = getArticleDate(date, country);
 
   const authorRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
