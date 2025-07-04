@@ -1,3 +1,14 @@
+.loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	min-height: 300px;
+	font-size: 18px;
+	color: var(--color-secondary-2);
+	font-weight: 600;
+}
+
 .post__img {
 	display: flex;
 	justify-content: center;
@@ -78,6 +89,12 @@
 	color: var(--color-secondary-2);
 	font-weight: 600;
 	font-size: 17px;
+	cursor: pointer;
+	
+	&:hover {
+		text-decoration: underline;
+	}
+	
 	@media (max-width: 768px) {
 		margin-bottom: 25px;
 	}
@@ -191,4 +208,101 @@
 
 }
 
+.authorTooltipWrapper {
+	position: absolute;
+	z-index: 30;
+	top: 20px;
+	left: 0;
+	width: 400px;
+	padding-top: 20px;
+	transform-origin: top left;
+	transform: scale(0.1, 0.1);
+	opacity: 0;
+	transition: all 0.2s ease 0.9s;
+
+	&.visible {
+		opacity: 1;
+		transform: scale(1);
+		transition: opacity 0.3s ease;
+	}
+
+	.authorTooltip {
+		width: 100%;
+		height: auto;
+		padding: 15px;
+		white-space: pre-wrap;
+		background-color: rgb(255, 255, 255);
+		border: 1px solid var(--color-border);
+		border-radius: 3px;
+		-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.59);
+		-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.59);
+		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.59);
+
+		.tooltipMainImg {
+			width: 70px;
+		}
+		.tooltipMainInfo {
+			display: flex;
+			gap: 10px;
+			width: 100%;
+			margin-bottom: 10px;
+
+			.tooltipName {
+				font-weight: 500;
+				text-transform: uppercase;
+				margin-bottom: 10px;
+				color: #000;
+			}
+			.tooltipLinks {
+				display: flex;
+				gap: 8px;
+
+				& img {
+					width: 25px;
+					height: 25px;
+					cursor: pointer;
+					transition: transform 0.1s ease-in;
+
+					&:hover {
+						transform: translateY(-2px);
+					}
+				}
+			}
+		}
+		.tooltipBio {
+			max-width: 100%;
+		}
+
+		&::before {
+			display: block;
+			position: absolute;
+			content: '';
+			width: 20px;
+			height: 20px;
+			top: 10px;
+			left: 30px;
+			border: 1px solid var(--color-border);
+			background-color: rgb(255, 255, 255);
+			transform: rotate(-45deg);
+			-webkit-transform: rotate(-45deg);
+			-moz-transform: rotate(-45deg);
+			-ms-transform: rotate(-45deg);
+			-o-transform: rotate(-45deg);
+			-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.59);
+			-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.59);
+			box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.59);
+		}
+
+		&::after {
+			display: block;
+			position: absolute;
+			content: '';
+			width: 40px;
+			height: 15px;
+			background-color: rgb(255, 255, 255);
+			top: 20px;
+			left: 20px;
+		}
+	}
+}
 
