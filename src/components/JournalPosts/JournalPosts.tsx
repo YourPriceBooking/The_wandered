@@ -1,9 +1,7 @@
 'use client';
 
-import debounce from 'lodash/debounce';
-import JournalPost from './JournalPost/JournalPost';
-
 import { useEffect, useState } from 'react';
+import JournalPost from './JournalPost/JournalPost';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { daysSinceDate } from '@/services/daysCounter';
@@ -11,55 +9,58 @@ import { daysSinceDate } from '@/services/daysCounter';
 interface JournalPostsProps {
 	posts: JournalPostType[];
 }
+
+const BATCH_SIZE = 10;
+const INITIAL_LOAD = 200;
+
 const JournalPosts: React.FC<JournalPostsProps> = ({ posts }) => {
-	const [initialPosts, setInitialPosts] = useState<JournalPostType[]>(posts);
+	const [allPosts, setAllPosts] = useState<JournalPostType[]>(posts);
+	const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
 	const [page, setPage] = useState(daysSinceDate() * 5 - 1);
 	const [loading, setLoading] = useState(false);
 	const [isFinished, setIsFinished] = useState(false);
-	const [lastScrollTop, setLastScrollTop] = useState(0);
 
-	const loadMorePosts = async () => {
+	const loadMorePostsFromServer = async () => {
 		setLoading(true);
 		try {
-			const newPosts = await getDailyJournalPosts(page);
-			setInitialPosts((prevPosts) => [...prevPosts, ...newPosts.result]);
-			setPage((prevPage) => prevPage - 1);
-		} catch (error) {
-			console.error('Error loading more posts:', error);
+			const res = await getDailyJournalPosts(page, INITIAL_LOAD);
+			if (res.result.length > 0) {
+				setAllPosts((prev) => [...prev, ...res.result]);
+				setPage((prev) => prev - 1);
+			} else {
+				setIsFinished(true);
+			}
+		} catch (e) {
+			console.error(e);
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		if (page > 0) {
-			const handleScroll = debounce(() => {
-				const currentScrollTop = document.documentElement.scrollTop;
-				if (currentScrollTop > lastScrollTop + 3500 && !loading) {
-					setLastScrollTop(currentScrollTop);
-					loadMorePosts();
-				}
-			}, 250);
+		const onScroll = () => {
+			if (loading) return;
+			const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+			if (scrollTop + clientHeight >= scrollHeight - 800) {
+				setVisibleCount((prev) => prev + BATCH_SIZE);
+			}
+		};
+		window.addEventListener('scroll', onScroll);
+		return () => window.removeEventListener('scroll', onScroll);
+	}, [loading]);
 
-			window.addEventListener('scroll', handleScroll);
-
-			return () => {
-				window.removeEventListener('scroll', handleScroll);
-			};
-		} else if (page === 0) {
-			setIsFinished(true);
+	useEffect(() => {
+		if (visibleCount > allPosts.length && !loading && !isFinished) {
+			loadMorePostsFromServer();
 		}
-	}, [loading, page]);
+	}, [visibleCount, allPosts.length, loading, isFinished]);
 
 	return (
 		<div>
-			{initialPosts.map((post: JournalPostType) => (
-				<JournalPost
-					key={post._id + post.description + post.url + post.linkOnPhoto}
-					post={post}
-				/>
+			{allPosts.slice(0, visibleCount).map((post) => (
+				<JournalPost key={post._id + post.description + post.url} post={post} />
 			))}
-			{loading && <p>Loading...</p>}
+			{loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
 		</div>
 	);
 };

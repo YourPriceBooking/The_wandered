@@ -18,7 +18,6 @@ export default async function HistoryPage() {
 	const data = await getDailyJournalPosts();
 	const posts: JournalPostType[] = data.result;
 
-
 	const limitedPosts = posts.slice(0, POSTS_LIMIT);
 	return (
 		<main className={s.main}>
