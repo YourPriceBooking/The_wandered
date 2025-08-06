@@ -8,6 +8,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 
 import type { Metadata } from 'next';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
+import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: your journey to discovery',
@@ -30,6 +31,8 @@ export default function RootLayout({
 					<Footer />
 					<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 				</StoreProvider>
+
+				<LenisWrapper />
 			</body>
 		</html>
 	);

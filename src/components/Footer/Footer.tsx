@@ -31,7 +31,9 @@ export default function Footer() {
 						);
 					})}
 				</div>
-				<p className={s.copyright}>© 2024 Your Price Booking ОÜ. All rights reserved.</p>
+				<p className={s.copyright}>
+					&copy; {new Date().getFullYear()} Your Price Booking ОÜ. All rights reserved.
+				</p>
 			</div>
 		</footer>
 	);
