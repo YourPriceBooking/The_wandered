@@ -96,6 +96,7 @@
 	font-weight: 600;
 	font-size: 17px;
 	cursor: pointer;
+	display: inline-block;
 
 	&:hover {
 		text-decoration: underline;
@@ -228,7 +229,8 @@
 	&.visible {
 		opacity: 1;
 		transform: scale(1);
-		transition: opacity 0.3s ease;
+		transition: opacity 0.1s ease;
+		transition-delay: 0.5s;
 	}
 
 	.authorTooltip {
