@@ -24,7 +24,7 @@
 	width: 100vw;
 	height: 420px;
 	margin-top: 0px;
-	background-color: var(--color-background-3);
+	// background-color: var(--color-background-3);
 	@media (max-width: 950px) {
 		margin-top: 50px;
 	}
@@ -230,7 +230,7 @@
 		opacity: 1;
 		transform: scale(1);
 		transition: opacity 0.1s ease;
-		transition-delay: 0.5s;
+		transition-delay: 0.7s;
 	}
 
 	.authorTooltip {
