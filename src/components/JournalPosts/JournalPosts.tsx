@@ -4,29 +4,39 @@ import { useEffect, useState } from 'react';
 import JournalPost from './JournalPost/JournalPost';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
-import { daysSinceDate } from '@/services/daysCounter';
 
 interface JournalPostsProps {
-	posts: JournalPostType[];
+	initialPosts: JournalPostType[];
+	initialPage: number;
 }
 
 const BATCH_SIZE = 10;
-const INITIAL_LOAD = 200;
+const POSTS_LIMIT = 100;
 
-const JournalPosts: React.FC<JournalPostsProps> = ({ posts }) => {
-	const [allPosts, setAllPosts] = useState<JournalPostType[]>(posts);
+const JournalPosts: React.FC<JournalPostsProps> = ({ initialPosts, initialPage }) => {
+	const [allPosts, setAllPosts] = useState<JournalPostType[]>(initialPosts);
 	const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
-	const [page, setPage] = useState(daysSinceDate() * 5 - 1);
+	const [page, setPage] = useState(initialPage);
 	const [loading, setLoading] = useState(false);
 	const [isFinished, setIsFinished] = useState(false);
+
+	const updateURL = (count: number) => {
+		const current = Math.ceil(count / BATCH_SIZE);
+		window.history.replaceState(
+			{},
+			'',
+			`/daily-journal-of-your-price-booking-service-history?page=${current}`,
+		);
+	};
 
 	const loadMorePostsFromServer = async () => {
 		setLoading(true);
 		try {
-			const res = await getDailyJournalPosts(page, INITIAL_LOAD);
+			const nextPage = page + 1;
+			const res = await getDailyJournalPosts(nextPage, POSTS_LIMIT);
 			if (res.result.length > 0) {
-				setAllPosts((prev) => [...prev, ...res.result]);
-				setPage((prev) => prev - 1);
+				setAllPosts((prev) => [...prev, ...res.result.reverse()]);
+				setPage(nextPage);
 			} else {
 				setIsFinished(true);
 			}
@@ -40,9 +50,15 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ posts }) => {
 	useEffect(() => {
 		const onScroll = () => {
 			if (loading) return;
+
 			const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
 			if (scrollTop + clientHeight >= scrollHeight - 800) {
-				setVisibleCount((prev) => prev + BATCH_SIZE);
+				setVisibleCount((prev) => {
+					const newCount = prev + BATCH_SIZE;
+					updateURL(newCount);
+					return newCount;
+				});
 			}
 		};
 		window.addEventListener('scroll', onScroll);
