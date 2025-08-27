@@ -6,12 +6,6 @@ import JournalPosts from '@/components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 
-// export const metadata: Metadata = {
-// 	title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
-// 	description:
-// 		'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
-// };
-
 export async function generateMetadata({
 	searchParams,
 }: {
@@ -29,9 +23,7 @@ export async function generateMetadata({
 			canonical: currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`,
 		},
 		other: {
-			// rel="prev" / rel="next" для SEO
 			...(currentPage > 1 && { prev: `${baseUrl}?page=${currentPage - 1}` }),
-			// Тут лучше знать общее кол-во страниц, но если не знаем — просто генерим next
 			next: `${baseUrl}?page=${currentPage + 1}`,
 		},
 	};
