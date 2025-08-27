@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import JournalPost from './JournalPost/JournalPost';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
+import s from './JournalPost/JournalPost.module.scss';
 
 interface JournalPostsProps {
 	initialPosts: JournalPostType[];
@@ -77,6 +78,20 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ initialPosts, initialPage }
 				<JournalPost key={post._id + post.description + post.url} post={post} />
 			))}
 			{loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
+
+			{/* SEO-friendly pagination */}
+			<nav className={s.pagination}>
+				{page > 1 && (
+					<a href={`?page=${page - 1}`} className={s.pageLink}>
+						Previous page
+					</a>
+				)}
+				{!isFinished && (
+					<a href={`?page=${page + 1}`} className={s.pageLink}>
+						Next page
+					</a>
+				)}
+			</nav>
 		</div>
 	);
 };

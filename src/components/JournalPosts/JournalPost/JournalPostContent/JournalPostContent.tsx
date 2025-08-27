@@ -20,9 +20,18 @@ const JournalPostContent: React.FC<JournalPostContentProps> = ({ title, descript
 			<div className={s.infoPostContentImage}>
 				<img
 					src={img || notFoundImg}
-					alt="Picture of the post"
+					alt={title || 'Picture of the post'}
 					className={s.infoPostContentImageContent}
+					loading="lazy"
 				/>
+
+				<noscript>
+					<img
+						src={img || notFoundImg}
+						alt={title || 'Picture of the post'}
+						className={s.infoPostContentImageContent}
+					/>
+				</noscript>
 			</div>
 			<h4 className={s.title}>{title}</h4>
 		</div>
