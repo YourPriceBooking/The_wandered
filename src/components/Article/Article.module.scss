@@ -9,7 +9,7 @@
 	transition: all 0.2s ease-in;
 
 	&:hover {
-		background-color: #fff0e1;
+		background-color: #FFF6F5;
 	}
 
 	@media (max-width: 940px) {
@@ -44,7 +44,7 @@
 			padding: 5px;
 		}
 		&:hover {
-			background-color: #15344c9b;
+			background-color: rgba(75, 80, 89, 0.73);
 		}
 
 		@media (max-width: 768px) {
