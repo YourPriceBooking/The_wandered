@@ -8,6 +8,8 @@
 	height: 80px;
 	background-color: var(--color-background-2);
 	box-sizing: border-box;
+	border: 1px solid silver;
+	border-radius: 33px;
 
 	@media (max-width: 950px) {
 		padding: 0 10px;
