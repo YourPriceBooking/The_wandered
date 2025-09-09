@@ -2,11 +2,10 @@
 	flex-grow: 1;
 	width: 100vw;
 	margin-top: 40px;
-	background-color: var(--color-background-1);
+	// background-color: var(--color-background-1);
 	@media (max-width: 400px) {
 		min-width: 400px;
 	}
-
 }
 
 .mainTextBlock {
@@ -82,4 +81,3 @@
 		}
 	}
 }
-
