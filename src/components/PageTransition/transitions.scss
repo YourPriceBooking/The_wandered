@@ -8,12 +8,12 @@
 
 .page-enter-active {
   opacity: 1;
-  animation: fade-in 1000ms forwards ease;
+  animation: fade-in 900ms forwards ease;
 }
 
 .page-exit-active {
   opacity: 0;
-  animation: fade-out 700ms forwards ease;
+  animation: fade-out 700ms forwards ease-in;
 }
 
 @keyframes fade-in {

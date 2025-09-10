@@ -134,3 +134,27 @@
 	// 	top: 70px;
 	// }
 }
+.hidden {
+  display: none;
+}
+.historyArrow {
+  display: inline-block;
+  background-color: white;
+  width: 80px;
+  height: 35px;
+  text-align: left;
+  align-self: flex-start;
+  border-radius: 1px;
+  border: 1px solid transparent;
+  margin: 15px;
+  padding: 0;
+  transition: all 0.1s ease;
+  	@media (max-width: 420px) {
+		width: 61px;
+  		height: 25px;
+	}
+}
+.historyArrow:hover {
+  border: 1px solid silver;
+  cursor: pointer;
+}
