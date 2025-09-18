@@ -13,7 +13,7 @@
 
 .page-exit-active {
   opacity: 0;
-  animation: fade-out 700ms forwards ease-in;
+  animation: fade-out 700ms forwards ease-out;
 }
 
 @keyframes fade-in {
