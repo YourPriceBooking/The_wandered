@@ -7,7 +7,7 @@ export const footerLinkData = [
 				src: 'https://www.yourpricebooking.com/about-company',
 			},
 			{
-				name: 'Booking Service History & Game park',
+				name: 'Daily Journal of Your Price Booking Service History & Game park',
 				src: '/daily-journal-of-your-price-booking-service-history',
 			},
 			{
@@ -22,10 +22,6 @@ export const footerLinkData = [
 			{
 				name: 'yourpricebooking.com',
 				src: 'https://www.yourpricebooking.com',
-			},
-			{
-				name: 'Authors',
-				src: '/',
 			},
 			{
 				name: 'Help center',
@@ -81,6 +77,23 @@ export const footerLinkData = [
 			{
 				name: 'X',
 				src: 'https://twitter.com/BTravelq',
+			},
+		],
+	},
+		{
+		title: '',
+		links: [
+			{
+				name: 'Home page',
+				src: '/',
+			},
+			{
+				name: 'Ukraine',
+				src: '/ukraine',
+			},
+			{
+				name: 'Poland',
+				src: '/poland',
 			},
 		],
 	},
