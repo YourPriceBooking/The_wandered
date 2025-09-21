@@ -14,7 +14,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
       <CSSTransition
         key={pathname} // key for animation when changing route
         nodeRef={nodeRef}
-        timeout={900}
+        timeout={700}
         classNames="page"
         unmountOnExit
       >

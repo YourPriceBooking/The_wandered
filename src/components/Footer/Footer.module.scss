@@ -10,11 +10,7 @@
   display: flex;
   justify-content: center;
   width: 100vw;
-  // height: 330px;
   background-color: #000000;
-  // @media (max-width: 540px) {
-  //   height: 290px;
-  // }
 }
 .footerContent {
   display: flex;
@@ -52,6 +48,13 @@
   color: #FFFFFF;
 }
 
+    .navBlock:nth-child(1) .linkBlock a:active,
+    .navBlock:nth-child(2) .linkBlock a:active,
+    .navBlock:nth-child(3) .linkBlock a:active {
+    color: #CDD4F0;
+    transition: color 0.5s ease;
+  }
+
 /* Desktop - 4 columns layout */
 @media (min-width: 1024px) {
   .navContainer {
@@ -67,10 +70,11 @@
   .navBlock:nth-child(3) { grid-area: privacy; }
   .navBlock:nth-child(4) { grid-area: countries; }
   .navBlock:nth-child(5) { grid-area: social; }
+  .navBlock:nth-child(6) { grid-area: mobile; }
 
   .navBlock:nth-child(4) { padding-top: 2.5rem; }
   .navBlock:nth-child(4) { font-size: 24px; }
-   .navBlock:nth-child(5) { margin-top: -50px; }
+  .navBlock:nth-child(5) { margin-top: -50px; }
   
   .navBlock {
     display: flex;
@@ -100,6 +104,15 @@
     color: #7B8193;
     transition: color 0.5s ease;
   }
+  .navBlock:nth-child(1) .linkBlock > li:nth-child(3):hover { 
+  background-color: rgba(70, 70, 70); 
+  color: var(--color-primary-2);
+  cursor: pointer;
+  }
+  .navBlock:nth-child(1) .linkBlock > li:nth-child(3) a:hover { 
+  color: var(--color-primary-2);
+  cursor: pointer;
+  }
 }
 
 /* Tablet - 3 columns layout */
@@ -116,9 +129,10 @@
   .navBlock:nth-child(3) { grid-area: privacy; }
   .navBlock:nth-child(4) { grid-area: countries; }
   .navBlock:nth-child(5) { grid-area: social; }
+  .navBlock:nth-child(6) { grid-area: mobile; }
 
   .navBlock:nth-child(3) {min-width: 249px;}
-    .navBlock:nth-child(4) { font-size: 20px; }
+  .navBlock:nth-child(4) { font-size: 20px; }
   .navBlock:nth-child(4) h2 {
      margin-top: -90px;
      margin-bottom: 20px;
@@ -145,16 +159,18 @@
   .navContainer {
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
-      " . countries" 
-      "company community";
+      "mobile countries" 
+      "company community"
+      "privacy social";
     gap: 1.5rem;
   }
   
   .navBlock:nth-child(1) { grid-area: company; }
   .navBlock:nth-child(2) { grid-area: community; }
-  .navBlock:nth-child(3) { display: none; } // hide privacy on mobile
+  .navBlock:nth-child(3) { grid-area: privacy; }
   .navBlock:nth-child(4) { grid-area: countries; }
-  .navBlock:nth-child(5) { display: none; } // hide social on mobile
+  .navBlock:nth-child(5) { grid-area: social; }
+  .navBlock:nth-child(6) { grid-area: mobile; }
 
   .navBlock:nth-child(4) .linkBlock > li:nth-child(1) { 
   display: none; 
@@ -176,7 +192,7 @@
   
   .linkTitle {
     font-size: 1rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
   }
   
   .linkBlock li {
@@ -202,7 +218,7 @@
   padding-top: 10px;
   text-align: left;
   & > li {
-    margin: 8px 0 8px;
+    margin: 0px 0 8px;
     list-style-type: none;
     @media (max-width: 540px) {
       font-size: 12px;
@@ -212,10 +228,10 @@
     }
   }
   @media (max-width: 480px) {
-    padding-top: 15px;
+    padding-top: 0px;
   }
   @media (max-width: 320px) {
-    padding-top: 5px;
+    padding-top: 0px;
   }
 }
 
@@ -236,28 +252,45 @@ max-width: 200px;
   margin-top: 12px;
 }
 
-
-  .navBlock:nth-child(4) .linkBlock a:hover {
+  .navBlock:nth-child(4) .linkBlock a:hover,
+  .navBlock:nth-child(6) .linkBlock a:hover {
     color: var(--color-primary-2);
     transition: color 0.5s ease;
   }
 
-    .navBlock:nth-child(4) .linkBlock a:active {
+    .navBlock:nth-child(4) .linkBlock a:active,
+    .navBlock:nth-child(6) .linkBlock a:active {
     color: white;
     transition: color 0.5s ease;
   }
 
-    .navBlock:nth-child(4) .linkBlock li:active {
+    .navBlock:nth-child(4) .linkBlock .active,
+    .navBlock:nth-child(6) .linkBlock .active {
+    color: white;
+    list-style-type: disc; 
+    transition: color 0.5s ease;
+  }
+    .navBlock:nth-child(4) .linkBlock li:active,
+    .navBlock:nth-child(6) .linkBlock li:active {
     color: white;
     list-style-type: disc; 
     transition: color 0.5s ease;
   }
 
-.navBlock:nth-child(1) .linkBlock > li:nth-child(3) a:hover { 
-  // background-color: rgba(0, 0, 0, 0.7); //#000000B2;
+  .navBlock:nth-child(1) .linkBlock > li:nth-child(3):hover { 
+  background-color: rgba(70, 70, 70); //#000000B2;
   color: var(--color-primary-2);
   cursor: pointer;
-}
+  }
+    .navBlock:nth-child(1) .linkBlock > li:nth-child(3) a:active {
+    color: rgba(255, 96, 0, 0.8);
+    background-color: rgba(80, 80, 80); 
+    transition: color 0.5s ease;
+  }
+
+   .navBlock:nth-child(1) .linkBlock > li:nth-child(3):active { 
+   background-color: rgba(80, 80, 80); 
+  }
 
 .copyright {
   font-size: 12px;
