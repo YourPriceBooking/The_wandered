@@ -17,9 +17,9 @@ export async function generateMetadata({
 		'https://www.yourpricebooking.com/daily-journal-of-your-price-booking-service-history';
 
 	return {
-		title: 'Your Price Booking Journey: A Chronological Odyssey of Hotel Reservations',
+		title: 'Your Price Booking Journey: From Hotel Reservations to Games on the Go',
 		description:
-			'Embark on a captivating journey through the evolution of Your Price Booking, unfolding the timeline of every page on our blog. Travel through the past and future, discovering unique opportunities for your upcoming getaway. Multilingual information for your utmost convenience.',
+			'Discover the Your Price Booking timeline with travel insights and our new Game Park — fun, interactive, and multilingual.',
 		alternates: {
 			canonical: currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`,
 		},
