@@ -71,7 +71,7 @@ export const footerLinkData = [
 			},
 			{
 				name: 'Travel Resources',
-				src: '/',
+				src: '/travel-resources',
 			},
 		],
 	},
@@ -101,7 +101,7 @@ export const footerLinkData = [
 			},
 			{
 				name: 'Travel Resources',
-				src: '/',
+				src: '/travel-resources',
 			},
 		],
 	},
