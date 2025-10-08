@@ -17,16 +17,13 @@ import { routes } from '@/app/routes';
 export default function Header() {
 	const pathname = usePathname();
 	const params = useParams();
-console.log('pathname', pathname);
-	console.log('params', params);
+
 	const [activeLink, setActiveLink] = useState(
 		pathname.includes('-') ? '' : pathname.split('/')[1],
 	);
 	const [isDailyJournal, setIsDailyJournal] = useState(false);
-console.log('activeLink', activeLink);
-console.log('isDailyJournal :', isDailyJournal);
+
 	const isPostPage = Object.keys(params)[0] === 'postPageLink' || pathname === '/daily-journal-of-your-price-booking-service-history';
-	console.log('isPostPage', isPostPage);
 	
 
 	useEffect(() => {
@@ -35,7 +32,7 @@ console.log('isDailyJournal :', isDailyJournal);
 			setActiveLink(currentRoute?.path);
 		}
 		setIsDailyJournal(pathname === '/daily-journal-of-your-price-booking-service-history');
-		console.log('isDailyJournal', isDailyJournal);
+
 	}, [pathname]);
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
