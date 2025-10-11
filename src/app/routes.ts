@@ -30,4 +30,9 @@ export const routes: routeType[] = [
 		path: 'canada',
 		title: 'Canada',
 	},
+	{
+		name: 'Australia',
+		path: 'australia',
+		title: 'Australia',
+	},
 ];

@@ -16,6 +16,8 @@ const DateBlock: React.FC<DateBlockProps> = ({ isWhite = false, country }) => {
         return 'uk-UA';
       case 'poland':
         return 'pl-PL';
+      case 'australia':
+        return 'en-AU';
       default:
         return 'en-US';
     }
@@ -30,8 +32,9 @@ const DateBlock: React.FC<DateBlockProps> = ({ isWhite = false, country }) => {
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
+    hour12: locale === 'en-AU' || locale === 'uk-UA' || locale === 'pl-PL' ? false : true,
     minute: '2-digit',
-    timeZone: userTimeZone,
+    timeZone: locale === 'en-AU' ? 'Australia/Sydney' : userTimeZone,
   }).format(currentDate);
 
   if (locale === 'uk-UA') {
@@ -61,7 +64,7 @@ const DateBlock: React.FC<DateBlockProps> = ({ isWhite = false, country }) => {
 
   return (
     <time className={s.date} dateTime={currentDate.toISOString()}>
-      {formattedDate}
+      {formattedDate}{locale === 'en-AU' ? ' AEST' : ''}
     </time>
   );
 };
