@@ -18,6 +18,8 @@ const DateBlock: React.FC<DateBlockProps> = ({ isWhite = false, country }) => {
         return 'pl-PL';
       case 'australia':
         return 'en-AU';
+      case 'singapore':
+        return 'en-SG';
       default:
         return 'en-US';
     }

@@ -9,9 +9,9 @@ import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
-		title: 'Exploring Australia: from vibrant cities to breathtaking landscapes',
+		title: 'Travel Australia | Top Destinations, Experiences & Booking Tips – The Wandered',
 		description:
-			'Discover the beauty of Australia, a country with vast wilderness, charming cities, and rich cultural diversity. From the Rockies to the Maritimes, there is always something new to explore.',
+			'Discover Australia’s breathtaking destinations, unique experiences, and smart booking tips. The Wandered inspires modern travelers with guides and insights.',
 		icons: {
 			icon: '../favicon.ico',
 			shortcut: '../favicon.ico',
