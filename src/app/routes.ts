@@ -35,4 +35,9 @@ export const routes: routeType[] = [
 		path: 'australia',
 		title: 'Australia',
 	},
+	{
+		name: 'Singapore',
+		path: 'singapore',
+		title: 'Explore Singapore: Travel Tips, Hidden Gems & Booking Insights',
+	},
 ];
