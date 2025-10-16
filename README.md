@@ -19,7 +19,35 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+Порядок роботи з GitHub
+1. Створюєте нову гілку від main:
+git checkout main
+git pull origin main
+git checkout -b feature/abc123
 
+2. Робите зміни у своїй гілці
+git add .
+git commit -m "Короткий опис змін (ТЗ, задача тощо)"
+
+3. Перед відправкою оновлюєте main і робите rebase:
+git checkout main
+git pull origin main
+git checkout feature/abc123
+git rebase main
+
+4. Перевіряєте, що все працює:
+- Код компілюється / білд збирається
+- Зміни на місці
+
+5. Відправляєте свою гілку в репозиторій:
+git push --force-with-lease origin feature/abc123
+
+6. Створюєте Merge Request (Pull Request) у main
+- У полі “Merge method” вибираєте “Squash and merge”
+- Назва PR: коротко про задачу або номер ТЗ
+- Після мерджу можна видалити свою гілку
+```
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
