@@ -6,25 +6,28 @@ import JournalPosts from '@/components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import Image from 'next/image';
+import GamesOnTheGo from '@/components/GamesOnTheGo/GamesOnTheGo';
 
 export async function generateMetadata({
 	searchParams,
 }: {
 	searchParams: { page?: string };
 }): Promise<Metadata> {
+	const gamePage = searchParams.page === 'game-zone' ? 'game-zone' : null;
 	const currentPage = Number(searchParams.page || '1');
 	const baseUrl =
 		'https://www.yourpricebooking.com/daily-journal-of-your-price-booking-service-history';
-
+	const canonicalUrl = currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`;
 	return {
 		title: 'Your Price Booking Journey: From Hotel Reservations to Games on the Go',
 		description:
 			'Discover the Your Price Booking timeline with travel insights and our new Game Park — fun, interactive, and multilingual.',
 		alternates: {
-			canonical: currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`,
+			canonical: gamePage ? `${baseUrl}?page=${gamePage}` : canonicalUrl,
 		},
 		other: {
-			...(currentPage > 1 && { prev: `${baseUrl}?page=${currentPage - 1}` }),
+			...((currentPage > 1 && { prev: `${baseUrl}?page=${currentPage - 1}` }) ||
+				(gamePage && { prev: `${baseUrl}?page=${gamePage}` })),
 			next: `${baseUrl}?page=${currentPage + 1}`,
 		},
 	};
@@ -33,7 +36,7 @@ export async function generateMetadata({
 const POSTS_LIMIT = 100;
 
 export default async function HistoryPage({ searchParams }: { searchParams: { page?: string } }) {
-	const currentPage = Number(searchParams.page || '1');
+	const currentPage = searchParams.page === 'game-zone' ? 1 : Number(searchParams.page || '1');
 	const data = await getDailyJournalPosts(currentPage, POSTS_LIMIT);
 
 	const posts: JournalPostType[] = data.result.reverse();
@@ -101,9 +104,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 				</div>
 			</div>
 			<div className={s.contentSection}>
-				<div className={s.gameSection}>
-					<iframe src="https://gamesnacks.com/embed" allowFullScreen loading="lazy"></iframe>
-				</div>
+				<GamesOnTheGo isScrollIntoView={searchParams.page === 'game-zone'} />
 				<JournalPosts initialPosts={posts} initialPage={currentPage} />
 			</div>
 		</main>

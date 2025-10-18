@@ -1,0 +1,62 @@
+.gameSection {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 95%;
+	max-width: 800px;
+	margin-bottom: 20px;
+	justify-content: center;
+	align-items: center;
+	scrollbar-width: none;
+	gap: 20px;
+	height: 100dvh;
+	padding-top: 10px;
+
+	@media (max-width: 375px) {
+		margin-top: 80px;
+	}
+
+	.gameHeader {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		h1 {
+			text-align: center;
+			padding-bottom: 20px;
+			font-family: 'Jersey 10', sans-serif;
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 96px;
+			background: linear-gradient(to right, #e2822e, #eec043);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+
+			@media (max-width: 768px) {
+				font-size: 77px;
+				padding-bottom: 10px;
+			}
+			@media (max-width: 480px) {
+				font-size: 33px;
+				padding-bottom: 0px;
+			}
+		}
+	}
+	iframe {
+		flex: 1;
+		border: none;
+		border-radius: 15px;
+		width: 100%;
+
+		min-height: 500px;
+	}
+	.arrowBack {
+		position: absolute;
+		left: -100px;
+		bottom: 75%;
+		z-index: 100;
+		@media (max-width: 1000px) {
+			display: none;
+			visibility: hidden;
+		}
+	}
+}
