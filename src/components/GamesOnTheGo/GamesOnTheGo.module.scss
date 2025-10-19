@@ -4,11 +4,11 @@
 	flex-direction: column;
 	width: 95%;
 	max-width: 800px;
-	margin-bottom: 20px;
+
 	justify-content: center;
 	align-items: center;
 	scrollbar-width: none;
-	gap: 20px;
+
 	height: 100dvh;
 	padding-top: 10px;
 
@@ -20,9 +20,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		h1 {
+		h2 {
 			text-align: center;
-			padding-bottom: 20px;
 			font-family: 'Jersey 10', sans-serif;
 			text-transform: uppercase;
 			font-weight: 600;
@@ -33,11 +32,9 @@
 
 			@media (max-width: 768px) {
 				font-size: 77px;
-				padding-bottom: 10px;
 			}
 			@media (max-width: 480px) {
 				font-size: 33px;
-				padding-bottom: 0px;
 			}
 		}
 	}

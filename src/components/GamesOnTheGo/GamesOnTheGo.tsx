@@ -40,7 +40,7 @@ export default function GamesOnTheGo({ isScrollIntoView }: { isScrollIntoView?: 
 				<BackArrow />
 			</div>
 			<div className={s.gameHeader}>
-				<h1>Game Zone</h1>
+				<h2>Game Zone</h2>
 			</div>
 			<iframe
 				title="Embedded Example"

@@ -13,7 +13,7 @@ const JournalPostContent: React.FC<JournalPostContentProps> = ({ title, descript
 	return (
 		<div className={s.infoPostContent}>
 			<article className={s.infoPostContentLink}>
-				<h4 className={s.title}>{title}</h4>
+				<h3 className={s.title}>{title}</h3>
 				<p className={s.text}>{description}</p>
 				<div className={s.line}></div>
 			</article>

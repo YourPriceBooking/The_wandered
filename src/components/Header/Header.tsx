@@ -23,23 +23,32 @@ export default function Header() {
 	);
 	const [isDailyJournal, setIsDailyJournal] = useState(false);
 
-	const isPostPage = Object.keys(params)[0] === 'postPageLink' || pathname === '/daily-journal-of-your-price-booking-service-history';
-	
+	const isPostPage =
+		Object.keys(params)[0] === 'postPageLink' ||
+		pathname.startsWith('/daily-journal-of-your-price-booking-service-history');
+	{
+		/* Check if path is daily journal */
+	}
 
 	useEffect(() => {
 		const currentRoute = routes.find((item) => item.path === pathname.split('/')[1]);
 		if (currentRoute) {
 			setActiveLink(currentRoute?.path);
 		}
-		setIsDailyJournal(pathname === '/daily-journal-of-your-price-booking-service-history');
-
+		setIsDailyJournal(
+			pathname.startsWith('/daily-journal-of-your-price-booking-service-history'),
+		);
 	}, [pathname]);
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 
 	return (
-		<header className={`${s.header} ${isPostPage ? s.postPage : ''} ${isDailyJournal ? s['historyArrow'] : ''}`}>
+		<header
+			className={`${s.header} ${isPostPage ? s.postPage : ''} ${
+				isDailyJournal ? s['historyArrow'] : ''
+			}`}
+		>
 			{isPostPage && <BackArrow country={activeLink} />}
 			<div className={`${s.headerContent} ${isDailyJournal ? s.hidden : ''}`}>
 				<Logo />
