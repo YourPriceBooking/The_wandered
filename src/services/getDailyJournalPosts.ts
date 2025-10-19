@@ -14,5 +14,6 @@ export async function getDailyJournalPosts(page: number = daysSinceDate() * 5, l
 	if (!res.ok) {
 		throw new Error('Failed to fetch data');
 	}
+
 	return res.json();
 }

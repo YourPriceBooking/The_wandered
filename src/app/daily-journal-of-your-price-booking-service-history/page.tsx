@@ -2,11 +2,12 @@ import '../../../node_modules/modern-normalize/modern-normalize.css';
 import type { Metadata } from 'next';
 
 import s from './historyPage.module.scss';
-import JournalPosts from '@/components/JournalPosts/JournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import Image from 'next/image';
 import GamesOnTheGo from '@/components/GamesOnTheGo/GamesOnTheGo';
+import Link from 'next/link';
+import JournalPostsShort from '@/components/JournalPosts/JournalPostsShort/JournalPostsShort';
 
 export async function generateMetadata({
 	searchParams,
@@ -33,14 +34,12 @@ export async function generateMetadata({
 	};
 }
 
-const POSTS_LIMIT = 100;
+const POSTS_LIMIT = 1;
 
 export default async function HistoryPage({ searchParams }: { searchParams: { page?: string } }) {
 	const currentPage = searchParams.page === 'game-zone' ? 1 : Number(searchParams.page || '1');
 	const data = await getDailyJournalPosts(currentPage, POSTS_LIMIT);
-
 	const posts: JournalPostType[] = data.result.reverse();
-
 	return (
 		<main className={s.main}>
 			<div className={s.gradient}></div>
@@ -57,21 +56,21 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 					<path d="M41.7203 36.4095C36.8998 ..." fill="#FF6000" />
 				</svg>
 				<div className={s.mainTextBlock}>
-					<h2 className={s.mainTitle}>
+					<h1 className={s.mainTitle}>
 						<span>Daily Journal of</span> Your Price <span>Booking </span>
-						<span>Services History</span>
-					</h2>
+						<span>Services History & Game Park</span>
+					</h1>
 					<a href="https://www.yourpricebooking.com" target="_blank" className={s.title}>
 						www.yourpricebooking.com
 					</a>
-					<h3 className={s.mainDescription}>
+					<p className={s.mainDescription}>
 						Transparent history, fair prices, and a platform connecting travelers and
 						hoteliers
-					</h3>
-					<h3 className={s.mainDescription}>
-						<span>Your Price</span> <span>Booking</span> — A Service That Transforms Travel
-						and the Hotel Business
-					</h3>
+					</p>
+					<p className={s.mainDescription}>
+						<span>Your Price</span> <span>Booking</span>
+						<span> — A Service That Transforms Travel and the Hotel Business</span>
+					</p>
 					<div className={s.underlink}>
 						<Image
 							objectFit="cover"
@@ -83,29 +82,39 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 							priority
 						/>
 						<div>
-							<h4>
+							<p>
 								<a href="https://www.yourpricebooking.com/en/team" target="_blank">
 									Meet the people behind the project on our Team page
 								</a>
-							</h4>
-							<h4>
+							</p>
+							<p>
 								<a href="https://www.yourpricebooking.com/en/our-mission" target="_blank">
 									Learn why we do what we do — and meet the passionate team behind it
 								</a>
-							</h4>
-							<span>
+							</p>
+							<p>
 								<a href="https://www.yourpricebooking.com/en/for-hotelier" target="_blank">
 									Tools and opportunities to grow your business — explore our Hoteliers
 									page for full details and get started.
 								</a>
-							</span>
+							</p>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div className={s.contentSection}>
 				<GamesOnTheGo isScrollIntoView={searchParams.page === 'game-zone'} />
-				<JournalPosts initialPosts={posts} initialPage={currentPage} />
+				<div className={s.postsHeader}>
+					<span>#</span>
+					<h2>Thousands of Episodes: The Journey Continues</h2>
+				</div>
+				<JournalPostsShort posts={posts} />{' '}
+				{/*Make a few Recent posts dependent on the page width*/}
+				<div className={s.btnNewEpisode}>
+					<Link href={`/daily-journal-of-your-price-booking-service-history/new-episodes`}>
+						Continue the story
+					</Link>
+				</div>
 			</div>
 		</main>
 	);

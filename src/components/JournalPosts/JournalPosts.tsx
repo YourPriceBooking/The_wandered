@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import JournalPost from './JournalPost/JournalPost';
 import { JournalPostType } from '@/types/historyTypes';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
-import s from './JournalPost/JournalPost.module.scss';
+import s from './JournalPosts.module.scss';
+import Link from 'next/link';
 
 interface JournalPostsProps {
 	initialPosts: JournalPostType[];
@@ -26,7 +27,7 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ initialPosts, initialPage }
 		window.history.replaceState(
 			{},
 			'',
-			`/daily-journal-of-your-price-booking-service-history?page=${current}`,
+			`/daily-journal-of-your-price-booking-service-history/new-episodes?page=${current}`,
 		);
 	};
 
@@ -73,9 +74,20 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ initialPosts, initialPage }
 	}, [visibleCount, allPosts.length, loading, isFinished]);
 
 	return (
-		<div>
-			{allPosts.slice(0, visibleCount).map((post) => (
-				<JournalPost key={post._id + post.description + post.url} post={post} />
+		<div className={s.containerPosts}>
+			{allPosts.slice(0, visibleCount).map((post, i) => (
+				<>
+					{i === 2 ? (
+						<div className={s.btnNewEpisode}>
+							<Link
+								href={`/daily-journal-of-your-price-booking-service-history?page=game-zone`}
+							>
+								Enter the Game Zone
+							</Link>
+						</div>
+					) : null}
+					<JournalPost key={post._id + post.description + post.url} post={post} />
+				</>
 			))}
 			{loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
 

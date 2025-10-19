@@ -1,0 +1,36 @@
+.containerPosts {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.btnNewEpisode {
+		width: 315px;
+		height: 82px;
+		margin: 20px 0 40px 0;
+		a {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+			font-family: Inter, sans-serif;
+			font-weight: 800;
+			font-size: 18px;
+			color: var(--color-primary-3);
+			text-decoration: none;
+			background-color: var(--color-secondary-5);
+			border-radius: 82px;
+			transition: background-color 0.3s, color 0.3s;
+			cursor: pointer;
+			transition: transform 0.2s ease;
+
+			&:hover {
+				background-color: #435563;
+				border: 2px solid var(--color-primary-3);
+			}
+			&:active {
+				background-color: #39424a;
+				transform: scale(0.95);
+			}
+		}
+	}
+}

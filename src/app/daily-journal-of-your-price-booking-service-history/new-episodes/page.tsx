@@ -1,0 +1,45 @@
+import s from './new-episodes.module.scss';
+import JournalPosts from '@/components/JournalPosts/JournalPosts';
+import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
+import { JournalPostType } from '@/types/historyTypes';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+	searchParams,
+}: {
+	searchParams: { page?: string };
+}): Promise<Metadata> {
+	const currentPage = Number(searchParams.page || '1');
+	const baseUrl =
+		'https://www.yourpricebooking.com/daily-journal-of-your-price-booking-service-history';
+	const canonicalUrl = currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`;
+	return {
+		title: 'The Story Continues with New Episodes: Your Price Booking Journey',
+		description:
+			'Explore fresh episodes and stories from Your Price Booking — uncover how our journey grows with every update, experience and adventure.',
+		alternates: {
+			canonical: canonicalUrl,
+		},
+		other: {
+			...(currentPage > 1 && { prev: `${baseUrl}?page=${currentPage - 1}` }),
+			next: `${baseUrl}?page=${currentPage + 1}`,
+		},
+	};
+}
+
+const NewEpisodes = async () => {
+	const currentPage = 1;
+	const POSTS_LIMIT = 10;
+	const data = await getDailyJournalPosts(currentPage, POSTS_LIMIT);
+	const posts: JournalPostType[] = data.result.reverse();
+	return (
+		<main className={s.mainSection}>
+			<div className={s.newEpisodesHeader}>
+				<span>#</span>
+				<h1>New Episodes and Stories Continue</h1>
+			</div>
+			{<JournalPosts initialPosts={posts} initialPage={currentPage} />}
+		</main>
+	);
+};
+export default NewEpisodes;
