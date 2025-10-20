@@ -29,25 +29,42 @@
 	flex-wrap: wrap;
 
 	@media (max-width: 1090px) {
-		width: 90%;
+		width: 100%;
 	}
 	@media (max-width: 940px) {
-		width: 95%;
+		width: 100%;
 		height: 80px;
 	}
 	@media (max-width: 768px) {
 		width: 100%;
+		height: 120px;
 	}
 }
 
 .navMenu {
-	display: flex;
-	justify-content: space-between;
+	// display: flex;
+	// justify-content: space-between;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: 
+      "home usa canada ukraine"
+      "poland australia singapore travel";
+    gap: 0.2rem;
 	width: 50%;
+	line-height: 21px;
+
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
 
 	.linkContainer {
-		display: flex;
-		align-items: center;
+		// display: flex;
+		// align-items: center;
 		gap: 12px;
 
 		.linkDot {
@@ -96,6 +113,8 @@
 		&.active {
 			.linkDot {
 				color: #6aff79;
+				top: 5px;
+				position: relative;
 			}
 			.navLink::after {
 				content: '';
@@ -114,15 +133,15 @@
 		}
 	}
 
-	@media (max-width: 950px) {
-		order: 3;
-		position: absolute;
-		background-color: white;
-		top: 75px;
-		left: 0;
-		width: 100%;
-		justify-content: space-evenly;
-	}
+	// @media (max-width: 950px) {
+	// 	order: 3;
+	// 	position: absolute;
+	// 	background-color: white;
+	// 	top: 75px;
+	// 	left: 0;
+	// 	width: 50%;
+	// 	justify-content: space-evenly;
+	// }
 
 	// @media (max-width: 850px) {
 	// 	position: absolute;
@@ -157,4 +176,86 @@
 .historyArrow:hover {
   border: 1px solid silver;
   cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+	.header {
+	height: 120px;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: 
+      "home poland usa"
+	  "canada ukraine australia"
+      "singapore travel travel";
+    gap: 0.3rem;
+	width: fit-content;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
+}
+
+@media (max-width: 768px) {
+	.header {
+	height: 135px;
+}
+.headerContent {
+	height: 135px;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+      "home poland "
+	  "usa ukraine"
+	  "canada australia"
+      "singapore travel";
+    gap: 0.3rem;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
+}
+@media (max-width: 678px) {
+	.header {
+	height: 280px;
+}
+.headerContent {
+	padding: 0 10px;
+	height: 270px;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas: 
+      "home"
+	  "poland"
+	  "usa"
+  	  "ukraine"
+	  "canada "
+	  "australia"
+      "singapore"
+      "travel";
+    gap: 0.3rem;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
 }
