@@ -8,9 +8,16 @@
 	@media (max-width: 950px) {
 		order: 2;
 	}
+	@media (max-width: 540px){
+		width: 170px;
+		height: 42px;
+	}
 	@media (max-width: 480px) {
 		width: 177px;
 		height: 42px;
+	}
+	@media (max-width: 380px) {
+		width: 125px;
 	}
 }
 .input {
