@@ -72,12 +72,14 @@ const JournalPosts: React.FC<JournalPostsProps> = ({ initialPosts, initialPage }
 			loadMorePostsFromServer();
 		}
 	}, [visibleCount, allPosts.length, loading, isFinished]);
+	// find width and set btn in the position
+	const [width, setWidth] = useState<number | null>(null);
 
 	return (
 		<div className={s.containerPosts}>
 			{allPosts.slice(0, visibleCount).map((post, i) => (
 				<>
-					{i === 2 ? (
+					{i === 3 ? (
 						<div className={s.btnNewEpisode}>
 							<Link
 								href={`/daily-journal-of-your-price-booking-service-history?page=game-zone`}

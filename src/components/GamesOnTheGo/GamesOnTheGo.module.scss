@@ -12,10 +12,6 @@
 	height: 100dvh;
 	padding-top: 10px;
 
-	@media (max-width: 375px) {
-		margin-top: 80px;
-	}
-
 	.gameHeader {
 		display: flex;
 		justify-content: center;

@@ -7,7 +7,7 @@ import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import Image from 'next/image';
 import GamesOnTheGo from '@/components/GamesOnTheGo/GamesOnTheGo';
 import Link from 'next/link';
-import JournalPostsShort from '@/components/JournalPosts/JournalPostsShort/JournalPostsShort';
+import JournalPost from '@/components/JournalPosts/JournalPost/JournalPost';
 
 export async function generateMetadata({
 	searchParams,
@@ -42,36 +42,26 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 	const posts: JournalPostType[] = data.result.reverse();
 	return (
 		<main className={s.main}>
-			<div className={s.gradient}></div>
 			<div className={s.topSection}>
-				<svg
-					className={s.logo}
-					width="90"
-					height="83"
-					viewBox="0 0 90 83"
-					fill="#FF6000"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path d="M24.4965 19.0479C-0.507285 43.0203 ..." fill="#FF6000" />
-					<path d="M41.7203 36.4095C36.8998 ..." fill="#FF6000" />
-				</svg>
-				<div className={s.mainTextBlock}>
-					<h1 className={s.mainTitle}>
-						<span>Daily Journal of</span> Your Price <span>Booking </span>
-						<span>Services History & Game Park</span>
-					</h1>
-					<a href="https://www.yourpricebooking.com" target="_blank" className={s.title}>
-						www.yourpricebooking.com
-					</a>
-					<p className={s.mainDescription}>
+				<h1 className={s.mainTitle}>
+					Daily Journal of <span>Your Price</span> <span>Booking </span>
+					Services History & Game Park
+				</h1>
+				<a href="https://www.yourpricebooking.com" target="_blank" className={s.mainLink}>
+					www.yourpricebooking.com
+				</a>
+				<div className={s.mainDescription}>
+					<p>
 						Transparent history, fair prices, and a platform connecting travelers and
 						hoteliers
 					</p>
-					<p className={s.mainDescription}>
+					<p>
 						<span>Your Price</span> <span>Booking</span>
 						<span> — A Service That Transforms Travel and the Hotel Business</span>
 					</p>
-					<div className={s.underlink}>
+				</div>
+				<div className={s.underlink}>
+					<div className={s.image}>
 						<Image
 							objectFit="cover"
 							src="/hotels.png"
@@ -81,34 +71,42 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 							height={178}
 							priority
 						/>
-						<div>
-							<p>
-								<a href="https://www.yourpricebooking.com/en/team" target="_blank">
-									Meet the people behind the project on our Team page
-								</a>
-							</p>
-							<p>
-								<a href="https://www.yourpricebooking.com/en/our-mission" target="_blank">
-									Learn why we do what we do — and meet the passionate team behind it
-								</a>
-							</p>
-							<p>
-								<a href="https://www.yourpricebooking.com/en/for-hotelier" target="_blank">
-									Tools and opportunities to grow your business — explore our Hoteliers
-									page for full details and get started.
-								</a>
-							</p>
-						</div>
+					</div>
+
+					<div>
+						<p>
+							<a href="https://www.yourpricebooking.com/en/team" target="_blank">
+								Meet the people behind the project on our Team page
+							</a>
+						</p>
+						<p>
+							<a href="https://www.yourpricebooking.com/en/our-mission" target="_blank">
+								Learn why we do what we do — and meet the passionate team behind it
+							</a>
+						</p>
+						<p>
+							<a href="https://www.yourpricebooking.com/en/for-hotelier" target="_blank">
+								Tools and opportunities to grow your business — explore our Hoteliers page
+								for full details and get started.
+							</a>
+						</p>
 					</div>
 				</div>
 			</div>
+
 			<div className={s.contentSection}>
 				<GamesOnTheGo isScrollIntoView={searchParams.page === 'game-zone'} />
 				<div className={s.postsHeader}>
 					<span>#</span>
 					<h2>Thousands of Episodes: The Journey Continues</h2>
 				</div>
-				<JournalPostsShort posts={posts} />{' '}
+				{posts.slice(0, 3).map((post, i) => (
+					<JournalPost
+						key={post._id + post.description + post.url}
+						post={post}
+						isWhiteBg={true}
+					/>
+				))}
 				{/*Make a few Recent posts dependent on the page width*/}
 				<div className={s.btnNewEpisode}>
 					<Link href={`/daily-journal-of-your-price-booking-service-history/new-episodes`}>
