@@ -8,7 +8,7 @@
 	color: var(--color-secondary-1);
 	font-size: 18px;
 	line-height: 24px;
-	background-color: var(--color-background-2);
+	background-color: #f7f8fa;
 	@media (max-width: 768px) {
 		max-width: 720px;
 		font-size: 17px;
@@ -35,6 +35,10 @@
 		line-height: 15px;
 	}
 }
+.whiteBg {
+	background-color: #ffffff;
+}
+
 .headerPostContent {
 	width: 100%;
 	display: flex;

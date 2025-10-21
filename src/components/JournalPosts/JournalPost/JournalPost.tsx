@@ -6,11 +6,12 @@ import JournalPostContent from './JournalPostContent/JournalPostContent';
 
 export interface JournalPost {
 	post: JournalPostType;
+	isWhiteBg?: boolean;
 }
 
-const JournalPost: React.FC<JournalPost> = ({ post }) => {
+const JournalPost: React.FC<JournalPost> = ({ post, isWhiteBg }) => {
 	return (
-		<div className={s.articleBlock}>
+		<div className={`${s.articleBlock} ${isWhiteBg ? s.whiteBg : ''}`}>
 			<div className={s.headerPostContent}>
 				<div className={s.headerPostContentLink}>
 					<JournalPostIcon />

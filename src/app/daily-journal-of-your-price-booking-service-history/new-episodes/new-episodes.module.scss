@@ -6,7 +6,7 @@
 	flex-grow: 1;
 	width: 100vw;
 	margin-top: 0px;
-	background-color: var(--color-background-1);
+	background-color: var(--color-background-2);
 	@media (max-width: 400px) {
 		max-width: 400px;
 	}
@@ -26,11 +26,24 @@
 			font-weight: 700;
 			font-style: bold;
 			font-size: 44px;
+			@media (max-width: 768px) {
+				font-size: 29px;
+			}
+			@media (max-width: 375px) {
+				font-size: 24px;
+			}
 		}
 		span {
 			font-family: 'Inter', 'Segoe UI', sans-serif;
 			font-weight: 500;
 			font-size: 60px;
+			align-items: end;
+			@media (max-width: 768px) {
+				font-size: 45px;
+			}
+			@media (max-width: 375px) {
+				font-size: 40px;
+			}
 		}
 	}
 }
