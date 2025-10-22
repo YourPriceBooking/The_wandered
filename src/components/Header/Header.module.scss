@@ -46,21 +46,37 @@
 	// justify-content: space-between;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-    grid-template-areas: 
-      "home usa canada ukraine"
-      "poland australia singapore travel";
-    gap: 0.2rem;
+	grid-template-areas:
+		'home usa canada ukraine'
+		'poland australia singapore travel';
+	gap: 0.2rem;
 	width: 50%;
 	line-height: 21px;
 
-  .linkContainer:nth-child(1) { grid-area: home; }
-  .linkContainer:nth-child(2) { grid-area: poland; }
-  .linkContainer:nth-child(3) { grid-area: usa; }
-  .linkContainer:nth-child(4) { grid-area: canada; }
-  .linkContainer:nth-child(5) { grid-area: ukraine; }
-  .linkContainer:nth-child(6) { grid-area: australia; }
-  .linkContainer:nth-child(7) { grid-area: singapore; }
-  .linkContainer:nth-child(8) { grid-area: travel; }
+	.linkContainer:nth-child(1) {
+		grid-area: home;
+	}
+	.linkContainer:nth-child(2) {
+		grid-area: poland;
+	}
+	.linkContainer:nth-child(3) {
+		grid-area: usa;
+	}
+	.linkContainer:nth-child(4) {
+		grid-area: canada;
+	}
+	.linkContainer:nth-child(5) {
+		grid-area: ukraine;
+	}
+	.linkContainer:nth-child(6) {
+		grid-area: australia;
+	}
+	.linkContainer:nth-child(7) {
+		grid-area: singapore;
+	}
+	.linkContainer:nth-child(8) {
+		grid-area: travel;
+	}
 
 	.linkContainer {
 		// display: flex;
@@ -154,108 +170,147 @@
 	// }
 }
 .hidden {
-  display: none;
+	display: none;
 }
 .historyArrow {
-  display: inline-block;
-  background-color: white;
-  width: 80px;
-  height: 35px;
-  text-align: left;
-  align-self: flex-start;
-  border-radius: 1px;
-  border: 1px solid transparent;
-  margin: 15px;
-  padding: 0;
-  transition: all 0.1s ease;
-  	@media (max-width: 420px) {
+	display: inline-block;
+	background-color: white;
+	width: 80px;
+	height: 35px;
+	text-align: left;
+	align-self: flex-start;
+	border-radius: 1px;
+	border: 1px solid transparent;
+	margin: 15px;
+	padding: 0;
+	transition: all 0.1s ease;
+	@media (max-width: 420px) {
 		width: 61px;
-  		height: 25px;
+		height: 25px;
 	}
 }
 .historyArrow:hover {
-  border: 1px solid silver;
-  cursor: pointer;
+	border: 1px solid silver;
+	cursor: pointer;
 }
 
 @media (max-width: 1024px) {
-	.header {
-	height: 120px;
-}
-  .navMenu {
-	display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas: 
-      "home poland usa"
-	  "canada ukraine australia"
-      "singapore travel travel";
-    gap: 0.3rem;
-	width: fit-content;
-  }
-  .linkContainer:nth-child(1) { grid-area: home; }
-  .linkContainer:nth-child(2) { grid-area: poland; }
-  .linkContainer:nth-child(3) { grid-area: usa; }
-  .linkContainer:nth-child(4) { grid-area: canada; }
-  .linkContainer:nth-child(5) { grid-area: ukraine; }
-  .linkContainer:nth-child(6) { grid-area: australia; }
-  .linkContainer:nth-child(7) { grid-area: singapore; }
-  .linkContainer:nth-child(8) { grid-area: travel; }
+	.navMenu {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas:
+			'home poland usa'
+			'canada ukraine australia'
+			'singapore travel travel';
+		gap: 0.3rem;
+		width: fit-content;
+	}
+	.linkContainer:nth-child(1) {
+		grid-area: home;
+	}
+	.linkContainer:nth-child(2) {
+		grid-area: poland;
+	}
+	.linkContainer:nth-child(3) {
+		grid-area: usa;
+	}
+	.linkContainer:nth-child(4) {
+		grid-area: canada;
+	}
+	.linkContainer:nth-child(5) {
+		grid-area: ukraine;
+	}
+	.linkContainer:nth-child(6) {
+		grid-area: australia;
+	}
+	.linkContainer:nth-child(7) {
+		grid-area: singapore;
+	}
+	.linkContainer:nth-child(8) {
+		grid-area: travel;
+	}
 }
 
 @media (max-width: 768px) {
-	.header {
-	height: 135px;
-}
-.headerContent {
-	height: 135px;
-}
-  .navMenu {
-	display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: 
-      "home poland "
-	  "usa ukraine"
-	  "canada australia"
-      "singapore travel";
-    gap: 0.3rem;
-  }
-  .linkContainer:nth-child(1) { grid-area: home; }
-  .linkContainer:nth-child(2) { grid-area: poland; }
-  .linkContainer:nth-child(3) { grid-area: usa; }
-  .linkContainer:nth-child(4) { grid-area: canada; }
-  .linkContainer:nth-child(5) { grid-area: ukraine; }
-  .linkContainer:nth-child(6) { grid-area: australia; }
-  .linkContainer:nth-child(7) { grid-area: singapore; }
-  .linkContainer:nth-child(8) { grid-area: travel; }
+	.headerContent {
+		height: 135px;
+	}
+	.navMenu {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-areas:
+			'home poland '
+			'usa ukraine'
+			'canada australia'
+			'singapore travel';
+		gap: 0.3rem;
+	}
+	.linkContainer:nth-child(1) {
+		grid-area: home;
+	}
+	.linkContainer:nth-child(2) {
+		grid-area: poland;
+	}
+	.linkContainer:nth-child(3) {
+		grid-area: usa;
+	}
+	.linkContainer:nth-child(4) {
+		grid-area: canada;
+	}
+	.linkContainer:nth-child(5) {
+		grid-area: ukraine;
+	}
+	.linkContainer:nth-child(6) {
+		grid-area: australia;
+	}
+	.linkContainer:nth-child(7) {
+		grid-area: singapore;
+	}
+	.linkContainer:nth-child(8) {
+		grid-area: travel;
+	}
 }
 @media (max-width: 678px) {
-	.header {
-	height: 280px;
-}
-.headerContent {
-	padding: 0 10px;
-	height: 270px;
-}
-  .navMenu {
-	display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-areas: 
-      "home"
-	  "poland"
-	  "usa"
-  	  "ukraine"
-	  "canada "
-	  "australia"
-      "singapore"
-      "travel";
-    gap: 0.3rem;
-  }
-  .linkContainer:nth-child(1) { grid-area: home; }
-  .linkContainer:nth-child(2) { grid-area: poland; }
-  .linkContainer:nth-child(3) { grid-area: usa; }
-  .linkContainer:nth-child(4) { grid-area: canada; }
-  .linkContainer:nth-child(5) { grid-area: ukraine; }
-  .linkContainer:nth-child(6) { grid-area: australia; }
-  .linkContainer:nth-child(7) { grid-area: singapore; }
-  .linkContainer:nth-child(8) { grid-area: travel; }
+	.headerContent {
+		padding: 0 10px;
+		height: 270px;
+	}
+	.navMenu {
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
+		grid-template-areas:
+			'home'
+			'poland'
+			'usa'
+			'ukraine'
+			'canada '
+			'australia'
+			'singapore'
+			'travel';
+		gap: 0.3rem;
+	}
+	.linkContainer:nth-child(1) {
+		grid-area: home;
+	}
+	.linkContainer:nth-child(2) {
+		grid-area: poland;
+	}
+	.linkContainer:nth-child(3) {
+		grid-area: usa;
+	}
+	.linkContainer:nth-child(4) {
+		grid-area: canada;
+	}
+	.linkContainer:nth-child(5) {
+		grid-area: ukraine;
+	}
+	.linkContainer:nth-child(6) {
+		grid-area: australia;
+	}
+	.linkContainer:nth-child(7) {
+		grid-area: singapore;
+	}
+	.linkContainer:nth-child(8) {
+		grid-area: travel;
+	}
 }
