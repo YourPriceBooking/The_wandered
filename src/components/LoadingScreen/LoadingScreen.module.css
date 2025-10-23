@@ -1,0 +1,51 @@
+.splashScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-primary-1);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.logoBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+
+.mainTitle {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: lowercase;
+    margin-top: 0.5rem;
+    line-height: 1;
+}
+
+.logoBlock svg {
+    width: 3rem;
+    height: 3rem;
+    color: white; 
+}
+
+@media (max-width: 768px) {
+    .mainTitle {
+        font-size: 2rem;
+    }
+    .logoBlock svg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
