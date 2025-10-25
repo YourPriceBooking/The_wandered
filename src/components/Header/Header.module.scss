@@ -5,7 +5,7 @@
 	justify-content: center;
 	align-items: center;
 	width: 100vw;
-	height: 80px;
+	height: 130px;
 	background-color: var(--color-background-2);
 	box-sizing: border-box;
 	border: 1px solid silver;
@@ -30,15 +30,14 @@
 
 	@media (max-width: 1090px) {
 		width: 100%;
-		height: 120px;
 	}
 	@media (max-width: 940px) {
 		width: 100%;
-		height: 120px;
+		height: 130px;
 	}
 	@media (max-width: 768px) {
 		width: 100%;
-		height: 120px;
+		height: 130px;
 	}
 }
 
@@ -47,37 +46,21 @@
 	// justify-content: space-between;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	grid-template-areas:
-		'home usa canada ukraine'
-		'poland australia singapore travel';
-	gap: 0.2rem;
+    grid-template-areas: 
+      "home usa canada ukraine"
+      "poland australia singapore travel";
+    gap: 0.2rem;
 	width: 50%;
 	line-height: 21px;
 
-	.linkContainer:nth-child(1) {
-		grid-area: home;
-	}
-	.linkContainer:nth-child(2) {
-		grid-area: poland;
-	}
-	.linkContainer:nth-child(3) {
-		grid-area: usa;
-	}
-	.linkContainer:nth-child(4) {
-		grid-area: canada;
-	}
-	.linkContainer:nth-child(5) {
-		grid-area: ukraine;
-	}
-	.linkContainer:nth-child(6) {
-		grid-area: australia;
-	}
-	.linkContainer:nth-child(7) {
-		grid-area: singapore;
-	}
-	.linkContainer:nth-child(8) {
-		grid-area: travel;
-	}
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
 
 	.linkContainer {
 		// display: flex;
@@ -171,147 +154,150 @@
 	// }
 }
 .hidden {
-	display: none;
+  display: none;
 }
 .historyArrow {
-	display: inline-block;
-	background-color: white;
-	width: 80px;
-	height: 35px;
-	text-align: left;
-	align-self: flex-start;
-	border-radius: 1px;
-	border: 1px solid transparent;
-	margin: 15px;
-	padding: 0;
-	transition: all 0.1s ease;
-	@media (max-width: 420px) {
+  display: inline-block;
+  background-color: white;
+  width: 80px;
+  height: 35px;
+  text-align: left;
+  align-self: flex-start;
+  border-radius: 1px;
+  border: 1px solid transparent;
+  margin: 15px;
+  padding: 0;
+  transition: all 0.1s ease;
+  	@media (max-width: 420px) {
 		width: 61px;
-		height: 25px;
+  		height: 25px;
 	}
 }
 .historyArrow:hover {
-	border: 1px solid silver;
-	cursor: pointer;
+  border: 1px solid silver;
+  cursor: pointer;
 }
 
 @media (max-width: 1024px) {
-	.navMenu {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-areas:
-			'home poland usa'
-			'canada ukraine australia'
-			'singapore travel travel';
-		gap: 0.3rem;
-		width: fit-content;
-	}
-	.linkContainer:nth-child(1) {
-		grid-area: home;
-	}
-	.linkContainer:nth-child(2) {
-		grid-area: poland;
-	}
-	.linkContainer:nth-child(3) {
-		grid-area: usa;
-	}
-	.linkContainer:nth-child(4) {
-		grid-area: canada;
-	}
-	.linkContainer:nth-child(5) {
-		grid-area: ukraine;
-	}
-	.linkContainer:nth-child(6) {
-		grid-area: australia;
-	}
-	.linkContainer:nth-child(7) {
-		grid-area: singapore;
-	}
-	.linkContainer:nth-child(8) {
-		grid-area: travel;
-	}
+	.header {
+	height: 130px;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: 
+      "home poland usa"
+	  "canada ukraine australia"
+      "singapore travel travel";
+    gap: 0.3rem;
+	width: fit-content;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
 }
 
 @media (max-width: 768px) {
-	.headerContent {
-		height: 135px;
-	}
-	.navMenu {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-areas:
-			'home poland '
-			'usa ukraine'
-			'canada australia'
-			'singapore travel';
-		gap: 0.3rem;
-	}
-	.linkContainer:nth-child(1) {
-		grid-area: home;
-	}
-	.linkContainer:nth-child(2) {
-		grid-area: poland;
-	}
-	.linkContainer:nth-child(3) {
-		grid-area: usa;
-	}
-	.linkContainer:nth-child(4) {
-		grid-area: canada;
-	}
-	.linkContainer:nth-child(5) {
-		grid-area: ukraine;
-	}
-	.linkContainer:nth-child(6) {
-		grid-area: australia;
-	}
-	.linkContainer:nth-child(7) {
-		grid-area: singapore;
-	}
-	.linkContainer:nth-child(8) {
-		grid-area: travel;
-	}
+	.header {
+	height: 150px;
+}
+.headerContent {
+	height: 135px;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+      "home poland "
+	  "usa ukraine"
+	  "canada australia"
+      "singapore travel";
+    gap: 0.3rem;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
 }
 @media (max-width: 678px) {
-	.headerContent {
-		padding: 0 10px;
-		height: 270px;
-	}
-	.navMenu {
-		display: grid;
-		grid-template-columns: repeat(1, 1fr);
-		grid-template-areas:
-			'home'
-			'poland'
-			'usa'
-			'ukraine'
-			'canada '
-			'australia'
-			'singapore'
-			'travel';
-		gap: 0.3rem;
-	}
-	.linkContainer:nth-child(1) {
-		grid-area: home;
-	}
-	.linkContainer:nth-child(2) {
-		grid-area: poland;
-	}
-	.linkContainer:nth-child(3) {
-		grid-area: usa;
-	}
-	.linkContainer:nth-child(4) {
-		grid-area: canada;
-	}
-	.linkContainer:nth-child(5) {
-		grid-area: ukraine;
-	}
-	.linkContainer:nth-child(6) {
-		grid-area: australia;
-	}
-	.linkContainer:nth-child(7) {
-		grid-area: singapore;
-	}
-	.linkContainer:nth-child(8) {
-		grid-area: travel;
-	}
+	.header {
+	height: 290px;
 }
+.headerContent {
+	padding: 0 10px;
+	height: 270px;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas: 
+      "home"
+	  "poland"
+	  "usa"
+  	  "ukraine"
+	  "canada "
+	  "australia"
+      "singapore"
+      "travel";
+    gap: 0.3rem;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
+}
+.SearchFieldContainer {
+	padding-top: 20px;
+}
+
+.GamesOn {
+    color: #787878;
+    border: 1px solid #787878;
+    width: 197px;
+    height: 45px;
+    text-align: center;
+    padding-top: 11px;
+    font-family: "Jersey 10";
+    font-size: 22px;
+    border-radius: 12px;
+    margin-top: 8px;
+	margin-bottom: 12px;
+	width: 100%;
+}
+
+.GamesOn:hover {
+    color: var(--color-primary-2);
+	background-color: #2D4E70B2;
+	opacity: 0.7;
+    border: 1px solid #787878;
+    width: 197px;
+    height: 45px;
+    text-align: center;
+    padding-top: 11px;
+    font-family: "Jersey 10";
+    font-size: 22px;
+    border-radius: 12px;
+    margin-top: 8px;
+	margin-bottom: 12px;
+	width: 100%;
+	cursor: pointer;
+}
+
+.GamesOn:active {
+	background-color: #2D4E70B2;
+	opacity: 1;
+}
+
