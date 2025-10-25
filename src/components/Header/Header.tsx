@@ -71,7 +71,12 @@ export default function Header() {
 					})}
 				</nav>
 				<Suspense fallback={null}>
-					<SearchField />
+					<div className='SearchFieldContainer'>
+						<SearchField />
+						<a href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
+						<div  className= {s.GamesOn}>Games on the Go</div>
+						</a>
+					</div>					
 				</Suspense>
 			</div>
 		</header>
