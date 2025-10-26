@@ -5,13 +5,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
-npm run dev
+npm run main
 # or
-yarn dev
+yarn main
 # or
-pnpm dev
+pnpm main
 # or
-bun dev
+bun main
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -30,7 +30,7 @@ git checkout -b feature/abc123
 git add .
 git commit -m "Короткий опис змін (ТЗ, задача тощо)"
 
-3. Перед відправкою оновлюєте main і робите rebase:
+3. Перед відправкою оновлюєте dev і робите rebase:
 git checkout main
 git pull origin main
 git checkout feature/abc123
@@ -45,7 +45,10 @@ git push --force-with-lease origin feature/abc123
 
 6. Створюєте Merge Request (Pull Request) у main
 - У полі “Merge method” вибираєте “Squash and merge”
-- Назва PR: коротко про задачу або номер ТЗ
+Перейди на GitHub
+- Відкрий репозиторій → вкладка Pull Requests (GitHub) або Merge Requests (GitLab)
+- Натисни “New Pull Request” або “Create Merge Request”
+
 - Після мерджу можна видалити свою гілку
 ```
 ## Learn More
