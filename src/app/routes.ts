@@ -2,7 +2,7 @@ import { routeType } from '@/types/routeType';
 
 export const routes: routeType[] = [
 	{
-		name: 'Home',
+		name: 'Home\u00A0page',
 		path: '',
 		title: '',
 	},

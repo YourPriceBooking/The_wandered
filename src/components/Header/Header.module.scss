@@ -176,6 +176,8 @@
   cursor: pointer;
 }
 
+.Travel { display: none; }
+
 @media (max-width: 1024px) {
   .navMenu {
 	display: grid;
@@ -217,36 +219,6 @@
   .linkContainer:nth-child(7) { grid-area: singapore; }
   .linkContainer:nth-child(8) { grid-area: travel; }
 }
-@media (max-width: 678px) {
-.headerContent {
-	padding: 0 10px;
-}
-  .navMenu {
-	display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-areas: 
-      "home"
-	  "poland"
-	  "usa"
-  	  "ukraine"
-	  "canada "
-	  "australia"
-      "singapore"
-      "travel";
-    gap: 0.3rem;
-  }
-  .linkContainer:nth-child(1) { grid-area: home; }
-  .linkContainer:nth-child(2) { grid-area: poland; }
-  .linkContainer:nth-child(3) { grid-area: usa; }
-  .linkContainer:nth-child(4) { grid-area: canada; }
-  .linkContainer:nth-child(5) { grid-area: ukraine; }
-  .linkContainer:nth-child(6) { grid-area: australia; }
-  .linkContainer:nth-child(7) { grid-area: singapore; }
-  .linkContainer:nth-child(8) { grid-area: travel; }
-}
-.SearchFieldContainer {
-	padding-top: 20px;
-}
 
 .GamesOn {
     color: #787878;
@@ -280,9 +252,113 @@
 	width: 100%;
 	cursor: pointer;
 }
+// @media (min-width: 678px) {
+// .GamesOn:hover {
+// 	background-color: #0A2F6C;
+// 	opacity: 1;
+// }
+// }
+
 
 .GamesOn:active {
 	background-color: #2D4E70B2;
 	opacity: 1;
 }
+
+  .Travel {
+	color: white;
+	background-color: #0B449B;
+    border: 1px solid #787878;
+    height: 25px;
+	width: 123px;
+    text-align: center;
+    padding-top: 3px;
+    font-family: "Arial";
+    font-size: 12px;
+    border-radius: 22px;
+    margin-top: 8px;
+	margin-bottom: 12px;
+	}
+	.Travel:hover {
+	background-color: #0A2F6C;
+	border: 1px solid #000000;
+	}
+	.Travel:active {
+	background-color: #09285D;
+	border: 1px solid #000000;
+	}
+
+@media (max-width: 678px) {
+.headerContent {
+	padding: 0 10px 0 0;
+}
+  .navMenu {
+	display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas: 
+		"home"
+		"australia"
+		"ukraine"
+		"canada"
+		"poland"
+		"usa"
+		"singapore"
+		"travel";
+    gap: 0.3rem;
+  }
+  .linkContainer:nth-child(1) { grid-area: home; }
+  .linkContainer:nth-child(2) { grid-area: poland; }
+  .linkContainer:nth-child(3) { grid-area: usa; }
+  .linkContainer:nth-child(4) { grid-area: canada; }
+  .linkContainer:nth-child(5) { grid-area: ukraine; }
+  .linkContainer:nth-child(6) { grid-area: australia; }
+  .linkContainer:nth-child(7) { grid-area: singapore; }
+  .linkContainer:nth-child(8) { grid-area: travel; }
+  .linkContainer:nth-child(8) { display: none; }
+  .SearchFieldContainer a {
+	width: 123px;
+  }
+.Travel {
+	display: block;
+	}
+
+  .GamesOn {
+    color: white;
+	background-color: #0B449B;
+    border: 1px solid #0B449B;
+    width: 123px;
+    height: 25px;
+    text-align: center;
+    padding-top: 3px;
+    font-family: "Arial";
+    font-size: 12px;
+    border-radius: 22px;
+    margin-top: 8px;
+	margin-bottom: 12px;
+}
+
+.GamesOn:hover {
+    color: white;
+	background-color: #0A2F6C;
+	border: 1px solid #000000;
+    height: 25px;
+	width: 123px;
+	opacity: 1;
+    text-align: center;
+    padding-top: 3px;
+    font-family: "Arial";
+    font-size: 12px;
+    margin-top: 8px;
+	margin-bottom: 12px;
+	border-radius: 22px;
+	cursor: pointer;
+}
+
+}
+
+.SearchFieldContainer {
+	padding-top: 20px;
+}
+
+
 

@@ -76,6 +76,9 @@ export default function Header() {
 						<a href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
 						<div  className= {s.GamesOn}>Games on the Go</div>
 						</a>
+						<a href="/travel-resources">
+						<div  className= {s.Travel}>Travel Resources</div>
+						</a>
 					</div>					
 				</Suspense>
 			</div>
