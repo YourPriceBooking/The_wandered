@@ -85,6 +85,8 @@
 		margin-bottom: 15px;
 		@media (max-width: 540px) {
 			font-size: 15px;
+			max-width: 85%;
+			margin: 0 auto;
 		}
 	}
 }
