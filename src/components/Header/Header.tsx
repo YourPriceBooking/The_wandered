@@ -76,11 +76,11 @@ export default function Header() {
 						<a href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
 						<div  className= {s.GamesOn}>Games on the Go</div>
 						</a>
-						<a href="/travel-resources">
-						<div  className= {s.Travel}>Travel Resources</div>
+						<a className= {s.btnWrap} href="/travel-resources">
+						<div className= {s.btnMobile}>Travel Resources</div>
 						</a>
-						<a href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
-						<div  className= {s.Travel}>Games on the Go</div>
+						<a className= {s.btnWrap} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
+						<div className= {s.btnMobile}>Games on the Go</div>
 						</a>
 					</div>					
 				</Suspense>
