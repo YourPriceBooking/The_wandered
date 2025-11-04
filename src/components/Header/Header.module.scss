@@ -19,11 +19,9 @@
 .header {
 	display: flex;
 	z-index: 77;
-	position: fixed;
 	justify-content: center;
 	align-items: center;
 	width: 100vw;
-	// height: 130px;
 	background-color: var(--color-background-2);
 	box-sizing: border-box;
 	border: 1px solid silver;
@@ -31,7 +29,6 @@
 
 	@media (max-width: 950px) {
 		padding: 10px;
-		margin-bottom: 50px;
 		border: none;
 		border-radius: 0px;
 	}
@@ -64,7 +61,6 @@
 	justify-content: end;
 }
 }
-
 
 .navMenu {
 	display: grid;
