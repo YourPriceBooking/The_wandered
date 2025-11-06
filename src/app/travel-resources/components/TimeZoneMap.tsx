@@ -9,7 +9,7 @@ export default function TimeZoneMap() {
         className="w-full h-[450px] rounded-lg border"
         loading="lazy"
       ></iframe>
-      <p className="text-gray-500 text-xs mt-2">Source: time.is</p>
+      <p style={{marginBottom:"14px"}}></p>
     </section>
   );
 }

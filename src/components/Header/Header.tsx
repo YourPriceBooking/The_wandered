@@ -76,12 +76,12 @@ export default function Header() {
 						<a href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
 						<div  className= {s.GamesOn}>Games on the Go</div>
 						</a>
-						<a className= {s.btnWrap} href="/travel-resources">
-						<div className= {s.btnMobile}>Travel Resources</div>
-						</a>
-						<a className= {s.btnWrap} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
-						<div className= {s.btnMobile}>Games on the Go</div>
-						</a>
+						<div className= {s.btnWrap}>
+						<a className= {s.btnMobile} href="/travel-resources">Travel Resources</a>
+						</div>
+						<div className= {s.btnWrap}>
+						<a className= {s.btnMobile} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">Games on the Go</a>
+						</div>
 					</div>					
 				</Suspense>
 			</div>
