@@ -1,40 +1,40 @@
-import '../../../node_modules/modern-normalize/modern-normalize.css';
-import type { Metadata } from 'next';
+import FlightMap from "./components/FlightMap";
+import WeatherWidget from "./components/WeatherWidget";
+import TimeZoneMap from "./components/TimeZoneMap";
+import NewsFeed from "./components/NewsFeed";
+import WorldMap from "./components/WorldMap";
 
-import s from './travelResources.module.scss';
-// import Image from 'next/image';
+export const metadata = {
+  title: "🌍 Travel Tools Dashboard — The Wandered",
+  description:
+    "Reddit-style dashboard with real-time travel tools: live flights, weather, maps and world data. Made for modern explorers.",
+};
 
-export async function generateMetadata({
-	searchParams,
-}: {
-	searchParams: { page?: string };
-}): Promise<Metadata> {
-	const currentPage = Number(searchParams.page || '1');
-	const baseUrl =
-		'https://www.yourpricebooking.com/travel-resources';
+export default function TravelResourcesPage() {
+  return (
+    <main className="bg-[#f6f7f8] min-h-screen">
+      <div className="mx-auto max-w-6xl px-4 py-8">
+        {/* Header */}
+        <header className="pb-6 border-b border-gray-300 mb-8">
+          <h1 className="text-3xl font-bold">🌍 Travel Tools Dashboard</h1>
+          <p className="text-gray-600 mt-2">
+            Real-time tools and data for curious travelers — inspired by the simplicity of Reddit.
+          </p>
+        </header>
 
-	return {
-		title: 'Best Travel Resources | Hotels, Flights, Insurance & Gear – The Wandered',
-		description:
-			'Discover the best travel resources: hotel booking, flights, transport, insurance, tours, and travel gear. Handpicked tools and partners for smarter journeys.',
-		alternates: {
-			canonical: currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`,
-		},
-	};
-}
+        {/* GRID */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <FlightMap />
+          <WeatherWidget />
+          <TimeZoneMap />
+          <NewsFeed />
+          <WorldMap />
+        </div>
 
-
-export default async function TravelResources({ searchParams }: { searchParams: { page?: string } }) {
-	const currentPage = Number(searchParams.page || '1');
-
-
-	return (
-		<main className={s.main}>
-			<div className={s.gradient}></div>
-			<div className={s.topSection}>
-			Essential Travel Resources for Every Journey
-			</div>
-
-		</main>
-	);
+        <p className="text-center text-sm text-gray-400 pt-8">
+          Updated live • Powered by open APIs
+        </p>
+      </div>
+    </main>
+  );
 }
