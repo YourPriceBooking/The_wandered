@@ -9,7 +9,7 @@ export default function NewsFeed() {
         className="w-full h-[500px] rounded-lg border"
         loading="lazy"
       ></iframe>
-      <p className="text-gray-500 text-xs mt-2">News via Google News RSS</p>
+      <p style={{marginBottom:"14px"}}></p>
     </section>
   );
 }
