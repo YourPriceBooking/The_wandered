@@ -1,4 +1,5 @@
 "use client";
+import s from '../Travel-resources.module.scss';
 
 export default function WeatherWidget() {
   return (
@@ -6,7 +7,7 @@ export default function WeatherWidget() {
       <h2 className="font-semibold mb-3 text-lg">🌦 Global Weather</h2>
       <iframe
         src="https://embed.windy.com/embed2.html?width=650&height=400&level=surface&overlay=temperature&menu=&marker=true"
-        className="w-full h-[400px] rounded-lg border"
+        className={`${s.iframe} ${"w-full h-[400px] rounded-lg border"}`}
         loading="lazy"
       ></iframe>
       <p style={{marginBottom:"14px"}}></p>

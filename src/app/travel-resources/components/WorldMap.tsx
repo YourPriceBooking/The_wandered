@@ -1,4 +1,5 @@
 "use client";
+import s from '../Travel-resources.module.scss';
 
 export default function WorldMap() {
   return (
@@ -6,7 +7,7 @@ export default function WorldMap() {
       <h2 className="font-semibold mb-3 text-lg">🗺️ Explore World Map</h2>
       <iframe
         src="https://www.openstreetmap.org/export/embed.html"
-        className="w-full h-[400px] rounded-lg border"
+        className={`${s.iframe} ${"w-full h-[400px] rounded-lg border"}`}
         loading="lazy"
       ></iframe>
       <p style={{marginBottom:"14px"}}>
