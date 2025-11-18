@@ -1,4 +1,5 @@
 "use client";
+import s from '../Travel-resources.module.scss';
 
 export default function TimeZoneMap() {
   return (
@@ -6,7 +7,7 @@ export default function TimeZoneMap() {
       <h2 className="font-semibold mb-3 text-lg">🕓 World Time & Time Zones</h2>
       <iframe
         src="https://time.is/map"
-        className="w-full h-[450px] rounded-lg border"
+        className={`${s.iframe} ${"w-full h-[450px] rounded-lg border"}`}
         loading="lazy"
       ></iframe>
       <p style={{marginBottom:"14px"}}></p>
