@@ -55,6 +55,22 @@ export default function Header() {
 
 				<nav className={s.navMenu}>
 					{routes.map((item, index: number) => {
+						// const itemClass =
+      					// 	item.path === '' 
+      					// 	  ? s.home 
+      					// 	  : item.path === 'ukraine'
+      					// 	  ? s.ukraine
+      					// 	  : item.path === 'poland'
+      					// 	  ? s.poland
+      					// 	  : item.path === 'usa'
+      					// 	  ? s.usa
+      					// 	  : item.path === 'canada'
+      					// 	  ? s.canada
+      					// 	  : item.path === 'australia'
+      					// 	  ? s.australia
+      					// 	  : item.path === 'singapore'
+      					// 	  ? s.singapore
+      					// 	  : '';
 						return (
 							<div
 								key={index}
