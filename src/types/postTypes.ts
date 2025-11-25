@@ -1,8 +1,10 @@
+import { ImageUrlInput } from '@/utils/normalizeImageUrl';
+
 export type postData = {
 	_id: string;
 	title: string;
 	author: string;
-	imageUrl: string[];
+	imageUrl: ImageUrlInput[];
 	country: string;
 	description: string;
 	articleUrl: string;
@@ -20,5 +22,5 @@ export type postsDataType = {
 
 export interface PostPageProps {
 	country: string;
-	postPageLink: string
+	postPageLink: string;
 }

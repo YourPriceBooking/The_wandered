@@ -2,6 +2,7 @@ import ArticlePage from '@/components/ArticlePage/ArticlePage';
 import { getPostData } from '@/services/getPostData';
 import { postData } from '@/types/postTypes';
 import { Metadata } from 'next';
+import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
 export async function generateMetadata({
     params,
@@ -20,13 +21,16 @@ export async function generateMetadata({
         };
     }
 
+    const normalizedImages = normalizeImageUrl(data.imageUrl as any);
+    const imageUrl = getImageUrl(normalizedImages, 0) || '/default-image.jpg';
+
     return {
         title: data.heading,
         description: data.description,
         openGraph: {
             images: [
                 {
-                    url: data.imageUrl?.[0] || '/default-image.jpg',
+                    url: imageUrl,
                     width: 1200,
                     height: 630,
                 },

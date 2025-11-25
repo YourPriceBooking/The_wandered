@@ -4,6 +4,7 @@ import Link from 'next/link';
 import TopSection from '@/components/TopSection/TopSection';
 import { getPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
+import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,12 +24,14 @@ export default async function MainPage({
 			<TopSection />
 			<div className={s.contentSection}>
 				{data.result.map((article: postData) => {
+					const normalizedImages = normalizeImageUrl(article.imageUrl as any);
+					const imageSrc = getImageUrl(normalizedImages, 0) || '';
 					return (
 						<Article
 							key={article._id}
 							slug={article?.articleUrl?.split('/').pop()}
 							title={article.title}
-							imageSrc={article.imageUrl[0]}
+							imageSrc={imageSrc}
 							country={article.country}
 							author={article.author}
 							date={article.publicationDate}
