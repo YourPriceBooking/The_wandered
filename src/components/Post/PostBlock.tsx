@@ -14,6 +14,7 @@ import { dataMarkup } from './helpers/dataMarkup';
 import { AuthorType } from '@/types/authorTypes';
 import { useAppSelector } from '@/lib/hooks';
 import Link from 'next/link';
+import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
 const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 	const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
@@ -86,13 +87,16 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 		return null;
 	}
 
+	const normalizedImages = normalizeImageUrl(data.imageUrl as any);
+	const imageSrc = getImageUrl(normalizedImages, 0);
+
 	return (
 		<>
 			<div className={style.imageWrapper}>
 				<div className={style.post__img}>
-					{data.imageUrl && data.imageUrl.length > 0 ? (
+					{imageSrc ? (
 						<Image
-							src={data.imageUrl[0]}
+							src={imageSrc}
 							layout="responsive"
 							width={100}
 							height={100}

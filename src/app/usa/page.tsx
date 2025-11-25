@@ -6,6 +6,7 @@ import Article from '@/components/Article/Article';
 import { postData, postsDataType } from '@/types/postTypes';
 import { getPosts } from '@/services/getPosts';
 import Link from 'next/link';
+import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -37,13 +38,15 @@ async function page({
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
 					data.result.map((article: postData) => {
+						const normalizedImages = normalizeImageUrl(article.imageUrl as any);
+						const imageSrc = getImageUrl(normalizedImages, 0) || '';
 						return (
 							<Article
 								key={article._id}
 								slug={country + '/' + article?.articleUrl?.split('/').pop()}
 								title={article.title}
 								country={article.country}
-								imageSrc={article.imageUrl[0]}
+								imageSrc={imageSrc}
 								author={article.author}
 								date={article.publicationDate}
 								updated={''}

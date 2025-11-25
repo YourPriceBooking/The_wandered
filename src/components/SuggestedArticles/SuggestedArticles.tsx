@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { postData } from '@/types/postTypes';
 import { getSuggestedArticles } from '@/services/getSuggestedArticles';
 import { useAppSelector } from '@/lib/hooks';
+import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
 function SuggestedArticles({ data, country }: { data: postData; country: string }) {
     const allPosts = useAppSelector((state: any) =>
@@ -58,13 +59,15 @@ function SuggestedArticles({ data, country }: { data: postData; country: string 
                     article.country === 'home'
                         ? article.articleUrl.split('/').pop()
                         : `${article.country}/${article.articleUrl.split('/').pop()}`;
+                const normalizedImages = normalizeImageUrl(article.imageUrl as any);
+                const imageSrc = getImageUrl(normalizedImages, 0) || '';
 
                 return (
                     <Article
                         key={article._id}
                         slug={fullSlug}
                         title={article.title}
-                        imageSrc={article.imageUrl[0]}
+                        imageSrc={imageSrc}
                         country={article.country}
                         author={article.author}
                         date={article.publicationDate}
