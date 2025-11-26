@@ -55,22 +55,6 @@ export default function Header() {
 
 				<nav className={s.navMenu}>
 					{routes.map((item, index: number) => {
-						// const itemClass =
-      					// 	item.path === '' 
-      					// 	  ? s.home 
-      					// 	  : item.path === 'ukraine'
-      					// 	  ? s.ukraine
-      					// 	  : item.path === 'poland'
-      					// 	  ? s.poland
-      					// 	  : item.path === 'usa'
-      					// 	  ? s.usa
-      					// 	  : item.path === 'canada'
-      					// 	  ? s.canada
-      					// 	  : item.path === 'australia'
-      					// 	  ? s.australia
-      					// 	  : item.path === 'singapore'
-      					// 	  ? s.singapore
-      					// 	  : '';
 						return (
 							<div
 								key={index}
@@ -87,16 +71,16 @@ export default function Header() {
 					})}
 				</nav>
 				<Suspense fallback={null}>
-					<div className='SearchFieldContainer'>
-						<SearchField />
-						<a href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
-						<div  className= {s.GamesOn}>Games on the Go</div>
+					<div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
+						<SearchField className={s.searchField} />
+						<a className= {s.gamesDesktopLink} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
+							<div  className= {s.GamesOn}>Games on the Go</div>
 						</a>
 						<div className= {s.btnWrap}>
-						<a className= {s.btnMobile} href="/travel-resources">Travel Resources</a>
+							<a className= {`${s.btnMobile} ${s.travel}`} href="/travel-resources">Travel Resources</a>
 						</div>
 						<div className= {s.btnWrap}>
-						<a className= {s.btnMobile} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">Games on the Go</a>
+							<a className= {`${s.btnMobile} ${s.gamesMobile}`} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">Games on the Go</a>
 						</div>
 					</div>					
 				</Suspense>

@@ -6,6 +6,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { PagesEnum } from '@/types/enums/pagesEnums';
 import { routes } from '@/app/routes';
 interface SearchFieldProps {
+	className? : string;
 	inputClass?: string;
 	initialValue?: string;
 	isPage?: boolean;
@@ -34,7 +35,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ inputClass = s.searchBlock })
 		<div className={inputClass}>
 			<input
 				type="text"
-				name=""
+				name="searchField"
 				placeholder={searchPlaceholder?.search ? searchPlaceholder?.search : 'Search article'}
 				className={s.input}
 				value={searchFieldData}
@@ -44,7 +45,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ inputClass = s.searchBlock })
 				onKeyDown={(e) => e.key === 'Enter' && searchHandle()}
 			/>
 			<div className={s.searchBtn} onClick={searchHandle}>
-				<SearchBtnIcon />
+				<SearchBtnIcon fill="var(--icon-color)" width="var(--icon-width)" height="var(--icon-height)" stroke="var(--icon-stroke)"/>
 			</div>
 		</div>
 	);

@@ -1,15 +1,15 @@
 interface SearchBtnIconProps {
-	width?: number;
-	height?: number;
+	width?: number | string;
+	height?: number | string;
 	fill?: string;
 	stroke?: string;
 }
 
 const SearchBtnIcon: React.FC<SearchBtnIconProps> = ({
-	width = 21,
-	height = 21,
-	fill = '#00000095',
-	stroke = '#00000095',
+  width = "var(--icon-width, 21)",
+  height = "var(--icon-height, 21)",
+  fill = "var(--icon-color, #00000095)",
+  stroke = "var(--icon-stroke, #00000095)",
 }) => {
 	return (
 		<svg
