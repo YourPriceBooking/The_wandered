@@ -30,6 +30,23 @@ export default function Header() {
 		/* Check if path is daily journal */
 	}
 
+	const [hintOpen, setHintOpen] = useState(false);
+	const [hintTarget, setHintTarget] = useState<string | null>(null);
+
+	useEffect(() => {
+		const handleClick = (e: MouseEvent) => {
+			if (!(e.target as HTMLElement).closest(".hasHint")) {
+				setHintOpen(false);
+				setHintTarget(null);
+			}
+		};
+
+		if (hintOpen) {
+			document.addEventListener("click", handleClick);
+		}
+		return () => document.removeEventListener("click", handleClick);
+	}, [hintOpen]);
+
 	useEffect(() => {
 		const currentRoute = routes.find((item) => item.path === pathname.split('/')[1]);
 		if (currentRoute) {
@@ -76,9 +93,38 @@ export default function Header() {
 						<a className= {s.gamesDesktopLink} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
 							<div  className= {s.GamesOn}>Games on the Go</div>
 						</a>
-						<div className= {s.btnWrap}>
+						<div
+							className={`${s.btnWrap} hasHint`}
+							onMouseEnter={() => {
+								if (window.innerWidth > 480) {
+									setHintOpen(true);
+									setHintTarget("travel");
+								}
+							}}
+							onMouseLeave={() => {
+								if (window.innerWidth > 480) {
+									setHintOpen(false);
+									setHintTarget(null);
+								}
+							}}
+							onClick={(e) => {
+								if (window.innerWidth <= 480) {
+									if (!hintOpen || hintTarget !== "travel") {
+										e.preventDefault();
+										setHintOpen(true);
+										setHintTarget("travel");
+										return;
+									}
+								}
+							}}
+						>
 							<a className= {`${s.btnMobile} ${s.travel}`} href="/travel-resources">Travel Resources</a>
 						</div>
+						{hintOpen && hintTarget === "travel" && (
+							<div className={s.hintBox}>
+								Explore live travel tools — maps, weather, flight tracking, and soon: insurance, car rentals, and hotel booking.
+							</div>
+						)}
 						<div className= {s.btnWrap}>
 							<a className= {`${s.btnMobile} ${s.gamesMobile}`} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">Games on the Go</a>
 						</div>

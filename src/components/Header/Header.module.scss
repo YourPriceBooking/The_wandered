@@ -59,12 +59,39 @@
 	@media (max-width: 480px) {
 		padding: 0px;
 		flex-wrap:nowrap;
+		display: grid;
+  		grid-template-columns: 1fr 1fr 1fr 1fr; 
+  		grid-template-rows: auto auto auto auto;
+  		grid-template-areas:
+  		  "home     empty1  search   search"
+  		  "australia empty2 search    search"
+  		  "canada   empty3  search    search"
+  		  "usa      poland  ukraine   singapore";
+		gap:0px;
+		font-size: 10px;
+	}
+	@media (max-width: 355px) {
+		padding: 0px;
+		flex-wrap:nowrap;
+		display: grid;
+  		grid-template-columns: 1fr 1fr 60px 100px; 
+  		grid-template-rows: auto auto auto auto;
+  		grid-template-areas:
+  		  "home     empty1  search   search"
+  		  "australia empty2 search    search"
+  		  "canada   empty3  search    search"
+  		  "usa      poland  ukraine   singapore";
+		gap:0px;
+		font-size: 10px;
 	}
 
 	.btnWrap {
 		display: flex;
 		justify-content: end;
-}
+		@media (max-width: 480px) {
+			justify-content: center;
+		}
+	}
 }
 
 .navMenu {
@@ -93,8 +120,9 @@
 			margin-bottom: 5px;
 			color: #ffffff00;
 			user-select: none;
-			@media (max-width: 450px) {
+			@media (max-width: 480px) {
 				margin-bottom: 0px;
+				font-size: 35px;
 			}
 		}
 		.navLink {
@@ -127,15 +155,25 @@
 				font-family: "Reddit Sans SemiBold";
 				font-weight: 600;
 			}
+			@media (max-width: 480px) {
+				font-size: 10px;
+				margin-left: 5px;
+				&::after {
+					height: 1px;
+				}
+			}
 		}
 		&.active {
 			.linkDot {
 				color: #6aff79;
 				top: 5px;
 				position: relative;
-					@media (max-width: 678px) {
-				top: 8px;
-			}
+				@media (max-width: 678px) {
+					top: 8px;
+				}
+				@media (max-width: 480px) {
+					top: 11px;
+				}
 			}
 			.navLink::after {
 				content: '';
@@ -147,6 +185,15 @@
 				left: 0;
 				background-color: #312b2b;
 			}
+			@media (max-width: 480px) {
+				.navLink::after {
+					height: 1px;
+				}
+			}
+		}
+		@media (max-width: 480px) {
+        	margin: 0;
+        	padding: 0;
 		}
 	}
 
@@ -250,30 +297,14 @@
 	}
 	@media (max-width: 480px) {
 		margin-bottom:0;
-		line-height: 16px;
-		display: grid;
-	  	grid-template-columns: repeat(4, 1fr);
-	  	grid-template-rows: repeat(4, auto);
-	    grid-template-areas: 
-			"home"
-			"australia"
-			"canada"
-			"usa"		
-			"poland"
-			"ukraine"
-			"singapore"
-			// "travel"
-			// "games"
-			// "btnMobile"
-			;
-	    // gap: 0.001rem;
-		// margin-bottom: 15px;
-
+		display: contents;
+		gap:0px;
 	  .linkContainer:nth-child(1) {
 		grid-area: home;
 		grid-row: 1;
 		grid-column: 1;
-		order: 1; }
+		order: 1; 
+		}
 	  .linkContainer:nth-child(2) {
 		grid-area: ukraine;
 		grid-row: 4;
@@ -305,9 +336,6 @@
 		grid-row: 4;
 		grid-column: 4;
 		order: 7; }
-	//   .linkContainer:nth-child(8) { grid-area: travel; }
-	//   .linkContainer:nth-child(9) { grid-area: games; }
-	//   .linkContainer:nth-child(10) { grid-area: btnMobile; }
 	}
 }
 
@@ -325,7 +353,14 @@
     border-radius: 22px;
     margin-top: 8px;
 	@media (min-width: 678px) {
-	 display: none;
+	 	display: none;
+	}
+	@media (max-width: 480px) {
+		width: 160px;
+		height: 27px;
+		border: none;
+		margin-top:0;
+		margin-bottom:0;
 	}
 }
 .btnMobile::before {
@@ -343,7 +378,11 @@
 	border: 1px solid #000000;
 }
 
-
+.gamesDesktopLink{
+	@media (min-width: 480px) {
+	 display: none;
+	}
+}
 .GamesOn {
     color: #787878;
     border: 1px solid #787878;
@@ -361,7 +400,6 @@
 	 display: none;
 	 }
 }
-
 .GamesOn:hover {
     color: var(--color-primary-2);
 	background-color: #2D4E70B2;
@@ -379,12 +417,10 @@
 	width: 100%;
 	cursor: pointer;
 }
-
 .GamesOn:active {
 	background-color: #2D4E70B2;
 	opacity: 1;
 }
-
 .hidden {
   display: none;
 }
@@ -412,17 +448,42 @@
 
 @media (max-width: 480px) {
     .searchFieldContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+		grid-area: search;
+		position: relative;
+		.hintBox{
+			position:fixed;
+			left: 0;
+			width: 100vw;
+			max-width: 100vw;  
+			background-color: #000000;
+			color: #E4D8D8;
+			font-size: 12px;
+			font-family: "Segoe UI", sans-serif;
+			font-weight: 600;
+			text-align: center;
+			min-height: 60px;
+			margin: 0 auto;
+			border-radius: 10px; 
+			pointer-events: none; 
+			padding: 9px 8px 10px;
+			box-shadow: 0 0 0 4px #000004;
+			z-index: 10000;
+			animation: slideUp 0.3s ease-out forwards;
+		}
+		@keyframes slideUp {
+			from {
+        		transform: translateY(10px);
+        		opacity: 0;
+			}
+			to {
+        		transform: translateY(0); 
+        		opacity: 1;
+			}
+		}
     }
-
-    .searchField {
-        order: 3; 
-    }
-
     .travel {
         order: 1; 
+		margin-bottom: 8px;
     }
 
     .gamesMobile {
