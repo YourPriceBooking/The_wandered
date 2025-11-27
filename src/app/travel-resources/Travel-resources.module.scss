@@ -1,11 +1,26 @@
 .iframe {
 
 	@media (min-width: 678px) {
-	 width: 50%;
+	 width: 65%;
 	 height: 300px;
 	 }
 	@media (min-width: 1024px) {
 	 width: 75%;
 	 height: 450px;
+	 }
+	@media (max-width: 677px) {
+	 width: 81%;
+	 height: 250px;
+	 display: flex;
+	 margin-left: 10px;
+	 }
+}
+
+.title {
+	@media (max-width: 677px) {
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-align: left;
 	 }
 }
