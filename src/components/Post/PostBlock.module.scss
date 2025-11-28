@@ -11,7 +11,7 @@
 
 .imageWrapper {
 	width: 100%;
-	background-color: var(--color-background-1);
+	// background-color: var(--color-background-1);
 	display: flex;
 	justify-content: center;
 }
@@ -22,18 +22,25 @@
 	align-items: center;
 	max-width: 1080px;
 	width: 100vw;
-	height: 420px;
+	height: auto;
 	margin-top: 0px;
+	padding: 0px 17%;
+	border-radius: 15px;
 	// background-color: var(--color-background-3);
 	@media (max-width: 950px) {
-		margin-top: 50px;
+		margin-top: 0px;
 	}
 	@media (max-width: 480px) {
-		margin-top: 90px;
-		height: 320px;
+		margin-top: 0px;
 	}
 	@media (max-width: 420px) {
-		margin-top: 45px;
+		margin-top: 0px;
+	}
+		@media (max-width: 768px) {
+		padding: 0px 25px;
+	}
+	@media (max-width: 320px) {
+		padding: 0 15px;
 	}
 
 	&_bg {
@@ -51,14 +58,14 @@
 }
 .post__content {
 	max-width: 1080px;
-	padding: 40px 17%;
+	padding: 20px 17%;
 	color: #433F3F;
 	line-height: 17px;
 	text-align: justify;
 	background-color: var(--color-background-2);
 
 	@media (max-width: 768px) {
-		padding: 30px 25px;
+		padding: 20px 25px;
 	}
 	@media (max-width: 320px) {
 		padding: 15px;
@@ -69,11 +76,12 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	border-radius: 15px;
 }
 .post__title {
 	color: var(--color-primary-2);
 	font-weight: 700;
-	font-size: 23px;
+	font-size: 20px;
 	line-height: 26px;
 }
 .post__date_public {
@@ -148,10 +156,13 @@
 		line-height: 25px;
 	}
 	h1 {
-		font-size: 24px;
+		font-size: 20px;
 	}
 	h2 {
-		font-size: 20px;
+		font-size: 18px;
+	}
+	h3 {
+		font-size: 17px;
 	}
 	img {
 		width: 100%;
