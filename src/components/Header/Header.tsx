@@ -6,6 +6,7 @@ import BackArrow from '../TopSection/BackArrow/BackArrow';
 
 import TopSection from '../TopSection/TopSection';
 import SearchField from './SearchField/SearchField';
+import MobileSearchField from './SearchField/MobileSearchField/MobileSearchField';
 
 import { Suspense, useEffect, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
@@ -15,6 +16,7 @@ import Link from 'next/link';
 import { routes } from '@/app/routes';
 
 export default function Header() {
+
 	const pathname = usePathname();
 	const params = useParams();
 
@@ -32,6 +34,7 @@ export default function Header() {
 
 	const [hintOpen, setHintOpen] = useState(false);
 	const [hintTarget, setHintTarget] = useState<string | null>(null);
+	const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
 	useEffect(() => {
 		const handleClick = (e: MouseEvent) => {
@@ -83,6 +86,24 @@ export default function Header() {
 		};
 	}, []);
 
+	// useEffect(() => {
+	// 	if (typeof window === "undefined") return;
+
+	// 	const icon = document.querySelector(".searchField");
+	// 	if (!icon) return;
+	// 	console.log(icon);
+	// 	const handleMobileSearch = (e: Event) => {
+	// 		if (window.innerWidth <= 480) {
+	// 			e.preventDefault();
+	// 			setMobileSearchOpen(true);
+	// 		}
+	// 	};
+
+	// 	icon.addEventListener("click", handleMobileSearch);
+
+	// 	return () => icon.removeEventListener("click", handleMobileSearch);
+	// }, [mobileSearchOpen]);
+
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
 
@@ -116,7 +137,15 @@ export default function Header() {
 					</nav>
 					<Suspense fallback={null}>
 						<div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
-							<SearchField className={s.searchField} />
+							<SearchField
+							  className={s.searchField}
+							  onClick={() => {
+							    if (typeof window !== "undefined" && window.innerWidth <= 480) {
+							      setMobileSearchOpen(true);
+							    }
+							  }}
+							/>
+							{mobileSearchOpen &&  <MobileSearchField onClose={() => setMobileSearchOpen(false)} />}
 							<a className= {s.gamesDesktopLink} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
 								<div  className= {s.GamesOn}>Games on the Go</div>
 							</a>
