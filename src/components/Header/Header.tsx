@@ -86,23 +86,6 @@ export default function Header() {
 		};
 	}, []);
 
-	// useEffect(() => {
-	// 	if (typeof window === "undefined") return;
-
-	// 	const icon = document.querySelector(".searchField");
-	// 	if (!icon) return;
-	// 	console.log(icon);
-	// 	const handleMobileSearch = (e: Event) => {
-	// 		if (window.innerWidth <= 480) {
-	// 			e.preventDefault();
-	// 			setMobileSearchOpen(true);
-	// 		}
-	// 	};
-
-	// 	icon.addEventListener("click", handleMobileSearch);
-
-	// 	return () => icon.removeEventListener("click", handleMobileSearch);
-	// }, [mobileSearchOpen]);
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
