@@ -8,7 +8,21 @@ interface DateBlockProps {
 }
 
 const DateBlock: React.FC<DateBlockProps> = ({ isWhite = false, country }) => {
+
+  const [mounted, setMounted] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    setMounted(true);
+
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if (!mounted) return null;
 
   const getLocaleFromCountry = (country: string = ''): string => {
     switch (country.toLowerCase()) {
@@ -54,13 +68,13 @@ const DateBlock: React.FC<DateBlockProps> = ({ isWhite = false, country }) => {
     formattedDate = `${ukraineWeekday}, ${formattedDate.replace('р. о', '')}`;
   }
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentDate(new Date());
-    }, 10000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setCurrentDate(new Date());
+  //   }, 10000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
 
 

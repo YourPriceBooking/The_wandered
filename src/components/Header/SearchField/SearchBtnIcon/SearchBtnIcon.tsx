@@ -1,17 +1,15 @@
-import s from './SearchBtnIcon.module.scss'
-
 interface SearchBtnIconProps {
-	width?: number | string;
-	height?: number | string;
+	width?: number;
+	height?: number;
 	fill?: string;
 	stroke?: string;
 }
 
 const SearchBtnIcon: React.FC<SearchBtnIconProps> = ({
-  width = "var(--icon-width, 21)",
-  height = "var(--icon-height, 21)",
-  fill = "var(--icon-color, #00000095)",
-  stroke = "var(--icon-stroke, #00000095)",
+	width = 21,
+	height = 21,
+	fill = '#00000095',
+	stroke = '#00000095',
 }) => {
 	return (
 		<svg
@@ -20,7 +18,6 @@ const SearchBtnIcon: React.FC<SearchBtnIconProps> = ({
 			viewBox="0 0 21 21"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
-			className={s.icon}
 		>
 			<path
 				fillRule="evenodd"
