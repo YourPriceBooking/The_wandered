@@ -16,6 +16,32 @@ import { useAppSelector } from '@/lib/hooks';
 import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
+function replaceImagesInHtml(htmlString: string, images: Array<{ url: string; context?: { alt?: string; caption?: string } }>) {
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+
+  const imgTags = doc.querySelectorAll("img");
+
+  imgTags.forEach((img, index) => {
+    const imageObj = images[index + 1]; 
+    if (imageObj) {
+      img.setAttribute("src", imageObj.url);
+      if (imageObj.context?.alt) {
+        img.setAttribute("alt", imageObj.context.alt);
+      }
+      if (imageObj.context?.caption) {
+
+        const captionEl = doc.createElement("p");
+        captionEl.textContent = imageObj.context.caption;
+        img.insertAdjacentElement("afterend", captionEl);
+      }
+    }
+  });
+
+  return doc.body.innerHTML;
+}
+
 const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 	const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
 	const [data, setData] = useState<any>(null);
@@ -178,15 +204,15 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 						</div>
 					)}
 				</div>
-				<div
-					className={style.post__markup}
-					dangerouslySetInnerHTML={{
-						__html: DOMPurify.sanitize(data.markup, {
-							ADD_ATTR: ['target', 'allowfullscreen', 'frameborder', 'src'],
-							ADD_TAGS: ['iframe'],
-						}),
-					}}
-				></div>
+<div
+	className={style.post__markup}
+	dangerouslySetInnerHTML={{
+		__html: DOMPurify.sanitize(replaceImagesInHtml(data.markup, data.imageUrl), {
+			ADD_ATTR: ['target', 'allowfullscreen', 'frameborder', 'src'],
+			ADD_TAGS: ['iframe'],
+		}),
+	}}
+></div>
 			</div>
 			<SuggestedArticles data={data} country={country} />
 		</>
