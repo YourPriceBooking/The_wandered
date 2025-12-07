@@ -141,6 +141,16 @@
 	line-height: 29px;
 	font-size: 17px;
 
+
+	& img {
+		border-radius: 11px;
+	}
+	// & p {
+	// 	line-height: 12px;
+	// 	font-size: 12px;
+	// }
+
+
 	@media (max-width: 768px) {
 		line-height: 24px;
 		font-size: 15px;
