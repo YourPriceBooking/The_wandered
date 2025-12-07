@@ -88,7 +88,7 @@
 
 	.btnWrap {
 		display: flex;
-		justify-content: end;
+		justify-content: flex-end;
 		@media (max-width: 480px) {
 			justify-content: center;
 		}
