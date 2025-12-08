@@ -14,11 +14,14 @@
 		height: 42px;
 	}
 	@media (max-width: 480px) {
-		width: 171px;
-		height: 42px;
-	}
-	@media (max-width: 380px) {
-		width: 118px;
+		width: 32px;
+		height: 32px;
+		border: none;
+		margin-top: 0px;
+		border-radius: 50%;
+		position: absolute;
+		bottom: -35px;
+		right:0;
 	}
 }
 .input {
@@ -45,6 +48,9 @@
 	&::-webkit-search-cancel-button {
 		display: none;
 	}
+	@media (max-width: 480px) {
+		display: none;
+	}
 }
 
 .searchBtn {
@@ -59,8 +65,14 @@
 	cursor: pointer;
 	background-color: #00000010;
 	transition: all 0.3s;
+	--icon-color: #00000095;
 	& svg {
 		transition: transform 0.5s;
+		width: var(--icon-width);
+  		height: var(--icon-height);
+  		fill: var(--icon-color);
+  		stroke: var(--icon-stroke);
+
 	}
 	&:hover > svg {
 		opacity: 0.5;
@@ -69,4 +81,35 @@
 	&:hover {
 		background-color: #00000020;
 	}
+	@media (max-width: 480px) {
+		background-color: var(--color-background-2);
+		border-radius: 50%;
+		width: 32px;
+		height: 32px;
+
+		& svg {
+			width: 20px;
+			height:20px;
+			--icon-width: 20px;
+			--icon-height: 20px;
+			--icon-color: var(--color-secondary-3);
+			--icon-stroke: var(--color-secondary-3);
+		}
+
+		&:hover {
+			background-color: var(--color-background-5);
+		}
+		&:hover > svg {
+			opacity: 1;
+			transform: none;
+		}
+		&:active {
+			background-color: var(--color-background-6);
+		}
+		&:active > svg {
+			opacity: 1;
+			transform: none;
+		}		
+	}
 }
+
