@@ -1,6 +1,6 @@
 interface SearchBtnIconProps {
-	width?: number;
-	height?: number;
+	width?: number | string;
+	height?: number | string;
 	fill?: string;
 	stroke?: string;
 }
