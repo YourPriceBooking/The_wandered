@@ -86,6 +86,36 @@ export default function Header() {
 			travelLinkContainer.removeEventListener("mouseleave", handleLeave);
 		};
 	}, []);
+	// useEffect(() => {
+	//   if (typeof window === "undefined") return;
+	//   if (window.innerWidth <= 678) return;
+
+	//   const gamesLink = document.querySelector(
+	//     `.${s.gamesDesktopLink}`
+	//   ) as HTMLElement | null;
+
+	//   if (!gamesLink) return;
+
+	// //   gamesLink.classList.add("hasHint");
+
+	//   const handleEnter = () => {
+	//     setHintOpen(true);
+	//     setHintTarget("games");
+	//   };
+
+	//   const handleLeave = () => {
+	//     setHintOpen(false);
+	//     setHintTarget(null);
+	//   };
+
+	//   gamesLink.addEventListener("mouseenter", handleEnter);
+	//   gamesLink.addEventListener("mouseleave", handleLeave);
+
+	//   return () => {
+	//     gamesLink.removeEventListener("mouseenter", handleEnter);
+	//     gamesLink.removeEventListener("mouseleave", handleLeave);
+	//   };
+	// }, []);
 
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
@@ -130,9 +160,24 @@ export default function Header() {
 							  }}
 							/>
 							{mobileSearchOpen &&  <MobileSearchField onClose={() => setMobileSearchOpen(false)} />}
-							<a className= {s.gamesDesktopLink} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">
-								<div  className= {s.GamesOn}>Games on the Go</div>
-							</a>
+<a
+  className={`${s.gamesDesktopLink} hasHint`}
+  href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+  onMouseEnter={() => {
+    if (window.innerWidth > 678) {
+      setHintOpen(true);
+      setHintTarget("games");
+    }
+  }}
+  onMouseLeave={() => {
+    if (window.innerWidth > 678) {
+      setHintOpen(false);
+      setHintTarget(null);
+    }
+  }}
+>
+  <div className={s.GamesOn}>Games on the Go</div>
+</a>
 							<div className={`${s.btnWrap}`} >
 								<a 
 									className= {`${s.btnMobile} ${s.travel} hasHint`}
@@ -163,9 +208,37 @@ export default function Header() {
 								Travel Resources</a>
 							</div>
 
-							<div className= {s.btnWrap}>
-								<a className= {`${s.btnMobile} ${s.gamesMobile}`} href="/daily-journal-of-your-price-booking-service-history?page=game-zone">Games on the Go</a>
+							<div className={s.btnWrap}>
+							  <a
+							    className={`${s.btnMobile} ${s.gamesMobile} hasHint`}
+							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+							    onMouseEnter={() => {
+							      if (window.innerWidth > 480) {
+							        setHintOpen(true);
+							        setHintTarget("games");
+							      }
+							    }}
+							    onMouseLeave={() => {
+							      if (window.innerWidth > 480) {
+							        setHintOpen(false);
+							        setHintTarget(null);
+							      }
+							    }}
+							    onClick={(e) => {
+							      if (window.innerWidth <= 480) {
+							        if (!hintOpen || hintTarget !== "games") {
+							          e.preventDefault();
+							          setHintOpen(true);
+							          setHintTarget("games");
+							          return;
+							        }
+							      }
+							    }}
+							  >
+							    Games on the Go
+							  </a>
 							</div>
+
 						</div>					
 					</Suspense>
 				</div>
@@ -174,6 +247,11 @@ export default function Header() {
 				<div className={s.hintBox}>
 					Explore live travel tools — maps, weather, flight tracking, and soon: insurance, car rentals, and hotel booking.
 				</div>
+			)}
+			{hintOpen && hintTarget === "games" && (
+			  <div className={s.hintBox2}>
+			    Discover a fun escape in our Game Zone!  Dive into exciting titles like Cube Tower, Retro Drift, and Bus Parking Out—perfect for quick breaks between your travel bookings. Play now and unwind!
+			  </div>
 			)}
 		</>
 	);

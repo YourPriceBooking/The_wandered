@@ -56,10 +56,10 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
  }, [setTooltipVisible]);
 
   if (!currentAuthor) return ( 
-    <div className={`${s.articleBlock} ${s.skeleton}`}>  
+    <header className={`${s.articleBlock} ${s.skeleton}`}>  
           <div className={s.skeletonHeader}></div>
           <div className={s.skeletonAuthor}></div> 
-    </div>)
+    </header>)
 
   const parsedLinks = JSON.parse(currentAuthor.links);
   return (
