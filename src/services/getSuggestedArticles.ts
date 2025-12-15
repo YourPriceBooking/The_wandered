@@ -21,7 +21,7 @@ export const getSuggestedArticles = (post: postData, allPosts: postData[]) => {
   }
 
   const n = withTs.length;
-  const step = (n - 1) / (postCandidates - 1); // гарантированно >= 1 при n >= k
+  const step = (n - 1) / (postCandidates - 1);
   const indices = Array.from({ length: postCandidates }, (_, i) => Math.round(i * step));
 
   const used = new Set<number>();
