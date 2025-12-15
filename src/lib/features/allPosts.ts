@@ -9,6 +9,8 @@ const initialState = {
 	allPostsPoland: [] as postData[],
 	allPostsUsa: [] as postData[],
 	allPostsCanada: [] as postData[],
+	allPostsAustralia: [] as postData[],
+	allPostsSingapore: [] as postData[],
 };
 
 export const fetchAllPosts = createAsyncThunk('allPosts/fetchAllPosts', async () => {
@@ -56,6 +58,12 @@ const allPostsSlice = createSlice({
 						case 'canada':
 							state.allPostsCanada = posts;
 							break;
+						case 'australia':
+							state.allPostsAustralia = posts;
+							break;
+						case 'singapore':
+							state.allPostsSingapore = posts;
+							break;
 						default:
 							break;
 					}
@@ -78,6 +86,12 @@ const allPostsSlice = createSlice({
 						break;
 					case 'canada':
 						state.allPostsCanada = [];
+						break;
+					case 'australia':
+						state.allPostsAustralia = [];
+						break;
+					case 'singapore':
+						state.allPostsSingapore = [];
 						break;
 					default:
 						break;
