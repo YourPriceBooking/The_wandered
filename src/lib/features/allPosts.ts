@@ -7,7 +7,7 @@ const initialState = {
 	allPostsHome: [] as postData[],
 	allPostsUkraine: [] as postData[],
 	allPostsPoland: [] as postData[],
-	allPostsUSA: [] as postData[],
+	allPostsUsa: [] as postData[],
 	allPostsCanada: [] as postData[],
 };
 
@@ -51,7 +51,7 @@ const allPostsSlice = createSlice({
 							state.allPostsPoland = posts;
 							break;
 						case 'usa':
-							state.allPostsUSA = posts;
+							state.allPostsUsa = posts;
 							break;
 						case 'canada':
 							state.allPostsCanada = posts;
@@ -74,7 +74,7 @@ const allPostsSlice = createSlice({
 						state.allPostsPoland = [];
 						break;
 					case 'usa':
-						state.allPostsUSA = [];
+						state.allPostsUsa = [];
 						break;
 					case 'canada':
 						state.allPostsCanada = [];

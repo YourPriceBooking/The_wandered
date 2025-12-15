@@ -5,6 +5,7 @@ import TopSection from '@/components/TopSection/TopSection';
 import { getPosts } from '@/services/getPosts';
 import { postData, postsDataType } from '@/types/postTypes';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
+import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,6 +63,7 @@ export default async function MainPage({
 					</ul>
 				</div>
 			</div>
+			<ScrollToTop />
 		</main>
 	);
 }

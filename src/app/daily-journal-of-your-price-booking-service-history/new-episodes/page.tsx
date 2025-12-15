@@ -1,3 +1,4 @@
+import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 import s from './new-episodes.module.scss';
 import JournalPosts from '@/components/JournalPosts/JournalPosts';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
@@ -39,6 +40,7 @@ const NewEpisodes = async () => {
 				<h1>New Episodes and Stories Continue</h1>
 			</div>
 			{<JournalPosts initialPosts={posts} initialPage={currentPage} />}
+			<ScrollToTop />
 		</main>
 	);
 };

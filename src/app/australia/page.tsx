@@ -7,6 +7,7 @@ import { getPosts } from '@/services/getPosts';
 import Article from '@/components/Article/Article';
 import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
+import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -79,6 +80,7 @@ async function page({
 					</ul>
 				</div>
 			</div>
+			<ScrollToTop />
 		</main>
 	);
 }
