@@ -86,37 +86,6 @@ export default function Header() {
 			travelLinkContainer.removeEventListener("mouseleave", handleLeave);
 		};
 	}, []);
-	// useEffect(() => {
-	//   if (typeof window === "undefined") return;
-	//   if (window.innerWidth <= 678) return;
-
-	//   const gamesLink = document.querySelector(
-	//     `.${s.gamesDesktopLink}`
-	//   ) as HTMLElement | null;
-
-	//   if (!gamesLink) return;
-
-	// //   gamesLink.classList.add("hasHint");
-
-	//   const handleEnter = () => {
-	//     setHintOpen(true);
-	//     setHintTarget("games");
-	//   };
-
-	//   const handleLeave = () => {
-	//     setHintOpen(false);
-	//     setHintTarget(null);
-	//   };
-
-	//   gamesLink.addEventListener("mouseenter", handleEnter);
-	//   gamesLink.addEventListener("mouseleave", handleLeave);
-
-	//   return () => {
-	//     gamesLink.removeEventListener("mouseenter", handleEnter);
-	//     gamesLink.removeEventListener("mouseleave", handleLeave);
-	//   };
-	// }, []);
-
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
@@ -160,24 +129,24 @@ export default function Header() {
 							  }}
 							/>
 							{mobileSearchOpen &&  <MobileSearchField onClose={() => setMobileSearchOpen(false)} />}
-<a
-  className={`${s.gamesDesktopLink} hasHint`}
-  href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
-  onMouseEnter={() => {
-    if (window.innerWidth > 678) {
-      setHintOpen(true);
-      setHintTarget("games");
-    }
-  }}
-  onMouseLeave={() => {
-    if (window.innerWidth > 678) {
-      setHintOpen(false);
-      setHintTarget(null);
-    }
-  }}
->
-  <div className={s.GamesOn}>Games on the Go</div>
-</a>
+							<a
+							  className={`${s.gamesDesktopLink} hasHint`}
+							  href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+							  onMouseEnter={() => {
+							    if (window.innerWidth > 678) {
+							      setHintOpen(true);
+							      setHintTarget("games");
+							    }
+							  }}
+							  onMouseLeave={() => {
+							    if (window.innerWidth > 678) {
+							      setHintOpen(false);
+							      setHintTarget(null);
+							    }
+							  }}
+							>
+							  <div className={s.GamesOn}>Games on the Go</div>
+							</a>
 							<div className={`${s.btnWrap}`} >
 								<a 
 									className= {`${s.btnMobile} ${s.travel} hasHint`}
