@@ -5,7 +5,7 @@ export function getCurrentLocation(pathname: string): string {
 		return 'home';
 	}
 
-	const knownCountries = ['ukraine', 'poland', 'usa', 'canada'];
+	const knownCountries = ['ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore'];
 
 	if (knownCountries.includes(segments[0])) {
 		return segments[0];
