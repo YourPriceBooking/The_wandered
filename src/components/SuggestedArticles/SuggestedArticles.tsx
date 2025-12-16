@@ -11,6 +11,7 @@ function SuggestedArticles({ data, country }: { data: postData; country: string 
     const allPosts = useAppSelector((state: any) =>
         state.allPosts[`allPosts${country.charAt(0).toUpperCase() + country.slice(1)}`] || []
     );
+
     const suggestedArticles = data ? getSuggestedArticles(data, allPosts) : [];
 
     const [isMobile, setIsMobile] = useState(false);
@@ -50,6 +51,7 @@ function SuggestedArticles({ data, country }: { data: postData; country: string 
             ? truncatedStr + '...'
             : str;
     }
+
     return (
         <aside className={s.suggestedArticlesWrapper}>
             {suggestedArticles.map((article: postData) => {

@@ -35,11 +35,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
   const authorRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [tooltipVisible, setTooltipVisible] = useState(false);
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  
   
 
   useEffect(() => {
@@ -59,7 +55,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
 	};
  }, [setTooltipVisible]);
 
-  if (!mounted || !currentAuthor) return ( 
+  if (!currentAuthor) return ( 
     <header className={`${s.articleBlock} ${s.skeleton}`}>  
           <div className={s.skeletonHeader}></div>
           <div className={s.skeletonAuthor}></div> 
