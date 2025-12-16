@@ -8,7 +8,6 @@ import Image from 'next/image';
 import GamesOnTheGo from '@/components/GamesOnTheGo/GamesOnTheGo';
 import Link from 'next/link';
 import JournalPost from '@/components/JournalPosts/JournalPost/JournalPost';
-import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
 export async function generateMetadata({
 	searchParams,
@@ -115,7 +114,6 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 					</Link>
 				</div>
 			</div>
-			<ScrollToTop />
 		</main>
 	);
 }

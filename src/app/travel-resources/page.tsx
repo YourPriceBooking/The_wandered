@@ -1,5 +1,6 @@
 import FlightMap from "./components/FlightMap";
 import WeatherWidget from "./components/WeatherWidget";
+import TimeZoneMap from "./components/TimeZoneMap";
 import NewsFeed from "./components/NewsFeed";
 import WorldMap from "./components/WorldMap";
 
@@ -25,6 +26,7 @@ export default function TravelResourcesPage() {
         <div className="grid gap-6 md:grid-cols-2">
           <FlightMap />
           <WeatherWidget />
+          <TimeZoneMap />
           <NewsFeed />
           <WorldMap />
         </div>
