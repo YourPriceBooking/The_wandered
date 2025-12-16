@@ -104,12 +104,7 @@ export default function Header() {
 					<nav className={s.navMenu}>
 						{routes.map((item, index: number) => {
 							return (
-								<div
-									key={index}
-									className={`${s.linkContainer} ${
-										activeLink === item.path ? s.active : ''
-									} `}
-								>
+								<div key={index} className={`${s.linkContainer} ${ activeLink === item.path ? s.active : '' } `}>
 									<span className={s.linkDot}>•</span>
 									<Link className={s.navLink} href={`/${item.path}`}>
 										{item.name}
@@ -120,8 +115,7 @@ export default function Header() {
 					</nav>
 					<Suspense fallback={null}>
 						<div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
-							<SearchField
-							  className={s.searchField}
+							<SearchField className={s.searchField} 
 							  onClick={() => {
 							    if (typeof window !== "undefined" && window.innerWidth <= 480) {
 							      setMobileSearchOpen(true);
