@@ -4,40 +4,46 @@ export const getSuggestedArticles = (post: postData, allPosts: postData[]) => {
   if (!post || !Array.isArray(allPosts) || allPosts.length === 0) return [];
 
   const available = allPosts.filter((p) => p && p._id !== post._id);
-  const postCandidates = Math.min(4, available.length);
-  if (postCandidates === 0) return [];
-
-  const withTs = available
-    .map((p) => {
-      const raw =
-        (p as any).publicationDate || (p as any).date || (p as any).updated || '';
-      const ts = Date.parse(String(raw)) || 0;
-      return { p, ts };
-    })
-    .sort((a, b) => a.ts - b.ts);
-
-  if (postCandidates < 4) {
-    return withTs.map((x) => x.p);
+  if (available.length <= 4) {
+    return available;
   }
 
-  const n = withTs.length;
-  const step = (n - 1) / (postCandidates - 1);
-  const indices = Array.from({ length: postCandidates }, (_, i) => Math.round(i * step));
+  const currentIndex = allPosts.findIndex((p) => p && p._id === post._id);
 
-  const used = new Set<number>();
-  const fixedIndices: number[] = [];
-  for (const idx of indices) {
-    let j = Math.min(Math.max(idx, 0), n - 1);
-    while (used.has(j) && j < n) j++;
-    if (j >= n) {
-      j = idx;
-      while (used.has(j) && j >= 0) j--;
+  if (currentIndex < 0) {
+    return available.slice(0, 4);
+  }
+
+  const remaining: postData[] = [...available];
+
+  const nextAllIdx = (currentIndex + 1) % allPosts.length;
+  const nextPost = allPosts[nextAllIdx];
+
+  let pos = Math.max(0, remaining.findIndex((p) => p && nextPost && p._id === nextPost._id));
+
+  const picked: postData[] = [];
+  const offsets = [0, 1, 2, 3];
+
+  for (let i = 0; i < offsets.length && remaining.length > 0; i++) {
+    if (i === 0) {
+      // next pos
+    } else {
+      pos = (pos + offsets[i]) % remaining.length;
     }
-    if (!used.has(j)) {
-      used.add(j);
-      fixedIndices.push(j);
+
+    const chosen = remaining[pos];
+    if (!chosen) break;
+
+    picked.push(chosen);
+
+    remaining.splice(pos, 1);
+
+    if (remaining.length === 0) break;
+
+    if (pos >= remaining.length) {
+      pos = pos % remaining.length;
     }
   }
 
-  return fixedIndices.slice(0, postCandidates).map((i) => withTs[i].p);
+  return picked;
  };
