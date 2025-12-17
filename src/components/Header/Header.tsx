@@ -115,7 +115,7 @@ export default function Header() {
 					</nav>
 					<Suspense fallback={null}>
 						<div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
-							<SearchField className={s.searchField} 
+							<SearchField 
 							  onClick={() => {
 							    if (typeof window !== "undefined" && window.innerWidth <= 480) {
 							      setMobileSearchOpen(true);
@@ -205,28 +205,6 @@ export default function Header() {
 							  <a
 							    className={`${s.btnUnchartedPlanet}`}
 							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
-							    // onMouseEnter={() => {
-							    //   if (window.innerWidth > 480) {
-							    //     setHintOpen(true);
-							    //     setHintTarget("games");
-							    //   }
-							    // }}
-							    // onMouseLeave={() => {
-							    //   if (window.innerWidth > 480) {
-							    //     setHintOpen(false);
-							    //     setHintTarget(null);
-							    //   }
-							    // }}
-							    // onClick={(e) => {
-							    //   if (window.innerWidth <= 480) {
-							    //     if (!hintOpen || hintTarget !== "games") {
-							    //       e.preventDefault();
-							    //       setHintOpen(true);
-							    //       setHintTarget("games");
-							    //       return;
-							    //     }
-							    //   }
-							    // }}
 							  >
 							  <div>
 							  	<PlanetIcon />

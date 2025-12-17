@@ -6,7 +6,6 @@
     font-style: bold;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'Reddit Sans SemiBold';
     src: local('Reddit Sans SemiBold'), local('RedditSans-SemiBold'),
@@ -50,7 +49,7 @@
 
 	@media (max-width: 1090px) {
 		width: 100%;
-			  .linkContainer:nth-child(1) { grid-area: home; }
+	  .linkContainer:nth-child(1) { grid-area: home; }
 	  .linkContainer:nth-child(2) { grid-area: poland; }
 	  .linkContainer:nth-child(3) { grid-area: usa; }
 	  .linkContainer:nth-child(4) { grid-area: canada; }
@@ -161,10 +160,10 @@
 
 .navMenu {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(5, 1fr);
     grid-template-areas: 
-      "home usa canada ukraine"
-      "poland australia singapore travel";
+      "home poland 		usa 		canada 		planet"
+      ".	ukraine 	australia 	singapore 	travel";
     gap: 0.2rem;
 	width: 50%;
 	line-height: 21px;
@@ -177,6 +176,7 @@
   	.linkContainer:nth-child(6) { grid-area: australia; }
   	.linkContainer:nth-child(7) { grid-area: singapore; }
   	.linkContainer:nth-child(8) { grid-area: travel; }
+  	.linkContainer:nth-child(9) { grid-area: planet; }
 
 	@media (max-width: 1024px) {
 		display: grid;
@@ -195,6 +195,7 @@
 	  .linkContainer:nth-child(6) { grid-area: australia; }
 	  .linkContainer:nth-child(7) { grid-area: singapore; }
 	  .linkContainer:nth-child(8) { grid-area: travel; }
+	  .linkContainer:nth-child(9) { grid-area: planet; display: none; }
 	}
 	@media (max-width: 768px) {
 		display: grid;
@@ -341,10 +342,11 @@
 	&.active {
 		.linkDot {
 			color: #6aff79;
-			top: 5px;
+			top: 8px;
 			position: relative;
+			margin-right: 4px;
 			@media (max-width: 678px) {
-				top: 8px;
+				top: 10px;
 			}
 		}
 		.navLink::after {
@@ -498,35 +500,49 @@
     }
 }
 .btnPlanet {
+	width: 240px;
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: row;
+	justify-content: flex-start;
+	gap: 10px;
+
+	@media (min-width: 1025px) {
+		display: none;
+	}
+	@media (max-width: 678px) {
+		width: 160px;
+		transform: translateX(120px);
+		padding-top: 15px;
+		gap: 6px;
+	}
+	@media (max-width: 541px) {
+		transform: translateX(40px);
+	}
 	@media (max-width: 480px) {
-		justify-content: center;
+		justify-content: flex-end;
+		transform: none;
 	}
 }
 .btnUnchartedPlanet {
 	color: #312b2b;
-	// background-color: #0B449B;
-    // border: 1px solid #787878;
     height: 25px;
-	width: 123px;
     text-align: center;
-    // padding-top: 3px;
     font-family: "Reddit Sans Bold";
 	font-weight: 600;
     font-size: 14px;
-    // border-radius: 22px;
-    // margin-top: 8px;
-	// @media (min-width: 678px) {
-	//  	display: none;
-	// }
-	// @media (max-width: 480px) {
-	// 	width: 160px;
-	// 	height: 27px;
-	// 	border: none;
-	// 	margin-top:0;
-	// 	margin-bottom:0;
-	// }
+	span{
+		@media (min-width: 1025px) {
+
+		}
+		@media (max-width: 1024px) {
+			font-size: 18px;
+		}
+		@media (max-width: 678px) {
+			font-size: 12px;
+		}
+		@media (max-width: 480px) {
+		}
+	}
 }
 .hintBox{
 	position: absolute;
