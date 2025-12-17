@@ -3,7 +3,7 @@ import s from './Header.module.scss';
 
 import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
-
+import PlanetIcon from '../../../public/planet-icon';
 import TopSection from '../TopSection/TopSection';
 import SearchField from './SearchField/SearchField';
 import MobileSearchField from './SearchField/MobileSearchField/MobileSearchField';
@@ -139,11 +139,11 @@ export default function Header() {
 							    }
 							  }}
 							>
-							  <div className={s.GamesOn}>Games on the Go</div>
+								<div className={s.GamesOn}>Games on the Go</div>
 							</a>
-							<div className={`${s.btnWrap}`} >
+							<div className={`${s.btnWrap} ${s.travel} `} >
 								<a 
-									className= {`${s.btnMobile} ${s.travel} hasHint`}
+									className= {`${s.btnMobile} hasHint`}
 									href="/travel-resources"
 									onMouseEnter={() => {
 										if (window.innerWidth > 480) {
@@ -171,9 +171,9 @@ export default function Header() {
 								Travel Resources</a>
 							</div>
 
-							<div className={s.btnWrap}>
+							<div className={`${s.btnWrap} ${s.gamesMobile}`}>
 							  <a
-							    className={`${s.btnMobile} ${s.gamesMobile} hasHint`}
+							    className={`${s.btnMobile}  hasHint`}
 							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
 							    onMouseEnter={() => {
 							      if (window.innerWidth > 480) {
@@ -201,7 +201,39 @@ export default function Header() {
 							    Games on the Go
 							  </a>
 							</div>
-
+							<div className={`${s.btnPlanet}`}>
+							  <a
+							    className={`${s.btnUnchartedPlanet}`}
+							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+							    // onMouseEnter={() => {
+							    //   if (window.innerWidth > 480) {
+							    //     setHintOpen(true);
+							    //     setHintTarget("games");
+							    //   }
+							    // }}
+							    // onMouseLeave={() => {
+							    //   if (window.innerWidth > 480) {
+							    //     setHintOpen(false);
+							    //     setHintTarget(null);
+							    //   }
+							    // }}
+							    // onClick={(e) => {
+							    //   if (window.innerWidth <= 480) {
+							    //     if (!hintOpen || hintTarget !== "games") {
+							    //       e.preventDefault();
+							    //       setHintOpen(true);
+							    //       setHintTarget("games");
+							    //       return;
+							    //     }
+							    //   }
+							    // }}
+							  >
+							  <div>
+							  	<PlanetIcon />
+							    <span>Uncharted Planet</span>
+							  </div>
+							  </a>
+							</div>
 						</div>					
 					</Suspense>
 				</div>
