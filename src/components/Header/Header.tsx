@@ -3,7 +3,7 @@ import s from './Header.module.scss';
 
 import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
-
+import PlanetIcon from '../../../public/planet-icon';
 import TopSection from '../TopSection/TopSection';
 import SearchField from './SearchField/SearchField';
 import MobileSearchField from './SearchField/MobileSearchField/MobileSearchField';
@@ -86,37 +86,6 @@ export default function Header() {
 			travelLinkContainer.removeEventListener("mouseleave", handleLeave);
 		};
 	}, []);
-	// useEffect(() => {
-	//   if (typeof window === "undefined") return;
-	//   if (window.innerWidth <= 678) return;
-
-	//   const gamesLink = document.querySelector(
-	//     `.${s.gamesDesktopLink}`
-	//   ) as HTMLElement | null;
-
-	//   if (!gamesLink) return;
-
-	// //   gamesLink.classList.add("hasHint");
-
-	//   const handleEnter = () => {
-	//     setHintOpen(true);
-	//     setHintTarget("games");
-	//   };
-
-	//   const handleLeave = () => {
-	//     setHintOpen(false);
-	//     setHintTarget(null);
-	//   };
-
-	//   gamesLink.addEventListener("mouseenter", handleEnter);
-	//   gamesLink.addEventListener("mouseleave", handleLeave);
-
-	//   return () => {
-	//     gamesLink.removeEventListener("mouseenter", handleEnter);
-	//     gamesLink.removeEventListener("mouseleave", handleLeave);
-	//   };
-	// }, []);
-
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
 		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
@@ -135,12 +104,7 @@ export default function Header() {
 					<nav className={s.navMenu}>
 						{routes.map((item, index: number) => {
 							return (
-								<div
-									key={index}
-									className={`${s.linkContainer} ${
-										activeLink === item.path ? s.active : ''
-									} `}
-								>
+								<div key={index} className={`${s.linkContainer} ${ activeLink === item.path ? s.active : '' } `}>
 									<span className={s.linkDot}>•</span>
 									<Link className={s.navLink} href={`/${item.path}`}>
 										{item.name}
@@ -151,8 +115,7 @@ export default function Header() {
 					</nav>
 					<Suspense fallback={null}>
 						<div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
-							<SearchField
-							  className={s.searchField}
+							<SearchField 
 							  onClick={() => {
 							    if (typeof window !== "undefined" && window.innerWidth <= 480) {
 							      setMobileSearchOpen(true);
@@ -160,27 +123,27 @@ export default function Header() {
 							  }}
 							/>
 							{mobileSearchOpen &&  <MobileSearchField onClose={() => setMobileSearchOpen(false)} />}
-<a
-  className={`${s.gamesDesktopLink} hasHint`}
-  href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
-  onMouseEnter={() => {
-    if (window.innerWidth > 678) {
-      setHintOpen(true);
-      setHintTarget("games");
-    }
-  }}
-  onMouseLeave={() => {
-    if (window.innerWidth > 678) {
-      setHintOpen(false);
-      setHintTarget(null);
-    }
-  }}
->
-  <div className={s.GamesOn}>Games on the Go</div>
-</a>
-							<div className={`${s.btnWrap}`} >
+							<a
+							  className={`${s.gamesDesktopLink} hasHint`}
+							  href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+							  onMouseEnter={() => {
+							    if (window.innerWidth > 678) {
+							      setHintOpen(true);
+							      setHintTarget("games");
+							    }
+							  }}
+							  onMouseLeave={() => {
+							    if (window.innerWidth > 678) {
+							      setHintOpen(false);
+							      setHintTarget(null);
+							    }
+							  }}
+							>
+								<div className={s.GamesOn}>Games on the Go</div>
+							</a>
+							<div className={`${s.btnWrap} ${s.travel} `} >
 								<a 
-									className= {`${s.btnMobile} ${s.travel} hasHint`}
+									className= {`${s.btnMobile} hasHint`}
 									href="/travel-resources"
 									onMouseEnter={() => {
 										if (window.innerWidth > 480) {
@@ -208,9 +171,9 @@ export default function Header() {
 								Travel Resources</a>
 							</div>
 
-							<div className={s.btnWrap}>
+							<div className={`${s.btnWrap} ${s.gamesMobile}`}>
 							  <a
-							    className={`${s.btnMobile} ${s.gamesMobile} hasHint`}
+							    className={`${s.btnMobile}  hasHint`}
 							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
 							    onMouseEnter={() => {
 							      if (window.innerWidth > 480) {
@@ -238,7 +201,17 @@ export default function Header() {
 							    Games on the Go
 							  </a>
 							</div>
-
+							<div className={`${s.btnPlanet}`}>
+							  <a
+							    className={`${s.btnUnchartedPlanet}`}
+							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+							  >
+							  <div>
+							  	<PlanetIcon />
+							    <span>Uncharted Planet</span>
+							  </div>
+							  </a>
+							</div>
 						</div>					
 					</Suspense>
 				</div>
