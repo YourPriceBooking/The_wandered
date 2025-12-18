@@ -139,7 +139,7 @@ export default function Header() {
 							    }
 							  }}
 							>
-								<div className={s.GamesOn}>Games on the Go</div>
+								{/* <div className={s.GamesOn}>Games on the Go</div> */}
 							</a>
 							<div className={`${s.btnWrap} ${s.travel} `} >
 								<a 
@@ -201,15 +201,13 @@ export default function Header() {
 							    Games on the Go
 							  </a>
 							</div>
-							<div className={`${s.btnPlanet}`}>
+							<div className={`${s.btnWrap}`}>
 							  <a
-							    className={`${s.btnUnchartedPlanet}`}
+							    className={`${s.btnMobile}`}
 							    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
 							  >
-							  <div>
 							  	<PlanetIcon />
 							    <span>Uncharted Planet</span>
-							  </div>
 							  </a>
 							</div>
 						</div>					
