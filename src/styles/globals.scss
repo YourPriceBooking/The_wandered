@@ -1,3 +1,4 @@
+// @import url('https://alice.hot.page/main.css');
 * {
 	box-sizing: border-box;
 	padding: 0;
@@ -35,4 +36,16 @@ p {
 ul,
 ol {
 	list-style: none;
+}
+
+
+hotfx-shy-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: block; 
+  background: white;
+
+//   will-change: transform;
 }
