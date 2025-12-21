@@ -11,6 +11,7 @@ import GetDataClient from '@/components/GetDataClient/GetDataClient';
 import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
 import PageTransition from "../components/PageTransition/PageTransition";
 import RouteLoader from '@/components/LoadingScreen/RouteLoader/RouteLoader';
+import HotFXLoader from '@/components/Header/HotFXLoader';
 
 export const metadata: Metadata = {
 	title: 'The Wandered: your journey to discovery',
@@ -27,11 +28,12 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-
-				<StoreProvider>
-  				{/* <hotfx-shy-header> */}
+				<HotFXLoader />
+				<hotfx-shy-header>
   				  <Header />
-  				{/* </hotfx-shy-header> */}
+  				</hotfx-shy-header>
+				<div className="shy-header-spacer" />
+				<StoreProvider>
 					<GetDataClient />
 					<RouteLoader>
 						<PageTransition>{children}</PageTransition>
@@ -41,7 +43,6 @@ export default function RootLayout({
 				</StoreProvider>
 
 				<LenisWrapper />
-				{/* <Script src="https://cdn.jsdelivr.net/npm/@hot-page/hotfx-shy-header@0.0.0" strategy="afterInteractive"  /> */}
 			</body>
 		</html>
 	);
