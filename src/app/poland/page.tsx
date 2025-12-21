@@ -35,7 +35,7 @@ async function page({
 
 	return (
 		<main className={s.main}>
-			<TopSection country={country} countryTitle='Polska' countryDescription='Podróże po Polsce — miejsca, trasy, porady '/>
+			<TopSection country={country} />
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
 					data.result.map((article: postData) => {
