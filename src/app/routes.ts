@@ -40,14 +40,14 @@ export const routes: routeType[] = [
 		path: 'singapore',
 		title: 'Explore Singapore: Travel Tips, Hidden Gems & Booking Insights',
 	},
-	{
-		name: 'Travel\u00A0Resources',
-		path: 'travel-resources',
-		title: '',
-	},
-	{
-		name: 'Uncharted\u00A0Planet',
-		path: 'travel-resources',
-		title: '',
-	},
+	// {
+	// 	name: 'Travel\u00A0Resources',
+	// 	path: 'travel-resources',
+	// 	title: '',
+	// },
+	// {
+	// 	name: 'Uncharted\u00A0Planet',
+	// 	path: 'travel-resources',
+	// 	title: '',
+	// },
 ];

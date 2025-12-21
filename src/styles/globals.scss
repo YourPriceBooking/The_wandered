@@ -36,3 +36,26 @@ ul,
 ol {
 	list-style: none;
 }
+
+
+hotfx-shy-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: block;
+  background: white;
+  z-index: 1000;
+
+  will-change: transform;
+  transition: transform 0.3s ease-out;
+}
+
+hotfx-shy-header.hidden {
+  transform: translateY(-100%);
+}
+
+.shy-header-spacer {
+  height: var(--shy-header-height);
+}
