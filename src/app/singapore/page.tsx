@@ -35,7 +35,7 @@ async function page({
 
 	return (
 		<main className={s.main}>
-			<TopSection country={country} countryTitle='Singapore ' countryDescription='Food, city walks & hidden corners — practical travel notes '/>
+			<TopSection country={country} />
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
 					data.result.map((article: postData) => {
