@@ -47,7 +47,7 @@ export const routes: routeType[] = [
 	},
 	{
 		name: 'Uncharted\u00A0Planet',
-		path: 'uncharted-planet',
+		path: 'travel-resources',
 		title: '',
 	},
 ];
