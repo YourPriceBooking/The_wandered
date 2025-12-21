@@ -45,7 +45,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ inputClass = s.searchBlock, c
 				}}
 				onKeyDown={(e) => e.key === 'Enter' && searchHandle()}
 			/>
-			<div className={s.searchButton} onClick={searchHandle}>
+			<div className={s.searchBtn} onClick={searchHandle}>
 				<SearchBtnIcon />
 			</div>
 		</div>
