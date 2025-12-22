@@ -8,6 +8,7 @@ const PageViewes = ({country, postPageLink}:PostPageProps) => {
         const pageViewsByUrl = `/${country !== 'home' ? country + '/' : ''}${decodeURI(
             String(postPageLink),
         )}`;
+        console.log('PageViewes rendered for path:', pageViewsByUrl);
   return (
     <p>{pageviews[pageViewsByUrl] || 0}</p>
   )
