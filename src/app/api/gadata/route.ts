@@ -57,6 +57,11 @@ export async function GET(req: any) {
     	  version: 'v1beta',
     	  auth: client,
     	});
+		const countryRoots = Array.from(new Set(
+			data.map(p => p.country).filter(c => c && c !== 'home')
+			)).flatMap(c => [`/${c}`, `/${c}/`]);
+
+        const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots ]));
 
     	const response = await analytics.properties.runReport({
     	  property: 'properties/453172943',
@@ -67,7 +72,7 @@ export async function GET(req: any) {
     	    dimensionFilter: {
     	      filter: {
     	        fieldName: 'pagePath',
-    	        inListFilter: { values: urls },
+    	        inListFilter: { values: urlsUnique },
     	      },
     	    },
     	  },
