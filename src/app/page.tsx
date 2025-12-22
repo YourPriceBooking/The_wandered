@@ -22,7 +22,7 @@ export default async function MainPage({
 
 	return (
 		<main className={s.main}>
-			<TopSection countryTitle='the wandered ' countryDescription='Stories inspiration for modern travelers '/>
+			<TopSection country='home' countryTitle='the wandered ' countryDescription='Stories inspiration for modern travelers ' viewPath={paramsPage > 1 ? `/?page=${paramsPage}` : `/`}/>
 			<div className={s.contentSection}>
 				{data.result.map((article: postData) => {
 					const normalizedImages = normalizeImageUrl(article.imageUrl as any);
