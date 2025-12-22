@@ -112,6 +112,16 @@ export default function Header() {
 								</div>
 							);
 						})}
+						<Suspense fallback={null}>
+							<SearchField 
+								className={`${s.searchBtn}`}
+								onClick={() => {
+									if (window.innerWidth >= 769 && window.innerWidth <= 1200) {
+								      setMobileSearchOpen(true);
+								    }
+								}}
+							/>
+						</Suspense>
 					</nav>
 					<Suspense fallback={null}>
 						<div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
