@@ -1,12 +1,13 @@
 .countWrapper {
     border-radius: 30px;
-    width: 76px;
+    width: min-content;
     height: 32px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     position: relative;
+    padding: 10px;
 }
 .lightVeil {
 	position: absolute;
