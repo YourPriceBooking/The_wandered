@@ -5,7 +5,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
-// import Script from 'next/script';
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
 import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
@@ -30,7 +30,9 @@ export default function RootLayout({
 			<body>
 				<HotFXLoader />
 				<hotfx-shy-header>
-  				  <Header />
+				 	<Suspense fallback={null}>
+  				  		<Header />
+				  	</Suspense>
   				</hotfx-shy-header>
 				<div className="shy-header-spacer" />
 				<StoreProvider>
