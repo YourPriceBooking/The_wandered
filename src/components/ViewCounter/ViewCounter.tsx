@@ -13,7 +13,7 @@ type Props = {
 const ViewCounter: React.FC<Props> = ({ viewPath, prefix = '', className }) => {
   const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
   const views = viewPath ? Number(pageviews[viewPath] ?? 0) : 0;
-
+  console.log('ViewCounter rendered with views:', views, 'for path:', viewPath);
   return (
     <div className={s.countWrapper} title="views">
      {views}

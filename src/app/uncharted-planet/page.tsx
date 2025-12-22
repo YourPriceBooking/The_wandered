@@ -39,7 +39,7 @@ async function page({
 
 	return (
 		<main className={s.main}>
-			<AlterTopSection country={country} />
+			<AlterTopSection country={country} viewPath={`/${country}${paramsPage > 1 ? `?page=${paramsPage}` : ''}`}/>
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
 					data.result.map((article: postData) => {
