@@ -35,7 +35,10 @@ async function page({
 
 	return (
 		<main className={s.main}>
-			<TopSection country={country}  countryTitle='USA' countryDescription='Road trips — national parks, cities, and practical travel notes '/>
+			<TopSection country={country}  
+				countryTitle='USA'
+				countryDescription='Road trips — national parks, cities, and practical travel notes '
+				viewPath={`/${country}${paramsPage > 1 ? `?page=${paramsPage}` : ''}`}/>
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
 					data.result.map((article: postData) => {
