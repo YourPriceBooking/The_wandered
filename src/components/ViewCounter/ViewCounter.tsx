@@ -14,8 +14,11 @@ type Props = {
 const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', className }) => {
   const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
   const safeCountry = (country || '').replace(/^\/+|\/+$/g, '');
-  const normalized = String(viewPath || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/{2,}/g, '/');
-  const lookupPath = normalized.replace(/\/$/, '');
+  let normalized = String(viewPath || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/{2,}/g, '/');
+
+  if (!normalized) normalized = '/';
+
+  const lookupPath = normalized === '/' ? '/' : normalized.replace(/\/$/, '');
   const views = Number(pageviews[lookupPath] ?? pageviews[normalized] ?? 0);
   console.log('ViewCounter rendered with views:', views, 'for path:', lookupPath);
   let pageViewsCountryArg = safeCountry || 'home';
@@ -23,6 +26,10 @@ const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', classNam
   if (lookupPath === `/${safeCountry}`) {
     pageViewsCountryArg = 'home';
     pageViewsLinkArg = safeCountry;
+  }
+  if (lookupPath === '/') {
+    pageViewsCountryArg = 'home';
+    pageViewsLinkArg = '';
   }
   console.log(`pageViewsLinkArg is "${pageViewsLinkArg}"`);
   return (
