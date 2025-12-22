@@ -1,0 +1,28 @@
+.countWrapper {
+    border-radius: 30px;
+    width: 76px;
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 20px;
+    @media (max-width: 640px){
+        margin-top: 10px;
+    }
+}
+.lightVeil {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(255, 255, 255, 0.15);
+	width: 100%;
+	height: 100%;
+    border-radius: 10px;
+}
+.eye {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+}

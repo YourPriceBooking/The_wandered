@@ -1,67 +1,64 @@
 
 import s from './TopSection.module.scss';
-import Link from 'next/link';
-import HouseIcon from '../../../public/HouseIcon';
 import DateBlock from './dateblock/DateBlock';
-
-
-import SearchField from '../Header/SearchField/SearchField';
+import Image from 'next/image';
 import classNames from 'classnames';
-import BackArrow from './BackArrow/BackArrow';
-import { Suspense} from 'react';
-import { routes } from '@/app/routes';
+import ViewCounter from '../ViewCounter/ViewCounter';
+import OrangeSpan from '../OrangeSpan/OrangeSpan';
 
 interface TopSectionProps {
 	isLink?: boolean;
 	isSearchField?: boolean;
 	isWhite?: boolean;
 	country?: string;
+	isNarrow?: boolean;
+	viewPath?: string;
+	countryTitle?: string;
+	countryDescription?: string;
 }
 
 const TopSection: React.FC<TopSectionProps> = ({
-	isLink = false,
-	isSearchField = false,
 	isWhite = false,
+	isNarrow = true,
 	country,
+	viewPath,
+	countryTitle = 'some country',
+	countryDescription = 'country description',
 }) => {
-	const headerClass = classNames(s.topSection, {
-		[s.white]: isWhite,
-	});
-	const subtitle = routes.find((item) => item.path === country)?.title;
+
 
 	return (
-		<div className={headerClass}>
-			{isLink && <BackArrow country={country} />}
+		<div className={s.topSection}>
+			
 
-			<div className={isWhite ? s.mainTextBlock : s.mainTextBlockOrange}>
+			<div className={classNames(s.topBlock, { [s.topBlockNarrow]: isNarrow })}>
+				<div style={{ display: 'flex', justifyContent: 'center',width: '100%' }}>
 				<DateBlock isWhite={isWhite} country={country} />
+				</div>
+				<div className={s.nameBlock}>	
+					<div className={s.logoBlock}>
+						
+					<Image src="/brandMarkTop.svg" alt="brand mark" width={18} height={18} className={s.brandMark} />
+						<h2 className={s.topTitle}>the wandered</h2>
+					</div>
+					<ViewCounter viewPath={viewPath} prefix="we have " />
 
-				{/* <p style={fontSyle} className={s.date}>
-					{formattedDate}
-				</p> */}
-				<div className={isWhite ? s.logoBlock : s.logoBlockOrange}>
-					{isLink ? (
-						<Link href="/" className={s.logo}>
-							<HouseIcon/>
-						</Link>
-					) : (
-						isWhite ? <HouseIcon/> : <HouseIcon color='white'/>
-					)}
-
-					<h2 className={s.mainTitle}>the wandered</h2>
+				</div>
+				<OrangeSpan text={'section'} />
+					<div className={ classNames(s.logoBlock, s.countryLogoBlock)}>
+					<h2 className={s.mainTitle}>{countryTitle}</h2>
 				</div>
 
-				<h1 className={s.title}>
-					{subtitle && subtitle.length > 0 ? subtitle : 'The official Your Price Booking blog'}
-				</h1>
+				<span className={s.mainText}>
+					{countryDescription}
+				</span>
+				
+				<img src="/countryLine.svg" alt="brand mark" className={s.countryLineMark} />
 			</div>
-			{isSearchField && (
-				<div className={s.searchBox}>
-						<Suspense fallback={null}>
-						<SearchField inputClass={s.inputClass} />
-						</Suspense>
-				</div>
-			)}
+			<div className={s.botBlock}>
+			
+				<div className={s.botVeil}/>
+			</div>
 		</div>
 	);
 };

@@ -1,8 +1,5 @@
 .logo {
-	// @media (min-width: 768px) {
-		width: 88px;
-	// }
-	@media (max-width: 768px) {
+	@media (max-width: 480px) {
 		display: none;
 	}
 }
@@ -17,17 +14,13 @@
 	&:active {
 		opacity: 100%;
 	}
-	// @media (min-width: 768px) {
-		width: 100%;
-		height: auto;
-	// }
-	// @media (max-width: 678px) {
-	// 	display: none;
-	// }
-	// @media (max-width: 450px) {
-	// 	width: 40px;
-	// }
-	// @media (max-width: 350px) {
-	// 	width: 30px;
-	// }
+	@media (max-width: 678px) {
+		display: none;
+	}
+	@media (max-width: 450px) {
+		width: 40px;
+	}
+	@media (max-width: 350px) {
+		width: 30px;
+	}
 }
