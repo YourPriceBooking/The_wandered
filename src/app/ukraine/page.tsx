@@ -35,7 +35,7 @@ async function page({
 
 	return (
 		<main className={s.main}>
-			<TopSection country={country} />
+			<TopSection country={country} countryTitle='Україна' countryDescription='Подорожі Україною — місця, маршрути, поради '/>
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
 					data.result.map((article: postData) => {
