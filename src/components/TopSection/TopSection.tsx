@@ -41,7 +41,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 					<Image src="/brandMarkTop.svg" alt="brand mark" width={18} height={18} className={s.brandMark} />
 						<h2 className={s.topTitle}>the wandered</h2>
 					</div>
-					<ViewCounter viewPath={viewPath} prefix="we have " />
+					<ViewCounter country={country} viewPath={viewPath} prefix="we have "  />
 
 				</div>
 				<OrangeSpan text={'section'} />

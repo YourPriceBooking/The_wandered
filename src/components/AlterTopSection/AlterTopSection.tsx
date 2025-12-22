@@ -39,7 +39,7 @@ const AlterTopSection: React.FC<TopSectionProps> = ({
 					<h2 className={s.topTitle}>the wandered</h2>
 				</div>
 
-				<ViewCounter viewPath={viewPath} prefix="we have " />
+				<ViewCounter country={country} viewPath={viewPath} prefix="we have " />
 			</div>
 			<div className={s.botBlock}>
 				<div className={s.logoBlock}>
