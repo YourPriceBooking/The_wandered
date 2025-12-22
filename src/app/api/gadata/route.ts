@@ -60,8 +60,9 @@ export async function GET(req: any) {
 		const countryRoots = Array.from(new Set(
 			data.map(p => p.country).filter(c => c && c !== 'home')
 			)).flatMap(c => [`/${c}`, `/${c}/`]);
+		const homeRoots = ['/'];
 
-        const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots ]));
+        const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots, ...homeRoots ]));
 
     	const response = await analytics.properties.runReport({
     	  property: 'properties/453172943',
