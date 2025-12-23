@@ -20,7 +20,6 @@ const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', classNam
 
   const lookupPath = normalized === '/' ? '/' : normalized.replace(/\/$/, '');
   const views = Number(pageviews[lookupPath] ?? pageviews[normalized] ?? 0);
-  console.log('ViewCounter rendered with views:', views, 'for path:', lookupPath);
   let pageViewsCountryArg = safeCountry || 'home';
   let pageViewsLinkArg = normalized.replace(new RegExp(`^\\/${safeCountry}\\/?`), '').replace(/^\/+/, '');
   if (lookupPath === `/${safeCountry}`) {

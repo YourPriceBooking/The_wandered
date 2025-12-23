@@ -4,7 +4,7 @@ import s from './Header.module.scss';
 import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
 import PlanetIcon from '../../../public/planet-icon';
-import TopSection from '../TopSection/TopSection';
+import OldTopSection from '../OldTopSection/OldTopSection';
 import SearchField from './SearchField/SearchField';
 import MobileSearchField from './SearchField/MobileSearchField/MobileSearchField';
 
@@ -88,7 +88,7 @@ export default function Header() {
 	}, []);
 
 	if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
-		return <TopSection isLink={true} isSearchField={true} isWhite={true} />;
+		return <OldTopSection isLink={true} isSearchField={true} isWhite={true}/>;
 
 	return (
 		<>
