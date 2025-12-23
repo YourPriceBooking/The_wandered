@@ -5,14 +5,15 @@ if (typeof window !== 'undefined' && !customElements.get('hotfx-shy-header')) {
 
   sheet.replaceSync(`
     hotfx-shy-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+      background: white;
+      z-index: 1000;
       transition: transform 0.3s ease-out;
       will-change: transform;
-      z-index: 1000;
     }
 
     hotfx-shy-header.hidden {
@@ -25,36 +26,47 @@ if (typeof window !== 'undefined' && !customElements.get('hotfx-shy-header')) {
   class HotFXShyHeader extends HTMLElement {
     lastScroll = 0;
     lastMaxScroll = 0;
+    lenis: any = null;
 
     connectedCallback() {
-      const height = this.offsetHeight;
-      document.documentElement.style.setProperty(
-        '--shy-header-height',
-        `${height}px`
-      );
-      document.addEventListener('scroll', this.handleScroll, { passive: true });
+      const waitForLenis = () => {
+        const lenis = (window as any).lenis;
+
+        if (!lenis) {
+          requestAnimationFrame(waitForLenis);
+          return;
+        }
+        this.lenis = lenis;
+
+        lenis.on('scroll', ({ scroll }: { scroll: number }) => {
+          this.handleScroll(scroll);
+        });
+      };
+
+      waitForLenis();
     }
 
     disconnectedCallback() {
-      document.removeEventListener('scroll', this.handleScroll);
+      if (this.lenis) {
+        this.lenis.off('scroll');
+      }
     }
 
-    handleScroll = () => {
-      const y = window.scrollY;
+    handleScroll(scrollY: number) {
 
-      if (y > Math.max(300, this.lastScroll)) {
+      if (scrollY > Math.max(300, this.lastScroll)) {
         this.classList.add('hidden');
-      } else if (y < this.lastMaxScroll - 100) {
+      } else if (scrollY < this.lastMaxScroll - 100) {
         this.classList.remove('hidden');
-        this.lastMaxScroll = y;
+        this.lastMaxScroll = scrollY;
       }
 
-      this.lastScroll = y;
+      this.lastScroll = scrollY;
 
-      if (y > this.lastMaxScroll) {
-        this.lastMaxScroll = y;
+      if (scrollY > this.lastMaxScroll) {
+        this.lastMaxScroll = scrollY;
       }
-    };
+    }
   }
 
   customElements.define('hotfx-shy-header', HotFXShyHeader);
