@@ -4,7 +4,7 @@
 	height: 100vh;
 	left: 0;
 	top: 0;
-	background: #4B505947;
+	background: #4b50596c;
 	z-index: 9999;
 	display: flex;
 	justify-content: center;
@@ -23,7 +23,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 13px 13px 13px 18px;
+    padding: 8px;
 }
 
 .mobileSearchField {
@@ -33,12 +33,14 @@
 	border-radius: 9px;
 	position: static !important;
 	margin: 0 auto !important;
-        background: #F9F9F9 !important;
+    background: #F9F9F9 !important;
+
+
 
     &::placeholder {
-        font-size: 12px;
-        font-weight: 700;
-        font-style: bold;
+        font-size: 20px;
+        font-weight: 400;
+        font-style: lighter;
         background: #F9F9F9 !important;
 	}
 	&:focus::placeholder {
