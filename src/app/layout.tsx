@@ -5,9 +5,8 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import HotFXLoader from '@/components/Header/HotFXLoader';
+
 import type { Metadata } from 'next';
-// import { Suspense } from 'react';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
 import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
 import PageTransition from "../components/PageTransition/PageTransition";
@@ -27,14 +26,8 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<HotFXLoader />
-				<hotfx-shy-header>
-				 	{/* <Suspense fallback={null}> */}
-  				  		<Header />
-				  	{/* </Suspense> */}
-  				</hotfx-shy-header>
-				<div className="shy-header-spacer" />
 				<StoreProvider>
+					<Header />
 					<GetDataClient />
 					<RouteLoader>
 						<PageTransition>{children}</PageTransition>
