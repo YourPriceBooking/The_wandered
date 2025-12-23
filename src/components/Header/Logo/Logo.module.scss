@@ -1,5 +1,8 @@
 .logo {
-	@media (max-width: 480px) {
+
+	width: 88px;
+
+	@media (max-width: 768px) {
 		display: none;
 	}
 }
@@ -14,13 +17,9 @@
 	&:active {
 		opacity: 100%;
 	}
-	@media (max-width: 678px) {
-		display: none;
-	}
-	@media (max-width: 450px) {
-		width: 40px;
-	}
-	@media (max-width: 350px) {
-		width: 30px;
-	}
+
+	width: 100%;
+	height: auto;
+
 }
+

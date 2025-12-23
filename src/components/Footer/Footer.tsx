@@ -25,13 +25,13 @@ export default function Footer() {
 												: {};
 										return (
 											<li key={i} className={isActive ? s.active : ''}>
-    <Link href={link.src} {...target}>
-      {typeof link.name === 'string' ? (
-        <span dangerouslySetInnerHTML={{ __html: link.name }} />
-      ) : (
-        link.name
-      )}
-    </Link>
+    											<Link href={link.src} {...target}>
+    											  {typeof link.name === 'string' ? (
+    											    <span dangerouslySetInnerHTML={{ __html: link.name }} />
+    											  ) : (
+    											    link.name
+    											  )}
+    											</Link>
 											</li>
 										);
 									})}
