@@ -61,8 +61,17 @@ export async function GET(req: any) {
 			data.map(p => p.country).filter(c => c && c !== 'home')
 			)).flatMap(c => [`/${c}`, `/${c}/`]);
 		const homeRoots = ['/'];
+		const normalizePath = (url: string) => {
+            const [pathOnly] = url.split(/[?#]/);
+            let path = pathOnly || '/';
 
-        const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots, ...homeRoots ]));
+            if (path.length > 1 && path.endsWith('/')) {
+                path = path.slice(0, -1);
+            }
+
+            return path;
+        };
+        const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots, ...homeRoots ].map(normalizePath)));
 
     	const response = await analytics.properties.runReport({
     	  property: 'properties/453172943',
