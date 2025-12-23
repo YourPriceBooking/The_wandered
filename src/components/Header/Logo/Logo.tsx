@@ -5,7 +5,7 @@ import HouseIcon from '../../../../public/HouseIcon';
 const Logo: React.FC = () => {
 	return (
 		<Link href="/" className={s.logo}>
-			<HouseIcon width={50} />
+			<HouseIcon />
 		</Link>
 	);
 };
