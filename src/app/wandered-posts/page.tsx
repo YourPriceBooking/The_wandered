@@ -11,8 +11,8 @@ interface PageProps {
 const Page = async ({ searchParams }: PageProps) => {
 	const postsData: postData[] = await getPostsBySearch({
 		search: searchParams.search || '',
-	});
-
+	}).then((data) => data || []);
+	
 	if (!postsData.length) {
 		return (
 			<div

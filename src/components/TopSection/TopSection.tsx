@@ -5,6 +5,7 @@ import Image from 'next/image';
 import classNames from 'classnames';
 import ViewCounter from '../ViewCounter/ViewCounter';
 import OrangeSpan from '../OrangeSpan/OrangeSpan';
+import { count } from 'console';
 
 interface TopSectionProps {
 	isLink?: boolean;
@@ -25,7 +26,7 @@ const TopSection: React.FC<TopSectionProps> = ({
 	countryTitle = 'some country',
 	countryDescription = 'country description',
 }) => {
-
+	
 
 	return (
 		<div className={s.topSection}>
@@ -41,8 +42,8 @@ const TopSection: React.FC<TopSectionProps> = ({
 					<Image src="/brandMarkTop.svg" alt="brand mark" width={18} height={18} className={s.brandMark} />
 						<h2 className={s.topTitle}>the wandered</h2>
 					</div>
-					<ViewCounter country={country} viewPath={viewPath} prefix="we have "  />
-
+					{country && <ViewCounter country={country} viewPath={viewPath} prefix="we have "  />}
+					
 				</div>
 				<OrangeSpan text={'section'} />
 					<div className={ classNames(s.logoBlock, s.countryLogoBlock)}>
