@@ -72,7 +72,7 @@ export async function GET(req: any) {
             return path;
         };
         const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots, ...homeRoots ].map(normalizePath)));
-
+		console.log(`[gadata] Querying GA for ${urlsUnique.length} unique URLs`);
     	const response = await analytics.properties.runReport({
     	  property: 'properties/453172943',
     	  requestBody: {
