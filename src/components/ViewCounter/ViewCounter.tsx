@@ -10,14 +10,25 @@ type Props = {
   prefix?: string;
   className?: string;
 };
+const normalizePathForViews = (url: string) => {
+  const cleaned = String(url || '')
+    .replace(/^https?:\/\/[^/]+/, '') // срезаем домен
+    .replace(/\/{2,}/g, '/');        // убираем двойные слэши
+
+  const [pathOnly] = cleaned.split(/[?#]/); // срезаем query/hash
+  let path = pathOnly || '/';
+
+  if (!path.startsWith('/')) path = '/' + path;
+  if (path.length > 1 && path.endsWith('/')) {
+    path = path.slice(0, -1);
+  }
+  return path;
+};
 
 const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', className }) => {
   const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
   const safeCountry = (country || '').replace(/^\/+|\/+$/g, '');
-  let normalized = String(viewPath || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/{2,}/g, '/');
-
-  if (!normalized) normalized = '/';
-
+  const normalized = normalizePathForViews(viewPath || '/');
   const lookupPath = normalized === '/' ? '/' : normalized.replace(/\/$/, '');
   const views = Number(pageviews[lookupPath] ?? pageviews[normalized] ?? 0);
   let pageViewsCountryArg = safeCountry || 'home';
