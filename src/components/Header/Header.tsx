@@ -199,7 +199,7 @@ export default function Header() {
 								<div className={`${s.btnWrap} ${s.planet}`}>
 								  <a
 								    className={`${s.btnMobile} hasHint`}
-								    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
+								    href="/uncharted-planet"
 								    onMouseEnter={() => {
 								      if (window.innerWidth > 480) {
 								        setHintOpen(true);
@@ -251,4 +251,3 @@ export default function Header() {
 		</>
 	);
 }
-//679-768

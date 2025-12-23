@@ -75,7 +75,7 @@ export const footerLinkData = [
 			},
 			{
 				name: 'Uncharted Planet',
-				src: '/travel-resources',
+				src: '/uncharted-planet',
 			},
 		],
 	},
@@ -107,10 +107,10 @@ export const footerLinkData = [
 				name: 'Travel Resources',
 				src: '/travel-resources',
 			},
-			{
-				name: 'Uncharted Planet',
-				src: '/travel-resources',
-			},
+			// {
+			// 	name: 'Uncharted Planet',
+			// 	src: '/uncharted-planet',
+			// },
 		],
 	},
 ];

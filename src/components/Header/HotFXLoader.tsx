@@ -1,5 +1,6 @@
 'use client';
 
+import '@/lib/hotfx-shy-header';
 import { useEffect } from 'react';
 
 export default function HotFXLoader() {
