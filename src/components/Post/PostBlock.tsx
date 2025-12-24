@@ -115,7 +115,8 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 
 	const normalizedImages = normalizeImageUrl(data.imageUrl as any);
 	const imageSrc = getImageUrl(normalizedImages, 0);
-
+	const rawLinks: unknown = currentAuthor?.links;
+    const links = (Array.isArray(rawLinks) ? rawLinks : []) as any[];
 	return (
 		<>
 			<div className={style.imageWrapper}>
@@ -174,28 +175,27 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 									<div>
 										<p className={style.tooltipName}>{currentAuthor.name}</p>
 										<div className={style.tooltipLinks}>
-											{JSON.parse(currentAuthor.links).map(
-												(link: any, index: number) => {
-													const platform = Object.keys(link)[0];
-													const url = Object.values(link)[0];
+											
+											{links.map((link: any, index: number): React.ReactNode => {
+                                                const platform = Object.keys(link)[0] as string;
+                                                const url = Object.values(link)[0] as string | undefined;
 
-													return (
-														url && (
-															<Link
-																key={index}
-																href={url}
-																target="_blank"
-																rel="noopener noreferrer"
-															>
-																<img
-																	src={`/social_media_icons/${platform}-logo.svg`}
-																	alt={platform}
-																/>
-															</Link>
-														)
-													);
-												},
-											)}
+                                                if (!url) return null;
+
+                                                return (
+                                                    <Link
+                                                        key={index}
+                                                        href={url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        <img
+                                                            src={`/social_media_icons/${platform}-logo.svg`}
+                                                            alt={platform}
+                                                        />
+                                                    </Link>
+                                                );
+                                            })}
 										</div>
 									</div>
 								</div>
