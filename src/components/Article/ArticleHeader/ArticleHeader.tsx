@@ -64,8 +64,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
           <div className={s.skeletonHeader}></div>
           <div className={s.skeletonAuthor}></div> 
     </header>)
-
-  const parsedLinks = JSON.parse(currentAuthor.links);
+  const parsedLinks = currentAuthor.links;
   return (
     <header className={s.authorBlock}>
     <div

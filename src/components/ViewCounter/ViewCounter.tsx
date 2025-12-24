@@ -41,7 +41,6 @@ const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', classNam
     pageViewsCountryArg = 'home';
     pageViewsLinkArg = '';
   }
-  console.log(`pageViewsLinkArg is "${pageViewsLinkArg}"`);
   return (
     <div className={s.countWrapper} title="views">
      <PageViewes country={pageViewsCountryArg} postPageLink={pageViewsLinkArg} />
