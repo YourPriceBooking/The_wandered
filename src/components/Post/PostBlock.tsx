@@ -34,6 +34,7 @@ function replaceImagesInHtml(htmlString: string, images: Array<{ url: string; co
 
         const captionEl = doc.createElement("p");
         captionEl.textContent = imageObj.context.caption;
+		captionEl.className = 'image-caption';
         img.insertAdjacentElement("afterend", captionEl);
       }
     }
@@ -204,15 +205,15 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 						</div>
 					)}
 				</div>
-<div
-	className={style.post__markup}
-	dangerouslySetInnerHTML={{
-		__html: DOMPurify.sanitize(replaceImagesInHtml(data.markup, data.imageUrl), {
-			ADD_ATTR: ['target', 'allowfullscreen', 'frameborder', 'src'],
-			ADD_TAGS: ['iframe'],
-		}),
-	}}
-></div>
+				<div
+					className={style.post__markup}
+					dangerouslySetInnerHTML={{
+						__html: DOMPurify.sanitize(replaceImagesInHtml(data.markup, data.imageUrl), {
+							ADD_ATTR: ['target', 'allowfullscreen', 'frameborder', 'src'],
+							ADD_TAGS: ['iframe'],
+						}),
+					}}
+				/>
 			</div>
 			<SuggestedArticles data={data} country={country} />
 		</>
