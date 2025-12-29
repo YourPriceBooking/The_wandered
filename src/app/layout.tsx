@@ -30,9 +30,7 @@ export default function RootLayout({
 			<body>
 				<HotFXLoader />
 				<hotfx-shy-header>
-				 	{/* <Suspense fallback={null}> */}
-  				  		<Header />
-				  	{/* </Suspense> */}
+  				  	<Header />
   				</hotfx-shy-header>
 				<div className="shy-header-spacer" />
 				<StoreProvider>

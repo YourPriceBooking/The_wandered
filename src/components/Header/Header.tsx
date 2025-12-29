@@ -19,10 +19,7 @@ export default function Header() {
 
 	const pathname = usePathname();
 	const params = useParams();
-
-	const [activeLink, setActiveLink] = useState(
-		pathname.includes('-') ? '' : pathname.split('/')[1],
-	);
+	const [activeLink, setActiveLink] = useState<string | undefined>( pathname.includes('-') ? '' : pathname.split('/')[1] );
 	const [isDailyJournal, setIsDailyJournal] = useState(false);
 
 	const isPostPage =
@@ -35,7 +32,7 @@ export default function Header() {
 	const [hintOpen, setHintOpen] = useState(false);
 	const [hintTarget, setHintTarget] = useState<string | null>(null);
 	const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-
+	console.log(activeLink);
 	useEffect(() => {
 		const handleClick = (e: MouseEvent) => {
 			if (!(e.target as HTMLElement).closest(".hasHint")) {
@@ -54,7 +51,7 @@ export default function Header() {
 		const currentRoute = routes.find((item) => item.path === pathname.split('/')[1]);
 		if (currentRoute) {
 			setActiveLink(currentRoute?.path);
-		}
+		} else setActiveLink(undefined);
 		setIsDailyJournal(
 			pathname.startsWith('/daily-journal-of-your-price-booking-service-history'),
 		);
