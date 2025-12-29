@@ -43,13 +43,14 @@
 		min-height: 500px;
 	}
 	.arrowBack {
-		position: absolute;
-		left: -100px;
-		bottom: 75%;
+		position: fixed;
+		left: 18px;
+		top: 20px;
 		z-index: 100;
 		@media (max-width: 1000px) {
-			display: none;
-			visibility: hidden;
+			// display: none;
+			// visibility: hidden;
+			
 		}
 	}
 }
