@@ -1,5 +1,6 @@
 import '../../node_modules/modern-normalize/modern-normalize.css';
 import '../styles/index.scss';
+import '../../node_modules/react-quill/dist/quill.snow.css';
 
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';

@@ -206,7 +206,7 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 					)}
 				</div>
 				<div
-					className={style.post__markup}
+					className={`${style.post__markup} ql-editor`}
 					dangerouslySetInnerHTML={{
 						__html: DOMPurify.sanitize(replaceImagesInHtml(data.markup, data.imageUrl), {
 							ADD_ATTR: ['target', 'allowfullscreen', 'frameborder', 'src'],
