@@ -72,7 +72,7 @@
 	background-color: var(--color-background-2);
 
 	@media (max-width: 768px) {
-		padding: 20px 25px;
+		padding: 0 1rem 0 1rem;
 	}
 	@media (max-width: 320px) {
 		padding: 15px;
@@ -96,7 +96,7 @@
 
 .post__date_public {
 	margin: 12px 0;
-	color: var(--color-secondary-3);
+	color: #6B6B6B;
 	font-weight: 600;
 	font-size: 13px;
 	@media (max-width: 320px) {
@@ -108,7 +108,7 @@
 
 .post__author {
 	margin-bottom: 15px;
-	color: var(--color-secondary-2);
+	color: #6B6B6B;
 	font-weight: 600;
 	font-size: 17px;
 	cursor: pointer;
@@ -147,99 +147,188 @@
 }
 
 .post__markup {
+	font-family: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+	font-weight: 400;
+	font-size: 1.02rem;
+	line-height: 1.75;
+	color: #1c1c1c;
+  
+	max-width: 720px;
 	padding-top: 20px;
-	line-height: 29px;
-	font-size: 17px;
-
-
-	& img {
-		border-radius: 11px;
+  
+	/* paragraphs & rhythm */
+	p {
+	  margin-bottom: 1.3em;
+	  text-align: left;
 	}
-
-	@media (max-width: 768px) {
-		line-height: 24px;
-		font-size: 15px;
+  
+	/* images */
+	img {
+	  width: 100%;
+	  border-radius: 11px;
 	}
-
+  
+	p:has(img) {
+	  display: flex;
+	  justify-content: center;
+	}
+  
+	/* headings */
 	h1,
 	h2,
 	h3,
 	h4,
 	h5 {
-		text-align: left;
-		margin-bottom: 10px;
-		line-height: 25px;
+	  font-family: "Source Sans 3", sans-serif;
+	  color: #111;
+	  text-align: left;
 	}
+  
 	h1 {
-		font-size: 20px;
+	  font-weight: 700;
+	  font-size: 2.6rem;
+	  line-height: 1.2;
+	  margin-bottom: 0.6em;
 	}
+  
 	h2 {
-		font-size: 18px;
+	  font-weight: 600;
+	  font-size: 1.5rem;
+	  line-height: 1.35;
+	  margin-top: 2em;
+	  margin-bottom: 0.6em;
 	}
+  
 	h3 {
-		font-size: 17px;
+	  font-weight: 600;
+	  font-size: 1.15rem;
+	  line-height: 1.4;
+	  margin-top: 1.6em;
+	  margin-bottom: 0.4em;
 	}
-	img {
-		width: 100%;
-	}
+  
+	/* links — DESKTOP */
 	a {
+	  color: #0645ad;
+	  text-decoration: none;
+	  font-weight: 400;
+	  word-break: break-word;
+  
+	  &:hover {
 		text-decoration: underline;
-		word-break: break-all;
-
-		&:hover {
-			opacity: 60%;
-		}
+	  }
 	}
-
+  
+	/* email links */
+	a.email {
+	  color: #1c1c1c;
+	  text-decoration: none;
+  
+	  &:hover {
+		text-decoration: none;
+	  }
+	}
+  
+	/* blockquote */
 	blockquote {
-		margin-left: 30px;
-		padding-left: 15px;
-		border-left: 3px solid #ccc;
-		font-weight: bold;
-		font-size: 28px;
-		line-height: 32px;
-		margin-bottom: 10px;
-
-		background: linear-gradient(90deg, rgb(244, 244, 244) 27%, rgba(255, 255, 255, 1) 68%);
-
-		@media (max-width: 768px) {
-			margin-left: 15px;
-			line-height: 24px;
-			font-size: 20px;
-		}
-
-		& span {
-			color: black;
-			font-size: 18px;
-		}
+	  margin: 1.5em 0 1.5em 30px;
+	  padding-left: 15px;
+	  border-left: 3px solid #ccc;
+  
+	  font-weight: 700;
+	  font-size: 1.75rem;
+	  line-height: 1.3;
+	  color: #111;
+  
+	  background: linear-gradient(
+		90deg,
+		rgb(244, 244, 244) 27%,
+		rgba(255, 255, 255, 1) 68%
+	  );
+  
+	  span {
+		display: block;
+		margin-top: 0.6em;
+		font-size: 1.1rem;
+		font-weight: 400;
+		color: #1c1c1c;
+	  }
 	}
+  
+	/* iframe */
 	iframe {
-		width: 100%;
-		height: 300px;
-		@media (max-width: 768px) {
-			height: 200px;
-		}
+	  width: 100%;
+	  height: 300px;
 	}
-
-	& li:has(> strong) {
-		margin: 8px 0;
+  
+	/* lists with strong */
+	li:has(> strong),
+	p:has(> strong) {
+	  margin: 0.6em 0;
 	}
-	& p:has(> strong) {
-		margin: 8px 0;
+  
+	/* spacing before ending paragraphs */
+	p:nth-last-child(2):not(a) {
+	  padding-top: 20px;
 	}
-	& p:has(img) {
-		display: flex;
-		justify-content: center;
-	}
-	& p:has(a) {
-		word-wrap: break-word;
-		text-align: left;
-	}
-	& p:nth-last-child(2):not(a) {
-		padding-top: 20px;
+  
+	/* =========================
+	   MOBILE
+	   ========================= */
+	@media (max-width: 768px) {
+	  font-size: 1.05rem;
+	  line-height: 1.75;
+  
+	  max-width: 100%;
+	  padding-left: 16px;
+	  padding-right: 16px;
+  
+	  h1 {
+		font-size: 1.9rem;
+		line-height: 1.25;
+	  }
+  
+	  h2 {
+		font-size: 1.25rem;
+		line-height: 1.35;
+		margin-top: 2em;
+		margin-bottom: 0.6em;
+	  }
+  
+	  h3 {
+		font-size: 1.1rem;
+		line-height: 1.4;
+		margin-top: 1.4em;
+		margin-bottom: 0.3em;
+	  }
+  
+	  p {
+		margin-bottom: 1.4em;
+	  }
+  
+	  /* links — MOBILE (underline always) */
+	  a {
+		color: #0645ad;
+		text-decoration: underline;
+	  }
+  
+	  a.email {
+		color: #1c1c1c;
+		text-decoration: none;
+	  }
+  
+	  blockquote {
+		margin-left: 15px;
+		font-size: 1.25rem;
+		line-height: 1.4;
+	  }
+  
+	  iframe {
+		height: 200px;
+	  }
 	}
 }
-
+  
 .authorTooltipWrapper {
 	position: absolute;
 	z-index: 30;
