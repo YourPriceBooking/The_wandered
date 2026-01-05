@@ -40,4 +40,9 @@ export const routes: routeType[] = [
 		path: 'singapore',
 		title: 'Explore Singapore: Travel Tips, Hidden Gems & Booking Insights',
 	},
+  {
+		name: 'Uncharted planet',
+		path: 'uncharted-planet',
+		title: 'Uncharted planet',
+	},
 ];
