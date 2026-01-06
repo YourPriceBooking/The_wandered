@@ -8,6 +8,7 @@ import { PostPageProps } from '@/types/postTypes';
 import UiSuspense from '@/components/ui/UiSuspense';
 import { ArticleSkeleton } from '../Article/Skeletons';
 import dynamic from 'next/dynamic';
+import GptItiBanner from '../GptItiBanner/GptItiBanner';
 
 const PostBlock = dynamic(() => import('../Post/PostBlock'), {
 	ssr: false,
@@ -20,6 +21,7 @@ export default function ArticlePage({ postPageLink, country = 'home' }: PostPage
 						<PostBlock country={country} postPageLink={postPageLink} />
 					</UiSuspense>
 			<Banner />
+			<GptItiBanner />
 			<ScrollToTop />
 		</article>
 	);
