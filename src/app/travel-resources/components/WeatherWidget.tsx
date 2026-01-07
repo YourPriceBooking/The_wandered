@@ -1,8 +1,10 @@
 "use client";
+import { WithHrefProps } from '../page';
 import s from '../Travel-resources.module.scss';
+import Link from 'next/link';
 
-export default function WeatherWidget() {
-  return (
+export default function WeatherWidget({ href }: WithHrefProps) {
+  const content = (
     <section className="bg-white rounded-2xl shadow-sm border p-4 hover:shadow-md transition">
       <h2 className={`${s.title} ${"font-semibold mb-3 text-lg"}`}>🌦 Global Weather</h2>
       <iframe
@@ -13,4 +15,10 @@ export default function WeatherWidget() {
       <p style={{marginBottom:"14px"}}></p>
     </section>
   );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return content;
 }

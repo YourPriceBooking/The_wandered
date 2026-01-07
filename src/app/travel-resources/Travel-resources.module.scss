@@ -1,3 +1,50 @@
+.main {
+	min-height: 100vh;
+	text-align: center;
+}
+
+.container {
+	max-width: 1152px;
+	margin: 0 auto;
+	padding: 2rem 1rem;
+}
+
+.header {
+	padding-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 75%;
+	justify-content: center;
+
+	@media (max-width: 1024px) {
+		width: 65%;
+	}
+	@media (max-width: 677px) {
+	 margin-left: 10px;
+	 width: 81%;
+	}
+	
+}
+
+.headerTitle {
+	font-size: 1.875rem;
+	font-weight: 700;
+}
+
+.headerDescription {
+	margin-top: 0.5rem;
+}
+
+.grid {
+}
+
+.footer {
+	text-align: center;
+	font-size: 0.875rem;
+	color: #9ca3af;
+	padding-top: 2rem;
+}
+
 .iframe {
 
 	@media (min-width: 678px) {
@@ -17,10 +64,25 @@
 }
 
 .title {
+	width: 75%;
+	display: flex;
+	justify-content: flex-start;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 20px;
+
+	&:hover {
+		color: #093491; // или любой другой акцентный цвет
+		text-decoration: underline;
+		
+	}
+	@media (max-width: 1024px) {
+		width: 65%;
+	}
+
 	@media (max-width: 677px) {
-	margin-left: 10px;
-	margin-top: 10px;
-	margin-bottom: 5px;
-	text-align: left;
-	 }
+	 width: 81%;
+	 margin-left: 10px;
+	}
 }
+
