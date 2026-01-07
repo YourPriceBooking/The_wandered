@@ -312,6 +312,9 @@
 .btnWrap:last-child .btnMobile::before{
     content: none;
 }
+.btnMobile.active {
+	background-color: #61B8E7;
+}
 .gamesDesktopLink{
 	display: none;
 	@media (min-width: 678px) {

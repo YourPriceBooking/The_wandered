@@ -20,6 +20,7 @@ export default function Header() {
 	const pathname = usePathname();
 	const params = useParams();
 	const [activeLink, setActiveLink] = useState<string | undefined>( pathname.includes('-') ? '' : pathname.split('/')[1] );
+	const [activeSpecialLink, setActiveSpecialLink] = useState<string | null>(null);
 	const [isDailyJournal, setIsDailyJournal] = useState(false);
 
 	const isPostPage =
@@ -55,6 +56,15 @@ export default function Header() {
 		setIsDailyJournal(
 			pathname.startsWith('/daily-journal-of-your-price-booking-service-history'),
 		);
+		if (pathname === '/travel-resources') {
+    setActiveSpecialLink('travel');
+  } else if (pathname.startsWith('/daily-journal') && pathname.includes('page=game-zone')) {
+    setActiveSpecialLink('games');
+  } else if (pathname.startsWith('/uncharted-planet')) {
+    setActiveSpecialLink('planet');
+  } else {
+    setActiveSpecialLink(null);
+  }
 	}, [pathname]);
 
 	useEffect(() => {
@@ -135,7 +145,7 @@ export default function Header() {
 							<div className={`${s.searchFieldButtons}`}>
 								<div className={`${s.btnWrap} ${s.travel} `} >
 									<a 
-										className= {`${s.btnMobile} hasHint`}
+										className= {`${s.btnMobile} hasHint ${activeSpecialLink === 'travel' ? s.active : ''}`}
 										href="/travel-resources"
 										onMouseEnter={() => {
 											if (window.innerWidth > 480) {
@@ -163,9 +173,9 @@ export default function Header() {
 									Travel Resources</a>
 								</div>
 
-								<div className={`${s.btnWrap} ${s.gamesMobile}`}>
+								<div className={`${s.btnWrap} ${s.gamesMobile} `}>
 								  <a
-								    className={`${s.btnMobile}  hasHint`}
+								    className={`${s.btnMobile}  hasHint ${activeSpecialLink === 'games' ? s.active : ''}`}
 								    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
 								    onMouseEnter={() => {
 								      if (window.innerWidth > 480) {
@@ -193,9 +203,9 @@ export default function Header() {
 								    Games on the Go
 								  </a>
 								</div>
-								<div className={`${s.btnWrap} ${s.planet}`}>
+								<div className={`${s.btnWrap} ${s.planet} `}>
 								  <a
-								    className={`${s.btnMobile} hasHint`}
+								    className={`${s.btnMobile} hasHint ${activeSpecialLink === 'planet' ? s.active : ''}`}
 								    href="/uncharted-planet"
 								    onMouseEnter={() => {
 								      if (window.innerWidth > 480) {
