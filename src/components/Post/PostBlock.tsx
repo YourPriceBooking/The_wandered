@@ -15,32 +15,34 @@ import { AuthorType } from '@/types/authorTypes';
 import { useAppSelector } from '@/lib/hooks';
 import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
+import HeroImage, { HeroImageData } from './HeroImage/HeroImage';
 
-function replaceImagesInHtml(htmlString: string, images: Array<{ url: string; context?: { alt?: string; caption?: string } }>) {
+function replaceImagesInHtml(
+	htmlString: string,
+	images: Array<{ url: string; context?: { alt?: string; caption?: string } }>,
+) {
+	const parser = new DOMParser();
+	const doc = parser.parseFromString(htmlString, 'text/html');
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlString, "text/html");
+	const imgTags = doc.querySelectorAll('img');
 
-  const imgTags = doc.querySelectorAll("img");
+	imgTags.forEach((img, index) => {
+		const imageObj = images[index + 1];
+		if (imageObj) {
+			img.setAttribute('src', imageObj.url);
+			if (imageObj.context?.alt) {
+				img.setAttribute('alt', imageObj.context.alt);
+			}
+			if (imageObj.context?.caption) {
+				const captionEl = doc.createElement('p');
+				captionEl.textContent = imageObj.context.caption;
+				captionEl.className = 'image-caption';
+				img.insertAdjacentElement('afterend', captionEl);
+			}
+		}
+	});
 
-  imgTags.forEach((img, index) => {
-    const imageObj = images[index + 1]; 
-    if (imageObj) {
-      img.setAttribute("src", imageObj.url);
-      if (imageObj.context?.alt) {
-        img.setAttribute("alt", imageObj.context.alt);
-      }
-      if (imageObj.context?.caption) {
-
-        const captionEl = doc.createElement("p");
-        captionEl.textContent = imageObj.context.caption;
-		captionEl.className = 'image-caption';
-        img.insertAdjacentElement("afterend", captionEl);
-      }
-    }
-  });
-
-  return doc.body.innerHTML;
+	return doc.body.innerHTML;
 }
 
 const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
@@ -115,22 +117,32 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 	}
 
 	const normalizedImages = normalizeImageUrl(data.imageUrl as any);
-	const imageSrc = getImageUrl(normalizedImages, 0);
+	const articleImage = getImageUrl(normalizedImages, 0);
 	const rawLinks: unknown = currentAuthor?.links;
-    const links = (Array.isArray(rawLinks) ? rawLinks : []) as any[];
+	const links = (Array.isArray(rawLinks) ? rawLinks : []) as any[];
+
+	const {
+		context: { alt, caption },
+		url,
+	} = normalizedImages[0];
+
+	const articleImageData: HeroImageData = {
+		image: {
+			src: url,
+			alt: alt || 'article-image',
+			focus: 'center',
+		},
+		caption: {
+			text: caption,
+		},
+	};
+
 	return (
 		<>
 			<div className={style.imageWrapper}>
 				<div className={style.post__img}>
-					{imageSrc ? (
-						<Image
-							src={imageSrc}
-							layout="responsive"
-							width={100}
-							height={100}
-							alt="article-image"
-							className={style.post__image}
-						/>
+					{articleImage ? (
+						<HeroImage data={articleImageData} />
 					) : (
 						<div className={style.post__img_bg}>
 							<HouseIcon color="white" />
@@ -176,27 +188,26 @@ const PostBlock: React.FC<PostPageProps> = ({ country, postPageLink }) => {
 									<div>
 										<p className={style.tooltipName}>{currentAuthor.name}</p>
 										<div className={style.tooltipLinks}>
-											
 											{links.map((link: any, index: number): React.ReactNode => {
-                                                const platform = Object.keys(link)[0] as string;
-                                                const url = Object.values(link)[0] as string | undefined;
+												const platform = Object.keys(link)[0] as string;
+												const url = Object.values(link)[0] as string | undefined;
 
-                                                if (!url) return null;
+												if (!url) return null;
 
-                                                return (
-                                                    <Link
-                                                        key={index}
-                                                        href={url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        <img
-                                                            src={`/social_media_icons/${platform}-logo.svg`}
-                                                            alt={platform}
-                                                        />
-                                                    </Link>
-                                                );
-                                            })}
+												return (
+													<Link
+														key={index}
+														href={url}
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														<img
+															src={`/social_media_icons/${platform}-logo.svg`}
+															alt={platform}
+														/>
+													</Link>
+												);
+											})}
 										</div>
 									</div>
 								</div>
