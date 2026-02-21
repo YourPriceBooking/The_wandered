@@ -1,0 +1,105 @@
+name: Deploy The_wandered
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_SUBDIR: .
+  APP_DIR: /var/www/The_wandered
+  RELEASES_DIR: /var/www/The_wandered/releases
+  CURRENT_LINK: /var/www/The_wandered/current
+  ECOSYSTEM: /var/www/The_wandered/ecosystem.config.js
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚀 Telegram START
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="🚀 The_wandered deploy STARTED"
+
+      - name: 🚀 Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          PROJECT_SUBDIR: ${{ env.PROJECT_SUBDIR }}
+          RELEASES_DIR: ${{ env.RELEASES_DIR }}
+          CURRENT_LINK: ${{ env.CURRENT_LINK }}
+          ECOSYSTEM: ${{ env.ECOSYSTEM }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script_stop: true
+          envs: PROJECT_SUBDIR,RELEASES_DIR,CURRENT_LINK,ECOSYSTEM
+          script: |
+
+            set -e
+
+            echo "Starting deploy..."
+
+            TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+            NEW_RELEASE="$RELEASES_DIR/$TIMESTAMP"
+
+            echo "Creating release folder: $NEW_RELEASE"
+            mkdir -p "$NEW_RELEASE"
+
+            echo "Cloning repo via SSH..."
+            git clone \
+              --depth 1 \
+              --branch main \
+              git@github.com:${{ github.repository }}.git \
+              "$NEW_RELEASE"
+
+            if [ ! -f "$NEW_RELEASE/$PROJECT_SUBDIR/package.json" ]; then
+              echo "ERROR: package.json not found"
+              exit 1
+            fi
+
+            cd "$NEW_RELEASE/$PROJECT_SUBDIR"
+
+            echo "Installing dependencies..."
+            npm ci
+
+            echo "Building project..."
+            npm run build
+
+            echo "Saving previous release..."
+            PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || echo "")
+
+            echo "Switching current symlink..."
+            rm -rf "$CURRENT_LINK"
+            ln -sfn "$NEW_RELEASE/$PROJECT_SUBDIR" "$CURRENT_LINK"
+
+            if [ ! -f "$CURRENT_LINK/package.json" ]; then
+              echo "ERROR: verification failed"
+              exit 1
+            fi
+
+            echo "Restarting PM2..."
+            pm2 startOrRestart "$ECOSYSTEM"
+            pm2 save
+
+            echo "Cleaning old releases..."
+            cd "$RELEASES_DIR"
+            ls -dt */ | tail -n +6 | xargs -r rm -rf
+
+            echo "Deploy successful"
+
+      - name: ✅ Telegram SUCCESS
+        if: success()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="✅ The_wandered deploy SUCCESS"
+
+      - name: ❌ Telegram FAIL
+        if: failure()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="❌ The_wandered deploy FAILED"
