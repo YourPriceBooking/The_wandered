@@ -4,7 +4,7 @@ const revalidateTime = 86400;
 
 export async function getDailyJournalPosts(page: number = daysSinceDate() * 5, limit: number = 4) {
   const res = await fetch(
-    `https://www.thewandered.com/api/acsess-to-admin/get-titles-and-description?page=${page}&limit=${limit}`,
+    `https://www.yourpricebooking.com/api/acsess-to-admin/get-titles-and-description?page=${page}&limit=${limit}`,
     // `https://ypbooking.chost.com.ua/api/acsess-to-admin/get-titles-and-description?page=${page}&limit=${limit}`,
 
     {
