@@ -10,60 +10,66 @@ import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 export const dynamic = 'force-dynamic';
 
 export default async function MainPage({
-	searchParams,
+  searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+  let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
 
-	const data: postsDataType = await getPosts({ page: paramsPage, country: 'home' });
+  const data: postsDataType = await getPosts({ page: paramsPage, country: 'home' });
+  console.log({ data });
 
-	const length = Math.ceil(data.total / 7);
+  const length = Math.ceil(data.total / 7);
 
-	return (
-		<main className={s.main}>
-			<TopSection country='home' countryTitle='the wandered ' countryDescription='Stories inspiration for modern travelers ' viewPath={paramsPage > 1 ? `/?page=${paramsPage}` : `/`}/>
-			<div className={s.contentSection}>
-				{data.result.map((article: postData) => {
-					const normalizedImages = normalizeImageUrl(article.imageUrl as any);
-					const imageSrc = getImageUrl(normalizedImages, 0) || '';
-					return (
-						<Article
-							key={article._id}
-							slug={article?.articleUrl?.split('/').pop()}
-							title={article.title}
-							imageSrc={imageSrc}
-							country={article.country}
-							author={article.author}
-							date={article.publicationDate}
-							updated={''}
-							description={article.description}
-							id={article._id}
-							heading={article.heading}
-						></Article>
-					);
-				})}
-				<div className={s.paginationText}>
-					<img src="/green-home.png" alt="pagination text icon" />
-					<p>the waaandered</p>
-				</div>
+  return (
+    <main className={s.main}>
+      <TopSection
+        country="home"
+        countryTitle="the wandered "
+        countryDescription="Stories inspiration for modern travelers "
+        viewPath={paramsPage > 1 ? `/?page=${paramsPage}` : `/`}
+      />
+      <div className={s.contentSection}>
+        {data.result.map((article: postData) => {
+          const normalizedImages = normalizeImageUrl(article.imageUrl as any);
+          const imageSrc = getImageUrl(normalizedImages, 0) || '';
+          return (
+            <Article
+              key={article._id}
+              slug={article?.articleUrl?.split('/').pop()}
+              title={article.title}
+              imageSrc={imageSrc}
+              country={article.country}
+              author={article.author}
+              date={article.publicationDate}
+              updated={''}
+              description={article.description}
+              id={article._id}
+              heading={article.heading}
+            ></Article>
+          );
+        })}
+        <div className={s.paginationText}>
+          <img src="/green-home.png" alt="pagination text icon" />
+          <p>the waaandered</p>
+        </div>
 
-				<div className={s.navSection}>
-					<ul className={s.navNumbers}>
-						{Array.from({ length }, (_, index) => (
-							<li key={index}>
-								<Link
-									href={`/?page=${index + 1}`}
-									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
-								>
-									{index + 1}
-								</Link>
-							</li>
-						))}
-					</ul>
-				</div>
-			</div>
-			<ScrollToTop />
-		</main>
-	);
+        <div className={s.navSection}>
+          <ul className={s.navNumbers}>
+            {Array.from({ length }, (_, index) => (
+              <li key={index}>
+                <Link
+                  href={`/?page=${index + 1}`}
+                  className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
+                >
+                  {index + 1}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <ScrollToTop />
+    </main>
+  );
 }
