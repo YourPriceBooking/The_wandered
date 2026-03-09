@@ -93,7 +93,7 @@ export async function GET(req: any) {
         url: row.dimensionValues?.[0]?.value ?? '',
         pageviews: Number(row.metricValues?.[0]?.value ?? 0),
       })) ?? [];
-
+    console.log(`response is ${response.data.rows}`);
     return NextResponse.json({ pageviewsData });
   } catch (err: any) {
     console.error('[gadata] Fatal error:', err);

@@ -33,6 +33,7 @@ const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', classNam
   const views = Number(pageviews[lookupPath] ?? pageviews[normalized] ?? 0);
   let pageViewsCountryArg = safeCountry || 'home';
   let pageViewsLinkArg = normalized.replace(new RegExp(`^\\/${safeCountry}\\/?`), '').replace(/^\/+/, '');
+  console.log(`lookupPath: ${lookupPath}, safeCountry: ${safeCountry}`);
   if (lookupPath === `/${safeCountry}`) {
     pageViewsCountryArg = 'home';
     pageViewsLinkArg = safeCountry;
