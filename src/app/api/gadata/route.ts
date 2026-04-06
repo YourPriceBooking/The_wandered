@@ -10,83 +10,81 @@ dotenv.config();
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: any) {
+  try {
+    const data: postData[] | string | undefined = await getAllPosts();
 
-	try{
-    	const data: postData[] | string | undefined = await getAllPosts();
+    if (!Array.isArray(data) || data.length === 0) {
+      console.error('[gadata] Invalid posts data:', data);
+      return NextResponse.json({ pageviewsData: [] }, { status: 200 });
+    }
 
-    	if (!Array.isArray(data) || data.length === 0) {
-    	  console.error('[gadata] Invalid posts data:', data);
-    	  return NextResponse.json(
-    	    { pageviewsData: [] },
-    	    { status: 200 }
-    	  );
-    	}
+    const urls: string[] = data.flatMap((item: postData) => {
+      const articleSlug = item.articleUrl.split('/').pop();
 
-		const urls: string[] = data.flatMap((item: postData) => {
-			const articleSlug = item.articleUrl.split('/').pop();
+      let baseUrl = '';
 
-			let baseUrl = '';
+      if (item.country !== 'home') {
+        baseUrl = `/${item.country}/${articleSlug}`;
+      } else {
+        baseUrl = `/${articleSlug}`;
+      }
 
-			if (item.country !== 'home') {
-				baseUrl = `/${item.country}/${articleSlug}`;
-			} else {
-				baseUrl = `/${articleSlug}`;
-			}
+      return baseUrl;
+    });
 
-			return baseUrl;
-		});
+    if (urls.length === 0) {
+      console.warn('[gadata] No URLs to query GA');
+      return NextResponse.json({ pageviewsData: [] }, { status: 200 });
+    }
 
-    	if (urls.length === 0) {
-    	  console.warn('[gadata] No URLs to query GA');
-    	  return NextResponse.json({ pageviewsData: [] }, { status: 200 });
-    	}
-		
-		const keyFile = path.join(process.cwd(), 'the-wandered-957bac979b04.json');
-		// const key = JSON.parse(await fs.readFile(keyFile, 'utf8'));
+    const keyFile = path.join(process.cwd(), 'the-wandered-957bac979b04.json');
+    // const key = JSON.parse(await fs.readFile(keyFile, 'utf8'));
 
-    	const client = new google.auth.JWT(
-    	  process.env.GA4_CLIENT_EMAIL,
-    	  undefined,
-    	  process.env.GA4_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    	  ['https://www.googleapis.com/auth/analytics.readonly']
-    	);
+    const client = new google.auth.JWT(
+      process.env.GA4_CLIENT_EMAIL,
+      undefined,
+      process.env.GA4_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      ['https://www.googleapis.com/auth/analytics.readonly'],
+    );
 
-    	await client.authorize();
+    await client.authorize();
 
-    	const analytics = google.analyticsdata({
-    	  version: 'v1beta',
-    	  auth: client,
-    	});
-		const countryRoots = Array.from(new Set(
-			data.map(p => p.country).filter(c => c && c !== 'home')
-			)).flatMap(c => [`/${c}`, `/${c}/`]);
-		const homeRoots = ['/'];
-		const normalizePath = (url: string) => {
-            const [pathOnly] = url.split(/[?#]/);
-            let path = pathOnly || '/';
+    const analytics = google.analyticsdata({
+      version: 'v1beta',
+      auth: client,
+    });
+    const countryRoots = Array.from(
+      new Set(data.map((p) => p.country).filter((c) => c && c !== 'home')),
+    ).flatMap((c) => [`/${c}`, `/${c}/`]);
+    const homeRoots = ['/'];
+    const normalizePath = (url: string) => {
+      const [pathOnly] = url.split(/[?#]/);
+      let path = pathOnly || '/';
 
-            if (path.length > 1 && path.endsWith('/')) {
-                path = path.slice(0, -1);
-            }
+      if (path.length > 1 && path.endsWith('/')) {
+        path = path.slice(0, -1);
+      }
 
-            return path;
-        };
-        const urlsUnique = Array.from(new Set([ ...urls, ...countryRoots, ...homeRoots ].map(normalizePath)));
-		console.log(`[gadata] Querying GA for ${urlsUnique.length} unique URLs`);
-    	const response = await analytics.properties.runReport({
-    	  property: 'properties/453172943',
-    	  requestBody: {
-    	    dateRanges: [{ startDate: '2024-08-01', endDate: 'today' }],
-    	    metrics: [{ name: 'screenPageViews' }],
-    	    dimensions: [{ name: 'pagePath' }],
-    	    dimensionFilter: {
-    	      filter: {
-    	        fieldName: 'pagePath',
-    	        inListFilter: { values: urlsUnique },
-    	      },
-    	    },
-    	  },
-    	});
+      return path;
+    };
+    const urlsUnique = Array.from(
+      new Set([...urls, ...countryRoots, ...homeRoots].map(normalizePath)),
+    );
+    console.log(`[gadata] Querying GA for ${urlsUnique.length} unique URLs`);
+    const response = await analytics.properties.runReport({
+      property: 'properties/453172943',
+      requestBody: {
+        dateRanges: [{ startDate: '2024-08-01', endDate: 'today' }],
+        metrics: [{ name: 'screenPageViews' }],
+        dimensions: [{ name: 'pagePath' }],
+        dimensionFilter: {
+          filter: {
+            fieldName: 'pagePath',
+            inListFilter: { values: urlsUnique },
+          },
+        },
+      },
+    });
 
     const pageviewsData =
       response.data.rows?.map((row) => ({
@@ -102,11 +100,10 @@ export async function GET(req: any) {
         pageviewsData: [],
         error: err?.message || 'Unknown error',
       },
-      { status: 200 }
+      { status: 200 },
     );
   }
 }
-
 
 // 	if (Array.isArray(data)) {
 // 		try {
