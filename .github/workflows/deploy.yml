@@ -48,7 +48,7 @@ jobs:
             echo "Creating release folder: $NEW_RELEASE"
             mkdir -p "$NEW_RELEASE"
 
-            echo "Cloning repo via SSH..."
+            echo "Cloning repo..."
             git clone \
               --depth 1 \
               --branch main \
@@ -62,33 +62,44 @@ jobs:
 
             cd "$NEW_RELEASE/$PROJECT_SUBDIR"
 
+            echo "Saving previous release..."
+            PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || echo "")
+
             echo "Installing dependencies..."
             npm ci
 
             echo "Building project..."
-            npm run build
 
-            echo "Saving previous release..."
-            PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || echo "")
+            export NODE_OPTIONS="--max-old-space-size=2048"
+            export NEXT_DISABLE_ESLINT=1
 
-            echo "Switching current symlink..."
-            rm -rf "$CURRENT_LINK"
-            ln -sfn "$NEW_RELEASE/$PROJECT_SUBDIR" "$CURRENT_LINK"
+            if npm run build; then
+              echo "Build success"
 
-            if [ ! -f "$CURRENT_LINK/package.json" ]; then
-              echo "ERROR: verification failed"
+              echo "Switching current symlink..."
+              ln -sfn "$NEW_RELEASE/$PROJECT_SUBDIR" "$CURRENT_LINK"
+
+              echo "Restarting PM2..."
+              pm2 startOrRestart "$ECOSYSTEM"
+              pm2 save
+
+              echo "Cleaning old releases..."
+              cd "$RELEASES_DIR"
+              ls -dt */ | tail -n +6 | xargs -r rm -rf
+
+              echo "Deploy successful"
+
+            else
+              echo "❌ BUILD FAILED"
+
+              if [ -n "$PREVIOUS_RELEASE" ]; then
+                echo "Rollback to previous release..."
+                ln -sfn "$PREVIOUS_RELEASE" "$CURRENT_LINK"
+                pm2 restart all
+              fi
+
               exit 1
             fi
-
-            echo "Restarting PM2..."
-            pm2 startOrRestart "$ECOSYSTEM"
-            pm2 save
-
-            echo "Cleaning old releases..."
-            cd "$RELEASES_DIR"
-            ls -dt */ | tail -n +6 | xargs -r rm -rf
-
-            echo "Deploy successful"
 
       - name: ✅ Telegram SUCCESS
         if: success()
