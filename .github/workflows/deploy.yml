@@ -74,7 +74,7 @@ jobs:
             npm ci --production=false
 
             echo "🏗 Building project..."
-            NODE_OPTIONS="--max-old-space-size=512" npm run build
+            NODE_OPTIONS="--max-old-space-size=1536" npm run build
 
             echo "💾 Saving previous release..."
             PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || echo "")
