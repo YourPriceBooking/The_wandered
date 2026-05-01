@@ -83,7 +83,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
               <p className={s.tooltipName}>{currentAuthor.name}</p>
               <div className={s.tooltipLinks}>
                 {parsedLinks.map((link: any, index: number) => {
-                  const platform = Object.keys(link);
+                  const platform = Object.keys(link)[0];
                   const url = Object.values(link)[0];
                   return (
                     url && (
