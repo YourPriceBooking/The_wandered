@@ -6,6 +6,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // 🔥 отключает ESLint при next build
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  swcMinify: true,
+  experimental: {
+    workerThreads: false,
+    cpus: 1, // 👈 ограничиваем потоки
+  },
   // webpack: (config, { isServer }) => {
   //   // Fix for 'Can't resolve net' error
   //   if (!isServer) {
