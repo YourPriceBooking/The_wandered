@@ -63,7 +63,49 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
         <div className={s.skeletonAuthor}></div>
       </header>
     );
-  const parsedLinks = JSON.parse(currentAuthor.links);
+  // const parsedLinks = JSON.parse(currentAuthor.links);
+  // const parsedLinks = currentAuthor.links;
+  const parsedLinks = (() => {
+    const raw = currentAuthor.links;
+
+    if (!raw) return [];
+
+    try {
+      // 🔥 если это массив со строкой внутри
+      if (Array.isArray(raw) && typeof raw[0] === 'string') {
+        return JSON.parse(raw[0]);
+      }
+
+      // если просто строка
+      if (typeof raw === 'string') {
+        return JSON.parse(raw);
+      }
+
+      // если уже массив
+      if (Array.isArray(raw)) {
+        return raw;
+      }
+
+      return [];
+    } catch (e) {
+      console.error('PARSE ERROR:', raw);
+      return [];
+    }
+  })();
+  const normalizedLinks = parsedLinks
+    .map((link: any) => {
+      const key = Object.keys(link)[0];
+      const value = Object.values(link)[0];
+
+      if (!value) return null;
+
+      return {
+        platform: key,
+        url: value,
+      };
+    })
+    .filter(Boolean);
+
   return (
     <header className={s.authorBlock}>
       <div
@@ -82,7 +124,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
             <div>
               <p className={s.tooltipName}>{currentAuthor.name}</p>
               <div className={s.tooltipLinks}>
-                {parsedLinks.map((link: any, index: number) => {
+                {/* {parsedLinks.map((link: any, index: number) => {
                   const platform = Object.keys(link)[0];
                   const url = Object.values(link)[0];
                   return (
@@ -92,7 +134,15 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
                       </Link>
                     )
                   );
-                })}
+                })} */}
+                {normalizedLinks.map((link: any, index: number) => (
+                  <Link key={index} href={link.url} target="_blank">
+                    <img
+                      src={`/social_media_icons/${link.platform}-logo.svg`}
+                      alt={link.platform}
+                    />
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
