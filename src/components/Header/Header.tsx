@@ -1,214 +1,127 @@
 'use client';
-import s from './Header.module.scss';
 
+import { Suspense, useEffect, useRef, useState } from 'react';
+import type { FocusEvent, PointerEvent } from 'react';
+import { useParams, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { routes } from '@/app/routes';
+import { PagesEnum } from '@/types/enums/pagesEnums';
 import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
 import PlanetIcon from '../../../public/planet-icon';
 import OldTopSection from '../OldTopSection/OldTopSection';
 import SearchField from './SearchField/SearchField';
-import MobileSearchField from './SearchField/MobileSearchField/MobileSearchField';
+import s from './Header.module.scss';
 
-import { Suspense, useEffect, useState } from 'react';
-import type { FocusEvent, PointerEvent, KeyboardEvent } from 'react';
-import { useParams, usePathname } from 'next/navigation';
-
-import { PagesEnum } from '@/types/enums/pagesEnums';
-import Link from 'next/link';
-import { routes } from '@/app/routes';
+const shortcuts = [
+  { id: 'travel', name: 'Travel Resources', href: '/travel-resources', hint: 'Explore live travel tools — maps, weather, flight tracking, and practical resources for your next trip.' },
+  { id: 'planet', name: 'Uncharted Planet', href: '/uncharted-planet', hint: 'We explore ancient monuments, competing theories of their construction, and the people — or civilizations — behind them.' },
+  { id: 'games', name: 'Games on the Go', href: '/daily-journal-of-your-price-booking-service-history?page=game-zone', hint: 'Discover our Game Zone — quick, casual games for a little escape between adventures.' },
+  { id: 'booking', name: 'Your Price Booking', href: 'https://www.yourpricebooking.com/', hint: 'Find a hotel or a short-term daily rental and propose your own price with Your Price Booking.' },
+];
 
 export default function Header() {
   const pathname = usePathname();
   const params = useParams();
-  const [activeLink, setActiveLink] = useState<string | undefined>(
-    pathname.includes('-') ? '' : pathname.split('/')[1],
-  );
-  const [activeSpecialLink, setActiveSpecialLink] = useState<string | null>(null);
-  const [isDailyJournal, setIsDailyJournal] = useState(false);
-
-  const isPostPage =
-    Object.keys(params)[0] === 'postPageLink' ||
-    pathname.startsWith('/daily-journal-of-your-price-booking-service-history');
-  {
-    /* Check if path is daily journal */
-  }
-
-  const [hintOpen, setHintOpen] = useState(false);
   const [hintTarget, setHintTarget] = useState<string | null>(null);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  console.log(activeLink);
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest('.hasHint')) {
-        setHintOpen(false);
-        setHintTarget(null);
-      }
-    };
+  const showTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const activeLink = pathname.split('/')[1];
+  const isDailyJournal = pathname.startsWith('/daily-journal-of-your-price-booking-service-history');
+  const isPostPage = Boolean(params.postPageLink) || isDailyJournal;
+  const hasHeroSearch = routes.some((route) => route.path !== 'uncharted-planet' && pathname === `/${route.path}`);
 
-    if (hintOpen) {
-      document.addEventListener('click', handleClick);
-    }
-    return () => document.removeEventListener('click', handleClick);
-  }, [hintOpen]);
-
-  useEffect(() => {
-    const currentRoute = routes.find((item) => item.path === pathname.split('/')[1]);
-    if (currentRoute) {
-      setActiveLink(currentRoute?.path);
-    } else setActiveLink(undefined);
-    setIsDailyJournal(pathname.startsWith('/daily-journal-of-your-price-booking-service-history'));
-    if (pathname === '/travel-resources') {
-      setActiveSpecialLink('travel');
-    } else if (pathname.startsWith('/daily-journal') && pathname.includes('page=game-zone')) {
-      setActiveSpecialLink('games');
-    } else if (pathname.startsWith('/uncharted-planet')) {
-      setActiveSpecialLink('planet');
-    } else {
-      setActiveSpecialLink(null);
-    }
-  }, [pathname]);
-
+  const clearTimers = () => {
+    if (showTimer.current !== null) clearTimeout(showTimer.current);
+    if (hideTimer.current !== null) clearTimeout(hideTimer.current);
+    showTimer.current = null;
+    hideTimer.current = null;
+  };
   const closeHint = () => {
-    setHintOpen(false);
+    clearTimers();
     setHintTarget(null);
   };
+  const scheduleShow = (id: string) => {
+    clearTimers();
+    showTimer.current = setTimeout(() => { setHintTarget(id); showTimer.current = null; }, 1000);
+  };
+  const scheduleHide = () => {
+    clearTimers();
+    hideTimer.current = setTimeout(() => { setHintTarget(null); hideTimer.current = null; }, 1000);
+  };
 
-  const hintHandlers = (target: string) => ({
-    // Touch and pen input must follow the link on the first tap.
-    onPointerEnter: (event: PointerEvent<HTMLAnchorElement>) => {
-      if (event.pointerType === 'mouse') {
-        setHintOpen(true);
-        setHintTarget(target);
-      }
-    },
-    onPointerLeave: closeHint,
-    onPointerDown: (event: PointerEvent<HTMLAnchorElement>) => {
-      if (event.pointerType !== 'mouse') closeHint();
-    },
-    onFocus: (event: FocusEvent<HTMLAnchorElement>) => {
-      if (event.currentTarget.matches(':focus-visible')) {
-        setHintOpen(true);
-        setHintTarget(target);
-      }
-    },
-    onBlur: closeHint,
-    onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => {
-      if (event.key === 'Escape') closeHint();
-    },
-    'aria-describedby': hintOpen && hintTarget === target ? `header-hint-${target}` : undefined,
-  });
+  useEffect(() => {
+    closeHint();
+    return clearTimers;
+  }, [pathname]);
 
-  if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
-    return <OldTopSection isLink={true} isSearchField={true} isWhite={true} showSubtitle={false} />;
+  useEffect(() => {
+    const dismiss = (event: globalThis.PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) closeHint();
+    };
+    document.addEventListener('pointerdown', dismiss);
+    return () => document.removeEventListener('pointerdown', dismiss);
+  }, []);
+
+  if (activeLink === PagesEnum.SEARCH_DATA_PAGE) {
+    return <OldTopSection isLink isSearchField isWhite showSubtitle={false} />;
+  }
 
   return (
-    <>
-      <header
-        className={`${s.header} ${isPostPage ? s.postPage : ''} ${
-          isDailyJournal ? s['historyArrow'] : ''
-        }`}
-      >
-        {isPostPage && <BackArrow country={activeLink ?? ''} />}
-        <div className={`${s.headerContent} ${isDailyJournal ? s.hidden : ''}`}>
-          <Logo />
-
-          <nav className={s.navMenu}>
-            {routes
-              .filter((item) => item.path !== 'uncharted-planet')
-              .map((item, index: number) => {
-                return (
-                  <div
-                    key={index}
-                    className={`${s.linkContainer} ${activeLink === item.path ? s.active : ''} `}
-                  >
-                    <span className={s.linkDot}>•</span>
-                    <Link className={s.navLink} href={`/${item.path}`}>
-                      {item.name}
-                    </Link>
-                  </div>
-                );
-              })}
-            <Suspense fallback={null}>
-              <SearchField
-                className={`${s.searchBtn}`}
-                onClick={() => {
-                  if (window.innerWidth >= 769 && window.innerWidth <= 1200) {
-                    setMobileSearchOpen(true);
-                  }
-                }}
-              />
-            </Suspense>
+    <header ref={headerRef} className={`${s.header} ${isDailyJournal ? s.historyArrow : ''}`}>
+      {isPostPage && <div className={s.back}><BackArrow country={activeLink ?? ''} /></div>}
+      {!isDailyJournal && (
+        <div className={s.headerContent}>
+          <div className={s.logo}><Logo /></div>
+          <nav className={s.navMenu} aria-label="Sections">
+            {routes.filter((route) => route.path !== 'uncharted-planet').map((route) => (
+              <Link
+                key={route.path}
+                href={`/${route.path}`}
+                style={{ gridArea: route.path || 'home' }}
+                className={`${s.navLink} ${activeLink === route.path ? s.active : ''}`}
+                aria-current={activeLink === route.path ? 'page' : undefined}
+              >{route.name}</Link>
+            ))}
           </nav>
-          <Suspense fallback={null}>
-            <div className={`SearchFieldContainer ${s.searchFieldContainer}`}>
-              <SearchField
-                className={`${s.searchField}`}
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.innerWidth <= 769) {
-                    setMobileSearchOpen(true);
-                  }
+          <div className={s.shortcuts}>
+            {shortcuts.map((item) => (
+              <div
+                key={item.id}
+                className={s.shortcut}
+                onPointerEnter={(event: PointerEvent<HTMLDivElement>) => {
+                  if (event.pointerType === 'mouse') scheduleShow(item.id);
                 }}
-              />
-              {mobileSearchOpen && <MobileSearchField onClose={() => setMobileSearchOpen(false)} />}
-              <div className={`${s.searchFieldButtons}`}>
-                <div className={`${s.btnWrap} ${s.travel} `}>
-                  <a
-                    className={`${s.btnMobile} hasHint ${
-                      activeSpecialLink === 'travel' ? s.active : ''
-                    }`}
-                    href="/travel-resources"
-                    {...hintHandlers('travel')}
-                  >
-                    Travel Resources
-                  </a>
-                </div>
-
-                <div className={`${s.btnWrap} ${s.gamesMobile} `}>
-                  <a
-                    className={`${s.btnMobile}  hasHint ${
-                      activeSpecialLink === 'games' ? s.active : ''
-                    }`}
-                    href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
-                    {...hintHandlers('games')}
-                  >
-                    Games on the Go
-                  </a>
-                </div>
-                <div className={`${s.btnWrap} ${s.planet} `}>
-                  <a
-                    className={`${s.btnMobile} hasHint ${
-                      activeSpecialLink === 'planet' ? s.active : ''
-                    }`}
-                    href="/uncharted-planet"
-                    {...hintHandlers('planet')}
-                  >
-                    <PlanetIcon />
-                    <span>Uncharted Planet</span>
-                  </a>
-                </div>
+                onPointerLeave={(event: PointerEvent<HTMLDivElement>) => {
+                  if (event.pointerType === 'mouse') scheduleHide();
+                }}
+              >
+                <a
+                  href={item.href}
+                  className={`${s.pill} ${item.id === 'booking' ? s.booking : ''} ${pathname === item.href ? s.selected : ''}`}
+                  onFocus={(event: FocusEvent<HTMLAnchorElement>) => {
+                    if (event.currentTarget.matches(':focus-visible')) scheduleShow(item.id);
+                  }}
+                  onBlur={scheduleHide}
+                  onPointerDown={(event) => { if (event.pointerType !== 'mouse') closeHint(); }}
+                  onKeyDown={(event) => { if (event.key === 'Escape') closeHint(); }}
+                  aria-describedby={hintTarget === item.id ? `header-hint-${item.id}` : undefined}
+                >
+                  {item.id === 'planet' && <PlanetIcon />}
+                  {item.name}
+                </a>
+                {hintTarget === item.id && (
+                  <div id={`header-hint-${item.id}`} role="tooltip" className={s.hint}>{item.hint}</div>
+                )}
               </div>
-            </div>
-          </Suspense>
-        </div>
-      </header>
-      {hintOpen && hintTarget === 'travel' && (
-        <div id="header-hint-travel" role="tooltip" className={s.hintBox}>
-          Explore live travel tools — maps, weather, flight tracking, and soon: insurance, car
-          rentals, and hotel booking.
+            ))}
+          </div>
+          {!hasHeroSearch && (
+            <div className={s.headerSearch}><Suspense fallback={null}><SearchField /></Suspense></div>
+          )}
         </div>
       )}
-      {hintOpen && hintTarget === 'games' && (
-        <div id="header-hint-games" role="tooltip" className={s.hintBox2}>
-          Discover a fun escape in our Game Zone! Dive into exciting titles like Cube Tower, Retro
-          Drift, and Bus Parking Out—perfect for quick breaks between your travel bookings. Play now
-          and unwind!
-        </div>
-      )}
-      {hintOpen && hintTarget === 'planet' && (
-        <div id="header-hint-planet" role="tooltip" className={s.hintBox3}>
-          We explore ancient monuments, competing theories of their construction, and the people —
-          or civilizations — behind them.
-        </div>
-      )}
-    </>
+    </header>
   );
 }
