@@ -98,7 +98,7 @@ export default function Header() {
   });
 
   if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
-    return <OldTopSection isLink={true} isSearchField={true} isWhite={true} />;
+    return <OldTopSection isLink={true} isSearchField={true} isWhite={true} showSubtitle={false} />;
 
   return (
     <>
