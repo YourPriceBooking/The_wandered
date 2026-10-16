@@ -119,7 +119,7 @@ export default function Header() {
               </div>
             ))}
           </div>
-          {!hasHeroSearch && (
+          {!hasHeroSearch && !isPostPage && (
             <div className={s.headerSearch}><Suspense fallback={null}><SearchField /></Suspense></div>
           )}
         </div>
