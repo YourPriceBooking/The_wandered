@@ -45,7 +45,7 @@ export async function getPostsByCountry({ country }: { country: string }) {
 
 export async function getPostsBySearch({ search }: { search: string }) {
 	try {
-		const { data } = await axios.get(`${apiUrl}api/post/search-query?search=${search}`);
+		const { data } = await axios.get(`${apiUrl}api/post/search-query`, { params: { search } });
 		return data.result;
 	} catch (error: any) {
 		console.warn(error);

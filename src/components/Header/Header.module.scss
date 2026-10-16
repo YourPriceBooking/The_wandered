@@ -1,635 +1,160 @@
 @font-face {
-    font-family: 'Reddit Sans Bold';
-    src: local('Reddit Sans Bold'), local('RedditSans-Bold'),
-        url('./../../styles/fonts/reddit/RedditSans-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: bold;
-    font-display: swap;
+  font-family: 'Reddit Sans SemiBold';
+  src: url('../../styles/fonts/reddit/RedditSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
 }
-@font-face {
-    font-family: 'Reddit Sans SemiBold';
-    src: local('Reddit Sans SemiBold'), local('RedditSans-SemiBold'),
-        url('./../../styles/fonts/reddit/RedditSans-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: semibold;
-    font-display: swap;
-}
-
 .header {
-	display: flex;
-	z-index: 77;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	background-color: var(--color-background-2);
-	box-sizing: border-box;
-	border: 1px solid silver;
-	border-radius: 19px;
-	position: relative;
-	padding: 20px 35px;
-	@media (max-width: 1200px) {
-		border: none;
-		padding: 25px 20px 8px;
-	}
-	@media (max-width: 768px) {
-		padding: 25px 20px 10px;
-		border: 0.5px solid silver;
-	}
-	@media (max-width: 600px) {
-		padding: 20px 16px 8px;
-	}
-	@media (max-width: 480px) {
-		padding: 12px 10px 4px;
-	}
-}
-
-.headerContent {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
-	flex-direction: row;
-	@media (max-width: 768px) {
-		flex-wrap:nowrap;
-		display: grid;
-  		grid-template-columns: repeat(2fr 1fr 2fr 1fr); 
-  		grid-template-rows: auto auto auto auto auto;
-  		grid-template-areas:
-  		  "home      .  	 search   	search"
-  		  "australia .  	 search   	search"
-  		  "canada    .  	 search   	search"
-		  "singapore .  	 search  	search"
-  		  "usa       poland  ukraine   	.		 ";
-		gap:4px;
-		.linkContainer:nth-child(1) {
-		grid-area: home;
-		grid-row: 1;
-		grid-column: 1;
-		order: 1; 
-		}
-	  .linkContainer:nth-child(2) {
-		margin-left: 20px;
-		grid-area: ukraine;
-		grid-row: 5;
-		grid-column: 3;
-		order: 2;  }
-	  .linkContainer:nth-child(3) {
-		grid-area: poland;
-		grid-row: 5;
-		grid-column: 2;
-		order: 3; }	
-	  .linkContainer:nth-child(4) {
-		grid-area: usa;
-		grid-row: 5;
-		grid-column: 1;
-		order: 4; }	
-	  .linkContainer:nth-child(5) {
-		grid-area: canada;
-		grid-row: 3;
-		grid-column: 1;
-		order: 5; }
-	  .linkContainer:nth-child(6) {
-		grid-area: australia;
-		grid-row: 2;
-		grid-column: 1;
-		order: 6; }
-	  .linkContainer:nth-child(7) {
-		grid-area: singapore;
-		grid-row: 4;
-		grid-column: 1;
-		order: 7; }
-	}
-	@media (max-width: 678px) {
-		grid-template-columns: repeat(4, 1fr); 
-	}
-	@media (max-width: 480px) {
-  		grid-template-columns: 80px 55px 65px 100px; 
-	}
-}
-
-.navMenu {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: auto auto;
-    grid-template-areas: 
-      "home 	poland 		usa 		canada 	"
-      ".		ukraine 	australia 	singapore ";
-    column-gap: 45px;
-	line-height: 21px;
-	row-gap: 10px;
-  	.linkContainer:nth-child(1) { grid-area: home; }
-  	.linkContainer:nth-child(2) { grid-area: poland; }
-  	.linkContainer:nth-child(3) { grid-area: usa; }
-  	.linkContainer:nth-child(4) { grid-area: canada; }
-  	.linkContainer:nth-child(5) { grid-area: ukraine; }
-  	.linkContainer:nth-child(6) { grid-area: australia; }
-  	.linkContainer:nth-child(7) { grid-area: singapore; }
-
-	@media (max-width: 1200px) {
-	    grid-template-columns: repeat(3, 1fr);
-	    grid-template-areas: 
-	      "home 		australia 	canada  "
-		  ".  			usa 		ukraine "
-	      "searchBtn 	poland 		singapore ";
-	    column-gap: 70px;
-		width: fit-content;
-		align-items: center;
-	  .linkContainer:nth-child(1) { grid-area: home; }
-	  .linkContainer:nth-child(2) { grid-area: ukraine; }
-	  .linkContainer:nth-child(3) { grid-area: poland; }
-	  .linkContainer:nth-child(4) { grid-area: usa; }
-	  .linkContainer:nth-child(5) { grid-area: canada; }
-	  .linkContainer:nth-child(6) { grid-area: australia; }
-	  .linkContainer:nth-child(7) { grid-area: singapore; }
-	}
-	@media (max-width: 768px) {
-  		.linkContainer:nth-child(1) { grid-area: home; }
-  		.linkContainer:nth-child(2) { grid-area: ukraine; }
-  		.linkContainer:nth-child(3) { grid-area: poland; }
-  		.linkContainer:nth-child(4) { grid-area: usa; }
-  		.linkContainer:nth-child(5) { grid-area: canada; }
-  		.linkContainer:nth-child(6) { grid-area: australia; }
-  		.linkContainer:nth-child(7) { grid-area: singapore; }
-		display: contents;
-	}
-	// @media (max-width: 480px) {
-  	// 	.linkContainer:nth-child(1) { grid-area: home; }
-  	// 	.linkContainer:nth-child(2) { grid-area: ukraine; }
-  	// 	.linkContainer:nth-child(3) { grid-area: poland; }
-  	// 	.linkContainer:nth-child(4) { grid-area: usa; }
-  	// 	.linkContainer:nth-child(5) { grid-area: canada; }
-  	// 	.linkContainer:nth-child(6) { grid-area: australia; }
-  	// 	.linkContainer:nth-child(7) { grid-area: singapore; }
-	// 	display: contents;
-	// }
-}
-.linkContainer {
-	gap: 12px;
-	.linkDot {
-		font-size: 40px;
-		margin-bottom: 5px;
-		color: #ffffff00;
-		user-select: none;
-		@media (max-width: 480px) {
-			margin-bottom: 0px;
-			font-size: 35px;
-		}
-	}
-	.navLink {
-		font-size: 18px;
-		text-transform: capitalize;
-		font-weight: 600;
-		color: #312b2b;
-		position: relative;
-		font-family: "Reddit Sans SemiBold";
-		&::after {
-			content: '';
-			position: absolute;
-			width: 100%;
-			transform: scaleX(0);
-			height: 2px;
-			bottom: 0;
-			left: 0;
-			background-color: #312b2b;
-			transform-origin: bottom left;
-			transition: transform 0.25s ease-out;
-		}
-		&:hover::after {
-			transform: scaleX(1);
-			transform-origin: bottom left;
-		}
-		@media (max-width: 1200px) {
-			font-size: 16px;
-			font-weight: 600;
-		}
-		@media (max-width: 678px) {
-			font-size: 14px;
-		}
-		@media (max-width: 480px) {
-			margin-left: 5px;
-			&::after {
-				height: 1px;
-			}
-		}
-	}
-	&.active {
-		.linkDot {
-			color: #6aff79;
-			top: 8px;
-			position: relative;
-			margin-right: 16px;
-			@media (max-width: 1200px) {
-				top: 14px;
-				margin-right: 8px;
-			}
-			@media (max-width: 678px) {
-				top: 10px;
-				margin-right: 4px;
-			}
-		}
-		.navLink::after {
-			content: '';
-			position: absolute;
-			width: 100%;
-			transform: scaleX(1);
-			height: 2px;
-			bottom: 0;
-			left: 0;
-			background-color: #312b2b;
-		}
-		@media (max-width: 480px) {
-			.navLink::after {
-				height: 1px;
-			}
-		}
-	}
-	@media (max-width: 480px) {
-    	margin: 0;
-    	padding: 0;
-	}
-}
-.btnWrap {
-	display: flex;
-	justify-content: flex-end;
-	@media (max-width: 480px) {
-		justify-content: center;
-		.travel {
-			margin-bottom: 8px;
-    	}
-	}
-
-}
-.btnMobile {
-	color: white;
-	background-color: #0B449B;
-    border: 1px solid #787878;
-	height: 30px;
-	width: 178px;
-    text-align: center;
-    padding-top: 3px;
-    font-family: "Reddit Sans Bold";
-	font-weight: 600;
-    font-size: 13px;
-    border-radius: 22px;
-    margin-top: 8px;
-	@media (max-width: 1200px) {
-		font-weight: 700;
-		font-size: 13px;
-	}
-	@media (max-width: 768px) {
-	 	width: 160px;
-		font-size: 12px;
-	}
-	@media (max-width: 480px) {
-		font-size: 10px;
-		height: 27px;
-		border: none;
-		margin-top:0;
-		margin-bottom:0;
-	}
-}
-.btnMobile::before {
-    content: "";
-    display: inline-block;
-    vertical-align: middle;
-    height: 100%;
-}
-.btnMobile:hover {
-	background-color: #0A2F6C;
-	border-color: #000000;
-}
-.btnMobile:focus-visible {
-	outline: 3px solid #0B449B;
-	outline-offset: 3px;
-}
-.btnMobile:active {
-	background-color: #09285D;
-	border-color: #000000;
-}
-.btnWrap:last-child .btnMobile {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 13px;
-}
-.btnWrap:last-child .btnMobile::before{
-    content: none;
-}
-.btnMobile.active {
-	background-color: #61B8E7;
-}
-.gamesDesktopLink{
-	display: none;
-	@media (min-width: 678px) {
-		display: block;
-	}
-}
-.GamesOn {
-    color: #787878;
-    border: 1px solid #787878;
-    width: 197px;
-    height: 45px;
-    text-align: center;
-    padding-top: 11px;
-    font-family: "Jersey 10";
-    font-size: 22px;
-    border-radius: 12px;
-    margin-top: 8px;
-	margin-bottom: 12px;
-	width: 100%;
-	@media (max-width: 678px) {
-	 	display: none;
-	 }
-	@media (min-width: 678px) {
-		display: block;		
-	}
-}
-.GamesOn:hover {
-    color: var(--color-primary-2);
-	background-color: #2D4E70B2;
-	opacity: 0.7;
-    border: 1px solid #787878;
-    width: 197px;
-    height: 45px;
-    text-align: center;
-    padding-top: 11px;
-    font-family: "Jersey 10";
-    font-size: 22px;
-    border-radius: 12px;
-    margin-top: 8px;
-	margin-bottom: 12px;
-	width: 100%;
-	cursor: pointer;
-}
-.GamesOn:active {
-	background-color: #2D4E70B2;
-	opacity: 1;
-}
-.hidden {
-  display: none;
-}
-.historyArrow {
-  display: inline-block;
-  background-color: white;
-  width: 80px;
-  height: 35px;
-  text-align: left;
-  align-self: flex-start;
-  border-radius: 1px;
-  border: 1px solid transparent;
-  margin: 15px;
-  padding: 0;
-  transition: all 0.1s ease;
-  	@media (max-width: 420px) {
-		width: 61px;
-  		height: 25px;
-	}
-}
-.historyArrow:hover {
+  position: relative;
+  width: 100%;
+  padding: 14px 35px;
   border: 1px solid silver;
-  cursor: pointer;
+  border-radius: 19px;
+  background: var(--color-background-2);
+  z-index: 77;
 }
-.searchFieldContainer {
-	grid-area: search;
-	position: relative;
-	@media (min-width: 1200px) {
-		display: flex;
-		flex-direction: row-reverse;
-		gap:32px;
-		align-items: center;
-	}	
+.headerContent {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 366px;
+  align-items: center;
+  gap: 18px 28px;
 }
-.searchFieldButtons{
-	display: flex;
-	flex-direction: column;
-
-	gap:10px;
-
-	@media (max-width: 768px) {
-		gap:4px;
-    }
-	@media (max-width: 480px) {
-		gap:8px;
-    }
+.logo { width: 64px; }
+.logo > a { display: block; width: 100%; }
+.navMenu {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-areas: 'home ukraine poland usa' '. canada australia singapore';
+  gap: 17px 20px;
+  align-items: center;
 }
-.searchBtn {
-	grid-area: searchBtn;
-	display: none!important;
-	@media (max-width: 1200px) and (min-width: 769px) {
-    	display: flex!important;
-  	}
+.navLink {
+  position: relative;
+  width: fit-content;
+  color: #44413e;
+  font-family: 'Reddit Sans SemiBold', sans-serif;
+  font-size: 16px;
+  line-height: 21px;
+  white-space: nowrap;
+  &:hover { color: #b83b0b; }
 }
-.searchField {
-	display: none!important;
-	@media (min-width: 1200px) {
-    	display: flex!important;
-  	}
-	@media (max-width: 769px) {
-    	display: flex!important;
-  	}
+.active {
+  color: #282625;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    left: -14px;
+    top: 7px;
+    border-radius: 50%;
+    background: #6aff79;
+  }
 }
-.hintBox{
-	position: absolute;
-	left: 0;
-	width: 97%; 
-	background-color: #000000;
-	color: #E4D8D8;
-	font-size: 12px;
-	font-family: "Segoe UI", sans-serif;
-	font-weight: 600;
-	text-align: center;
-	min-height: 60px;
-	margin: 0 8px;
-	border-radius: 10px; 
-	padding: 6px;
-	box-shadow: 0 0 0 4px #000004;
-	z-index: 10000;
-	animation: slideUp 0.3s ease-out forwards;
-	pointer-events: none;
-	line-height: 18px;
-	@media (min-width: 679px) {
-	    width: 500px;
-	    max-width: 500px;
-	    left: 15%;
-	    transform: translateX(-50%);
-	}
-	@media (min-width: 1025px) {
-    	left: 55%;
-	    transform: translateX(-50%);
-	}
-	@media (max-width: 9999px) {
-		font-size: 14px;		
-	 	top: 105px;
-	}
-	@media (max-width: 1025px) {
-		font-size: 14px;		
-	 	top: 174px;
-	}
-	@media (max-width: 1000px) {
-		font-size: 14px;
-	 	top: 125px;
-		 transform: translateX(0%);
-	}
-	@media (max-width: 950px) {
-		font-size: 14px;
-	 	top: 133px;
-	}
-	@media (max-width: 768px) {
-		font-size: 14px;
-	 	top: 156px;
-	}
-	@media (max-width: 678px) {
-	 	top: 120px;
-	}
-	@media (max-width: 480px) {
-	 	top: 60px;
-	}
+.shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2, 178px);
+  gap: 10px;
 }
-.hintBox2{
-	position: absolute;
-	left: 0;
-	width: 97%; 
-	background-color: #000000;
-	color: #E4D8D8;
-	font-size: 12px;
-	font-family: "Segoe UI", sans-serif;
-	font-weight: 600;
-	text-align: center;
-	min-height: 60px;
-	margin: 0 8px;
-	border-radius: 10px; 
-	padding: 6px;
-	box-shadow: 0 0 0 4px #000004;
-	z-index: 10000;
-	animation: slideUp 0.3s ease-out forwards;
-	pointer-events: none;
-	line-height: 18px;
-	@media (min-width: 679px) {
-	    width: 500px;
-	    max-width: 500px;
-	    transform: translateX(-50%);
-	    left: 30%;
-	}
-	@media (min-width: 900px) {
-    	left: 35%;
-	}	
-	@media (min-width: 1025px) {
-    	left: 55%;
-	    transform: translateX(-50%);
-	}
-	@media (min-width: 1400px) {
-    	left: 65%;
-	}
-	@media (max-width: 9999px) {
-		font-size: 14px;		
-	 	top: 135px;
-	}
-	@media (max-width: 1025px) {
-	 	top: 145px;
-		font-size: 14px;		
-	}
-	@media (max-width: 1000px) {
-	 	top: 145px;
-		font-size: 14px;		
-	}
-	@media (max-width: 950px) {
-	 	top: 143px;
-		font-size: 14px;		
-	}
-	@media (max-width: 768px) {
-	 	top: 156px;
-		font-size: 14px;
-	}
-	@media (max-width: 678px) {
-	 	top: 155px;
-	}
-	@media (max-width: 480px) {
-	 	top: 95px;
-	}
+.shortcut { position: relative; min-width: 0; }
+.pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 178px;
+  height: 30px;
+  padding: 3px 8px;
+  border: 1px solid #787878;
+  border-radius: 22px;
+  background: #0b449b;
+  color: white;
+  font-family: 'Reddit Sans SemiBold', sans-serif;
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  svg { width: 14px; height: 14px; flex-shrink: 0; }
+  &:focus-visible { outline: 3px solid #0b449b; outline-offset: 3px; }
+  &:active { background: #09285d; transform: translateY(1px) scale(0.98); }
 }
-
-.hintBox3{
-	position: absolute;
-	left: 0;
-	width: 97%; 
-	background-color: #000000;
-	color: #E4D8D8;
-	font-size: 12px;
-	font-family: "Segoe UI", sans-serif;
-	font-weight: 600;
-	text-align: center;
-	min-height: 60px;
-	margin: 0 8px;
-	border-radius: 10px; 
-	padding: 6px;
-	box-shadow: 0 0 0 4px #000004;
-	z-index: 10000;
-	animation: slideUp 0.3s ease-out forwards;
-	pointer-events: none;
-	line-height: 18px;
-	@media (min-width: 679px) {
-	    width: 500px;
-	    max-width: 500px;
-	    transform: translateX(-50%);
-	    left: 30%;
-	}
-	@media (min-width: 900px) {
-    	left: 35%;
-	}	
-	@media (min-width: 1025px) {
-    	left: 55%;
-	    transform: translateX(-50%);
-	}
-	@media (min-width: 1400px) {
-    	left: 65%;
-	}
-	@media (max-width: 9999px) {
-		font-size: 14px;		
-	 	top: 165px;
-	}
-	@media (max-width: 1025px) {
-	 	top: 175px;
-		font-size: 14px;		
-	}
-	@media (max-width: 1000px) {
-	 	top: 175px;
-		font-size: 14px;		
-	}
-	@media (max-width: 950px) {
-	 	top: 193px;
-		font-size: 14px;		
-	}
-	@media (max-width: 768px) {
-	 	top: 186px;
-		font-size: 14px;
-	}
-	@media (max-width: 678px) {
-	 	top: 185px;
-	}
-	@media (max-width: 480px) {
-	 	top: 150px;
-	}
+.selected { background: #2874a3; }
+.booking {
+  border-color: #f0c8a9;
+  background: #fff8f0;
+  color: #954017;
+  &:active { background: #ffdfc0; color: #80330d; }
 }
-@keyframes slideUp {
-	from {
-		transform: translateY(10px);
-		opacity: 0;
-	}
-	to {
-		transform: translateY(0); 
-		opacity: 1;
-	}
+.hint {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 280px;
+  max-width: calc(100vw - 32px);
+  padding: 13px 16px;
+  border: 1px solid #344056;
+  border-radius: 13px;
+  background: #172135;
+  color: #f4f6fc;
+  box-shadow: 0 12px 30px #17213530;
+  font: 12px/1.55 'Segoe UI', sans-serif;
+  z-index: 100;
+  &::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 100%; height: 11px; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
+.headerSearch { grid-column: 2 / -1; justify-self: end; width: min(100%, 400px); }
+.back { margin-bottom: 10px; }
+.historyArrow { width: 80px; padding: 0; margin: 15px; border-color: transparent; border-radius: 1px; }
+.historyArrow .back { margin: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .pill:hover { background: #0a2f6c; box-shadow: 0 4px 10px #10499824; }
+  .booking:hover { background: #ffeddc; color: #80330d; }
+  .pill:active { background: #09285d; }
+  .booking:active { background: #ffdfc0; }
+}
+@media (max-width: 1100px) {
+  .header { padding: 14px 24px; }
+  .headerContent { grid-template-columns: 50px minmax(0, 1fr) 366px; gap: 18px; }
+  .logo { width: 50px; }
+  .navMenu { gap: 17px 12px; }
+  .navLink { font-size: 14px; }
+}
+@media (max-width: 900px) and (min-width: 769px) {
+  .header { padding: 14px 18px; }
+  .headerContent { grid-template-columns: 40px minmax(0, 1fr) 366px; gap: 16px; }
+  .logo { width: 40px; }
+  .navMenu { column-gap: 10px; }
+  .navLink { font-size: 12px; }
+}
+@media (max-width: 768px) {
+  .header { padding: 18px 20px; }
+  .headerContent { grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; }
+  .logo { display: none; }
+  .navMenu { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: 'home ukraine' 'poland usa' 'canada australia' 'singapore .'; gap: 12px; padding-left: 12px; }
+  .navLink { font-size: 13px; }
+  .shortcuts { grid-template-columns: repeat(2, 160px); gap: 14px 10px; }
+  .pill { width: 160px; font-size: 12px; }
+  .headerSearch { grid-column: 1 / -1; width: 100%; }
+}
+@media (max-width: 600px) {
+  .headerContent { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .navMenu { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland usa' '. canada australia singapore'; gap: 12px 10px; }
+  .navLink { font-size: 12px; }
+  .shortcuts { justify-content: end; }
+  .shortcut:nth-child(odd) .hint { right: auto; left: 0; }
+}
+@media (max-width: 480px) {
+  .header { padding: 12px 14px; }
+  .navMenu { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland' 'usa canada australia' 'singapore . .'; }
+  .shortcuts { width: 100%; grid-template-columns: repeat(2, minmax(0, 160px)); justify-content: space-between; gap: 17px 10px; }
+  .pill { width: 100%; height: 27px; font-size: 10px; border: none; }
+  .shortcut::before { content: ''; position: absolute; inset: -8px 0; }
+  .pill::after { content: ''; position: absolute; inset: -8px 0; }
+  .historyArrow { padding: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pill { transition: none; }
+  .pill:active { transform: none; }
+}

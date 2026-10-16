@@ -16,11 +16,15 @@ export default function HotFXLoader() {
       );
     };
 
+    const header = document.querySelector('hotfx-shy-header');
+    const observer = new ResizeObserver(updateSpacerHeight);
+    if (header) observer.observe(header);
     updateSpacerHeight();
     window.addEventListener('resize', updateSpacerHeight);
 
     return () => {
       window.removeEventListener('resize', updateSpacerHeight);
+      observer.disconnect();
     };
   }, []);
 
