@@ -7,6 +7,8 @@ const searchCopy = {
     button: 'Search',
     section: 'section',
     viewsPrefix: 'we have ',
+    footerTitle: 'Find your next story',
+    footerDescription: 'Places, routes, and ideas for your travels.',
   },
   ukraine: {
     lang: 'uk',
@@ -16,6 +18,8 @@ const searchCopy = {
     button: 'Знайти',
     section: 'розділ',
     viewsPrefix: 'переглядів: ',
+    footerTitle: 'Знайдіть наступну історію',
+    footerDescription: 'Місця, маршрути та ідеї для ваших подорожей.',
   },
   poland: {
     lang: 'pl',
@@ -25,6 +29,8 @@ const searchCopy = {
     button: 'Szukaj',
     section: 'sekcja',
     viewsPrefix: 'wyświetlenia: ',
+    footerTitle: 'Znajdź kolejną historię',
+    footerDescription: 'Miejsca, trasy i pomysły na Twoje podróże.',
   },
 };
 

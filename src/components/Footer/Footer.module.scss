@@ -9,7 +9,7 @@
 .footer {
   display: flex;
   justify-content: center;
-  width: 100vw;
+  width: 100%;
   background-color: #000000;
 }
 .footerContent {
@@ -17,7 +17,9 @@
   flex-direction: column;
   justify-content: space-between;
   max-width: 1200px;
-  padding: 70px 130px 23px;
+  width: 100%;
+  min-width: 0;
+  padding: 36px 40px 23px;
   color: var(--color-primary-3);
 
   @media (min-width: 1025px) {
@@ -26,7 +28,7 @@
   }
   @media (max-width: 1024px) {
     max-width: 1024px;
-    padding: 60px 90px 20px;
+    padding: 36px 32px 20px;
   }
   @media (max-width: 768px) {
     max-width: 768px;
@@ -94,7 +96,7 @@
 /* Desktop - 4 columns layout */
 @media (min-width: 1024px) {
   .navContainer {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-areas: 
       "company community privacy countries"
       "social social social social";
@@ -121,7 +123,7 @@
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    min-width: 250px;
+    min-width: 0;
   }
   
   
@@ -152,7 +154,7 @@
 /* Tablet - 3 columns layout */
 @media (min-width: 769px) and (max-width: 1024px) {
   .navContainer {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-areas: 
       "company community privacy"
       "social social countries";
@@ -166,7 +168,7 @@
   .navBlock:nth-child(6) { grid-area: mobile; }
   .navBlock:nth-child(6) { display: none; }
 
-  .navBlock:nth-child(3) {min-width: 249px;}
+  .navBlock:nth-child(3) {min-width: 0;}
   .navBlock:nth-child(4) { font-size: 20px; }
   .navBlock:nth-child(4) h2 {
      margin-top: -90px;
@@ -181,7 +183,7 @@
   .linkTitle {
     font-size: 1.125rem;
     margin-bottom: 0.75rem;
-    min-width: 184px;
+    min-width: 0;
   }
   
   .linkBlock li {
@@ -211,7 +213,7 @@
       "company community"
       "privacy social";
     gap: 1.5rem;
-    margin: 10px 15px 20px;
+    margin: 10px 0 20px;
   }
   
   .navBlock:nth-child(1) { grid-area: company; }
@@ -393,4 +395,44 @@
   @media (max-width: 320px) {
     font-size: 11px;
   }
+}
+
+.searchRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: 36px;
+  padding-bottom: 30px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #ffffff20;
+}
+.searchBrand {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ff8345;
+}
+.searchTitle {
+  margin: 0 0 9px;
+  font-size: 27px;
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.7px;
+  color: white;
+}
+.searchDescription {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b1b1b1;
+}
+.searchForm { min-width: 0; }
+.searchFallback { height: 58px; border-radius: 18px; background: #fff4e9; }
+@media (max-width: 700px) {
+  .searchRow { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-bottom: 26px; margin-bottom: 28px; }
+}
+@media (max-width: 380px) {
+  .searchTitle { font-size: 24px; }
 }
