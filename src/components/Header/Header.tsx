@@ -9,6 +9,7 @@ import SearchField from './SearchField/SearchField';
 import MobileSearchField from './SearchField/MobileSearchField/MobileSearchField';
 
 import { Suspense, useEffect, useState } from 'react';
+import type { FocusEvent, PointerEvent, KeyboardEvent } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 
 import { PagesEnum } from '@/types/enums/pagesEnums';
@@ -66,32 +67,35 @@ export default function Header() {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (window.innerWidth <= 678) return;
-    const navMenu = document.querySelector(`.${s.navMenu}`);
-    if (!navMenu) return;
-    const travelLinkContainer = navMenu
-      .querySelector(`.${s.linkContainer} a[href="/travel-resources"]`)
-      ?.closest(`.${s.linkContainer}`) as HTMLElement | null;
-    if (!travelLinkContainer) return;
-    travelLinkContainer.classList.add('hasHint');
-    const handleEnter = () => {
-      setHintOpen(true);
-      setHintTarget('travel');
-    };
-    const handleLeave = () => {
-      setHintOpen(false);
-      setHintTarget(null);
-    };
-    travelLinkContainer.addEventListener('mouseenter', handleEnter);
-    travelLinkContainer.addEventListener('mouseleave', handleLeave);
+  const closeHint = () => {
+    setHintOpen(false);
+    setHintTarget(null);
+  };
 
-    return () => {
-      travelLinkContainer.removeEventListener('mouseenter', handleEnter);
-      travelLinkContainer.removeEventListener('mouseleave', handleLeave);
-    };
-  }, []);
+  const hintHandlers = (target: string) => ({
+    // Touch and pen input must follow the link on the first tap.
+    onPointerEnter: (event: PointerEvent<HTMLAnchorElement>) => {
+      if (event.pointerType === 'mouse') {
+        setHintOpen(true);
+        setHintTarget(target);
+      }
+    },
+    onPointerLeave: closeHint,
+    onPointerDown: (event: PointerEvent<HTMLAnchorElement>) => {
+      if (event.pointerType !== 'mouse') closeHint();
+    },
+    onFocus: (event: FocusEvent<HTMLAnchorElement>) => {
+      if (event.currentTarget.matches(':focus-visible')) {
+        setHintOpen(true);
+        setHintTarget(target);
+      }
+    },
+    onBlur: closeHint,
+    onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => {
+      if (event.key === 'Escape') closeHint();
+    },
+    'aria-describedby': hintOpen && hintTarget === target ? `header-hint-${target}` : undefined,
+  });
 
   if (pathname.split('/')[1] === PagesEnum.SEARCH_DATA_PAGE)
     return <OldTopSection isLink={true} isSearchField={true} isWhite={true} />;
@@ -152,28 +156,7 @@ export default function Header() {
                       activeSpecialLink === 'travel' ? s.active : ''
                     }`}
                     href="/travel-resources"
-                    onMouseEnter={() => {
-                      if (window.innerWidth > 480) {
-                        setHintOpen(true);
-                        setHintTarget('travel');
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      if (window.innerWidth > 480) {
-                        setHintOpen(false);
-                        setHintTarget(null);
-                      }
-                    }}
-                    onClick={(e) => {
-                      if (window.innerWidth <= 480) {
-                        if (!hintOpen || hintTarget !== 'travel') {
-                          e.preventDefault();
-                          setHintOpen(true);
-                          setHintTarget('travel');
-                          return;
-                        }
-                      }
-                    }}
+                    {...hintHandlers('travel')}
                   >
                     Travel Resources
                   </a>
@@ -185,28 +168,7 @@ export default function Header() {
                       activeSpecialLink === 'games' ? s.active : ''
                     }`}
                     href="/daily-journal-of-your-price-booking-service-history?page=game-zone"
-                    onMouseEnter={() => {
-                      if (window.innerWidth > 480) {
-                        setHintOpen(true);
-                        setHintTarget('games');
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      if (window.innerWidth > 480) {
-                        setHintOpen(false);
-                        setHintTarget(null);
-                      }
-                    }}
-                    onClick={(e) => {
-                      if (window.innerWidth <= 480) {
-                        if (!hintOpen || hintTarget !== 'games') {
-                          e.preventDefault();
-                          setHintOpen(true);
-                          setHintTarget('games');
-                          return;
-                        }
-                      }
-                    }}
+                    {...hintHandlers('games')}
                   >
                     Games on the Go
                   </a>
@@ -217,28 +179,7 @@ export default function Header() {
                       activeSpecialLink === 'planet' ? s.active : ''
                     }`}
                     href="/uncharted-planet"
-                    onMouseEnter={() => {
-                      if (window.innerWidth > 480) {
-                        setHintOpen(true);
-                        setHintTarget('planet');
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      if (window.innerWidth > 480) {
-                        setHintOpen(false);
-                        setHintTarget(null);
-                      }
-                    }}
-                    onClick={(e) => {
-                      if (window.innerWidth <= 480) {
-                        if (!hintOpen || hintTarget !== 'planet') {
-                          e.preventDefault();
-                          setHintOpen(true);
-                          setHintTarget('planet');
-                          return;
-                        }
-                      }
-                    }}
+                    {...hintHandlers('planet')}
                   >
                     <PlanetIcon />
                     <span>Uncharted Planet</span>
@@ -250,20 +191,20 @@ export default function Header() {
         </div>
       </header>
       {hintOpen && hintTarget === 'travel' && (
-        <div className={s.hintBox}>
+        <div id="header-hint-travel" role="tooltip" className={s.hintBox}>
           Explore live travel tools — maps, weather, flight tracking, and soon: insurance, car
           rentals, and hotel booking.
         </div>
       )}
       {hintOpen && hintTarget === 'games' && (
-        <div className={s.hintBox2}>
+        <div id="header-hint-games" role="tooltip" className={s.hintBox2}>
           Discover a fun escape in our Game Zone! Dive into exciting titles like Cube Tower, Retro
           Drift, and Bus Parking Out—perfect for quick breaks between your travel bookings. Play now
           and unwind!
         </div>
       )}
       {hintOpen && hintTarget === 'planet' && (
-        <div className={s.hintBox3}>
+        <div id="header-hint-planet" role="tooltip" className={s.hintBox3}>
           We explore ancient monuments, competing theories of their construction, and the people —
           or civilizations — behind them.
         </div>
