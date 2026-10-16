@@ -1,174 +1,220 @@
-.banner {
-	max-width: 1120px;
-	background: linear-gradient(to bottom, #0B1220, #050A14);
+.wrapper {
 	width: calc(100% - 40px);
-	height: max-content;
-	cursor: pointer;
-	position: relative;
-	border-radius: 40px;
+	max-width: 1120px;
 	margin-bottom: 40px;
-	display: flex;
-	flex-direction: column;
-
-	@media (max-width: 630px) {
-        border-radius: 10px;
-    }
 }
 
-.logo {
-	margin-top: -20px;
+.banner {
+	display: block;
+	box-sizing: border-box;
+	padding: 32px;
+	border: 1px solid #283247;
+	border-radius: 26px;
+	background: #0c1220;
+	color: #f7f9ff;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: left;
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+	transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	&:focus-visible {
+		outline: 3px solid #72adff;
+		outline-offset: 5px;
+	}
+
+	&:active {
+		background: #111c2f;
+		border-color: #f6c84e;
+
+		.cta {
+			background: #ddb13d;
+			box-shadow: inset 0 2px 4px #0003;
+			transform: translateY(1px) scale(0.98);
+		}
+	}
 }
-.head {
+
+.topline {
 	display: flex;
-	flex-direction: row;
-	padding: 0 80px;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px 16px;
+	margin-bottom: 28px;
+}
 
-	@media (max-width: 800px) {
-		padding: 0 40px;
-	}
+.brand {
+	font-size: 26px;
+	font-weight: 750;
+	letter-spacing: -1px;
 
-	@media (max-width: 670px) {
-		padding-left: 6px;
-		padding-right: 11px;
+	span {
+		color: #f6c84e;
 	}
 }
+
+.label {
+	margin: 0;
+	font-size: 11px;
+	line-height: 1.5;
+	letter-spacing: 1.4px;
+	text-transform: uppercase;
+	color: #a3b0c6;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+	align-items: center;
+	gap: 26px;
+}
+
+.copy {
+	min-width: 0;
+}
+
 .title {
-	color: #FFCC00;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 100%;
-	font-family: "Segoe UI";
-	height: max-content;
-
-	@media (max-width: 670px) {
-		font-size: 10px;
-		margin-top: -20px;
-	}
-}
-.textAnswer {
-	background: linear-gradient(to bottom, #ffffff, #F3F6FA);
-	border-radius: 25px;
-	width: 100%;
-	height: 170px;
-
-	@media (max-width: 630px) {
-        border-radius: 10px;
-    }
-}
-.textQuestion {
-	padding: 0 30px;
-	background: #FFFFFF;
-	border-radius: 15px;
-	width: calc(100% - 80px);
-	height: 54px;
-	margin-top: -27px;
-	border: 1px solid #CBD5E1;
-
-	@media (max-width: 630px) {
-        &::placeholder {
-            color: transparent;
-        }
-		border-radius: 10px;
-    }
-}
-.body {
-	padding: 0 80px;
-	margin-bottom: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	@media (max-width: 800px) {
-		padding: 0 40px;
-	}
-
-	@media (max-width: 670px) {
-		padding-left: 6px;
-		padding-right: 11px;
-	}
-}
-.AiAnswer {
-	background-color: #E8F0FE;
-	max-width: 520px;
-	width: 100%;
-	height: 60px;
-	border-radius: 15px;
-	display: flex;
-	align-items: center;
-	padding-left: 30px;
-	font-size: 20px;
+	margin: 0 0 15px;
+	font-size: clamp(29px, 4vw, 44px);
+	line-height: 1.06;
 	font-weight: 700;
-	font-style: italic;
-	font-family: "Segoe UI";
-	margin-left: 40px;
-	margin-top: 30px;
-	color: #1F2937;
-
-	@media (max-width: 800px) {
-		margin-left: 20px;
-	}
-
-	@media (max-width: 670px) {
-		margin-left: 13px;
-		width: calc(100% - 20px);
-		border-radius: 10px;
-		font-size: 12px;
-	}
+	letter-spacing: -1.5px;
+	color: #f7f9ff;
 }
-.help {
+
+.description {
+	max-width: 440px;
+	margin: 0;
 	font-size: 15px;
-	color: #4B5563;
-	margin-top: 5px;
-	font-family: "Segoe UI";
-	margin-left: 40px;
-
-	@media (max-width: 800px) {
-		margin-left: 20px;
-	}
-
-	@media (max-width: 670px) {
-		margin-left: 13px;
-		font-size: 11px;
-	}
+	line-height: 1.6;
+	color: #b7c3d7;
 }
-.wrapperQuestion {
-	position: relative;
-	width: 100%;
-	height: max-content;
-	display: flex;
+
+.cta {
+	display: inline-flex;
+	align-items: center;
 	justify-content: center;
-
-	@media (max-width: 630px) {
-        justify-content: flex-end;
-    }
+	gap: 16px;
+	min-height: 48px;
+	margin-top: 24px;
+	padding: 13px 22px;
+	border-radius: 13px;
+	background: #f6c84e;
+	color: #101625;
+	font-size: 14px;
+	line-height: 1.5;
+	font-weight: 700;
+	transition: background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
-.pressEnter {
-	position: absolute;
-	color: #6B7280;
-	right: 130px;
-	top: -3px;
+
+.arrow {
+	transition: transform 180ms ease;
+}
+
+.preview {
+	min-width: 0;
+	padding: 20px;
+	border: 1px solid #2c3b54;
+	border-radius: 18px;
+	background: #151f31;
+	transform: rotate(-2deg);
+	box-shadow: 0 20px 40px #0003;
+}
+
+.question {
+	margin: 14px 0 18px;
+	padding: 12px 14px;
+	border-radius: 13px 13px 3px 13px;
+	background: #273650;
+	color: #f5f7fd;
 	font-size: 13px;
-	font-family: "Segoe UI";
-
-	@media (max-width: 630px) {
-        right: 30px;
-    }
+	line-height: 1.5;
 }
 
-.disclaimer {
-	font-size: 16px;
-	font-family: "Segoe UI";
-	color: #93C5FD;
+.answer {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: #c3cde0;
 
-	@media (max-width: 630px) {
-        font-size: 11px;
-    }
+	strong {
+		display: block;
+		margin-bottom: 5px;
+		color: #f6c84e;
+	}
 }
 
-.footer {
-	margin-bottom: 37px;
+.benefits {
 	display: flex;
-	justify-content: center;
+	flex-wrap: wrap;
+	gap: 8px 18px;
+	margin: 25px 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #aebdd2;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.banner:hover {
+		border-color: #526383;
+		box-shadow: 0 12px 32px #0c122026;
+
+		.cta {
+			background: #ffda70;
+		}
+
+		.arrow {
+			transform: translate(2px, -2px);
+		}
+	}
+
+	.banner:active .cta {
+		background: #ddb13d;
+	}
+}
+
+@media (max-width: 540px) {
+	.banner {
+		padding: 24px 20px;
+		border-radius: 20px;
+	}
+
+	.topline {
+		margin-bottom: 24px;
+	}
+
+	.content {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+	}
+
+	.cta {
+		width: 100%;
+	}
+
+	.preview {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.banner,
+	.cta,
+	.arrow {
+		transition: none;
+	}
+
+	.banner:active .cta,
+	.banner:hover .arrow {
+		transform: none;
+	}
 }
