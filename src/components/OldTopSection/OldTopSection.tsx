@@ -14,6 +14,7 @@ interface TopSectionProps {
 	isLink?: boolean;
 	isSearchField?: boolean;
 	isWhite?: boolean;
+	showSubtitle?: boolean;
 	country?: string;
 }
 
@@ -21,6 +22,7 @@ const OldTopSection: React.FC<TopSectionProps> = ({
 	isLink = false,
 	isSearchField = false,
 	isWhite = false,
+	showSubtitle = true,
 	country,
 }) => {
 	const headerClass = classNames(s.topSection, {
@@ -50,9 +52,11 @@ const OldTopSection: React.FC<TopSectionProps> = ({
 					<h2 className={s.mainTitle}>the wandered</h2>
 				</div>
 
-				<h1 className={s.title}>
-					{subtitle && subtitle.length > 0 ? subtitle : 'The official Your Price Booking blog'}
-				</h1>
+				{showSubtitle && (
+					<h1 className={s.title}>
+						{subtitle && subtitle.length > 0 ? subtitle : 'The official Your Price Booking blog'}
+					</h1>
+				)}
 			</div>
 			{isSearchField && (
 				<div className={s.searchBox}>
