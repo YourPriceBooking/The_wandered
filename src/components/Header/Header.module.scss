@@ -298,6 +298,10 @@
 	background-color: #0A2F6C;
 	border-color: #000000;
 }
+.btnMobile:focus-visible {
+	outline: 3px solid #0B449B;
+	outline-offset: 3px;
+}
 .btnMobile:active {
 	background-color: #09285D;
 	border-color: #000000;
