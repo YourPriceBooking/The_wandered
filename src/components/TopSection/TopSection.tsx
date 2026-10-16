@@ -4,6 +4,7 @@ import DateBlock from './dateblock/DateBlock';
 import ViewCounter from '../ViewCounter/ViewCounter';
 import SearchField from '../Header/SearchField/SearchField';
 import s from './TopSection.module.scss';
+import { getSearchCopy } from '@/defaultData/searchCopy';
 
 interface TopSectionProps {
   isLink?: boolean;
@@ -17,24 +18,25 @@ interface TopSectionProps {
 }
 
 export default function TopSection({ isWhite = false, country, viewPath, countryTitle = 'some country', countryDescription = 'country description' }: TopSectionProps) {
+  const copy = getSearchCopy(country);
   return (
-    <section className={s.topSection}>
+    <section className={s.topSection} lang={copy.lang}>
       <div className={s.date}><DateBlock isWhite={isWhite} country={country} /></div>
       <div className={s.nameBlock}>
         <div className={s.logoBlock}>
           <Image src="/brandMarkTop.svg" alt="" width={18} height={18} />
           <h2 className={s.topTitle}>the wandered</h2>
         </div>
-        {country && <ViewCounter country={country} viewPath={viewPath} prefix="we have " />}
+        {country && <ViewCounter country={country} viewPath={viewPath} prefix={copy.viewsPrefix} />}
       </div>
       <div className={s.heroContent}>
         <div className={s.copy}>
-          <span className={s.sectionLabel}>section</span>
+          <span className={s.sectionLabel}>{copy.section}</span>
           <h1 className={s.mainTitle}>{countryTitle}</h1>
           <p className={s.mainText}>{countryDescription}</p>
         </div>
         <div className={s.search}>
-          <p className={s.searchLabel}>Where will your curiosity take you?</p>
+          <p className={s.searchLabel}>{copy.prompt}</p>
           <Suspense fallback={<div className={s.searchFallback} />}><SearchField variant="hero" /></Suspense>
         </div>
       </div>
