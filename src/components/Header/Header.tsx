@@ -99,6 +99,8 @@ export default function Header() {
               >
                 <a
                   href={item.href}
+                  target={item.id === 'booking' ? '_blank' : undefined}
+                  rel={item.id === 'booking' ? 'noopener noreferrer' : undefined}
                   className={`${s.pill} ${item.id === 'booking' ? s.booking : ''} ${pathname === item.href ? s.selected : ''}`}
                   onFocus={(event: FocusEvent<HTMLAnchorElement>) => {
                     if (event.currentTarget.matches(':focus-visible')) scheduleShow(item.id);
