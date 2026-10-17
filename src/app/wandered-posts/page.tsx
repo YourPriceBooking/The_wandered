@@ -1,3 +1,4 @@
+import { pageMetadata, socialImage } from '@/utils/seoMetadata';
 import s from './wandered-posts.module.scss';
 import Article from '@/components/Article/Article';
 import { getPostsBySearch } from '@/services/getPosts';
@@ -5,11 +6,11 @@ import { postData } from '@/types/postTypes';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
 	title: 'Search travel stories | The Wandered',
 	description: 'Search travel stories, destinations and practical tips on The Wandered.',
-	robots: { index: false, follow: true },
-};
+	path: '/wandered-posts', index: false, image: socialImage('search', 'Search travel stories | The Wandered'),
+});
 
 interface PageProps {
 	searchParams: { search: string };

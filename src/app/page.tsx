@@ -1,3 +1,4 @@
+import { listingMetadata, listingPage } from '@/utils/seoMetadata';
 import s from './mainPage.module.scss';
 import Article from '@/components/Article/Article';
 import Link from 'next/link';
@@ -8,13 +9,16 @@ import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
 export const dynamic = 'force-dynamic';
+export function generateMetadata({ searchParams }: { searchParams: { page?: string | string[] } }) {
+  return listingMetadata('home', searchParams.page);
+}
 
 export default async function MainPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+  let paramsPage = listingPage(searchParams.page);
 
   const data: postsDataType = await getPosts({ page: paramsPage, country: 'home' });
   console.log({ data });

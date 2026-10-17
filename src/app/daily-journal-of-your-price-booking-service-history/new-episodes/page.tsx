@@ -1,3 +1,4 @@
+import { pageMetadata, socialImage } from '@/utils/seoMetadata';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 import s from './new-episodes.module.scss';
 import JournalPosts from '@/components/JournalPosts/JournalPosts';
@@ -11,14 +12,12 @@ export async function generateMetadata({
 }: {
 	searchParams: { page?: string | string[] };
 }): Promise<Metadata> {
-	return {
-		title: 'The Story Continues with New Episodes: Your Price Booking Journey',
-		description:
-			'Explore fresh episodes and stories from Your Price Booking — uncover how our journey grows with every update, experience and adventure.',
-		alternates: {
-			canonical: journalCanonical(newEpisodesPath, searchParams.page),
-		},
-	};
+	return pageMetadata({
+    title: 'The Story Continues with New Episodes: Your Price Booking Journey',
+    description: 'Explore fresh episodes and stories from Your Price Booking — uncover how our journey grows with every update, experience and adventure.',
+    path: journalCanonical(newEpisodesPath, searchParams.page),
+    image: socialImage('new-episodes', 'New episodes and stories'),
+  });
 }
 
 const NewEpisodes = async ({ searchParams }: { searchParams: { page?: string | string[] } }) => {
