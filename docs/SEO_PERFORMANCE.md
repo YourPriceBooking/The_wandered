@@ -2,6 +2,13 @@
 
 База: main `6f5ca9a` (PR #281). Next.js 14.2.28, production build.
 
+Уточнення етапу 8 після чистого npm ci + Node 20 на main `cb1bdac`: CSS
+списку — 66 547 bytes, tools — 67 808 bytes (див. performance/clean-ci-main.json).
+Наведені нижче before/after — результати конкретного попереднього checkout зі
+спільним node_modules; групування чанків у чистій збірці інше. Поріг CI 60 KB
+виявився крихким і виправляється в етапі 8. Відсутність Quill на списках і WOFF2
+підтверджені також чистою збіркою; старі цифри не є універсальною гарантією.
+
 ## Що виміряно
 
 `performance/before.json` — збірка базового main; `performance/after.json` — збірка

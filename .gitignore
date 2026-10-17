@@ -53,3 +53,7 @@ _temp*
 .lh
 # Durable, runtime-only SEO archive snapshots
 /.cache/
+
+# Local release audit output
+/seo-release-report.json
+/seo-http-tests.log

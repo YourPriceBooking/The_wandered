@@ -1,13 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [{
+      source: '/:path*',
+      has: [{ type: 'host', value: 'thewandered\\.com' }],
+      destination: 'https://www.thewandered.com/:path*',
+      permanent: true,
+    }];
+  },
   images: {
     domains: ['s3-alpha-sig.figma.com', 'res.cloudinary.com', 'www.thewandered.com'],
   },
   eslint: {
     ignoreDuringBuilds: true, // 🔥 отключает ESLint при next build
-  },
-  typescript: {
-    ignoreBuildErrors: true,
   },
   swcMinify: true,
   experimental: {

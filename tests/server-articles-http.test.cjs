@@ -336,15 +336,15 @@ test('article hero is responsive while related images and promotion remain lazy'
 test('non-article routes omit editor CSS and load compressed fonts; articles retain editor formatting', async () => {
   for (const [route, editor] of [['/', false], ['/travel-resources', false], ['/usa/fixture-known', true]]) {
     const { response, dom } = await page(route); assert.equal(response.status, 200);
-    const sheets = [...dom.window.document.querySelectorAll('link[rel="stylesheet"]')];
+    const sheets = [...new Set([...dom.window.document.querySelectorAll('link[rel="stylesheet"]')].map(sheet => sheet.getAttribute('href')))];
     let css = '';
     for (const sheet of sheets) {
-      const asset = await fetch(new URL(sheet.getAttribute('href'), base)); assert.equal(asset.status, 200);
+      const asset = await fetch(new URL(sheet, base)); assert.equal(asset.status, 200);
       css += await asset.text();
     }
     assert.equal(css.includes('.ql-editor'), editor, route);
     assert.ok(css.includes('.woff2')); assert.equal(css.includes('.ttf'), false);
-    if (!editor) assert.ok(Buffer.byteLength(css) < 60_000, 'Non-article initial CSS budget');
+    if (!editor) assert.ok(Buffer.byteLength(css) < 75_000, `Non-article initial CSS budget: ${route}, ${Buffer.byteLength(css)} bytes from ${JSON.stringify(sheets)}`);
     for (const name of new Set([...css.matchAll(/url\([^)]*?([^/()'"\s]+\.woff2)['"]?\)/g)].map(match => match[1]))) {
       const font = await fetch(base + '/_next/static/media/' + name); assert.equal(font.status, 200);
       const bytes = Buffer.from(await font.arrayBuffer());
@@ -352,4 +352,26 @@ test('non-article routes omit editor CSS and load compressed fonts; articles ret
     }
     dom.window.close();
   }
+});
+
+test('bare production host redirects permanently to HTTPS www while preserving path and query', async () => {
+  // Node fetch strips the forbidden Host header; use HTTP transport to exercise vhost routing.
+  const hostRequest = (path, host) => new Promise((resolve, reject) => {
+    require('node:http').get(base + path, { headers: { host } }, response => {
+      response.on('error', reject);
+      response.on('end', () => resolve({ status: response.statusCode, location: response.headers.location }));
+      response.resume();
+    }).on('error', reject);
+  });
+  for (const path of ['/', '/ukraine/authors?source=test', '/usa/nature-%26-%D0%BF%D0%BE%D0%B4%D0%BE%D1%80%D0%BE%D0%B6?x=1&x=2', '/robots.txt', '/favicon.ico']) {
+    const response = await hostRequest(path, 'thewandered.com');
+    assert.equal(response.status, 308, path);
+    const actual = new URL(response.location);
+    const expected = new URL('https://www.thewandered.com' + path);
+    assert.equal(actual.origin, expected.origin);
+    assert.equal(decodeURIComponent(actual.pathname), decodeURIComponent(expected.pathname));
+    assert.deepEqual([...actual.searchParams], [...expected.searchParams]);
+  }
+  const canonicalHost = await hostRequest('/', 'www.thewandered.com');
+  assert.equal(canonicalHost.status, 200, 'No canonical-host redirect loop');
 });

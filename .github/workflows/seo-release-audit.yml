@@ -1,0 +1,40 @@
+name: Production SEO release audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_pages:
+        description: '0 = full sitemap; positive number = explicitly labelled sample'
+        required: true
+        default: '0'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-seo-release-audit
+  cancel-in-progress: false
+
+jobs:
+  production-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Audit public production responses
+        env:
+          SEO_AUDIT_MAX_PAGES: ${{ inputs.max_pages }}
+        run: npm run seo:audit-release
+      - name: Save audit report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: seo-release-report
+          path: seo-release-report.json
+          retention-days: 30

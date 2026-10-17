@@ -15,8 +15,8 @@
 | 4. Архів / пагінація | Код у main, #279 | Production, мобільний Back/Forward і scroll restoration |
 | 5. Семантика / schema | Код у main, #280 | Google validators, production і підтвердження редакційного процесу |
 | 6. Travel Resources | Код у main, #281; чотири віджети збережені | Після деплою перевірити керування iframe на desktop/mobile |
-| 7. Швидкість / кеш | Виміряно й оптимізовано в цьому PR | Пристрої/CWV, dimensions редакторських фото й холодний upstream TTFB залишаються прийманням |
-| 8. CI / production | CI перевіряє build, TypeScript, XML, HTTP і соцкартки; архів уже перевіряється; schema вже в main; є HTTP-контракт tools; тут додано кеш/ресурсні регресії | Production, редиректи, Search Console, моніторинг |
+| 7. Швидкість / кеш | Код у main, #282; CSS-бюджет CI виправляється тут | Пристрої/CWV, dimensions редакторських фото й холодний upstream TTFB залишаються прийманням |
+| 8. CI / production | Реалізовано в цьому PR: release audit, діагностика CI, TS build gate, runbook | Пристрої, Google/CWV, staging/backend/server приймання |
 
 Порядок етапів збережено. Етап 4 у main звірено з повною відповіддю API та totals;
 помилки API більше не повинні замінювати повний snapshot частковими даними. Для етапу 7 спершу
@@ -238,7 +238,7 @@ production HTTP-тестів (97 разом), усі пройдено. HTTP ви
 production-перевірці (див. етап 5), потім обрати оптимізації зображень/шрифтів/JS/кешу.
 Не оголошувати досягнення CWV без фактичних вимірювань.
 
-## 7. Швидкість і кешування — реалізовано в поточному PR
+## 7. Швидкість і кешування — код у main, PR #282
 
 - [x] Відтворюваний початковий inventory ресурсів production-збірки main `6f5ca9a` і порівняння після змін, однакові фікстури 4 маршрутів.
 - [x] Priority першій картці/hero; решта карток, related і нижній банер lazy; responsive sizes під реальний одноколонковий список, рекомендації та hero.
@@ -266,15 +266,38 @@ production-перевірці (див. етап 5), потім обрати оп
 Наступний кодовий PR — етап 8: production crawl, перевірки релізу й моніторинг.
 Непідтверджені польові/мобільні результати та backend-залежності не позначені виконаними.
 
-## 8. CI, реліз і контроль результату
+## 8. CI, реліз і контроль результату — реалізовано в поточному PR
 
-- [ ] Перевірки додаються в кожен PR; build, цільовий TypeScript/lint, HTTP/HTML, XML і картинки.
-- [ ] Окремо облікувати наявний технічний борг: build зараз вимикає загальні TS/lint перевірки.
-- [ ] Перевірити production статуси, контент, noindex/canonical/lang, мобільну взаємодію після кожного релізу.
-- [ ] Перевірити HTTP/HTTPS, www/non-www, slash на сервері; без циклів і довгих ланцюжків.
-- [ ] Preview/staging закриті; немає випадкового глобального noindex або IP-редиректів, що блокують мовні версії.
-- [ ] Search Console: sitemap, URL Inspection, rendered HTML, canonical Google, індексація, CWV.
-- [ ] Моніторинг 404/5xx/API/images/URL counts; порівняння показів і кліків після повторного обходу.
+- [x] Звірено main `cb1bdac`: #282 merged; GitHub run 39025357477 мав 52/53 HTTP pass, решта build/TypeScript/unit checks пройшли.
+- [x] Відтворено CSS-budget failure на чистому npm ci + Node 20; тест рахує унікальні stylesheet URL, перевіряє 75 000 byte budget і друкує фактичні bytes/URL. Quill/CSS/font семантичні checks збережені.
+- [x] TypeScript більше не вимикається в next build; окремий CI tsc лишається. Нові scripts/tests мають scoped ESLint; legacy загальний lint борг облікований у runbook.
+- [x] CI додає тести release audit й зберігає fixture HTTP/server logs/останній HTML при невдалому тесті.
+- [x] Read-only команда seo:audit-release: живий sitemap/index, повнота/дублі, HTTP, canonical/noindex/lang/H1, OG/Twitter images, JSON-LD parse, search/missing, host/protocol/slash redirects.
+- [x] Social assets: HTTP/MIME/magic і PNG/JPEG dimensions, origin allowlist, dedup, bounded concurrency/timeout/bytes/time budget; неповна перевірка не оголошується повним прийманням.
+- [x] Ручний workflow_dispatch production audit зі збереженням JSON artifact; cron/зовнішні повідомлення/деплой не додаються.
+- [x] Runbook приймання й реакції на 404/5xx/API/CDN/noindex/count drift: docs/SEO_RELEASE_RUNBOOK.md.
+- [x] Початковий live обхід: 157/157 sitemap сторінок HTTP 200; їхні початкові canonical/lang/H1/OG/Twitter перевірки пройшли.
+- [x] Повторний live обхід: 157/157 images (MIME/header/dimensions 1200×630), search 200/noindex, missing 404/noindex; HTTP www → HTTPS www і trailing slash tools працюють.
+- [x] Виявлено production non-www 200 без редиректу на canonical host; додано host-specific 308 у Next config із збереженням path/query та HTTP-контрактом.
+- [ ] Після деплою підтвердити non-www → HTTPS www через nginx; якщо proxy переписує Host, потрібне також серверне правило. До цього production report має passed=false через дві host-variant помилки.
+- [ ] Desktop/mobile після релізу: JS/UI, navigation/scroll/iframe/font/formatting.
+- [ ] Preview/staging auth/noindex і серверні vhost/HTTPS правила: без доступу/даних про staging не оголошуються підтвердженими.
+- [ ] Google Rich Results Test/Schema Markup Validator/Search Console: sitemap, canonical Google, rendered HTML, індексація, CWV та кліки/покази після переобходу.
+- [ ] Моніторинг за погодженою частотою й каналом: команда/ручний Actions готові; постійний нагляд не підміняється одноразовим обходом.
+
+Локальне приймання цього PR: чистий npm ci, Node 20, build із увімкненим TS gate,
+повний tsc, scoped lint, 65 unit + 54 production HTTP = 119 тестів пройдено.
+Попередні resource reports етапу 7 — виміри конкретного checkout; чистий CI
+inventory збережено окремо в docs/performance/clean-ci-main.json.
+
+Live summary: docs/seo-release/production-before-host-fix.json. Усі 157 HTML і
+social images перевірені, але non-www host redirects потребують деплою й повторного
+приймання; звіт не позначено зеленим.
+
+Кодові етапи 1–8 реалізовані; програма не оголошується повністю прийнятою без
+перерахованих production/Google/device перевірок. Backend dimensions/latency,
+редакційні твердження й міжпроцесна invalidation залишаються узгодженими відкритими
+пунктами. Подальші PR — за конкретними знахідками аудиту, а не фіктивним SEO score.
 
 ## Критерій завершення програми
 

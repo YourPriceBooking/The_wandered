@@ -20,9 +20,27 @@ jobs:
       - run: npm run test:pagination-archive
       - run: npm run test:schema-semantics
       - run: npm run test:performance-cache
+      - run: npm run lint:seo-release
+      - run: npm run test:seo-release
       - run: npm run build
       - run: npx tsc --noEmit --incremental false
-      - run: npm run test:server-articles:http
+      - name: Production HTTP contracts
+        env:
+          KEEP_ARTICLE_HTTP_LOGS: '1'
+        run: |
+          set -o pipefail
+          npm run test:server-articles:http 2>&1 | tee seo-http-tests.log
+      - name: Retain HTTP diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: seo-http-diagnostics
+          retention-days: 7
+          include-hidden-files: true
+          path: |
+            seo-http-tests.log
+            .next/article-http-*/server.log
+            .next/article-http-*/last-response.html
 
   check-behind-main:
     runs-on: ubuntu-latest
