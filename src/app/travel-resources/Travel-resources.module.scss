@@ -1,88 +1,84 @@
 .main {
-	min-height: 100vh;
-	text-align: center;
+  min-height: 100vh;
 }
 
 .container {
-	max-width: 1152px;
-	margin: 0 auto;
-	padding: 2rem 1rem;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 .header {
-	padding-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 75%;
-	justify-content: center;
-
-	@media (max-width: 1024px) {
-		width: 65%;
-	}
-	@media (max-width: 677px) {
-	 margin-left: 10px;
-	 width: 81%;
-	}
-	
+  padding-bottom: 2rem;
+  text-align: center;
 }
 
 .headerTitle {
-	font-size: 1.875rem;
-	font-weight: 700;
+  font-size: 1.875rem;
+  font-weight: 700;
 }
 
 .headerDescription {
-	margin-top: 0.5rem;
+  margin-top: 0.75rem;
+  line-height: 1.6;
 }
 
 .grid {
+  display: grid;
+  gap: 2rem;
+  min-width: 0;
 }
 
-.footer {
-	text-align: center;
-	font-size: 0.875rem;
-	color: #9ca3af;
-	padding-top: 2rem;
-}
-
-.iframe {
-
-	@media (min-width: 678px) {
-	 width: 65%;
-	 height: 300px;
-	 }
-	@media (min-width: 1024px) {
-	 width: 75%;
-	 height: 450px;
-	 }
-	@media (max-width: 677px) {
-	 width: 81%;
-	 height: 250px;
-	 display: flex;
-	 margin-left: 10px;
-	 }
+.tool {
+  min-width: 0;
 }
 
 .title {
-	width: 75%;
-	display: flex;
-	justify-content: flex-start;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 20px;
-
-	&:hover {
-		color: #093491; // или любой другой акцентный цвет
-		text-decoration: underline;
-		
-	}
-	@media (max-width: 1024px) {
-		width: 65%;
-	}
-
-	@media (max-width: 677px) {
-	 width: 81%;
-	 margin-left: 10px;
-	}
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
+.description {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.iframe {
+  display: block;
+  width: 100%;
+  height: 450px;
+  border: 1px solid #d7dce2;
+  border-radius: 0.75rem;
+  background: #f6f8fa;
+
+  @media (max-width: 1023px) {
+    height: 350px;
+  }
+
+  @media (max-width: 677px) {
+    height: 320px;
+  }
+}
+
+.source {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0;
+  color: #093491;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:focus-visible {
+    outline: 2px solid #093491;
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+}
+
+.footer {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #545c66;
+}

@@ -262,3 +262,44 @@ for (const [country, language, updated] of [['usa','en','Updated'],['ukraine','u
     dom.window.close(); profile.dom.window.close();
   });
 }
+
+test('travel resources retain four interactive providers without dead link wrappers', async () => {
+  const { response, dom } = await page('/travel-resources');
+  const d = dom.window.document;
+  assert.equal(response.status, 200);
+  assert.equal(d.querySelectorAll('h1').length, 1);
+  const expected = [
+    ['live-flights-map', 'https://globe.adsbexchange.com/', 'https://globe.adsbexchange.com/'],
+    ['global-weather', 'https://embed.windy.com/embed2.html?width=650&height=400&level=surface&overlay=temperature&menu=&marker=true', 'https://www.windy.com/'],
+    ['travel-news-trends', 'https://rss.bloople.net/?url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dtravel%26hl%3Den-US%26gl%3DUS%26ceid%3DUS%3Aen&showtitle=false&type=html', 'https://news.google.com/search?q=travel&hl=en-US&gl=US&ceid=US%3Aen'],
+    ['explore-world-map', 'https://www.openstreetmap.org/export/embed.html', 'https://www.openstreetmap.org/'],
+  ];
+  assert.equal(d.querySelectorAll('main iframe').length, 4);
+  const titles = [];
+  for (const [id, src, sourceUrl] of expected) {
+    const section = d.getElementById(id); assert.ok(section);
+    const heading = section.querySelector('h2'); assert.ok(heading);
+    assert.equal(section.getAttribute('aria-labelledby'), heading.id);
+    assert.ok(section.querySelector('p').textContent.length > 80, 'Original explanation outside iframe');
+    const frame = section.querySelector('iframe');
+    assert.equal(frame.getAttribute('src'), src, 'Existing embed URL preserved exactly');
+    assert.equal(frame.closest('a'), null);
+    assert.equal(heading.closest('a'), null);
+    assert.equal(frame.getAttribute('loading'), 'lazy');
+    assert.ok(frame.title.length > 20); titles.push(frame.title);
+    assert.ok(Number(frame.getAttribute('width')) > 0);
+    assert.ok(Number(frame.getAttribute('height')) > 0);
+    assert.equal(frame.hasAttribute('sandbox'), false, 'No new sandbox restrictions on existing providers');
+    const link = section.querySelector('a'); assert.equal(link.href, sourceUrl);
+    assert.equal(link.target, '_blank');
+    assert.ok(link.relList.contains('noopener') && link.relList.contains('noreferrer'));
+    assert.ok(link.textContent.includes('new tab'));
+    assert.equal(d.querySelector(`a[href="/travel-resources/${id}"]`), null);
+  }
+  assert.equal(new Set(titles).size, 4);
+  assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://www.thewandered.com/travel-resources');
+  assert.ok(d.querySelector('meta[property="og:image"]').content.startsWith('https://'));
+  assert.equal(d.querySelector('meta[name="twitter:card"]').content, 'summary_large_image');
+  assert.ok(d.querySelector('meta[name="twitter:image"]').content.startsWith('https://'));
+  dom.window.close();
+});

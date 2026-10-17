@@ -1,24 +1,15 @@
-"use client";
-import { WithHrefProps } from '../page';
-import s from '../Travel-resources.module.scss';
-import Link from 'next/link';
+import TravelTool from './TravelTool';
 
-export default function WeatherWidget({ href }: WithHrefProps) {
-  const content = (
-    <section className="bg-white rounded-2xl shadow-sm border p-4 hover:shadow-md transition">
-      <h2 className={`${s.title} ${"font-semibold mb-3 text-lg"}`}>🌦 Global Weather</h2>
-      <iframe
-        src="https://embed.windy.com/embed2.html?width=650&height=400&level=surface&overlay=temperature&menu=&marker=true"
-        className={`${s.iframe} ${"w-full h-[400px] rounded-lg border"}`}
-        loading="lazy"
-      ></iframe>
-      <p style={{marginBottom:"14px"}}></p>
-    </section>
+export default function WeatherWidget() {
+  return (
+    <TravelTool
+      id="global-weather"
+      title="🌦 Global Weather"
+      description="Explore temperature patterns with Windy before planning your next stop. Move around the map and check the forecast for the places you plan to visit."
+      frameTitle="Global temperature and weather map from Windy"
+      src="https://embed.windy.com/embed2.html?width=650&height=400&level=surface&overlay=temperature&menu=&marker=true"
+      sourceUrl="https://www.windy.com/"
+      sourceName="Windy"
+    />
   );
-
-  if (href) {
-    return <Link href={href}>{content}</Link>;
-  }
-
-  return content;
 }
