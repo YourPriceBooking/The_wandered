@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FocusEvent, PointerEvent } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -11,7 +11,6 @@ import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
 import PlanetIcon from '../../../public/planet-icon';
 import OldTopSection from '../OldTopSection/OldTopSection';
-import SearchField from './SearchField/SearchField';
 import s from './Header.module.scss';
 
 const shortcuts = [
@@ -32,7 +31,6 @@ export default function Header() {
   const hints = getShortcutHints(activeLink);
   const isDailyJournal = pathname.startsWith('/daily-journal-of-your-price-booking-service-history');
   const isPostPage = Boolean(params.postPageLink) || isDailyJournal;
-  const hasHeroSearch = routes.some((route) => route.path !== 'uncharted-planet' && pathname === `/${route.path}`);
 
   const clearTimers = () => {
     if (showTimer.current !== null) clearTimeout(showTimer.current);
@@ -121,9 +119,6 @@ export default function Header() {
               </div>
             ))}
           </div>
-          {!hasHeroSearch && !isPostPage && (
-            <div className={s.headerSearch}><Suspense fallback={null}><SearchField /></Suspense></div>
-          )}
         </div>
       )}
     </header>
