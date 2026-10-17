@@ -1,54 +1,24 @@
 'use client';
 
-import React from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import s from './ViewCounter.module.scss';
-import PageViewes from '../PageViewes';
-type Props = {
-  country?: string;
-  viewPath?: string;
-  prefix?: string;
-  className?: string;
+type Props = { country?: string; viewPath?: string; prefix?: string; className?: string };
+
+const hints = {
+  ukraine: { lang: 'uk', text: 'Перегляди розділу та його статей' },
+  poland: { lang: 'pl', text: 'Wyświetlenia sekcji i jej artykułów' },
+  home: { lang: 'en', text: 'Views of the homepage and its articles' },
+  other: { lang: 'en', text: 'Views of this section and its articles' },
 };
-const normalizePathForViews = (url: string) => {
-  const cleaned = String(url || '')
-    .replace(/^https?:\/\/[^/]+/, '') // срезаем домен
-    .replace(/\/{2,}/g, '/');        // убираем двойные слэши
-
-  const [pathOnly] = cleaned.split(/[?#]/); // срезаем query/hash
-  let path = pathOnly || '/';
-
-  if (!path.startsWith('/')) path = '/' + path;
-  if (path.length > 1 && path.endsWith('/')) {
-    path = path.slice(0, -1);
-  }
-  return path;
-};
-
-const ViewCounter: React.FC<Props> = ({ country, viewPath, prefix = '', className }) => {
-  const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
-  const safeCountry = (country || '').replace(/^\/+|\/+$/g, '');
-  const normalized = normalizePathForViews(viewPath || '/');
-  const lookupPath = normalized === '/' ? '/' : normalized.replace(/\/$/, '');
-  const views = Number(pageviews[lookupPath] ?? pageviews[normalized] ?? 0);
-  let pageViewsCountryArg = safeCountry || 'home';
-  let pageViewsLinkArg = normalized.replace(new RegExp(`^\\/${safeCountry}\\/?`), '').replace(/^\/+/, '');
-  console.log(`lookupPath: ${lookupPath}, safeCountry: ${safeCountry}`);
-  if (lookupPath === `/${safeCountry}`) {
-    pageViewsCountryArg = 'home';
-    pageViewsLinkArg = safeCountry;
-  }
-  if (lookupPath === '/') {
-    pageViewsCountryArg = 'home';
-    pageViewsLinkArg = '';
-  }
+export default function ViewCounter({ country }: Props) {
+  const section = (country || 'home').replace(/^\/+|\/+$/g, '') || 'home';
+  const views = useAppSelector(state => state.gaData.sectionTotals[section] ?? 0);
+  const hint = hints[section as keyof typeof hints] || hints.other;
   return (
-    <div className={s.countWrapper} title="views">
-     <PageViewes country={pageViewsCountryArg} postPageLink={pageViewsLinkArg} />
-      <img className={s.eye} src="/colorEye.svg" alt="views icon" />
+    <div className={s.countWrapper} title={hint.text} lang={hint.lang} aria-label={`${hint.text}: ${views}`}>
+      <p>{views}</p>
+      <img className={s.eye} src="/colorEye.svg" alt="" />
       <div className={s.lightVeil} />
     </div>
   );
-};
-
-export default ViewCounter;
+}
