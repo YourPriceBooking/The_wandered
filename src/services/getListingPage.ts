@@ -1,9 +1,9 @@
 import { cache } from 'react';
 import { notFound, permanentRedirect } from 'next/navigation';
-import { getPosts } from '@/services/getPosts';
+import { getListingPosts } from '@/services/getListingPosts';
 import { ARTICLE_PAGE_SIZE, pageExists, paginationState, type PageQuery } from '@/utils/pagination';
 
-const listing = cache((country: string, page: number) => getPosts({ country, page }));
+const listing = cache((country: string, page: number) => getListingPosts({ country, page }));
 export async function getListingPage(country: string, path: string, query: PageQuery) {
   const state = paginationState(path, query);
   if (state.redirect) permanentRedirect(state.redirect);

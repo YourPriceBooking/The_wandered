@@ -16,12 +16,10 @@ const Banner: React.FC = () => {
 				<li className={style.banner__img}>
 					<Image
 						fill
-						objectFit="cover"
 						src="/banner-img.png"
 						alt="Banner image Your Price Booking"
 						style={{ objectFit: 'cover' }}
-						sizes="100vw"
-						priority
+						sizes="(max-width: 1080px) 49vw, 510px"
 					/>
 				</li>
 			</ul>

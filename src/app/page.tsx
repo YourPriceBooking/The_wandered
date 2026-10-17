@@ -39,11 +39,12 @@ export default async function MainPage({
         viewPath={paramsPage > 1 ? `/?page=${paramsPage}` : `/`}
       />
       <div className={s.contentSection}>
-        {data.result.map((article: postData) => {
+        {data.result.map((article: postData, index: number) => {
           const normalizedImages = normalizeImageUrl(article.imageUrl as any);
           const imageSrc = getImageUrl(normalizedImages, 0) || '';
           return (
             <Article
+                priority={index === 0}
                 articleUrl={article.articleUrl}
               key={article._id}
               slug={article?.articleUrl?.split('/').pop()}

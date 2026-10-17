@@ -53,12 +53,7 @@ test('network and timeout errors remain service failures', async () => {
 });
 
 test('article lists reject service failures instead of returning a string as data', async () => {
-  const getPosts = loadTs('src/services/getPosts.ts', { require: (id) => {
-    if (id === '../utils/axios') return { __esModule: true, default: { get: async () => { throw new Error('upstream failed'); } } };
-    if (id === '@/utils/url') return { apiUrl: 'https://www.thewandered.com/blog/' };
-    if (id === '@/app/routes') return { routes: [] };
-    throw new Error(`Unexpected import ${id}`);
-  } }).getPosts;
+  const getPosts = loadTs('src/services/articleListService.ts').createArticleListService({ fetcher: async () => { throw new Error('upstream failed'); } });
   await assert.rejects(getPosts({ page: 1, country: 'usa' }), /Article list is temporarily unavailable/);
 });
 
@@ -72,6 +67,9 @@ test('server HTML keeps rich content, replaces indexed images, and safely render
   assert.equal(d.querySelector('td').textContent, 'Cell');
   assert.equal(d.querySelector('img').getAttribute('src'), 'https://www.thewandered.com/body.webp?a=1&b=2');
   assert.equal(d.querySelector('img').alt, 'Body photo');
+  assert.equal(d.querySelector('img').getAttribute('loading'), 'lazy');
+  assert.equal(d.querySelector('img').getAttribute('decoding'), 'async');
+  assert.equal(d.querySelector('iframe').getAttribute('loading'), 'lazy');
   assert.equal(d.querySelector('.image-caption').textContent, '<script>caption text</script>');
   assert.equal(d.querySelector('blockquote .author').textContent, 'Author');
   assert.equal(d.querySelector('iframe').src, 'https://www.youtube.com/embed/test');

@@ -1,3 +1,4 @@
+import 'react-quill/dist/quill.snow.css';
 import { articleDate, contentImageUrl } from '@/utils/structuredData';
 import { editorialCopy } from '@/defaultData/editorialCopy';
 import { languageForCountry } from '@/utils/seoMetadata';
@@ -39,7 +40,7 @@ export default function PostBlock({ data, country, postPageLink }: PostPageProps
           <img src="/eye.png" alt="views icon" />
         </div>
         <PostAuthor name={data.author} country={country} />
-        <div className={`${style.post__markup} ql-editor`} dangerouslySetInnerHTML={{ __html: renderArticleHtml(data.markup, data.imageUrl) }} />
+        <div className={`${style.post__markup} ql-editor`} dangerouslySetInnerHTML={{ __html: renderArticleHtml(data.markup, data.imageUrl, languageForCountry(country)) }} />
       </div>
     </>
   );

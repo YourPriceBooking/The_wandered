@@ -18,6 +18,7 @@ interface ArticleProps {
 	id: string;
 	heading: string;
 	isSuggested?: boolean;
+  priority?: boolean;
 	country?: string;
 }
 
@@ -33,6 +34,7 @@ function Article({
 	id,
 	heading,
 	isSuggested,
+  priority = false,
 	country,
 }: ArticleProps) {
   const href = canonicalArticleUrl(articleUrl || (slug ? `${siteUrl}/${slug}` : ''), country || 'home');
@@ -48,6 +50,8 @@ function Article({
 				/>
 				<ArticleLinkContent
 					href={href}
+          priority={priority}
+          isSuggested={isSuggested}
 					title={title}
 					heading={heading}
 					imageSrc={imageSrc}

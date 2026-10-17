@@ -1,0 +1,133 @@
+{
+  "measuredAt": "2026-10-17T10:30:15.885Z",
+  "baseCommit": "6f5ca9a2bbc5487ac44db8366d43b259747313a4",
+  "workload": "Production build + fixed local API fixtures; no browser, hydration, image downloads, provider scripts or field CWV. Gzip sizes are computed, not transferred bytes.",
+  "pages": [
+    {
+      "route": "/",
+      "htmlBytes": 79745,
+      "css": {
+        "count": 3,
+        "bytes": 52591,
+        "gzipBytes": 10189,
+        "containsQuillEditor": false
+      },
+      "js": {
+        "count": 14,
+        "bytes": 614497,
+        "gzipBytes": 201678
+      },
+      "referencedFonts": [
+        {
+          "file": "Jersey10-Regular.ea7edba2.woff2",
+          "bytes": 22156
+        },
+        {
+          "file": "RedditSans-SemiBold.3e9ca7f1.woff2",
+          "bytes": 56576
+        }
+      ],
+      "imagePreloads": 4,
+      "mainImages": 8,
+      "lazyMainImages": 7,
+      "mainImageSizes": [
+        null,
+        "(max-width: 768px) 98vw, (max-width: 940px) 758px, 800px"
+      ]
+    },
+    {
+      "route": "/usa",
+      "htmlBytes": 79229,
+      "css": {
+        "count": 3,
+        "bytes": 52591,
+        "gzipBytes": 10189,
+        "containsQuillEditor": false
+      },
+      "js": {
+        "count": 14,
+        "bytes": 614497,
+        "gzipBytes": 201678
+      },
+      "referencedFonts": [
+        {
+          "file": "Jersey10-Regular.ea7edba2.woff2",
+          "bytes": 22156
+        },
+        {
+          "file": "RedditSans-SemiBold.3e9ca7f1.woff2",
+          "bytes": 56576
+        }
+      ],
+      "imagePreloads": 4,
+      "mainImages": 8,
+      "lazyMainImages": 7,
+      "mainImageSizes": [
+        null,
+        "(max-width: 768px) 98vw, (max-width: 940px) 758px, 800px"
+      ]
+    },
+    {
+      "route": "/usa/fixture-known",
+      "htmlBytes": 72471,
+      "css": {
+        "count": 5,
+        "bytes": 91038,
+        "gzipBytes": 17606,
+        "containsQuillEditor": true
+      },
+      "js": {
+        "count": 14,
+        "bytes": 603691,
+        "gzipBytes": 196902
+      },
+      "referencedFonts": [
+        {
+          "file": "Jersey10-Regular.ea7edba2.woff2",
+          "bytes": 22156
+        },
+        {
+          "file": "RedditSans-SemiBold.3e9ca7f1.woff2",
+          "bytes": 56576
+        }
+      ],
+      "imagePreloads": 3,
+      "mainImages": 6,
+      "lazyMainImages": 5,
+      "mainImageSizes": [
+        "(max-width: 320px) calc(100vw - 30px), (max-width: 768px) calc(100vw - 50px), (max-width: 1080px) 66vw, 714px",
+        "(max-width: 462px) 330px, (max-width: 768px) 400px, 490px",
+        "(max-width: 1080px) 49vw, 510px"
+      ]
+    },
+    {
+      "route": "/travel-resources",
+      "htmlBytes": 39600,
+      "css": {
+        "count": 3,
+        "bytes": 53573,
+        "gzipBytes": 10547,
+        "containsQuillEditor": false
+      },
+      "js": {
+        "count": 14,
+        "bytes": 614497,
+        "gzipBytes": 201678
+      },
+      "referencedFonts": [
+        {
+          "file": "Jersey10-Regular.ea7edba2.woff2",
+          "bytes": 22156
+        },
+        {
+          "file": "RedditSans-SemiBold.3e9ca7f1.woff2",
+          "bytes": 56576
+        }
+      ],
+      "imagePreloads": 0,
+      "mainImages": 0,
+      "lazyMainImages": 0,
+      "mainImageSizes": []
+    }
+  ]
+}

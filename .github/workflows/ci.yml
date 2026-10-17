@@ -19,6 +19,7 @@ jobs:
       - run: npm run test:social-metadata
       - run: npm run test:pagination-archive
       - run: npm run test:schema-semantics
+      - run: npm run test:performance-cache
       - run: npm run build
       - run: npx tsc --noEmit --incremental false
       - run: npm run test:server-articles:http

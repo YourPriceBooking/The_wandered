@@ -15,7 +15,9 @@
     "test:server-articles": "node --test tests/server-articles.test.cjs",
     "test:server-articles:http": "node --test tests/server-articles-http.test.cjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test:performance-cache": "node --test tests/performance-cache.test.cjs",
+    "seo:measure-performance": "node scripts/measure-seo-performance.cjs"
   },
   "dependencies": {
     "@next/third-parties": "^14.2.5",

@@ -38,11 +38,12 @@ async function page({
 				/>
 			<div className={s.contentSection}>
 				{data.result.length > 0 ? (
-					data.result.map((article: postData) => {
+					data.result.map((article: postData, index: number) => {
 						const normalizedImages = normalizeImageUrl(article.imageUrl as any);
 						const imageSrc = getImageUrl(normalizedImages, 0) || '';
 						return (
 							<Article
+                priority={index === 0}
                 articleUrl={article.articleUrl}
 								key={article._id}
 								slug={country + '/' + article?.articleUrl?.split('/').pop()}
