@@ -45,7 +45,7 @@ function Article({
 					author={author}
 					date={date}
 					updated={updated}
-					slug={slug || ''}
+					viewPath={href ? new URL(href).pathname : undefined}
 					country={country}
 				/>
 				<ArticleLinkContent

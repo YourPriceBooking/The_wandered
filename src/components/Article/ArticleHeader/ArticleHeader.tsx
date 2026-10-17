@@ -1,5 +1,6 @@
 'use client';
 import s from './ArticleHeader.module.scss';
+import { articleViews } from '@/utils/articleViews';
 import { useAppSelector } from '@/lib/hooks';
 import { useState } from 'react';
 import { getArticleDate } from '@/services/getArticleDate';
@@ -7,8 +8,8 @@ import { authorProfile } from '@/utils/authorIdentity';
 import { fallbackAuthors, authorSocialLinks } from '@/defaultData/authorProfiles';
 import { authorsCopy } from '@/defaultData/authorsCopy';
 
-export default function ArticleHeader({ author, date, updated, slug, country = 'home' }: {
-  author: string; date: string; updated: string; slug: string; country?: string; isSuggested?: boolean;
+export default function ArticleHeader({ author, date, updated, viewPath, country = 'home' }: {
+  author: string; date: string; updated: string; viewPath?: string; country?: string; isSuggested?: boolean;
 }) {
   const authors = useAppSelector((state) => state.allAuthors.allAuthorsData || []);
   const current = authors.find((person) => person.name === author) || fallbackAuthors.find((person) => person.name === author);
@@ -37,6 +38,6 @@ export default function ArticleHeader({ author, date, updated, slug, country = '
       {validDate && <time className={s.date} dateTime={new Date(date).toISOString()}>{getArticleDate(date, country)}</time>}
       {updated && <p className={s.updateDate}>{updated}</p>}
     </div>
-    <div className={s.viewCounter}><p>{pageviews['/' + slug] || 0}</p><img src="/eye.png" alt="" /></div>
+    <div className={s.viewCounter}><p>{articleViews(pageviews, viewPath)}</p><img src="/eye.png" alt="" /></div>
   </header>;
 }
