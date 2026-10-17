@@ -1,22 +1,10 @@
 import Image from 'next/image';
-import type { Metadata } from 'next';
 import { getAuthors } from '@/services/getAuthors';
 import { authorSocialLinks, directoryAuthors, safeProfileUrl } from '@/defaultData/authorProfiles';
 import { authorsCopy, type AuthorsLanguage } from '@/defaultData/authorsCopy';
 import s from './AuthorsPage.module.scss';
-
-export function authorsMetadata(language: AuthorsLanguage): Metadata {
-  const copy = authorsCopy[language];
-  const paths = { en: '/authors', uk: '/ukraine/authors', pl: '/poland/authors' };
-  return {
-    title: `${copy.title} | The Wandered`,
-    description: copy.meta,
-    alternates: {
-      canonical: `https://www.thewandered.com${paths[language]}`,
-      languages: Object.fromEntries(Object.entries(paths).map(([lang, path]) => [lang, `https://www.thewandered.com${path}`])),
-    },
-  };
-}
+import { authorsStructuredData, localizedAuthorBio, serializeStructuredData } from '@/defaultData/authorsSeo';
+export { authorsMetadata } from '@/defaultData/authorsSeo';
 
 export default async function AuthorsPage({ language = 'en' }: { language?: AuthorsLanguage }) {
   const copy = authorsCopy[language];
@@ -24,6 +12,7 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
 
   return (
     <main className={s.page} lang={language}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeStructuredData(authorsStructuredData(authors, language)) }} />
       <div className={s.banner} aria-hidden="true" />
       <section className={s.intro}>
         <div className={s.heading}>
@@ -41,14 +30,14 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
               const isEditor = author.name === 'Viacheslav Nikitenko';
               const isAndy = author.name === 'Andy Ray';
               const role = isEditor ? copy.editorRole : isAndy ? copy.andyRole : '';
-              const bio = language !== 'en' && isEditor ? copy.editorBio : language !== 'en' && isAndy ? copy.andyBio : author.description;
+              const bio = localizedAuthorBio(author, language);
               const links = authorSocialLinks(author.links);
               return (
-                <article key={author._id} className={s.card} aria-labelledby={`author-${author._id}`}>
+                <article key={author._id} className={s.card} aria-labelledby={`author-${encodeURIComponent(author._id)}`}>
                   <div className={s.person}>
                     <Image className={s.avatar} src={safeProfileUrl(author.image) || '/no-photo.webp'} alt={author.name} width={70} height={70} />
                     <div>
-                      <h2 id={`author-${author._id}`}>{author.name}</h2>
+                      <h2 id={`author-${encodeURIComponent(author._id)}`}>{author.name}</h2>
                       {role && <p className={s.role}>{role}</p>}
                       {(isEditor || isAndy) && <span className={s.tag}>{isAndy ? 'Uncharted Planet' : 'The Wandered'}</span>}
                     </div>

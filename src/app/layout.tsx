@@ -8,6 +8,8 @@ import StoreProvider from './StoreProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
+import DocumentLanguage from '@/components/DocumentLanguage/DocumentLanguage';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
 import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
 import PageTransition from "../components/PageTransition/PageTransition";
@@ -26,9 +28,12 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const requestedLanguage = headers().get('x-wandered-language');
+	const language = requestedLanguage === 'uk' || requestedLanguage === 'pl' ? requestedLanguage : 'en';
 	return (
-		<html lang="en">
+		<html lang={language}>
 			<body>
+				<DocumentLanguage />
 				<HotFXLoader />
 				<hotfx-shy-header>
   				  	<Header />
