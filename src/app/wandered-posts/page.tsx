@@ -3,6 +3,13 @@ import Article from '@/components/Article/Article';
 import { getPostsBySearch } from '@/services/getPosts';
 import { postData } from '@/types/postTypes';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Search travel stories | The Wandered',
+	description: 'Search travel stories, destinations and practical tips on The Wandered.',
+	robots: { index: false, follow: true },
+};
 
 interface PageProps {
 	searchParams: { search: string };
