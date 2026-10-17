@@ -1,0 +1,94 @@
+{
+  "checkedAt": "2026-10-17T10:50:55.122Z",
+  "origin": "https://www.thewandered.com",
+  "mode": "full",
+  "complete": true,
+  "passed": false,
+  "elapsedMs": 115693,
+  "coverage": {
+    "discovered": 157,
+    "requested": 157,
+    "checked": 157,
+    "expectedMinUrls": 157,
+    "uniqueImages": 157,
+    "checkedImages": 157,
+    "unverifiedImages": 0
+  },
+  "issues": [
+    {
+      "url": "http://thewandered.com/",
+      "error": "Variant did not reach canonical 200"
+    },
+    {
+      "url": "https://thewandered.com/",
+      "error": "Variant did not reach canonical 200"
+    }
+  ],
+  "redirects": [
+    {
+      "input": "http://www.thewandered.com/",
+      "chain": [
+        {
+          "url": "http://www.thewandered.com/",
+          "status": 301
+        },
+        {
+          "url": "https://www.thewandered.com/",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "input": "http://thewandered.com/",
+      "chain": [
+        {
+          "url": "http://thewandered.com/",
+          "status": 301
+        },
+        {
+          "url": "https://thewandered.com/",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "input": "https://thewandered.com/",
+      "chain": [
+        {
+          "url": "https://thewandered.com/",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "input": "https://www.thewandered.com/travel-resources/",
+      "chain": [
+        {
+          "url": "https://www.thewandered.com/travel-resources/",
+          "status": 308
+        },
+        {
+          "url": "https://www.thewandered.com/travel-resources",
+          "status": 200
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Initial HTTP/HTML only; no JS execution or Google indexing confirmation.",
+    "robots check detects sitewide blocks; per-path rules need separate review.",
+    "Private staging protection, devices, Search Console and field CWV require separate acceptance."
+  ],
+  "reportKind": "Summary of full public-production audit before proposed host redirect; full per-URL reports are emitted by seo:audit-release.",
+  "sourceMain": "cb1bdacceacdc33c442e02d1159f1e4907352da1",
+  "pageStatusCounts": {
+    "200": 157
+  },
+  "imageMimeCounts": {
+    "image/png": 15,
+    "image/jpeg": 142
+  },
+  "imageDimensionCounts": {
+    "1200x630": 157
+  }
+}
