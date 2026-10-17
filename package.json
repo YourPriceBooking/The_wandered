@@ -16,6 +16,7 @@
     "test:server-articles:http": "node --test tests/server-articles-http.test.cjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test:header": "node --test tests/header-scroll.test.cjs",
     "test:performance-cache": "node --test tests/performance-cache.test.cjs",
     "seo:measure-performance": "node scripts/measure-seo-performance.cjs",
     "test:seo-release": "node --test tests/seo-release-audit.test.cjs",
