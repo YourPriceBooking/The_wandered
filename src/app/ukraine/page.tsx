@@ -1,10 +1,11 @@
-import { listingMetadata, listingPage } from '@/utils/seoMetadata';
+import { getListingPage } from '@/services/getListingPage';
+import Pagination from '@/components/Pagination/Pagination';
+import { listingMetadata } from '@/utils/seoMetadata';
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
 import TopSection from '@/components/TopSection/TopSection';
-import { getPosts } from '@/services/getPosts';
-import { postData, postsDataType } from '@/types/postTypes';
+import { postData } from '@/types/postTypes';
 import Article from '@/components/Article/Article';
 import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
@@ -21,9 +22,10 @@ async function page({
 }) {
 	const country = 'ukraine';
 
-	let paramsPage = listingPage(searchParams.page);
 
-	const data: postsDataType = await getPosts({ page: paramsPage, country });
+
+	const data = await getListingPage('ukraine', '/ukraine', searchParams);
+  const paramsPage = data.page;
 	const length = Math.ceil(data.total / 7);
 
 	return (
@@ -61,12 +63,13 @@ async function page({
 					<img src="/green-home.png" alt="pagination text icon" />
 					<p>the waaandered</p>
 				</div>
+				<Pagination path="/ukraine" page={paramsPage} totalPages={length} language="uk" />
 				<div className={s.navSection}>
 					<ul className={s.navNumbers}>
 						{Array.from({ length }, (_, index) => (
 							<li key={index}>
 								<Link
-									href={`/ukraine/?page=${index + 1}`}
+									href={index === 0 ? "/ukraine" : `/ukraine?page=${index + 1}`}
 									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
 								>
 									{index + 1}

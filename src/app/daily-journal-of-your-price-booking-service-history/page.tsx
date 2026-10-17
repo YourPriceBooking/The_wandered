@@ -1,3 +1,5 @@
+import { permanentRedirect } from 'next/navigation';
+import { paginationState, JOURNAL_PAGE_SIZE, pagePath } from '@/utils/pagination';
 import { pageMetadata, socialImage } from '@/utils/seoMetadata';
 import '../../../node_modules/modern-normalize/modern-normalize.css';
 import type { Metadata } from 'next';
@@ -10,7 +12,7 @@ import GamesOnTheGo from '@/components/GamesOnTheGo/GamesOnTheGo';
 import Link from 'next/link';
 import JournalPost from '@/components/JournalPosts/JournalPost/JournalPost';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
-import { journalCanonical, journalPage, journalPath } from '@/utils/journalSeo';
+import { journalCanonical, journalPath, newEpisodesPath } from '@/utils/journalSeo';
 
 export async function generateMetadata({
 	searchParams,
@@ -25,12 +27,14 @@ export async function generateMetadata({
   });
 }
 
-const POSTS_LIMIT = 1;
+
 
 export default async function HistoryPage({ searchParams }: { searchParams: { page?: string | string[] } }) {
-	const currentPage = journalPage(searchParams.page);
-	const data = await getDailyJournalPosts(currentPage, POSTS_LIMIT);
-	const posts: JournalPostType[] = data.result.reverse();
+	const state = paginationState(journalPath, searchParams, true);
+  if (state.page > 1) permanentRedirect(pagePath(newEpisodesPath, state.page));
+  if (state.redirect) permanentRedirect(state.redirect);
+  const data = await getDailyJournalPosts(1, JOURNAL_PAGE_SIZE);
+  const posts: JournalPostType[] = data.result;
 	return (
 		<main className={s.main}>
 			<div className={s.topSection}>
@@ -86,7 +90,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 			</div>
 
 			<div className={s.contentSection}>
-				<GamesOnTheGo isScrollIntoView={searchParams.page === 'game-zone'} />
+				<GamesOnTheGo />
 				<div className={s.postsHeader}>
 					<span>#</span>
 					<h2>Thousands of Episodes: The Journey Continues</h2>

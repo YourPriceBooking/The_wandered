@@ -1,113 +1,20 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import JournalPost from './JournalPost/JournalPost';
-import { JournalPostType } from '@/types/historyTypes';
-import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
+import type { JournalPostType } from '@/types/historyTypes';
 import s from './JournalPosts.module.scss';
-import Link from 'next/link';
+import Pagination from '@/components/Pagination/Pagination';
+import { journalPath, newEpisodesPath } from '@/utils/journalSeo';
+import { Fragment } from 'react';
 
-interface JournalPostsProps {
-	initialPosts: JournalPostType[];
-	initialPage: number;
+// A server-rendered page has one URL and exactly one slice of the archive.
+// Native anchors retain browser Back/Forward and scroll restoration, also without JS.
+export default function JournalPosts({ initialPosts, initialPage, totalPages }: {
+  initialPosts: JournalPostType[]; initialPage: number; totalPages: number;
+}) {
+  return <div className={s.containerPosts}>
+    {initialPosts.map((post, index) => <Fragment key={post._id}>
+      {index === 3 && <div className={s.btnNewEpisode}><a href={`${journalPath}#game-zone`}>Enter the Game Zone</a></div>}
+      <JournalPost post={post} />
+    </Fragment>)}
+    <Pagination path={newEpisodesPath} page={initialPage} totalPages={totalPages} />
+  </div>;
 }
-
-const BATCH_SIZE = 10;
-const POSTS_LIMIT = 100;
-
-const JournalPosts: React.FC<JournalPostsProps> = ({ initialPosts, initialPage }) => {
-	const [allPosts, setAllPosts] = useState<JournalPostType[]>(initialPosts);
-	const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
-	const [page, setPage] = useState(initialPage);
-	const [loading, setLoading] = useState(false);
-	const [isFinished, setIsFinished] = useState(false);
-
-	const updateURL = (count: number) => {
-		const current = Math.ceil(count / BATCH_SIZE);
-		window.history.replaceState(
-			{},
-			'',
-			`/daily-journal-of-your-price-booking-service-history/new-episodes?page=${current}`,
-		);
-	};
-
-	const loadMorePostsFromServer = async () => {
-		setLoading(true);
-		try {
-			const nextPage = page + 1;
-			const res = await getDailyJournalPosts(nextPage, POSTS_LIMIT);
-			if (res.result.length > 0) {
-				setAllPosts((prev) => [...prev, ...res.result.reverse()]);
-				setPage(nextPage);
-			} else {
-				setIsFinished(true);
-			}
-		} catch (e) {
-			console.error(e);
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		const onScroll = () => {
-			if (loading) return;
-
-			const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-
-			if (scrollTop + clientHeight >= scrollHeight - 800) {
-				setVisibleCount((prev) => {
-					const newCount = prev + BATCH_SIZE;
-					updateURL(newCount);
-					return newCount;
-				});
-			}
-		};
-		window.addEventListener('scroll', onScroll);
-		return () => window.removeEventListener('scroll', onScroll);
-	}, [loading]);
-
-	useEffect(() => {
-		if (visibleCount > allPosts.length && !loading && !isFinished) {
-			loadMorePostsFromServer();
-		}
-	}, [visibleCount, allPosts.length, loading, isFinished]);
-	// find width and set btn in the position
-	const [width, setWidth] = useState<number | null>(null);
-
-	return (
-		<div className={s.containerPosts}>
-			{allPosts.slice(0, visibleCount).map((post, i) => (
-				<>
-					{i === 3 ? (
-						<div className={s.btnNewEpisode}>
-							<Link
-								href={`/daily-journal-of-your-price-booking-service-history?page=game-zone`}
-							>
-								Enter the Game Zone
-							</Link>
-						</div>
-					) : null}
-					<JournalPost key={post._id + post.description + post.url} post={post} />
-				</>
-			))}
-			{loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-
-			{/* SEO-friendly pagination */}
-			<nav className={s.pagination}>
-				{page > 1 && (
-					<a href={`?page=${page - 1}`} className={s.pageLink}>
-						Previous page
-					</a>
-				)}
-				{!isFinished && (
-					<a href={`?page=${page + 1}`} className={s.pageLink}>
-						Next page
-					</a>
-				)}
-			</nav>
-		</div>
-	);
-};
-
-export default JournalPosts;

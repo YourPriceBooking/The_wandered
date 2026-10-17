@@ -51,3 +51,5 @@ _temp*
 #history
 .history
 .lh
+# Durable, runtime-only SEO archive snapshots
+/.cache/

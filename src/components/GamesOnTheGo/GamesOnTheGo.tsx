@@ -1,38 +1,7 @@
-'use client';
 import s from './GamesOnTheGo.module.scss';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
-import { useEffect, useRef } from 'react';
 
-export default function GamesOnTheGo({ isScrollIntoView }: { isScrollIntoView?: boolean }) {
-	const updateURL = () => {
-		window.history.replaceState(
-			{},
-			'',
-			`/daily-journal-of-your-price-booking-service-history?page=${'game-zone'}`,
-		);
-	};
-	useEffect(() => {
-		if (!isScrollIntoView) return;
-
-		const el = document.getElementById('game-zone');
-		el?.scrollIntoView({ behavior: 'smooth' });
-	}, [isScrollIntoView]);
-
-	const ref = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		if (!ref.current) return;
-
-		const observer = new IntersectionObserver(([entry]) => {
-			if (entry.isIntersecting) {
-				updateURL(); // користувач дійшов до елемента
-			}
-		});
-
-		observer.observe(ref.current);
-
-		return () => observer.disconnect();
-	}, [updateURL]);
+export default function GamesOnTheGo() {
 
 	return (
 		<div className={s.gameSection} id="game-zone">
@@ -51,7 +20,7 @@ export default function GamesOnTheGo({ isScrollIntoView }: { isScrollIntoView?: 
 				allowFullScreen
 				loading="lazy"
 			></iframe>
-			<div className="empty" ref={ref}></div> {/* just for styling */}
+			<div className="empty"></div> {/* just for styling */}
 		</div>
 	);
 }

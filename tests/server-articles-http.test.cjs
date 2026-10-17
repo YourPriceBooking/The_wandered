@@ -17,7 +17,7 @@ before(async () => {
   base = `http://127.0.0.1:${port}`;
   const log = fs.openSync(path.join(temp, 'server.log'), 'w');
   server = spawn(process.execPath, ['--require', path.join(__dirname, 'fixtures/seo-api.cjs'), 'node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', String(port)], {
-    cwd: path.join(__dirname, '..'), env: { ...process.env, ARTICLE_FIXTURE_LOG: logPath }, stdio: ['ignore', log, log],
+    cwd: path.join(__dirname, '..'), env: { ...process.env, ARTICLE_FIXTURE_LOG: logPath, SEO_CACHE_DIRECTORY: path.join(temp, 'cache') }, stdio: ['ignore', log, log],
   });
   fs.closeSync(log);
   for (let attempt = 0; attempt < 80; attempt++) {
@@ -147,4 +147,64 @@ test('page two uses its own canonical and social URL without inheriting the home
     assert.equal(d.querySelector('meta[property="og:url"]').content, 'https://www.thewandered.com' + url);
     dom.window.close();
   }
+});
+
+const journalArchivePath = '/daily-journal-of-your-price-booking-service-history/new-episodes';
+test('journal pages contain disjoint SSR slices, last page has no next link, reload is stable', async () => {
+  const identifiers = [];
+  for (let number = 1; number <= 3; number++) {
+    const url = journalArchivePath + (number > 1 ? `?page=${number}` : '');
+    const { response, dom } = await page(url); const d = dom.window.document;
+    assert.equal(response.status, 200);
+    const titles = [...d.querySelectorAll('h3')].map((heading) => heading.textContent).filter((title) => title.startsWith('Journal record '));
+    assert.equal(titles.length, number === 3 ? 5 : 10);
+    assert.equal(titles[0], `Journal record ${String(25 - (number - 1) * 10).padStart(3, '0')}`);
+    identifiers.push(...titles);
+    assert.equal(Boolean(d.querySelector('a[rel="next"]')), number < 3);
+    if (number > 1) assert.equal(d.querySelector('a[rel="prev"]').getAttribute('href'), journalArchivePath + (number > 2 ? `?page=${number - 1}` : ''));
+    const again = await page(url);
+    assert.equal(again.dom.window.document.querySelector('h3').textContent, titles[0]);
+    again.dom.window.close(); dom.window.close();
+  }
+  assert.equal(new Set(identifiers).size, 25);
+});
+test('out-of-range article and journal pages return 404/noindex before streaming', async () => {
+  for (const path of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet', journalArchivePath]) {
+    const { response, dom } = await page(path + '?page=4');
+    assert.equal(response.status, 404, path);
+    assert.ok([...dom.window.document.querySelectorAll('meta[name="robots"]')].some((meta) => meta.content.includes('noindex')));
+    dom.window.close();
+  }
+});
+test('aliases, repeated page values and tracking redirect to their normalized URLs', async () => {
+  for (const path of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet', journalArchivePath]) {
+    for (const [query, suffix] of [['?page=1',''], ['?page=0',''], ['?page=02',''], ['?page=2&page=3',''], ['?utm_source=test',''], ['?page=2&utm_source=test','?page=2']]) {
+      const response = await fetch(base + path + query, { redirect: 'manual' });
+      assert.equal(response.status, 308, path + query);
+      const location = new URL(response.headers.get('location'), base);
+      assert.equal(location.pathname + location.search, path + suffix);
+    }
+  }
+  const main = '/daily-journal-of-your-price-booking-service-history';
+  for (const [suffix, target] of [['?page=2', journalArchivePath + '?page=2'], ['?page=game-zone', main + '#game-zone']]) {
+    const response = await fetch(base + main + suffix, { redirect: 'manual' });
+    assert.equal(response.status, 308); assert.equal(response.headers.get('location'), target);
+  }
+});
+test('sitemap is complete, same-origin, deduplicated and retains the verified archive', async () => {
+  const response = await fetch(base + '/sitemap.xml');
+  assert.equal(response.status, 200);
+  assert.ok(response.headers.get('content-type').includes('application/xml'));
+  assert.ok(['fresh-complete','stale-complete'].includes(response.headers.get('x-sitemap-status')));
+  const dom = new JSDOM(await response.text(), { contentType: 'application/xml' });
+  const locations = [...dom.window.document.querySelectorAll('url > loc')].map((node) => node.textContent);
+  assert.equal(locations.length, Number(response.headers.get('x-sitemap-urls')));
+  assert.equal(new Set(locations).size, locations.length);
+  for (const path of ['/', '/ukraine','/poland','/usa','/canada','/australia','/singapore','/uncharted-planet','/travel-resources','/authors','/ukraine/authors','/poland/authors',journalArchivePath]) assert.ok(locations.includes('https://www.thewandered.com' + path));
+  assert.ok(locations.every((url) => new URL(url).origin === 'https://www.thewandered.com' && !url.includes('wandered-posts')));
+  assert.ok(locations.length > 15, 'Must include article archive, not only static pages');
+  const unchanged = await fetch(base + '/sitemap.xml', { headers: { 'if-none-match': response.headers.get('etag') } });
+  assert.equal(unchanged.status, 304);
+  assert.equal((await fetch(base + '/sitemaps/2.xml')).status, 404);
+  dom.window.close();
 });
