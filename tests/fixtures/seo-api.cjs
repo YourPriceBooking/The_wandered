@@ -7,7 +7,7 @@ const countries = ['home','ukraine','poland','usa','canada','australia','singapo
 const identifier = (country, index) => (countries.indexOf(country) + 1).toString(16).padStart(2, '0') + index.toString(16).padStart(22, '0');
 function article(country, index) {
   const heading = `Archive ${country} record ${index}`;
-  return { _id: identifier(country, index), country, heading, title: heading, description: 'Archive fixture description', author: 'Fixture Author', publicationDate: '2026-10-17T07:00:00.000Z', changeDate: '', imageUrl: [], markup: '<p>Archive body</p>', articleUrl: `https://www.thewandered.com/${country === 'home' ? '' : country + '/'}fixture-archive-${index}` };
+  return { _id: identifier(country, index), country, heading, title: heading, description: 'Archive fixture description', author: 'Fixture Author', publicationDate: '2026-10-17T07:00:00.000Z', changeDate: '', imageUrl: [{ url: `/no-photo.webp?fixture=${country}-${index}`, context: { alt: heading } }], markup: '<p>Archive body</p>', articleUrl: `https://www.thewandered.com/${country === 'home' ? '' : country + '/'}fixture-archive-${index}` };
 }
 function payload(url) {
   if (url.pathname.endsWith('/author/get-all-authors')) return { result: [] };

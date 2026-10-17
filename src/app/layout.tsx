@@ -1,6 +1,5 @@
 import '../../node_modules/modern-normalize/modern-normalize.css';
 import '../styles/index.scss';
-import '../../node_modules/react-quill/dist/quill.snow.css';
 
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
@@ -10,8 +9,6 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import DocumentLanguage from '@/components/DocumentLanguage/DocumentLanguage';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
-import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
-import PageTransition from '@/components/PageTransition/PageTransition';
 import HotFXLoader from '@/components/Header/HotFXLoader';
 
 export const metadata: Metadata = {
@@ -41,12 +38,11 @@ export default function RootLayout({
 				<div className="shy-header-spacer" />
 				<StoreProvider>
 					<GetDataClient />
-					<PageTransition>{children}</PageTransition>
+					{children}
 					<Footer />
 					<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 				</StoreProvider>
 
-				<LenisWrapper />
 			</body>
 		</html>
 	);

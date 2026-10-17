@@ -4,7 +4,7 @@ import { normalizeImageUrl, type ImageUrlInput } from '@/utils/normalizeImageUrl
 
 const sanitizeOptions = { ADD_ATTR: ['target', 'allowfullscreen', 'frameborder'], ADD_TAGS: ['iframe'] };
 
-export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[]): string {
+export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[], language: 'en' | 'uk' | 'pl' = 'en'): string {
   const dom = new JSDOM(DOMPurify.sanitize(markup, sanitizeOptions));
   try {
     const document: Document = dom.window.document;
@@ -32,6 +32,8 @@ export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[]): s
       if (dash !== -1) element.innerHTML = `${text.slice(0, dash).trim()} — <span class="author">${text.slice(dash + 1).trim()}</span>`;
     });
     document.querySelectorAll('img').forEach((image, index) => {
+      image.setAttribute('loading', 'lazy');
+      image.setAttribute('decoding', 'async');
       const replacement = images[index + 1];
       if (replacement?.url) {
         image.setAttribute('src', replacement.url);
@@ -49,6 +51,10 @@ export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[]): s
           } else image.after(caption);
         }
       } else if (image.getAttribute('src')?.includes('imgUrlByIdx')) image.removeAttribute('src');
+    });
+    document.querySelectorAll('iframe').forEach((frame) => {
+      frame.setAttribute('loading', 'lazy');
+      if (!frame.getAttribute('title')?.trim()) frame.setAttribute('title', { en: 'Embedded media', uk: 'Вбудовані медіа', pl: 'Osadzone multimedia' }[language]);
     });
     document.querySelectorAll('a[target="_blank"]').forEach((link) => {
       const rel = new Set<string>((link.getAttribute('rel') || '').split(/\s+/).filter(Boolean));

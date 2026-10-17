@@ -32,7 +32,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ data }) => {
             width={2400}
             height={1350}
             priority
-            quality={90}
+            sizes="(max-width: 320px) calc(100vw - 30px), (max-width: 768px) calc(100vw - 50px), (max-width: 1080px) 66vw, 714px"
             className={styles.heroImage}
             style={{
               objectFit: 'cover',

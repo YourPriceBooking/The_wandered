@@ -14,13 +14,13 @@
 | 3. Metadata / соцкартки | Код у main, #278 | Перевірка платформ після деплою |
 | 4. Архів / пагінація | Код у main, #279 | Production, мобільний Back/Forward і scroll restoration |
 | 5. Семантика / schema | Код у main, #280 | Google validators, production і підтвердження редакційного процесу |
-| 6. Travel Resources | Реалізовано в цьому PR; чотири віджети збережені | Після деплою перевірити керування iframe на desktop/mobile |
-| 7. Швидкість / кеш | Не виконано | Заміряти, потім оптимізувати зображення, шрифти, JS та кеш |
-| 8. CI / production | CI перевіряє build, TypeScript, XML, HTTP і соцкартки; архів уже перевіряється; schema вже в main; додано HTTP-контракт Travel Resources | Production, редиректи, Search Console, моніторинг |
+| 6. Travel Resources | Код у main, #281; чотири віджети збережені | Після деплою перевірити керування iframe на desktop/mobile |
+| 7. Швидкість / кеш | Виміряно й оптимізовано в цьому PR | Пристрої/CWV, dimensions редакторських фото й холодний upstream TTFB залишаються прийманням |
+| 8. CI / production | CI перевіряє build, TypeScript, XML, HTTP і соцкартки; архів уже перевіряється; schema вже в main; є HTTP-контракт tools; тут додано кеш/ресурсні регресії | Production, редиректи, Search Console, моніторинг |
 
 Порядок етапів збережено. Етап 4 у main звірено з повною відповіддю API та totals;
 помилки API більше не повинні замінювати повний snapshot частковими даними. Для етапу 7 спершу
-потрібен вимір продуктивності; для приймання індексації — дані Search Console.
+вже є вимір байтів ресурсів, але потрібні браузерні/польові показники; для приймання індексації — дані Search Console.
 Ці перевірки не закриваються самим фактом мерджу PR.
 
 ## 0. Контрольна вибірка та контракти
@@ -200,7 +200,7 @@ HTTP-вибірка охоплює всі 24 шаблони, noindex пошук�
 
 Покриття та приймання: `docs/SEO_SCHEMA_ACCEPTANCE.md`.
 
-## 6. Travel Resources — реалізовано в поточному PR
+## 6. Travel Resources — виконано в main, PR #281
 
 Чотири iframe-віджети можуть штатно працювати. Підтверджені 404 стосуються
 внутрішніх href навколо блоків, а не працездатності iframe.
@@ -238,15 +238,33 @@ production HTTP-тестів (97 разом), усі пройдено. HTTP ви
 production-перевірці (див. етап 5), потім обрати оптимізації зображень/шрифтів/JS/кешу.
 Не оголошувати досягнення CWV без фактичних вимірювань.
 
-## 7. Швидкість і кешування
+## 7. Швидкість і кешування — реалізовано в поточному PR
 
-- [ ] Priority лише потрібному LCP-зображенню, точні sizes, alt, розміри й резерв місця для реклами/iframe.
-- [ ] Оптимізувати Sen (WOFF2/ваги/font-display); оцінити next/font/local.
-- [ ] Прибрати зайві Quill CSS/JS та повторні клієнтські запити після вимірювання.
-- [ ] Оцінити PageTransition, Lenis, сторонні скрипти на слабкому мобільному.
-- [ ] Політика кешу публічних даних і revalidation після редагування; без кешування збоїв як missing.
-- [ ] Врахувати вплив headers() у root на dynamic rendering; зберегти правильний початковий lang.
-- [ ] Порівняти production до/після; цілі польових CWV p75: LCP ≤2.5s, INP ≤200ms, CLS ≤0.1.
+- [x] Відтворюваний початковий inventory ресурсів production-збірки main `6f5ca9a` і порівняння після змін, однакові фікстури 4 маршрутів.
+- [x] Priority першій картці/hero; решта карток, related і нижній банер lazy; responsive sizes під реальний одноколонковий список, рекомендації та hero.
+- [x] Body images lazy/async, iframe lazy і назва uk/pl/en; чинні slots банерів/hero/tools збережені, невідомі пропорції не вигадані.
+- [x] Reddit Sans/Jersey 10 → WOFF2 без втрати cmap/метрик, swap; Sen виявився невикористаним — зайва декларація прибрана; next/font/local оцінено без глобального preload футера.
+- [x] Quill CSS лише у статтях; GetDataClient більше не повторює глобальні authors/pageviews lookup на кожному pathname.
+- [x] PageTransition/Lenis оцінено за кодом і bundle: прибрано root mount, 700 ms exit/enter та постійний RAF; GA збережено, браузерний вплив скриптів ще не виміряний.
+- [x] Списки — bounded native fetch + 30 s LRU перевірених карток, 64 ключі/4 MiB, coalescing; тести expiry/bytes/errors/recovery. Статті/missing/errors не перенесені в persistent cache.
+- [x] Root headers()/dynamic rendering залишено заради правильного початкового lang; документовано політики кешу й післяредакційного оновлення.
+- [x] Live local production зі справжнім API: головна/повторний запит і реальна стаття 200; H1/canonical/7 карток/4 related перевірені.
+- [ ] Після деплою desktop/mobile: навігація, Back/Forward, scroll restoration, shy-header, ScrollToTop, шрифти, форматування й iframe.
+- [ ] Production Lighthouse/WebPageTest і польові CWV p75: LCP ≤2.5s, INP ≤200ms, CLS ≤0.1. Наявний inventory байтів не є CWV.
+- [ ] З backend: реальні dimensions редакторських фото для повного резервування місця; за потреби миттєва invalidation карток у всіх PM2 workers.
+- [ ] Backend/мережа: холодний list lookup у live smoke досі повільний; production TTFB і обробка API потребують окремого вимірювання.
+
+Деталі, обмеження та відтворення: `docs/SEO_PERFORMANCE.md`.
+Початкові CSS списків 75 907 → 52 591 байт; JS 636 477 → 614 497 байт;
+два використані font assets 378 348 → 78 732 байт. Це виміри ресурсів, не
+обіцянка конкретного LCP. Кеш — process-local на 30 s, без stale; статті свіжі,
+картка/total після редагування оновлюється після expiry та нового запиту,
+браузерний Router Cache має окремий lifecycle. Захищений backend webhook не
+вигадано. Source TTF залишені; невикористані старі animation модулі не монтуються.
+Перевірки: build + повний TypeScript, 55 unit + 53 production HTTP = 108 тестів.
+
+Наступний кодовий PR — етап 8: production crawl, перевірки релізу й моніторинг.
+Непідтверджені польові/мобільні результати та backend-залежності не позначені виконаними.
 
 ## 8. CI, реліз і контроль результату
 

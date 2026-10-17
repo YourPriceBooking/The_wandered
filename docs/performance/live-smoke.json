@@ -1,0 +1,30 @@
+{
+  "measuredAt": "2026-10-17T10:30:36.171Z",
+  "workload": "Local production server, real upstream API, no browser/JS; single cold and repeated home request plus one article. Timings are observations, not a benchmark or field CWV.",
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "elapsedMs": 8973,
+      "h1Count": 1,
+      "canonical": "https://www.thewandered.com/",
+      "listingCards": 7
+    },
+    {
+      "route": "/",
+      "status": 200,
+      "elapsedMs": 89,
+      "h1Count": 1,
+      "canonical": "https://www.thewandered.com/",
+      "listingCards": 7
+    },
+    {
+      "route": "/usa/regenerative-farm-hospitality-in-the-usa-nature-luxury-&-wellness-collide",
+      "status": 200,
+      "elapsedMs": 878,
+      "h1Count": 1,
+      "canonical": "https://www.thewandered.com/usa/regenerative-farm-hospitality-in-the-usa-nature-luxury-%26-wellness-collide",
+      "listingCards": 4
+    }
+  ]
+}

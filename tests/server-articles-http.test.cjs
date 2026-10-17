@@ -78,7 +78,9 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     assert.ok(d.querySelector('time').dateTime);
     assert.ok(d.body.textContent.includes('Fixture Author'));
     assert.equal(d.querySelector('.ql-editor img').alt, 'Body photo');
-    assert.ok(d.querySelector('.ql-editor iframe'));
+    assert.equal(d.querySelector('.ql-editor img').getAttribute('loading'), 'lazy');
+    assert.equal(d.querySelector('.ql-editor iframe').getAttribute('loading'), 'lazy');
+    assert.equal(d.querySelector('.ql-editor iframe').title, country === 'ukraine' ? 'Вбудовані медіа' : country === 'poland' ? 'Osadzone multimedia' : 'Embedded media');
     assert.equal(d.querySelectorAll('.ql-editor script').length, 0);
     assert.ok(!html.includes('visibility:hidden'));
     const expected = `https://www.thewandered.com/${country ? country + '/' : ''}fixture-special-&-подорож`;
@@ -302,4 +304,52 @@ test('travel resources retain four interactive providers without dead link wrapp
   assert.equal(d.querySelector('meta[name="twitter:card"]').content, 'summary_large_image');
   assert.ok(d.querySelector('meta[name="twitter:image"]').content.startsWith('https://'));
   dom.window.close();
+});
+
+test('listing images prioritize only the first card and keep lower cards lazy', async () => {
+  for (const route of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet']) {
+    const { response, dom } = await page(route); const d = dom.window.document;
+    assert.equal(response.status, 200);
+    const images = [...d.querySelectorAll('main article a[aria-label] img[data-nimg]')];
+    assert.equal(images.length, 7, route);
+    assert.notEqual(images[0].getAttribute('loading'), 'lazy');
+    for (const image of images.slice(1)) assert.equal(image.getAttribute('loading'), 'lazy');
+    for (const image of images) assert.equal(image.getAttribute('sizes'), '(max-width: 768px) 98vw, (max-width: 940px) 758px, 800px');
+    dom.window.close();
+  }
+});
+
+test('article hero is responsive while related images and promotion remain lazy', async () => {
+  const { response, dom } = await page('/usa/fixture-known'); const d = dom.window.document;
+  assert.equal(response.status, 200);
+  const hero = d.querySelector('main > article figure img[data-nimg]'); assert.ok(hero);
+  assert.notEqual(hero.getAttribute('loading'), 'lazy');
+  assert.ok(hero.getAttribute('sizes').includes('714px'));
+  const deferred = [...d.querySelectorAll('main > aside img[data-nimg]')];
+  assert.equal(deferred.length, 5);
+  for (const image of deferred) assert.equal(image.getAttribute('loading'), 'lazy');
+  const banner = deferred.find(image => image.alt === 'Banner image Your Price Booking');
+  assert.ok(banner.getAttribute('sizes').includes('510px'));
+  dom.window.close();
+});
+
+test('non-article routes omit editor CSS and load compressed fonts; articles retain editor formatting', async () => {
+  for (const [route, editor] of [['/', false], ['/travel-resources', false], ['/usa/fixture-known', true]]) {
+    const { response, dom } = await page(route); assert.equal(response.status, 200);
+    const sheets = [...dom.window.document.querySelectorAll('link[rel="stylesheet"]')];
+    let css = '';
+    for (const sheet of sheets) {
+      const asset = await fetch(new URL(sheet.getAttribute('href'), base)); assert.equal(asset.status, 200);
+      css += await asset.text();
+    }
+    assert.equal(css.includes('.ql-editor'), editor, route);
+    assert.ok(css.includes('.woff2')); assert.equal(css.includes('.ttf'), false);
+    if (!editor) assert.ok(Buffer.byteLength(css) < 60_000, 'Non-article initial CSS budget');
+    for (const name of new Set([...css.matchAll(/url\([^)]*?([^/()'"\s]+\.woff2)['"]?\)/g)].map(match => match[1]))) {
+      const font = await fetch(base + '/_next/static/media/' + name); assert.equal(font.status, 200);
+      const bytes = Buffer.from(await font.arrayBuffer());
+      assert.equal(bytes.subarray(0, 4).toString(), 'wOF2');
+    }
+    dom.window.close();
+  }
 });
