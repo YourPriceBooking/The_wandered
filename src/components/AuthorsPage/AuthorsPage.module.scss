@@ -1,0 +1,35 @@
+.page { width: 100%; background: #fff; color: #252b2f; font-family: Arial, Helvetica, sans-serif; text-align: left; }
+.banner { height: 92px; background: #ff5a17; position: relative; overflow: hidden; }
+.banner::before, .banner::after { content: ''; position: absolute; width: 85%; height: 190px; top: -120px; left: 10%; border: 1px solid #ffffff40; border-radius: 50%; transform: rotate(-8deg); }
+.banner::after { width: 90%; top: -90px; left: 40%; border-color: #ffffff30; transform: rotate(-12deg); }
+.intro { padding: 0 32px 22px; max-width: 1100px; margin: 0 auto; }
+.heading { display: flex; align-items: center; gap: 15px; margin-top: -24px; position: relative; }
+.communityIcon { width: 68px; height: 68px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #fff0e6; border: 5px solid #fff; border-radius: 23px; color: #e64a13; }
+.communityIcon svg { width: 29px; height: 29px; }
+.heading h1 { font-size: 30px; letter-spacing: -1px; line-height: 1.2; margin: 20px 0 0; font-weight: 750; }
+.intro > p { margin: 12px 0 0; color: #657077; font-size: 14px; line-height: 1.6; max-width: 680px; }
+.body { background: #f4f6f7; border-top: 1px solid #e6e9eb; padding: 24px 32px 38px; }
+.grid { max-width: 1036px; margin: auto; display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 22px; align-items: start; }
+.feed { display: grid; min-width: 0; gap: 16px; }
+.card { min-width: 0; background: #fff; border: 1px solid #dfe4e7; border-radius: 18px; padding: 22px; transition: border-color 150ms ease, box-shadow 150ms ease; }
+.person { display: flex; align-items: center; gap: 15px; margin-bottom: 17px; }
+.person > div { min-width: 0; }
+.avatar { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; border: 1px solid #dce2e5; background: #edf0f2; flex-shrink: 0; }
+.card h2 { font-size: 21px; font-weight: 700; line-height: 1.2; letter-spacing: -0.45px; margin: 0 0 7px; overflow-wrap: anywhere; }
+.role { font-size: 12px; line-height: 1.4; color: #68777f; margin: 0; }
+.tag { display: inline-block; border-radius: 6px; background: #fff0e6; color: #a83a0c; padding: 4px 7px; font-size: 11px; margin-top: 8px; font-weight: 600; }
+.bio { font-size: 14px; line-height: 1.65; margin: 0; color: #42515a; overflow-wrap: anywhere; }
+.socials { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 19px; padding-top: 17px; border-top: 1px solid #edf0f2; }
+.social { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid #dbe1e5; background: #fff; color: #33434d; border-radius: 999px; padding: 9px 14px; min-height: 44px; font-size: 12px; font-weight: 600; text-decoration: none; transition: background-color 150ms ease, transform 150ms ease; }
+.social:focus-visible { outline: 3px solid #d84410; outline-offset: 3px; }
+.social:active { background: #e6edf1; transform: scale(0.97); }
+.sidebar { background: #fff; border: 1px solid #dfe4e7; border-radius: 18px; overflow: hidden; }
+.sidebar h2 { margin: 0; padding: 18px; background: #fff3e9; border-bottom: 1px solid #f1dfd1; font-size: 14px; font-weight: 700; color: #903911; }
+.sidebar > div { padding: 18px; }
+.sidebar p { font-size: 12px; line-height: 1.7; color: #5e6d76; margin: 0 0 18px; }
+.sidebar .count { display: flex; align-items: center; gap: 9px; font-size: 12px; color: #40535e; padding-top: 14px; border-top: 1px solid #edf0f2; margin-bottom: 0; }
+.count span { width: 7px; height: 7px; border-radius: 50%; background: #e65b20; }
+@media (hover: hover) and (pointer: fine) { .card:hover { border-color: #b3c0c7; box-shadow: 0 4px 16px #1e334308; } .social:hover { background: #f1f5f7; } .social:active { background: #e6edf1; } }
+@media (max-width: 720px) { .grid { grid-template-columns: minmax(0, 1fr); } .sidebar { display: none; } .intro { padding: 0 22px 22px; } .body { padding: 20px 20px 30px; } }
+@media (max-width: 400px) { .card { padding: 18px; } .avatar { width: 56px; height: 56px; } .card h2 { font-size: 18px; } .person { gap: 12px; } .role { font-size: 11px; } }
+@media (prefers-reduced-motion: reduce) { .card, .social { transition: none; } .social:active { transform: none; } }

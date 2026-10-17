@@ -5,12 +5,15 @@ import { usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 import SearchField from '../Header/SearchField/SearchField';
 import { getSearchCopy } from '@/defaultData/searchCopy';
+import { authorsPath } from '@/defaultData/authorsCopy';
 
 import { footerLinkData } from './footerLinksData';
 
 export default function Footer() {
 	const pathname = usePathname();
-	const copy = getSearchCopy(pathname.split('/')[1]);
+	const section = pathname.split('/')[1];
+	const copy = getSearchCopy(section);
+	const authorsLabel = section === 'ukraine' ? 'Автори' : section === 'poland' ? 'Autorzy' : 'Authors';
 
 	return (
 		<footer className={s.footer}>
@@ -32,20 +35,22 @@ export default function Footer() {
 								<h2 className={s.linkTitle}>{block.title}</h2>
 								<ul className={s.linkBlock}>
 									{block.links.map((link, i) => {
-										const isActive = pathname === link.src;
+										const href = link.src === '/authors' ? authorsPath(section) : link.src;
+										const name = link.src === '/authors' ? authorsLabel : link.name;
+										const isActive = pathname === href;
 										const target =
 											link.src[0] !== '/'
 												? { target: 'blank', rel: 'nofollow noreferrer noopener' }
 												: {};
 										return (
 											<li key={i} className={isActive ? s.active : ''}>
-    											<Link href={link.src} {...target}>
-    											  {typeof link.name === 'string' ? (
-    											    <span dangerouslySetInnerHTML={{ __html: link.name }} />
-    											  ) : (
-    											    link.name
-    											  )}
-    											</Link>
+											<Link href={href} {...target} aria-current={isActive ? 'page' : undefined}>
+											  {typeof name === 'string' ? (
+											    <span dangerouslySetInnerHTML={{ __html: name }} />
+											  ) : (
+											    name
+											  )}
+											</Link>
 											</li>
 										);
 									})}

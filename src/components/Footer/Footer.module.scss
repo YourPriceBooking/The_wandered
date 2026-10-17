@@ -341,8 +341,7 @@
     transition: color 0.5s ease;
   }
 
-    .navBlock:nth-child(4) .linkBlock .active,
-    .navBlock:nth-child(6) .linkBlock .active {
+    .navBlock .linkBlock .active {
     color: white;
     list-style-type: disc; 
     transition: color 0.5s ease;
