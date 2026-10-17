@@ -97,6 +97,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: { pa
 				</div>
 				{posts.slice(0, 3).map((post, i) => (
 					<JournalPost
+            headingLevel={3}
 						key={post._id + post.description + post.url}
 						post={post}
 						isWhiteBg={true}

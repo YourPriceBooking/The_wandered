@@ -24,8 +24,8 @@ global.fetch = async (input, options = {}) => {
   });
   const heading = path.startsWith('/ukraine/') ? 'Серверна стаття' : path.startsWith('/poland/') ? 'Artykuł serwerowy' : 'Server article';
   return json({ result: {
-    _id: '123456789012345678901234', heading, title: heading, description: 'Fixture description', author: 'Fixture Author',
-    articleUrl, publicationDate: '2026-10-17T07:00:00.000Z', changeDate: '', country: path.split('/')[1],
+    _id: '123456789012345678901234', heading, title: heading, description: 'Fixture description', author: slug === 'fixture-known' ? 'Viacheslav Nikitenko' : 'Fixture Author',
+    articleUrl, publicationDate: '2026-10-17T07:00:00.000Z', changeDate: slug === 'fixture-known' ? '2026-10-17T08:00:00.000Z' : '', country: path.split('/')[1],
     imageUrl: slug === 'fixture-empty' ? [] : [{ url: '/no-photo.webp', context: { alt: 'Hero photo', caption: 'Hero caption' } }, { url: '/no-photo.webp', context: { alt: 'Body photo', caption: 'Body caption' } }],
     markup: '<p id="fixture-body">Server rendered body with a <a href="/authors">real link</a>.</p><h2>Section</h2><table><tr><td>Table content</td></tr></table><img src="imgUrlByIdx"><blockquote>Quote — Author</blockquote><iframe src="https://www.youtube.com/embed/test" allowfullscreen></iframe><script>evil()</script>',
   } });

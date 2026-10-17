@@ -7,9 +7,10 @@ import JournalPostContent from './JournalPostContent/JournalPostContent';
 export interface JournalPost {
 	post: JournalPostType;
 	isWhiteBg?: boolean;
+  headingLevel?: 2 | 3;
 }
 
-const JournalPost: React.FC<JournalPost> = ({ post, isWhiteBg }) => {
+const JournalPost: React.FC<JournalPost> = ({ post, isWhiteBg, headingLevel }) => {
 	return (
 		<div className={`${s.articleBlock} ${isWhiteBg ? s.whiteBg : ''}`}>
 			<div className={s.headerPostContent}>
@@ -19,6 +20,7 @@ const JournalPost: React.FC<JournalPost> = ({ post, isWhiteBg }) => {
 				</div>
 			</div>
 			<JournalPostContent
+        headingLevel={headingLevel}
 				title={post.title}
 				description={post.description}
 				img={post.linkOnPhoto}

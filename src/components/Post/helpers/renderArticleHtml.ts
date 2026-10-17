@@ -9,13 +9,21 @@ export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[]): s
   try {
     const document: Document = dom.window.document;
     const images = normalizeImageUrl(imageUrls);
+    // The route supplies the single document H1; editor headings are sections.
+    document.querySelectorAll('h1').forEach((heading) => {
+      const section = document.createElement('h2');
+      for (const attribute of Array.from(heading.attributes)) section.setAttribute(attribute.name, attribute.value);
+      section.innerHTML = heading.innerHTML; heading.replaceWith(section);
+    });
     document.querySelectorAll('[style]').forEach((element) => element.removeAttribute('style'));
     document.querySelectorAll('h1,h2,h3,h4,h5,h6,img,iframe,blockquote').forEach((element) => {
-      const previous = element.previousElementSibling;
+      // Do not insert a block paragraph inside an editor paragraph around an image.
+      const target = element.closest('p') || element;
+      const previous = target.previousElementSibling;
       if (!previous || previous.tagName !== 'P' || previous.innerHTML !== '<br>') {
         const space = document.createElement('p');
         space.innerHTML = '<br>';
-        element.before(space);
+        target.before(space);
       }
     });
     document.querySelectorAll('blockquote').forEach((element) => {
@@ -29,10 +37,16 @@ export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[]): s
         image.setAttribute('src', replacement.url);
         if (replacement.context.alt) image.setAttribute('alt', replacement.context.alt);
         if (replacement.context.caption) {
-          const caption = document.createElement('p');
+          const standalone = image.parentElement === document.body || (image.parentElement?.tagName === 'P' && image.parentElement.textContent?.trim() === '' && image.parentElement.children.length === 1);
+          const caption = document.createElement(standalone ? 'figcaption' : 'span');
           caption.className = 'image-caption';
           caption.textContent = replacement.context.caption;
-          image.after(caption);
+          if (standalone) {
+            const figure = document.createElement('figure');
+            if (image.parentElement?.tagName === 'P') image.parentElement.replaceWith(figure);
+            else image.replaceWith(figure);
+            figure.append(image, caption);
+          } else image.after(caption);
         }
       } else if (image.getAttribute('src')?.includes('imgUrlByIdx')) image.removeAttribute('src');
     });

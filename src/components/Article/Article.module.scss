@@ -88,7 +88,7 @@
 			line-height: 27px;
 			border-radius: 19px;
 
-			& h1 {
+			& .hoverTitle {
 				width: 85%;
 				display: -webkit-box;
 				-webkit-line-clamp: 2;
@@ -111,7 +111,7 @@
 				}
 			}
 			@media (max-width: 768px) {
-				& h1 {
+				& .hoverTitle {
 					font-size: 19px;
 				}
 				& p {
@@ -119,7 +119,7 @@
 				}
 			}
 			@media (max-width: 540px) {
-				& h1 {
+				& .hoverTitle {
 					font-size: 17px;
 				}
 				& p {
@@ -128,7 +128,7 @@
 				}
 			}
 			@media (max-width: 480px) {
-				& h1 {
+				& .hoverTitle {
 					font-size: 15px;
 				}
 				& p {
@@ -136,7 +136,7 @@
 				}
 			}
 			@media (max-width: 320px) {
-				& h1 {
+				& .hoverTitle {
 					font-size: 12px;
 				}
 				& p {
@@ -230,7 +230,7 @@
 	margin: 0 auto;
 	margin-bottom: 25px;
 
-	& h1 {
+	& h2 {
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
@@ -345,3 +345,7 @@
 	width: 100%;
 	height: 200px;
 }
+
+.titleBlock a:focus-visible, .imageBlock:focus-visible { outline: 2px solid #ff6b19; outline-offset: 3px; }
+
+.hoverTitle { font-weight: 700; }

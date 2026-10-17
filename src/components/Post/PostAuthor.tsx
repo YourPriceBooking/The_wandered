@@ -1,18 +1,21 @@
 'use client';
+import { authorsCopy } from '@/defaultData/authorsCopy';
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/lib/hooks';
+import { authorProfile } from '@/utils/authorIdentity';
+import { fallbackAuthors, authorSocialLinks } from '@/defaultData/authorProfiles';
 import type { AuthorType } from '@/types/authorTypes';
 import Link from 'next/link';
 import style from './PostBlock.module.scss';
 
-export default function PostAuthor({ name }: { name: string }) {
+export default function PostAuthor({ name, country }: { name: string; country: string }) {
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
   const authorRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   const allAuthors = useAppSelector((state) => state.allAuthors.allAuthorsData || []);
   const currentAuthor = name
-    ? allAuthors.find((author: AuthorType) => author.name === name)
+    ? (allAuthors.find((author: AuthorType) => author.name === name) || fallbackAuthors.find((author) => author.name === name))
     : null;
 
   useEffect(() => {
@@ -32,30 +35,19 @@ export default function PostAuthor({ name }: { name: string }) {
     };
   }, [setTooltipVisible]);
 
-  const rawLinks = currentAuthor?.links;
-
-  let links: any[] = [];
-
-  try {
-    if (rawLinks) {
-      const parsed = JSON.parse(rawLinks);
-      if (Array.isArray(parsed)) {
-        links = parsed;
-      }
-    }
-  } catch (e) {
-    console.error('Invalid JSON in author.links:', rawLinks);
-  }
-
+  const copy = authorsCopy[country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en'];
+  const bio = name === 'Viacheslav Nikitenko' ? copy.editorBio : name === 'Andy Ray' ? copy.andyBio : '';
+  const profile = authorProfile(name, country);
+  const links = authorSocialLinks(currentAuthor?.links);
   return (
-        <div ref={authorRef} style={{ position: 'relative' }}>
-          <p
+        <div ref={authorRef} style={{ position: 'relative' }} onFocusCapture={() => setTooltipVisible(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setTooltipVisible(false); }} onKeyDown={(event) => { if (event.key === 'Escape') setTooltipVisible(false); }}>
+          <div
             className={`${style.post__author} ${tooltipVisible ? style.visible : ''}`}
             onMouseEnter={() => setTooltipVisible(true)}
             onMouseLeave={() => setTooltipVisible(false)}
           >
-            {name}
-          </p>
+            {profile ? <a href={profile.url}>{name}</a> : name}
+          </div>
 
           {currentAuthor && (
             <div
@@ -69,28 +61,17 @@ export default function PostAuthor({ name }: { name: string }) {
                   <img
                     className={style.tooltipMainImg}
                     src={currentAuthor.image}
-                    alt="Author Photo"
+                    alt={name}
                     onError={(e) => (e.currentTarget.src = '/no-photo.webp')}
                   />
                   <div>
                     <p className={style.tooltipName}>{currentAuthor.name}</p>
                     <div className={style.tooltipLinks}>
-                      {links.map((link: any, index: number): React.ReactNode => {
-                        const platform = Object.keys(link)[0] as string;
-                        const url = Object.values(link)[0] as string | undefined;
-
-                        if (!url) return null;
-
-                        return (
-                          <Link key={index} href={url} target="_blank" rel="noopener noreferrer">
-                            <img src={`/social_media_icons/${platform}-logo.svg`} alt={platform} />
-                          </Link>
-                        );
-                      })}
+                      {links.map((link) => <Link key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.label}</Link>)}
                     </div>
                   </div>
                 </div>
-                <p className={style.tooltipBio}>{currentAuthor.description}</p>
+                <p className={style.tooltipBio}>{bio || currentAuthor.description}</p>
               </div>
             </div>
           )}

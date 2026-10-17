@@ -1,172 +1,42 @@
 'use client';
 import s from './ArticleHeader.module.scss';
-import { AuthorType } from '@/types/authorTypes';
-import Link from 'next/link';
 import { useAppSelector } from '@/lib/hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { getArticleDate } from '@/services/getArticleDate';
+import { authorProfile } from '@/utils/authorIdentity';
+import { fallbackAuthors, authorSocialLinks } from '@/defaultData/authorProfiles';
+import { authorsCopy } from '@/defaultData/authorsCopy';
 
-type ArticleHeaderProps = {
-  author: string;
-  date: string;
-  updated: string;
-  slug: string;
-  //   authorData: AuthorType[];
-  isSuggested?: boolean;
-  country?: string;
-};
-
-const ArticleHeader: React.FC<ArticleHeaderProps> = ({
-  author,
-  date,
-  updated,
-  slug,
-  country,
-  //   authorData,
-}) => {
-  const authors = useAppSelector((state: any) => state.allAuthors.allAuthorsData || []);
-  const currentAuthor = authors.find((repo: AuthorType) => repo.name === author);
-
-  const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
-  const readableDate = getArticleDate(date, country);
-
-  const authorRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        authorRef.current &&
-        tooltipRef.current &&
-        !authorRef.current.contains(event.target as Node) &&
-        !tooltipRef.current.contains(event.target as Node)
-      ) {
-        setTooltipVisible(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [setTooltipVisible]);
-
-  if (!mounted || !currentAuthor)
-    return (
-      <header className={`${s.articleBlock} ${s.skeleton}`}>
-        <div className={s.skeletonHeader}></div>
-        <div className={s.skeletonAuthor}></div>
-      </header>
-    );
-  // const parsedLinks = JSON.parse(currentAuthor.links);
-  // const parsedLinks = currentAuthor.links;
-  const parsedLinks = (() => {
-    const raw = currentAuthor.links;
-
-    if (!raw) return [];
-
-    try {
-      // 🔥 если это массив со строкой внутри
-      if (Array.isArray(raw) && typeof raw[0] === 'string') {
-        return JSON.parse(raw[0]);
-      }
-
-      // если просто строка
-      if (typeof raw === 'string') {
-        return JSON.parse(raw);
-      }
-
-      // если уже массив
-      if (Array.isArray(raw)) {
-        return raw;
-      }
-
-      return [];
-    } catch (e) {
-      console.error('PARSE ERROR:', raw);
-      return [];
-    }
-  })();
-  const normalizedLinks = parsedLinks
-    .map((link: any) => {
-      const key = Object.keys(link)[0];
-      const value = Object.values(link)[0];
-
-      if (!value) return null;
-
-      return {
-        platform: key,
-        url: value,
-      };
-    })
-    .filter(Boolean);
-
-  return (
-    <header className={s.authorBlock}>
-      <div
-        className={`${s.authorTooltipWrapper} ${tooltipVisible ? s.visible : ''}`}
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
-      >
+export default function ArticleHeader({ author, date, updated, slug, country = 'home' }: {
+  author: string; date: string; updated: string; slug: string; country?: string; isSuggested?: boolean;
+}) {
+  const authors = useAppSelector((state) => state.allAuthors.allAuthorsData || []);
+  const current = authors.find((person) => person.name === author) || fallbackAuthors.find((person) => person.name === author);
+  const profile = authorProfile(author, country);
+  const pageviews = useAppSelector((state) => state.gaData.pageviews || {});
+  const [visible, setVisible] = useState(false);
+  const validDate = date && Number.isFinite(Date.parse(date));
+  const copy = authorsCopy[country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en'];
+  const bio = author === 'Viacheslav Nikitenko' ? copy.editorBio : author === 'Andy Ray' ? copy.andyBio : '';
+  return <header className={s.authorBlock}>
+    <div onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)} onFocusCapture={() => setVisible(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setVisible(false); }} onKeyDown={(event) => { if (event.key === 'Escape') setVisible(false); }}>
+      <p className={s.author}>{profile ? <a href={profile.url}>{author}</a> : author}</p>
+      {current && <div className={`${s.authorTooltipWrapper} ${visible ? s.visible : ''}`}>
         <div className={s.authorTooltip}>
           <div className={s.tooltipMainInfo}>
-            <img
-              className={s.tooltipMainImg}
-              src={currentAuthor.image}
-              alt="Author Photo"
-              onError={(e) => (e.currentTarget.src = 'no-photo.webp')}
-            />
-            <div>
-              <p className={s.tooltipName}>{currentAuthor.name}</p>
-              <div className={s.tooltipLinks}>
-                {/* {parsedLinks.map((link: any, index: number) => {
-                  const platform = Object.keys(link)[0];
-                  const url = Object.values(link)[0];
-                  return (
-                    url && (
-                      <Link key={index} href={url} target="_blank" rel="noopener noreferrer">
-                        <img src={`/social_media_icons/${platform}-logo.svg`} alt={platform} />
-                      </Link>
-                    )
-                  );
-                })} */}
-                {normalizedLinks.map((link: any, index: number) => (
-                  <Link key={index} href={link.url} target="_blank">
-                    <img
-                      src={`/social_media_icons/${link.platform}-logo.svg`}
-                      alt={link.platform}
-                    />
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <img className={s.tooltipMainImg} src={current.image} alt={current.name} onError={(event) => { event.currentTarget.src = '/no-photo.webp'; }} />
+            <div><p className={s.tooltipName}>{current.name}</p><div className={s.tooltipLinks}>
+              {authorSocialLinks(current.links).map((link) => <a href={link.url} key={link.url} target="_blank" rel="noopener noreferrer">{link.label}</a>)}
+            </div></div>
           </div>
-          <p className={s.tooltipBio}>{currentAuthor.description}</p>
+          <p className={s.tooltipBio}>{bio || current.description}</p>
         </div>
-      </div>
-      <p
-        className={s.author}
-        onClick={() => setTooltipVisible(!tooltipVisible)}
-        onMouseEnter={() => setTooltipVisible(true)}
-        onMouseLeave={() => setTooltipVisible(false)}
-      >
-        {author}
-      </p>
-      <div className={s.dateBlock}>
-        <p className={s.date}>{readableDate}</p>
-        <p className={s.updateDate}>{updated}</p>
-      </div>
-      <div className={s.viewCounter}>
-        <p>{pageviews['/' + slug] || 0}</p>
-        <img src="/eye.png" alt="views icon" />
-      </div>
-    </header>
-  );
-};
-
-export default ArticleHeader;
+      </div>}
+    </div>
+    <div className={s.dateBlock}>
+      {validDate && <time className={s.date} dateTime={new Date(date).toISOString()}>{getArticleDate(date, country)}</time>}
+      {updated && <p className={s.updateDate}>{updated}</p>}
+    </div>
+    <div className={s.viewCounter}><p>{pageviews['/' + slug] || 0}</p><img src="/eye.png" alt="" /></div>
+  </header>;
+}

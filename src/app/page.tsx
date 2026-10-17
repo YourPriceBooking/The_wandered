@@ -1,3 +1,5 @@
+import StructuredData from '@/components/StructuredData/StructuredData';
+import { websiteStructuredData } from '@/utils/structuredData';
 import { getListingPage } from '@/services/getListingPage';
 import Pagination from '@/components/Pagination/Pagination';
 import { listingMetadata } from '@/utils/seoMetadata';
@@ -29,6 +31,7 @@ export default async function MainPage({
 
   return (
     <main className={s.main}>
+      <StructuredData value={websiteStructuredData()} />
       <TopSection
         country="home"
         countryTitle="the wandered "
@@ -41,6 +44,7 @@ export default async function MainPage({
           const imageSrc = getImageUrl(normalizedImages, 0) || '';
           return (
             <Article
+                articleUrl={article.articleUrl}
               key={article._id}
               slug={article?.articleUrl?.split('/').pop()}
               title={article.title}

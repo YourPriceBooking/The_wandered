@@ -1,3 +1,4 @@
+import { editorialCopy } from '@/defaultData/editorialCopy';
 import Image from 'next/image';
 import { getAuthors } from '@/services/getAuthors';
 import { authorSocialLinks, directoryAuthors, safeProfileUrl } from '@/defaultData/authorProfiles';
@@ -8,6 +9,7 @@ export { authorsMetadata } from '@/defaultData/authorsSeo';
 
 export default async function AuthorsPage({ language = 'en' }: { language?: AuthorsLanguage }) {
   const copy = authorsCopy[language];
+  const editorial = editorialCopy[language];
   const authors = directoryAuthors(await getAuthors());
 
   return (
@@ -62,6 +64,12 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
           </aside>
         </div>
       </div>
+      <section className={s.editorial} aria-labelledby="editorial-information">
+        <h2 id="editorial-information">{editorial.title}</h2>
+        <p>{editorial.publisher} <a href="https://www.yourpricebooking.com/en/about-company" target="_blank" rel="noopener noreferrer">Your Price Booking OÜ ↗</a></p>
+        <p>{editorial.dates} {editorial.sources}</p>
+        <p>{editorial.contact} <a href="https://www.yourpricebooking.com/support" target="_blank" rel="noopener noreferrer">{editorial.help} ↗</a></p>
+      </section>
     </main>
   );
 }

@@ -56,6 +56,21 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     assert.equal(d.querySelector('meta[name="twitter:card"]').content, 'summary_large_image');
     assert.equal(d.querySelector('meta[name="twitter:image"]').content, d.querySelector('meta[property="og:image"]').content);
     assert.equal(d.querySelector('meta[property="article:published_time"]').content, '2026-10-17T07:00:00.000Z');
+    const schemas = [...d.querySelectorAll('script[type="application/ld+json"]')].map((node) => JSON.parse(node.textContent));
+    const articleSchema = schemas.find((value) => value['@type'] === 'BlogPosting');
+    assert.ok(articleSchema); assert.equal(articleSchema.headline, d.querySelector('h1').textContent);
+    assert.equal(articleSchema.url, canonical); assert.equal(articleSchema.mainEntityOfPage['@id'], canonical);
+    assert.equal(articleSchema.author.name, 'Fixture Author'); assert.equal(articleSchema.author.url, undefined);
+    assert.equal(d.querySelectorAll('h1').length, 1);
+    const breadcrumbs = schemas.find((value) => value['@type'] === 'BreadcrumbList').itemListElement;
+    const visible = [...d.querySelectorAll('nav[aria-label="Breadcrumbs"] li, nav[aria-label="Навігаційний шлях"] li, nav[aria-label="Ścieżka nawigacji"] li')];
+    assert.equal(breadcrumbs.length, visible.length);
+    breadcrumbs.forEach((crumb, index) => assert.equal(crumb.name, visible[index].textContent));
+    assert.equal(breadcrumbs[breadcrumbs.length - 1].item, canonical);
+    assert.ok(d.querySelector('aside[aria-label="More stories"], aside[aria-label="Інші статті"], aside[aria-label="Inne artykuły"] h2 a'));
+    assert.equal(d.querySelector('main aside h2 a').closest('[hidden]'), null);
+    assert.ok(!d.querySelector('main > article aside'), 'Promotions/recommendations are outside the primary article');
+
     assert.equal(d.documentElement.lang, country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en');
     assert.ok(d.querySelector('h1').textContent.includes(country === 'ukraine' ? 'Серверна' : country === 'poland' ? 'Artykuł' : 'Server article'));
     assert.equal(d.querySelector('#fixture-body').textContent, 'Server rendered body with a real link.');
@@ -156,14 +171,14 @@ test('journal pages contain disjoint SSR slices, last page has no next link, rel
     const url = journalArchivePath + (number > 1 ? `?page=${number}` : '');
     const { response, dom } = await page(url); const d = dom.window.document;
     assert.equal(response.status, 200);
-    const titles = [...d.querySelectorAll('h3')].map((heading) => heading.textContent).filter((title) => title.startsWith('Journal record '));
+    const titles = [...d.querySelectorAll('[data-journal-title]')].map((heading) => heading.textContent).filter((title) => title.startsWith('Journal record '));
     assert.equal(titles.length, number === 3 ? 5 : 10);
     assert.equal(titles[0], `Journal record ${String(25 - (number - 1) * 10).padStart(3, '0')}`);
     identifiers.push(...titles);
     assert.equal(Boolean(d.querySelector('a[rel="next"]')), number < 3);
     if (number > 1) assert.equal(d.querySelector('a[rel="prev"]').getAttribute('href'), journalArchivePath + (number > 2 ? `?page=${number - 1}` : ''));
     const again = await page(url);
-    assert.equal(again.dom.window.document.querySelector('h3').textContent, titles[0]);
+    assert.equal(again.dom.window.document.querySelector('[data-journal-title]').textContent, titles[0]);
     again.dom.window.close(); dom.window.close();
   }
   assert.equal(new Set(identifiers).size, 25);
@@ -208,3 +223,42 @@ test('sitemap is complete, same-origin, deduplicated and retains the verified ar
   assert.equal((await fetch(base + '/sitemaps/2.xml')).status, 404);
   dom.window.close();
 });
+
+for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet']) {
+  test(`one H1 and canonical linked H2 cards in listing: ${country || 'home'}`, async () => {
+    const { response, dom } = await page('/' + country); const d = dom.window.document;
+    assert.equal(response.status, 200); assert.equal(d.querySelectorAll('h1').length, 1);
+    const cards = [...d.querySelectorAll('main article')]; assert.equal(cards.length, 7);
+    for (const card of cards) {
+      const title = card.querySelector('h2 a'); assert.ok(title);
+      assert.ok(title.href.startsWith('https://www.thewandered.com/'));
+      assert.equal(card.querySelector('a[aria-label]').href, title.href);
+      assert.ok(card.querySelector('header').textContent.includes('Fixture Author'));
+    }
+    if (!country) {
+      const graph = [...d.querySelectorAll('script[type="application/ld+json"]')].map(node => JSON.parse(node.textContent)).find(value => value['@graph'])['@graph'];
+      const site = graph.find(value => value['@type'] === 'WebSite');
+      assert.equal(site.name, 'The Wandered'); assert.equal(site.url, 'https://www.thewandered.com/');
+      assert.ok(graph.some(value => value['@id'] === site.publisher['@id'] && value.name === 'Your Price Booking OÜ'));
+    }
+    dom.window.close();
+  });
+}
+for (const [country, language, updated] of [['usa','en','Updated'],['ukraine','uk','Оновлено'],['poland','pl','Zaktualizowano']]) {
+  test(`known byline, author directory and modified date agree: ${country}`, async () => {
+    const { response, dom } = await page(`/${country}/fixture-known`); const d = dom.window.document;
+    assert.equal(response.status, 200);
+    const data = [...d.querySelectorAll('script[type="application/ld+json"]')].map(node=>JSON.parse(node.textContent)).find(value=>value['@type']==='BlogPosting');
+    assert.equal(data.author.name, 'Viacheslav Nikitenko'); assert.equal(data.inLanguage, language);
+    assert.ok([...d.querySelectorAll('a')].some(link=>link.href===data.author.url && link.textContent==='Viacheslav Nikitenko'));
+    assert.equal(data.dateModified, '2026-10-17T08:00:00.000Z');
+    assert.ok([...d.querySelectorAll('time')].some(time=>time.dateTime===data.dateModified && time.parentElement.textContent.includes(updated)));
+    const path = new URL(data.author.url).pathname;
+    const profile = await page(path); const authorNode = profile.dom.window.document.getElementById(new URL(data.author.url).hash.slice(1));
+    assert.equal(authorNode.textContent, data.author.name);
+    const directory = JSON.parse(profile.dom.window.document.querySelector('script[type="application/ld+json"]').textContent);
+    assert.ok(directory.mainEntity.itemListElement.some(item=>item.item['@id']===data.author['@id']));
+    assert.ok(profile.dom.window.document.getElementById('editorial-information'));
+    dom.window.close(); profile.dom.window.close();
+  });
+}

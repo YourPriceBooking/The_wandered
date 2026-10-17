@@ -36,14 +36,14 @@ const AlterTopSection: React.FC<TopSectionProps> = ({
 				<div className={s.logoBlock}>
 					
 
-					<h2 className={s.topTitle}>the wandered</h2>
+					<p className={s.topTitle}>the wandered</p>
 				</div>
 
 				<ViewCounter country={country} viewPath={viewPath} prefix="we have " />
 			</div>
 			<div className={s.botBlock}>
 				<div className={s.logoBlock}>
-					<h2 className={s.mainTitle}>UNCHARTED PLANET</h2>
+					<h1 className={s.mainTitle}>UNCHARTED PLANET</h1>
 				</div>
 
 				<span className={s.mainText}>

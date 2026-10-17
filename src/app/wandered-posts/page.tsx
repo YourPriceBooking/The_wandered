@@ -32,27 +32,29 @@ const Page = async ({ searchParams }: PageProps) => {
 					alignItems: 'center',
 				}}
 			>
-				<p
+				<h1
 					style={{
 						fontSize: '24px',
 						fontWeight: 'bold',
 						textTransform: 'uppercase',
 					}}
 				>
-					Not found
-				</p>
+					No travel stories found
+				</h1>
 			</div>
 		);
 	}
 
 	return (
-		<div className={s.mainContainer}>
+		<main className={s.mainContainer}>
+      <h1>Search travel stories</h1>
 			{postsData.map((article) => {
 				const country = article.country === 'home' ? '' : article.country + '/';
 				const normalizedImages = normalizeImageUrl(article.imageUrl as any);
 				const imageSrc = getImageUrl(normalizedImages, 0) || '';
 				return (
 					<Article
+                articleUrl={article.articleUrl}
 						key={article._id}
 						slug={country + article?.articleUrl?.split('/').pop()}
 						title={article.title}
@@ -66,7 +68,7 @@ const Page = async ({ searchParams }: PageProps) => {
 					/>
 				);
 			})}
-		</div>
+		</main>
 	);
 };
 
