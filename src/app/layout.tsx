@@ -6,14 +6,12 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import StoreProvider from './StoreProvider';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import DocumentLanguage from '@/components/DocumentLanguage/DocumentLanguage';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
 import LenisWrapper from '@/components/LenisWrapper/LenisWrapper';
-import PageTransition from "../components/PageTransition/PageTransition";
-import RouteLoader from '@/components/LoadingScreen/RouteLoader/RouteLoader';
+import PageTransition from '@/components/PageTransition/PageTransition';
 import HotFXLoader from '@/components/Header/HotFXLoader';
 
 export const metadata: Metadata = {
@@ -36,14 +34,12 @@ export default function RootLayout({
 				<DocumentLanguage />
 				<HotFXLoader />
 				<hotfx-shy-header>
-  				  	<Header />
+					<Header />
   				</hotfx-shy-header>
 				<div className="shy-header-spacer" />
 				<StoreProvider>
 					<GetDataClient />
-					<RouteLoader>
-						<PageTransition>{children}</PageTransition>
-					</RouteLoader>
+					<PageTransition>{children}</PageTransition>
 					<Footer />
 					<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 				</StoreProvider>

@@ -1,6 +1,6 @@
 import { postData } from "@/types/postTypes";
 
-export const getSuggestedArticles = (post: postData, allPosts: postData[]) => {
+export const getSuggestedArticles = (post: Pick<postData, '_id'>, allPosts: postData[]) => {
   if (!post || !Array.isArray(allPosts) || allPosts.length === 0) return [];
 
   const available = allPosts.filter((p) => p && p._id !== post._id);

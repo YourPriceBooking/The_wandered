@@ -1,6 +1,6 @@
+import { articleMissingMetadata, articleErrorMetadata } from '@/utils/articleMissingMetadata';
 import ArticlePage from '@/components/ArticlePage/ArticlePage';
-import { getPostData } from '@/services/getPostData';
-import { postData } from '@/types/postTypes';
+import { getArticleForMetadata, requireArticle } from '@/services/getArticle';
 import { Metadata } from 'next';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
@@ -9,17 +9,9 @@ export async function generateMetadata({
 }: {
 	params: { postPageLink: string };
 }): Promise<Metadata> {
-	const data: postData | null = await getPostData({
-		pageLink: String(params.postPageLink),
-		country: 'usa',
-	});
-
-	if (!data) {
-		return {
-			title: 'Page not found',
-			description: 'This article is not exists or deleted.',
-		};
-	}
+	const data = await getArticleForMetadata('usa', String(params.postPageLink));
+	if (data === undefined) return articleErrorMetadata('usa');
+	if (data === null) return articleMissingMetadata('usa');
 
 	const normalizedImages = normalizeImageUrl(data.imageUrl as any);
 	const imageUrl = getImageUrl(normalizedImages, 0) || '/default-image.jpg';
@@ -43,6 +35,7 @@ export async function generateMetadata({
 	};
 }
 
-export default function Post({ params }: { params: { postPageLink: string } }) {
-	return <ArticlePage country="usa" postPageLink={params.postPageLink} />;
+export default async function Post({ params }: { params: { postPageLink: string } }) {
+	const data = await requireArticle('usa', String(params.postPageLink));
+	return <ArticlePage data={data} country="usa" postPageLink={params.postPageLink} />;
 }
