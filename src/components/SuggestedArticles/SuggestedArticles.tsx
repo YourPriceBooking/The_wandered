@@ -7,7 +7,7 @@ import { getSuggestedArticles } from '@/services/getSuggestedArticles';
 import { useAppSelector } from '@/lib/hooks';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 
-function SuggestedArticles({ data, country }: { data: postData; country: string }) {
+function SuggestedArticles({ data, country }: { data: Pick<postData, '_id'>; country: string }) {
     const allPosts = useAppSelector((state: any) =>
         state.allPosts[`allPosts${country.charAt(0).toUpperCase() + country.slice(1)}`] || []
     );

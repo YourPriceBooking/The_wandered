@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import Image from 'next/image';
 import styles from './HeroImage.module.scss';
@@ -46,7 +45,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ data }) => {
 
       <div className={styles.captionWrapper}>
         <div className={styles.caption}>
-          <h1 className={styles.title}>{caption.text}</h1>
+          <p className={styles.title}>{caption.text}</p>
           <p className={styles.subtitle}>{caption.subtitle}</p>
           {caption.credit && <span className={styles.credit}>{caption.credit}</span>}
         </div>

@@ -15,6 +15,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:seo-indexing
+      - run: npm run test:server-articles
+      - run: npm run build
+      - run: npx tsc --noEmit --incremental false
+      - run: npm run test:server-articles:http
 
   check-behind-main:
     runs-on: ubuntu-latest

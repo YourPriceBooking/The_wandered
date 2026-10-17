@@ -5,9 +5,9 @@ import React from 'react'
 
 const PageViewes = ({country, postPageLink}:PostPageProps) => {
     const pageviews = useAppSelector((state: any) => state.gaData.pageviews || {});
-        const pageViewsByUrl = `/${country !== 'home' ? country + '/' : ''}${decodeURI(
-            String(postPageLink),
-        )}`;
+        let slug = String(postPageLink);
+        try { slug = decodeURIComponent(slug); } catch { /* Literal percent signs are valid in a stored slug. */ }
+        const pageViewsByUrl = `/${country !== 'home' ? country + '/' : ''}${slug}`;
   return (
     <p>{pageviews[pageViewsByUrl] || 0}</p>
   )
