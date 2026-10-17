@@ -24,7 +24,7 @@
 .navMenu {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-areas: 'home ukraine poland usa' '. canada australia singapore';
+  grid-template-areas: 'home ukraine poland usa' 'back canada australia singapore';
   gap: 17px 20px;
   align-items: center;
 }
@@ -104,9 +104,30 @@
   z-index: 100;
   &::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 100%; height: 11px; }
 }
-.back { margin-bottom: 10px; }
+// The empty navigation cell holds Back without adding a row or changing row height.
+.back {
+  grid-area: back;
+  position: relative;
+  width: 44px;
+  height: 21px;
+  > button {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 32px;
+    padding: 6px 10px;
+    border: 1px solid #e3dcd5;
+    border-radius: 9px;
+    background: #fff8f0;
+    &:hover { background: #ffeddc; }
+    &:focus-visible { outline: 2px solid #0b449b; outline-offset: 2px; }
+    svg { opacity: 0.75; }
+  }
+}
 .historyArrow { width: 80px; padding: 0; margin: 15px; border-color: transparent; border-radius: 1px; }
-.historyArrow .back { margin: 0; }
+.historyArrow .back { width: 44px; height: 32px; }
 @media (hover: hover) and (pointer: fine) {
   .pill:hover { background: #0a2f6c; box-shadow: 0 4px 10px #10499824; }
   .booking:hover { background: #ffeddc; color: #80330d; }
@@ -131,21 +152,21 @@
   .header { padding: 18px 20px; }
   .headerContent { grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; }
   .logo { display: none; }
-  .navMenu { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: 'home ukraine' 'poland usa' 'canada australia' 'singapore .'; gap: 12px; padding-left: 12px; }
+  .navMenu { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: 'home ukraine' 'poland usa' 'canada australia' 'singapore back'; gap: 12px; padding-left: 12px; }
   .navLink { font-size: 13px; }
   .shortcuts { grid-template-columns: repeat(2, 160px); gap: 14px 10px; }
   .pill { width: 160px; font-size: 12px; }
 }
 @media (max-width: 600px) {
   .headerContent { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .navMenu { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland usa' '. canada australia singapore'; gap: 12px 10px; }
+  .navMenu { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland usa' 'back canada australia singapore'; gap: 12px 10px; }
   .navLink { font-size: 12px; }
   .shortcuts { justify-content: end; }
   .shortcut:nth-child(odd) .hint { right: auto; left: 0; }
 }
 @media (max-width: 480px) {
   .header { padding: 12px 14px; }
-  .navMenu { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland' 'usa canada australia' 'singapore . .'; }
+  .navMenu { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland' 'usa canada australia' 'singapore back .'; }
   .shortcuts { width: 100%; grid-template-columns: repeat(2, minmax(0, 160px)); justify-content: space-between; gap: 17px 10px; }
   .pill { width: 100%; height: 27px; font-size: 10px; border: none; }
   .shortcut::before { content: ''; position: absolute; inset: -8px 0; }

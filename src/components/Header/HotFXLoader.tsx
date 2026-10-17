@@ -2,8 +2,13 @@
 
 import '@/lib/hotfx-shy-header';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function HotFXLoader() {
+  const pathname = usePathname();
+  useEffect(() => {
+    document.querySelector('hotfx-shy-header')?.dispatchEvent(new Event('shy-header-reset'));
+  }, [pathname]);
   useEffect(() => {
     const updateSpacerHeight = () => {
       const header = document.querySelector('hotfx-shy-header') as HTMLElement;

@@ -29,6 +29,7 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const activeLink = pathname.split('/')[1];
   const hints = getShortcutHints(activeLink);
+  const backCountry = routes.some((route) => route.path === activeLink) ? activeLink : '';
   const isDailyJournal = pathname.startsWith('/daily-journal-of-your-price-booking-service-history');
   const isPostPage = Boolean(params.postPageLink) || isDailyJournal;
 
@@ -70,7 +71,7 @@ export default function Header() {
 
   return (
     <header ref={headerRef} className={`${s.header} ${isDailyJournal ? s.historyArrow : ''}`}>
-      {isPostPage && <div className={s.back}><BackArrow country={activeLink ?? ''} /></div>}
+      {isDailyJournal && <div className={s.back}><BackArrow country={backCountry} /></div>}
       {!isDailyJournal && (
         <div className={s.headerContent}>
           <div className={s.logo}><Logo /></div>
@@ -84,6 +85,7 @@ export default function Header() {
                 aria-current={activeLink === route.path ? 'page' : undefined}
               >{route.name}</Link>
             ))}
+            {isPostPage && <div className={s.back}><BackArrow country={backCountry} /></div>}
           </nav>
           <div className={s.shortcuts}>
             {shortcuts.map((item) => (

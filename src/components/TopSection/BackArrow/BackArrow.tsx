@@ -11,19 +11,20 @@ interface BackArrowProps {
 const BackArrow: React.FC<BackArrowProps> = ({ country }) => {
 	const router = useRouter();
 
-	const handleGoBack = async () => {
+	const handleGoBack = () => {
 		if (window.history.length > 1) {
 			window.history.back();
 		} else {
-			router.push(`/${country}`);
+			router.push(country ? `/${country}` : '/');
 
 			window.scrollTo(0, 0);
 		}
 	};
 	return (
-		<div onClick={handleGoBack} className={s.backArrowBox}>
+		<button type="button" onClick={handleGoBack} className={s.backArrowBox}
+      aria-label={country === 'ukraine' ? 'Назад' : country === 'poland' ? 'Wstecz' : 'Back'}>
 			<BackArrowIcon />
-		</div>
+		</button>
 	);
 };
 
