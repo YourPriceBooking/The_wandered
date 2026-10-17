@@ -16,7 +16,7 @@ before(async () => {
   await new Promise((resolve) => socket.close(resolve));
   base = `http://127.0.0.1:${port}`;
   const log = fs.openSync(path.join(temp, 'server.log'), 'w');
-  server = spawn(process.execPath, ['--require', path.join(__dirname, 'fixtures/article-api.cjs'), 'node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', String(port)], {
+  server = spawn(process.execPath, ['--require', path.join(__dirname, 'fixtures/seo-api.cjs'), 'node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', String(port)], {
     cwd: path.join(__dirname, '..'), env: { ...process.env, ARTICLE_FIXTURE_LOG: logPath }, stdio: ['ignore', log, log],
   });
   fs.closeSync(log);
@@ -49,6 +49,13 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     const url = `/${country ? country + '/' : ''}fixture-special-&-${encodeURIComponent('подорож')}`;
     const { response, html, dom } = await page(url); const d = dom.window.document;
     assert.equal(response.status, 200);
+    const canonical = d.querySelector('link[rel="canonical"]').href;
+    assert.equal(canonical, 'https://www.thewandered.com' + url.replace('-&-', '-%26-'));
+    assert.equal(d.querySelector('meta[property="og:type"]').content, 'article');
+    assert.equal(d.querySelector('meta[property="og:url"]').content, canonical);
+    assert.equal(d.querySelector('meta[name="twitter:card"]').content, 'summary_large_image');
+    assert.equal(d.querySelector('meta[name="twitter:image"]').content, d.querySelector('meta[property="og:image"]').content);
+    assert.equal(d.querySelector('meta[property="article:published_time"]').content, '2026-10-17T07:00:00.000Z');
     assert.equal(d.documentElement.lang, country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en');
     assert.ok(d.querySelector('h1').textContent.includes(country === 'ukraine' ? 'Серверна' : country === 'poland' ? 'Artykuł' : 'Server article'));
     assert.equal(d.querySelector('#fixture-body').textContent, 'Server rendered body with a real link.');
@@ -100,4 +107,44 @@ test('article without images still renders its text', async () => {
   const { response, dom } = await page('/usa/fixture-empty');
   assert.equal(response.status, 200); assert.ok(dom.window.document.querySelector('#fixture-body'));
   dom.window.close();
+});
+
+const staticPages = ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet', '/authors', '/ukraine/authors', '/poland/authors', '/daily-journal-of-your-price-booking-service-history', '/daily-journal-of-your-price-booking-service-history/new-episodes', '/travel-resources', '/private-policy', '/wandered-posts?search=travel'];
+for (const url of staticPages) {
+  test(`complete metadata in initial HTML: ${url}`, async () => {
+    const { response, dom } = await page(url); const d = dom.window.document;
+    assert.equal(response.status, 200);
+    for (const field of ['title', 'description', 'type', 'url', 'site_name', 'locale', 'image', 'image:alt', 'image:width', 'image:height']) {
+      assert.ok(d.querySelector(`meta[property="og:${field}"]`)?.content, `og:${field}: ${url}`);
+    }
+    for (const field of ['card', 'title', 'description', 'image', 'image:alt']) assert.ok(d.querySelector(`meta[name="twitter:${field}"]`)?.content, `twitter:${field}: ${url}`);
+    assert.equal(d.querySelector('meta[name="twitter:card"]').content, 'summary_large_image');
+    assert.equal(d.querySelector('meta[property="og:locale"]').content, url.startsWith('/ukraine') ? 'uk_UA' : url.startsWith('/poland') ? 'pl_PL' : 'en_US');
+    if (!url.startsWith('/wandered-posts')) assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://www.thewandered.com' + url);
+    else {
+      assert.ok(d.querySelector('meta[name="robots"]').content.includes('noindex'));
+      assert.equal(d.querySelector('link[rel="canonical"]'), null);
+    }
+    const imageUrl = new URL(d.querySelector('meta[property="og:image"]').content);
+    const imageResponse = await fetch(base + imageUrl.pathname); const bytes = Buffer.from(await imageResponse.arrayBuffer());
+    assert.equal(imageResponse.status, 200); assert.ok(imageResponse.headers.get('content-type').includes('image/png'));
+    assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+    assert.equal(bytes.readUInt32BE(16), 1200); assert.equal(bytes.readUInt32BE(20), 630);
+    if (url.endsWith('/authors')) {
+      assert.equal(d.querySelectorAll('link[rel="alternate"][hreflang]').length, 4);
+      for (const [language, path] of [['en', '/authors'], ['uk', '/ukraine/authors'], ['pl', '/poland/authors'], ['x-default', '/authors']]) {
+        assert.equal(d.querySelector(`link[hreflang="${language}"]`).href, 'https://www.thewandered.com' + path);
+      }
+    }
+    dom.window.close();
+  });
+}
+test('page two uses its own canonical and social URL without inheriting the homepage', async () => {
+  for (const url of ['/?page=2', '/ukraine?page=2', '/daily-journal-of-your-price-booking-service-history/new-episodes?page=2']) {
+    const { response, dom } = await page(url); const d = dom.window.document;
+    assert.equal(response.status, 200);
+    assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://www.thewandered.com' + url);
+    assert.equal(d.querySelector('meta[property="og:url"]').content, 'https://www.thewandered.com' + url);
+    dom.window.close();
+  }
 });

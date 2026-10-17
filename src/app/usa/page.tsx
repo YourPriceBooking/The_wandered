@@ -1,3 +1,4 @@
+import { listingMetadata, listingPage } from '@/utils/seoMetadata';
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
@@ -9,16 +10,8 @@ import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
-export async function generateMetadata(): Promise<Metadata> {
-	return {
-		title: 'The Wandered: Explore the USA – Travel Tips, Destinations & Hacks for U.S. Travelers',
-		description:
-			"Discover the best travel destinations, tips, and hacks for exploring the USA and beyond with 'The Wandered.' Whether you're planning a road trip across the states or looking for budget-friendly travel options, we have got you covered. Explore must-see spots, hidden gems, and expert advice tailored for U.S. residents and travelers from around the world.",
-		icons: {
-			icon: '../favicon.ico',
-			shortcut: '../favicon.ico',
-		},
-	};
+export function generateMetadata({ searchParams }: { searchParams: { page?: string | string[] } }): Metadata {
+  return listingMetadata('usa', searchParams.page);
 }
 
 async function page({
@@ -28,7 +21,7 @@ async function page({
 }) {
 	const country = 'usa';
 
-	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+	let paramsPage = listingPage(searchParams.page);
 
 	const data: postsDataType = await getPosts({ page: paramsPage, country });
 	const length = Math.ceil(data.total / 7);

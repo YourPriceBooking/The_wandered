@@ -1,3 +1,4 @@
+import { pageMetadata, socialImage } from '@/utils/seoMetadata';
 import '../../../node_modules/modern-normalize/modern-normalize.css';
 import type { Metadata } from 'next';
 
@@ -16,14 +17,12 @@ export async function generateMetadata({
 }: {
 	searchParams: { page?: string | string[] };
 }): Promise<Metadata> {
-	return {
-		title: 'Your Price Booking Journey: From Hotel Reservations to Games on the Go',
-		description:
-			'Discover the Your Price Booking timeline with travel insights and our new Game Park — fun, interactive, and multilingual.',
-		alternates: {
-			canonical: journalCanonical(journalPath, searchParams.page),
-		},
-	};
+	return pageMetadata({
+    title: 'Your Price Booking Journey: From Hotel Reservations to Games on the Go',
+    description: 'Discover the Your Price Booking timeline with travel insights and our new Game Park — fun, interactive, and multilingual.',
+    path: journalCanonical(journalPath, searchParams.page),
+    image: socialImage('journal', 'Your Price Booking journal'),
+  });
 }
 
 const POSTS_LIMIT = 1;

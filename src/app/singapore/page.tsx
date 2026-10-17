@@ -1,3 +1,4 @@
+import { listingMetadata, listingPage } from '@/utils/seoMetadata';
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
@@ -9,16 +10,8 @@ import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
-export async function generateMetadata(): Promise<Metadata> {
-	return {
-		title: 'Travel Singapore | Hidden Gems, Culture & Booking Tips – The Wandered',
-		description:
-			'Explore Singapore like never before. Find hidden gems, cultural highlights, and practical booking tips with The Wandered – your guide to authentic travel.',
-		icons: {
-			icon: '../favicon.ico',
-			shortcut: '../favicon.ico',
-		},
-	};
+export function generateMetadata({ searchParams }: { searchParams: { page?: string | string[] } }): Metadata {
+  return listingMetadata('singapore', searchParams.page);
 }
 
 async function page({
@@ -28,7 +21,7 @@ async function page({
 }) {
 	const country = 'singapore';
 
-	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+	let paramsPage = listingPage(searchParams.page);
 
 	const data: postsDataType = await getPosts({ page: paramsPage, country });
 	const length = Math.ceil(data.total / 7);

@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/utils/seoMetadata';
 import type { Metadata } from 'next';
 import { authorsCopy, type AuthorsLanguage } from './authorsCopy';
 import { authorSocialLinks, safeProfileUrl, type DirectoryAuthor } from './authorProfiles';
@@ -15,18 +16,14 @@ export function authorsMetadata(language: AuthorsLanguage): Metadata {
   const title = `${copy.title} | The Wandered`;
   const url = `${authorsBaseUrl}${authorsPaths[language]}`;
   const image = { url: `${authorsBaseUrl}/authors-og-${language}.png`, width: 1200, height: 630, alt: `${copy.title} — Viacheslav Nikitenko, Andy Ray` };
+  const common = pageMetadata({ title, description: copy.meta, path: url, language, image: { ...image, type: 'image/png' } });
   return {
-    title,
-    description: copy.meta,
+    ...common,
     alternates: { canonical: url, languages: authorsAlternates },
-    robots: { index: true, follow: true },
     openGraph: {
-      type: 'website', siteName: 'The Wandered', title, description: copy.meta, url,
-      locale: ogLocales[language],
+      ...common.openGraph,
       alternateLocale: Object.entries(ogLocales).filter(([lang]) => lang !== language).map(([, locale]) => locale),
-      images: [image],
     },
-    twitter: { card: 'summary_large_image', title, description: copy.meta, images: [image] },
   };
 }
 

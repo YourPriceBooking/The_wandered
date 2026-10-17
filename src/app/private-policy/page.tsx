@@ -1,12 +1,14 @@
+import { pageMetadata, socialImage } from '@/utils/seoMetadata';
 import { privatePolicyData } from '@/defaultData/privatePolicyData';
 import { Metadata } from 'next';
 import { format } from 'date-fns';
 import s from './privatePolicyPage.module.scss';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
 	title: privatePolicyData.metaTitle,
 	description: privatePolicyData.metaDescription,
-};
+  path: '/private-policy', image: socialImage('privacy', 'Privacy policy | The Wandered'),
+});
 
 export default function PrivatePolicy() {
 	return (

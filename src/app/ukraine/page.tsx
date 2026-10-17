@@ -1,3 +1,4 @@
+import { listingMetadata, listingPage } from '@/utils/seoMetadata';
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
@@ -9,16 +10,8 @@ import Link from 'next/link';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
-export async function generateMetadata(): Promise<Metadata> {
-	return {
-		title: 'Подорожі Україною: від Києва до Карпат',
-		description:
-			'Відкрийте для себе красу України – від її давніх міст до величних гір Карпат. Дізнайтеся більше про культуру, історію та природні багатства цієї унікальної країни.',
-		icons: {
-			icon: '../favicon.ico',
-			shortcut: '../favicon.ico',
-		},
-	};
+export function generateMetadata({ searchParams }: { searchParams: { page?: string | string[] } }): Metadata {
+  return listingMetadata('ukraine', searchParams.page);
 }
 
 async function page({
@@ -28,7 +21,7 @@ async function page({
 }) {
 	const country = 'ukraine';
 
-	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+	let paramsPage = listingPage(searchParams.page);
 
 	const data: postsDataType = await getPosts({ page: paramsPage, country });
 	const length = Math.ceil(data.total / 7);

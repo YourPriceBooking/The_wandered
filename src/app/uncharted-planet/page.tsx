@@ -1,3 +1,4 @@
+import { listingMetadata, listingPage } from '@/utils/seoMetadata';
 import React from 'react';
 import { Metadata } from 'next';
 import s from '../mainPage.module.scss';
@@ -12,16 +13,8 @@ import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
 
 
-export async function generateMetadata(): Promise<Metadata> {
-	return {
-		title: 'Uncharted Planet — Mysteries of Ancient Civilizations and Forgotten Places | The Wandered',
-		description:
-			'Uncharted Planet is a section of The Wandered blog dedicated to Earth’s most mysterious places: ancient pyramids, lost civilizations, unexplained structures, and remote territories rarely mentioned in guidebooks.',
-		icons: {
-			icon: '../favicon.ico',
-			shortcut: '../favicon.ico',
-		},
-	};
+export function generateMetadata({ searchParams }: { searchParams: { page?: string | string[] } }): Metadata {
+  return listingMetadata('uncharted-planet', searchParams.page);
 }
 
 async function page({
@@ -31,7 +24,7 @@ async function page({
 }) {
 	const country = 'uncharted-planet';
 
-	let paramsPage = typeof searchParams.page === 'string' ? Number(searchParams.page) : 1;
+	let paramsPage = listingPage(searchParams.page);
     const useMocks = searchParams?.mock === '1' || searchParams?.mock === 'true';
 
 	const data: postsDataType = await getPosts({ page: paramsPage, country });

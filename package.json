@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test:social-metadata": "node --test tests/social-metadata.test.cjs",
     "test:seo-indexing": "node --test tests/seo-indexing.test.cjs",
     "test:server-articles": "node --test tests/server-articles.test.cjs",
     "test:server-articles:http": "node --test tests/server-articles-http.test.cjs",
