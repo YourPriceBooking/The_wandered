@@ -16,7 +16,7 @@ import s from './Header.module.scss';
 const shortcuts = [
   { id: 'travel', name: 'Travel Resources', href: '/travel-resources' },
   { id: 'planet', name: 'Uncharted Planet', href: '/uncharted-planet' },
-  { id: 'games', name: 'Games on the Go', href: '/daily-journal-of-your-price-booking-service-history?page=game-zone' },
+  { id: 'games', name: 'Games on the Go', href: '/daily-journal-of-your-price-booking-service-history#game-zone' },
   { id: 'booking', name: 'Your Price Booking', href: 'https://www.yourpricebooking.com/' },
 ] as const;
 

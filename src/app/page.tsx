@@ -1,10 +1,11 @@
-import { listingMetadata, listingPage } from '@/utils/seoMetadata';
+import { getListingPage } from '@/services/getListingPage';
+import Pagination from '@/components/Pagination/Pagination';
+import { listingMetadata } from '@/utils/seoMetadata';
 import s from './mainPage.module.scss';
 import Article from '@/components/Article/Article';
 import Link from 'next/link';
 import TopSection from '@/components/TopSection/TopSection';
-import { getPosts } from '@/services/getPosts';
-import { postData, postsDataType } from '@/types/postTypes';
+import { postData } from '@/types/postTypes';
 import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
 
@@ -18,10 +19,11 @@ export default async function MainPage({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  let paramsPage = listingPage(searchParams.page);
 
-  const data: postsDataType = await getPosts({ page: paramsPage, country: 'home' });
-  console.log({ data });
+
+  const data = await getListingPage('home', '/', searchParams);
+  const paramsPage = data.page;
+
 
   const length = Math.ceil(data.total / 7);
 
@@ -58,12 +60,13 @@ export default async function MainPage({
           <p>the waaandered</p>
         </div>
 
-        <div className={s.navSection}>
+        <Pagination path="/" page={paramsPage} totalPages={length} language="en" />
+				<div className={s.navSection}>
           <ul className={s.navNumbers}>
             {Array.from({ length }, (_, index) => (
               <li key={index}>
                 <Link
-                  href={`/?page=${index + 1}`}
+                  href={index === 0 ? "/" : `/?page=${index + 1}`}
                   className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
                 >
                   {index + 1}

@@ -1,0 +1,20 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  width: 100%;
+  padding: 24px 12px;
+  color: #39424a;
+  font-size: 16px;
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 10px 4px;
+    &:hover { color: #9a3e0c; }
+    &:focus-visible { outline: 2px solid #ff6b19; outline-offset: 4px; }
+  }
+  span { font-weight: 600; }
+}

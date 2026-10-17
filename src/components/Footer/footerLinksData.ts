@@ -12,7 +12,7 @@ export const footerLinkData = [
 			},
 			{
 				name: 'Games on the Go',
-				src: '/daily-journal-of-your-price-booking-service-history?page=game-zone',
+				src: '/daily-journal-of-your-price-booking-service-history#game-zone',
 			},
 		],
 	},

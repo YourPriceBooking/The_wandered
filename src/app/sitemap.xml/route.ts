@@ -1,10 +1,4 @@
-import getSitemapEntries from '@/services/getSitemapEntries';
-import { serializeSitemap } from '@/utils/sitemapXml';
-
+import { sitemapResponse } from '@/services/seo/sitemapResponse';
 export const dynamic = 'force-dynamic';
-
-export async function GET() {
-  return new Response(serializeSitemap(await getSitemapEntries()), {
-    headers: { 'Content-Type': 'application/xml; charset=utf-8' },
-  });
-}
+export const runtime = 'nodejs';
+export const GET = (request: Request) => sitemapResponse(request);
