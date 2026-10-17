@@ -4,32 +4,25 @@ import JournalPosts from '@/components/JournalPosts/JournalPosts';
 import { getDailyJournalPosts } from '@/services/getDailyJournalPosts';
 import { JournalPostType } from '@/types/historyTypes';
 import { Metadata } from 'next';
+import { journalCanonical, journalPage, newEpisodesPath } from '@/utils/journalSeo';
 
 export async function generateMetadata({
 	searchParams,
 }: {
-	searchParams: { page?: string };
+	searchParams: { page?: string | string[] };
 }): Promise<Metadata> {
-	const currentPage = Number(searchParams.page || '1');
-	const baseUrl =
-		'https://www.yourpricebooking.com/daily-journal-of-your-price-booking-service-history';
-	const canonicalUrl = currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`;
 	return {
 		title: 'The Story Continues with New Episodes: Your Price Booking Journey',
 		description:
 			'Explore fresh episodes and stories from Your Price Booking — uncover how our journey grows with every update, experience and adventure.',
 		alternates: {
-			canonical: canonicalUrl,
-		},
-		other: {
-			...(currentPage > 1 && { prev: `${baseUrl}?page=${currentPage - 1}` }),
-			next: `${baseUrl}?page=${currentPage + 1}`,
+			canonical: journalCanonical(newEpisodesPath, searchParams.page),
 		},
 	};
 }
 
-const NewEpisodes = async () => {
-	const currentPage = 1;
+const NewEpisodes = async ({ searchParams }: { searchParams: { page?: string | string[] } }) => {
+	const currentPage = journalPage(searchParams.page);
 	const POSTS_LIMIT = 10;
 	const data = await getDailyJournalPosts(currentPage, POSTS_LIMIT);
 	const posts: JournalPostType[] = data.result.reverse();

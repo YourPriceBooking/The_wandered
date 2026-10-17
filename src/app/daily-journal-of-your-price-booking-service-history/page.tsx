@@ -9,36 +9,27 @@ import GamesOnTheGo from '@/components/GamesOnTheGo/GamesOnTheGo';
 import Link from 'next/link';
 import JournalPost from '@/components/JournalPosts/JournalPost/JournalPost';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
+import { journalCanonical, journalPage, journalPath } from '@/utils/journalSeo';
 
 export async function generateMetadata({
 	searchParams,
 }: {
-	searchParams: { page?: string };
+	searchParams: { page?: string | string[] };
 }): Promise<Metadata> {
-	const gamePage = searchParams.page === 'game-zone' ? 'game-zone' : null;
-	const currentPage = Number(searchParams.page || '1');
-	const baseUrl =
-		'https://www.yourpricebooking.com/daily-journal-of-your-price-booking-service-history';
-	const canonicalUrl = currentPage === 1 ? baseUrl : `${baseUrl}?page=${currentPage}`;
 	return {
 		title: 'Your Price Booking Journey: From Hotel Reservations to Games on the Go',
 		description:
 			'Discover the Your Price Booking timeline with travel insights and our new Game Park — fun, interactive, and multilingual.',
 		alternates: {
-			canonical: gamePage ? `${baseUrl}?page=${gamePage}` : canonicalUrl,
-		},
-		other: {
-			...((currentPage > 1 && { prev: `${baseUrl}?page=${currentPage - 1}` }) ||
-				(gamePage && { prev: `${baseUrl}?page=${gamePage}` })),
-			next: `${baseUrl}?page=${currentPage + 1}`,
+			canonical: journalCanonical(journalPath, searchParams.page),
 		},
 	};
 }
 
 const POSTS_LIMIT = 1;
 
-export default async function HistoryPage({ searchParams }: { searchParams: { page?: string } }) {
-	const currentPage = searchParams.page === 'game-zone' ? 1 : Number(searchParams.page || '1');
+export default async function HistoryPage({ searchParams }: { searchParams: { page?: string | string[] } }) {
+	const currentPage = journalPage(searchParams.page);
 	const data = await getDailyJournalPosts(currentPage, POSTS_LIMIT);
 	const posts: JournalPostType[] = data.result.reverse();
 	return (
