@@ -5,6 +5,7 @@ import type { FocusEvent, PointerEvent } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { routes } from '@/app/routes';
+import { getShortcutHints } from '@/defaultData/shortcutHints';
 import { PagesEnum } from '@/types/enums/pagesEnums';
 import Logo from './Logo/Logo';
 import BackArrow from '../TopSection/BackArrow/BackArrow';
@@ -14,11 +15,11 @@ import SearchField from './SearchField/SearchField';
 import s from './Header.module.scss';
 
 const shortcuts = [
-  { id: 'travel', name: 'Travel Resources', href: '/travel-resources', hint: 'Explore live travel tools — maps, weather, flight tracking, and practical resources for your next trip.' },
-  { id: 'planet', name: 'Uncharted Planet', href: '/uncharted-planet', hint: 'We explore ancient monuments, competing theories of their construction, and the people — or civilizations — behind them.' },
-  { id: 'games', name: 'Games on the Go', href: '/daily-journal-of-your-price-booking-service-history?page=game-zone', hint: 'Discover our Game Zone — quick, casual games for a little escape between adventures.' },
-  { id: 'booking', name: 'Your Price Booking', href: 'https://www.yourpricebooking.com/', hint: 'Find a hotel or a short-term daily rental and propose your own price with Your Price Booking.' },
-];
+  { id: 'travel', name: 'Travel Resources', href: '/travel-resources' },
+  { id: 'planet', name: 'Uncharted Planet', href: '/uncharted-planet' },
+  { id: 'games', name: 'Games on the Go', href: '/daily-journal-of-your-price-booking-service-history?page=game-zone' },
+  { id: 'booking', name: 'Your Price Booking', href: 'https://www.yourpricebooking.com/' },
+] as const;
 
 export default function Header() {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ export default function Header() {
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const activeLink = pathname.split('/')[1];
+  const hints = getShortcutHints(activeLink);
   const isDailyJournal = pathname.startsWith('/daily-journal-of-your-price-booking-service-history');
   const isPostPage = Boolean(params.postPageLink) || isDailyJournal;
   const hasHeroSearch = routes.some((route) => route.path !== 'uncharted-planet' && pathname === `/${route.path}`);
@@ -114,7 +116,7 @@ export default function Header() {
                   {item.name}
                 </a>
                 {hintTarget === item.id && (
-                  <div id={`header-hint-${item.id}`} role="tooltip" className={s.hint}>{item.hint}</div>
+                  <div id={`header-hint-${item.id}`} role="tooltip" lang={hints.lang} className={s.hint}>{hints[item.id]}</div>
                 )}
               </div>
             ))}
