@@ -41,10 +41,11 @@ async function page({
 						const imageSrc = getImageUrl(normalizedImages, 0) || '';
 						return (
 							<Article
+                articleUrl={article.articleUrl}
 								key={article._id}
 								slug={country + '/' + article?.articleUrl?.split('/').pop()}
 								title={article.title}
-								country={article.country}
+								country={country}
 								imageSrc={imageSrc}
 								author={article.author}
 								date={article.publicationDate}

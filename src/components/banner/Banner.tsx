@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const Banner: React.FC = () => {
 	return (
-		<Link href="https://www.yourpricebooking.com" target="blank" className={style.banner}>
+		<Link href="https://www.yourpricebooking.com" target="_blank" rel="noopener noreferrer" className={style.banner}>
 			<ul className={`${style.banner__body} ${style.shine}`}>
 				<li className={style.banner__content}>
 					<div className={style.banner__content_bg}>

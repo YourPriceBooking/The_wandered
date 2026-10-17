@@ -1,3 +1,5 @@
+import { authorIdentifier } from '@/utils/authorIdentity';
+export { serializeStructuredData } from '@/utils/structuredData';
 import { pageMetadata } from '@/utils/seoMetadata';
 import type { Metadata } from 'next';
 import { authorsCopy, type AuthorsLanguage } from './authorsCopy';
@@ -48,7 +50,7 @@ export function authorsStructuredData(authors: DirectoryAuthor[], language: Auth
         '@type': 'ListItem', position: index + 1,
         item: {
           '@type': 'Person',
-          '@id': `${authorsBaseUrl}/#author-${encodeURIComponent(author._id)}`,
+          '@id': authorIdentifier(author._id),
           name: author.name,
           url: `${url}#author-${encodeURIComponent(author._id)}`,
           description: localizedAuthorBio(author, language),
@@ -58,8 +60,4 @@ export function authorsStructuredData(authors: DirectoryAuthor[], language: Auth
       })),
     },
   };
-}
-
-export function serializeStructuredData(value: unknown): string {
-  return JSON.stringify(value).replace(/</g, '\\u003c');
 }

@@ -25,7 +25,7 @@ export default function TopSection({ isWhite = false, country, viewPath, country
       <div className={s.nameBlock}>
         <div className={s.logoBlock}>
           <Image src="/brandMarkTop.svg" alt="" width={18} height={18} />
-          <h2 className={s.topTitle}>the wandered</h2>
+          <p className={s.topTitle}>the wandered</p>
         </div>
         {country && <ViewCounter country={country} viewPath={viewPath} prefix={copy.viewsPrefix} />}
       </div>

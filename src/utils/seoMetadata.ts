@@ -1,10 +1,12 @@
+import { articleDate } from '@/utils/articleDate';
 import type { Metadata } from 'next';
 import type { postData } from '@/types/postTypes';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import { journalPage } from '@/utils/journalSeo';
-import { fallbackAuthors } from '@/defaultData/authorProfiles';
+import { authorProfile } from '@/utils/authorIdentity';
 
-export const siteUrl = 'https://www.thewandered.com';
+import { articleCanonical, siteUrl } from '@/utils/articleUrl';
+export { articleCanonical, siteUrl } from '@/utils/articleUrl';
 export type SeoLanguage = 'en' | 'uk' | 'pl';
 export const seoLocales = { en: 'en_US', uk: 'uk_UA', pl: 'pl_PL' };
 export const languageForCountry = (country: string): SeoLanguage => country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en';
@@ -58,16 +60,6 @@ const fallbackCopy = {
 function plainText(value: string): string {
   return value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
-function isoDate(value: string): string | undefined {
-  if (!value || !/^\d{4}-\d{2}-\d{2}(?:T|$)/.test(value)) return undefined;
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
-}
-export function articleCanonical(country: string, slug: string): string {
-  // Next 14 params can contain an encoded segment. Decode once, then encode as ONE segment.
-  try { slug = decodeURIComponent(slug); } catch { /* A literal percent sign is valid content. */ }
-  return `${siteUrl}/${country === 'home' ? '' : country + '/'}${encodeURIComponent(slug)}`;
-}
 export function articleSocialImage(data: postData, language: SeoLanguage): SocialImage {
   const hero = normalizeImageUrl(data.imageUrl)[0];
   try {
@@ -88,10 +80,9 @@ export function articleMetadata(data: postData, country: string, slug: string): 
   const url = articleCanonical(country, slug);
   const image = articleSocialImage(data, language);
   const author = plainText(data.author);
-  const profile = fallbackAuthors.find((entry) => entry.name === author);
-  const profileUrl = profile ? `${siteUrl}/${language === 'en' ? '' : language === 'uk' ? 'ukraine/' : 'poland/'}authors#author-${encodeURIComponent(profile._id)}` : undefined;
-  const publishedTime = isoDate(data.publicationDate);
-  const modifiedTime = isoDate(data.changeDate);
+  const profileUrl = authorProfile(author, country)?.url;
+  const publishedTime = articleDate(data.publicationDate);
+  const modifiedTime = articleDate(data.changeDate);
   const common = pageMetadata({ title, description, path: url, language, image });
   return {
     ...common,

@@ -23,7 +23,7 @@ const HeroImage: React.FC<HeroImageProps> = ({ data }) => {
   const { image, caption } = data;
 
   return (
-    <div className={styles.heroContainer}>
+    <figure className={styles.heroContainer}>
       <div className={styles.imageWrapper}>
         <div className={styles.imageInner}>
           <Image
@@ -43,14 +43,14 @@ const HeroImage: React.FC<HeroImageProps> = ({ data }) => {
         </div>
       </div>
 
-      <div className={styles.captionWrapper}>
+      <figcaption className={styles.captionWrapper}>
         <div className={styles.caption}>
           <p className={styles.title}>{caption.text}</p>
           <p className={styles.subtitle}>{caption.subtitle}</p>
           {caption.credit && <span className={styles.credit}>{caption.credit}</span>}
         </div>
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   );
 };
 

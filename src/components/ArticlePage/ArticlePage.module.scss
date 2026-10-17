@@ -259,3 +259,7 @@
 		padding-top: 20px;
 	}
 }
+
+.articleContent { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.promotions { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.disclosure { width: 100%; max-width: 1080px; padding: 16px 24px 0; font-size: 12px; line-height: 1.5; color: #62676b; }

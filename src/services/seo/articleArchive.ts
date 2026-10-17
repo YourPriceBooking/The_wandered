@@ -1,23 +1,10 @@
-import { articleCanonical, siteUrl } from '@/utils/seoMetadata';
+import { canonicalArticleUrl, articleCountries, siteUrl } from '@/utils/articleUrl';
+export { canonicalArticleUrl, articleCountries } from '@/utils/articleUrl';
 import { getPostData } from '@/services/getPostData';
 import type { MetadataRoute } from 'next';
 
-export const articleCountries = ['home', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet'] as const;
 const LIMIT = 100;
 export type ArticleInventory = { entries: MetadataRoute.Sitemap; totals: Record<string, number>; excluded: number };
-export function canonicalArticleUrl(value: unknown, country: string): string | undefined {
-  if (typeof value !== 'string') return undefined;
-  try {
-    const url = new URL(value);
-    if (!['http:', 'https:'].includes(url.protocol) || !['thewandered.com', 'www.thewandered.com'].includes(url.hostname) || url.username || url.password || url.port) return undefined;
-    const segments = url.pathname.replace(/\/$/, '').split('/').filter(Boolean);
-    if (country === 'home' ? segments.length !== 1 : segments.length !== 2 || segments[0] !== country) return undefined;
-    const slug = segments[segments.length - 1];
-    const reserved = ['authors', 'private-policy', 'travel-resources', 'wandered-posts', 'daily-journal-of-your-price-booking-service-history', ...articleCountries];
-    if (country === 'home' && reserved.includes(slug)) return undefined;
-    return articleCanonical(country, slug);
-  } catch { return undefined; }
-}
 async function batch(country: string, page: number) {
   const url = new URL('/blog/api/post/get-all', siteUrl);
   url.search = new URLSearchParams({ typeOfPage: country, page: String(page), limit: String(LIMIT) }).toString();

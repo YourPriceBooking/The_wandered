@@ -1,4 +1,4 @@
-'use client';
+import { canonicalArticleUrl, siteUrl } from '@/utils/articleUrl';
 
 import s from './Article.module.scss';
 import UiSuspense from '@/components/ui/UiSuspense';
@@ -8,6 +8,7 @@ import ArticleLinkContent from './ArticleLinkContent/ArticleLinkContent';
 
 interface ArticleProps {
 	slug: string | undefined;
+  articleUrl?: string;
 	title: string;
 	imageSrc: string;
 	author: string;
@@ -22,6 +23,7 @@ interface ArticleProps {
 
 function Article({
 	slug,
+  articleUrl,
 	title,
 	imageSrc,
 	author,
@@ -33,6 +35,7 @@ function Article({
 	isSuggested,
 	country,
 }: ArticleProps) {
+  const href = canonicalArticleUrl(articleUrl || (slug ? `${siteUrl}/${slug}` : ''), country || 'home');
 	return (
 		<UiSuspense fallback={<ArticleSkeleton />}>
 			<article className={`${s.articleBlock} ${isSuggested ? s.suggested : ''}`}>
@@ -44,7 +47,7 @@ function Article({
 					country={country}
 				/>
 				<ArticleLinkContent
-					slug={slug || ''}
+					href={href}
 					title={title}
 					heading={heading}
 					imageSrc={imageSrc}
