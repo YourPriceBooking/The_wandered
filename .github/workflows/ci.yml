@@ -20,6 +20,7 @@ jobs:
       - run: npm run test:pagination-archive
       - run: npm run test:schema-semantics
       - run: npm run test:header
+      - run: node --test tests/route-loader.test.cjs
       - run: npm run test:performance-cache
       - run: npm run lint:seo-release
       - run: npm run test:seo-release
