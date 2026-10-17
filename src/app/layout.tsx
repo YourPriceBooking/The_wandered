@@ -10,6 +10,7 @@ import { headers } from 'next/headers';
 import DocumentLanguage from '@/components/DocumentLanguage/DocumentLanguage';
 import GetDataClient from '@/components/GetDataClient/GetDataClient';
 import HotFXLoader from '@/components/Header/HotFXLoader';
+import RouteLoader from '@/components/LoadingScreen/RouteLoader/RouteLoader';
 
 export const metadata: Metadata = {
 	metadataBase: new URL('https://www.thewandered.com'),
@@ -38,7 +39,7 @@ export default function RootLayout({
 				<div className="shy-header-spacer" />
 				<StoreProvider>
 					<GetDataClient />
-					{children}
+					<RouteLoader>{children}</RouteLoader>
 					<Footer />
 					<GoogleAnalytics gaId="G-3SDMVMQQVR" />
 				</StoreProvider>
