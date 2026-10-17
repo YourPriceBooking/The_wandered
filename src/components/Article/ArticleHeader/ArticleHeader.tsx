@@ -18,10 +18,13 @@ export default function ArticleHeader({ author, date, updated, viewPath, country
   const [visible, setVisible] = useState(false);
   const validDate = date && Number.isFinite(Date.parse(date));
   const copy = authorsCopy[country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en'];
+  const [firstName, ...restOfName] = author.trim().split(/\s+/);
+  const remainingName = restOfName.join(' ');
+  const authorName = <><span className={s.authorNamePart}>{firstName}</span>{remainingName && <> <span className={s.authorNamePart}>{remainingName}</span></>}</>;
   const bio = author === 'Viacheslav Nikitenko' ? copy.editorBio : author === 'Andy Ray' ? copy.andyBio : '';
   return <header className={s.authorBlock}>
-    <div onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)} onFocusCapture={() => setVisible(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setVisible(false); }} onKeyDown={(event) => { if (event.key === 'Escape') setVisible(false); }}>
-      <p className={s.author}>{profile ? <a href={profile.url}>{author}</a> : author}</p>
+    <div className={s.authorIdentity} onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)} onFocusCapture={() => setVisible(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setVisible(false); }} onKeyDown={(event) => { if (event.key === 'Escape') setVisible(false); }}>
+      <p className={s.author} title={author}>{profile ? <a href={profile.url}>{authorName}</a> : authorName}</p>
       {current && <div className={`${s.authorTooltipWrapper} ${visible ? s.visible : ''}`}>
         <div className={s.authorTooltip}>
           <div className={s.tooltipMainInfo}>
