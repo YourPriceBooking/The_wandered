@@ -8,9 +8,10 @@ const React = require('react');
 
 test('splash covers clicks before route commit and finishes only after the destination commits', () => {
   const dom = new JSDOM('<div id="app"></div><a id="next" href="/canada/story">Article</a><a id="external" href="https://example.com">External</a>', { url: 'https://www.thewandered.com/' });
-  const previous = { window: global.window, document: global.document, act: global.IS_REACT_ACT_ENVIRONMENT };
+  const previous = { window: global.window, document: global.document, act: global.IS_REACT_ACT_ENVIRONMENT, navigator: Object.getOwnPropertyDescriptor(global, 'navigator') };
   global.window = dom.window;
   global.document = dom.window.document;
+  Object.defineProperty(global, 'navigator', { configurable: true, value: dom.window.navigator });
   global.IS_REACT_ACT_ENVIRONMENT = true;
   const { createRoot } = require('react-dom/client');
   const root = createRoot(document.querySelector('#app'));
@@ -63,6 +64,8 @@ test('splash covers clicks before route commit and finishes only after the desti
     React.act(() => root.unmount()); assert.equal(timers.size, 0);
   } finally {
     React.act(() => root.unmount()); dom.window.close();
+    if (previous.navigator) Object.defineProperty(global, 'navigator', previous.navigator);
+    else delete global.navigator;
     global.window = previous.window; global.document = previous.document; global.IS_REACT_ACT_ENVIRONMENT = previous.act;
   }
 });
