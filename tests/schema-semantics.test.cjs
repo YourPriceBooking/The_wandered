@@ -81,3 +81,39 @@ test('malformed and external recommendation records cannot create broken article
   const result = await source('primary', 'home');
   assert.equal(result.length, 1); assert.equal(result[0]._id, 'valid'); assert.equal(result[0].imageUrl.length, 0);
 });
+
+const { articleViews } = load('src/utils/articleViews.ts');
+test('recommended cards use their own country-qualified path, not homepage views', () => {
+  const views = { '/': 7481, '/canada/story-one': 31, '/canada/story-two': 72, '/story-one': 9 };
+  assert.equal(articleViews(views, '/canada/story-one'), 31);
+  assert.equal(articleViews(views, '/canada/story-two'), 72);
+  assert.equal(articleViews(views, '/story-one'), 9);
+  for (const path of [undefined, '', '/', '/canada/unknown']) assert.equal(articleViews(views, path), 0);
+});
+test('card views support encoded and decoded analytics paths without dropping real zeros', () => {
+  const encoded = '/ukraine/trip-%D0%BC%D1%96%D1%81%D1%82%D0%BE-%26-spa';
+  const decoded = decodeURIComponent(encoded);
+  assert.equal(articleViews({ [decoded]: 42 }, encoded), 42);
+  assert.equal(articleViews({ [encoded]: 0, [decoded]: 42 }, encoded), 0);
+  assert.equal(articleViews({ '/canada/100%-travel': 7 }, '/canada/100%-travel'), 7);
+});
+test('a recommendation without a slug passes its canonical URL path to the counter', () => {
+  const ts = require('typescript');
+  const fs = require('node:fs');
+  const vm = require('node:vm');
+  const exports = {};
+  const source = ts.transpileModule(fs.readFileSync('src/components/Article/Article.tsx', 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
+  }).outputText;
+  const Header = () => null;
+  vm.runInNewContext(source, { exports, URL, require: id => {
+    if (id === 'react/jsx-runtime') return require(id);
+    if (id === '@/utils/articleUrl') return urls;
+    if (id.endsWith('ArticleHeader/ArticleHeader')) return Header;
+    return () => null;
+  } });
+  const card = exports.default({ articleUrl: 'https://www.thewandered.com/canada/story-one', country: 'canada', slug: undefined });
+  const header = card.props.children.props.children.find(child => child.type === Header);
+  assert.equal(header.props.viewPath, '/canada/story-one');
+  assert.equal(articleViews({ '/': 7481, '/canada/story-one': 31 }, header.props.viewPath), 31);
+});
