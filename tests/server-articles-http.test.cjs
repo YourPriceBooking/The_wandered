@@ -312,6 +312,30 @@ test('travel resources retain four interactive providers without dead link wrapp
   dom.window.close();
 });
 
+test('retired travel tool URLs redirect permanently to their matching dashboard sections', async () => {
+  const dashboard = await page('/travel-resources');
+  try {
+    for (const tool of ['live-flights-map', 'travel-news-trends', 'global-weather', 'explore-world-map']) {
+      assert.ok(dashboard.dom.window.document.getElementById(tool)?.querySelector('iframe'));
+      for (const query of ['', '?utm_source=legacy']) {
+        const response = await fetch(`${base}/travel-resources/${tool}${query}`, { redirect: 'manual' });
+        assert.equal(response.status, 308);
+        assert.equal(response.headers.get('location'), `https://www.thewandered.com/travel-resources${query}#${tool}`);
+      }
+    }
+  } finally { dashboard.dom.window.close(); }
+  const missing = await fetch(base + '/travel-resources/nonexistent-tool', { redirect: 'manual' });
+  assert.equal(missing.status, 404, 'Unknown resources still return a real 404');
+});
+
+test('misplaced support URL redirects permanently to the actual English Help Center', async () => {
+  const response = await fetch(base + '/en/support', { redirect: 'manual' });
+  assert.equal(response.status, 308);
+  assert.equal(response.headers.get('location'), 'https://www.yourpricebooking.com/en/support');
+  const missing = await fetch(base + '/en/nonexistent-page', { redirect: 'manual' });
+  assert.equal(missing.status, 404, 'Other English paths are not redirected to another site');
+});
+
 test('listing images prioritize only the first card and keep lower cards lazy', async () => {
   for (const route of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet']) {
     const { response, dom } = await page(route); const d = dom.window.document;
@@ -380,4 +404,12 @@ test('bare production host redirects permanently to HTTPS www while preserving p
   }
   const canonicalHost = await hostRequest('/', 'www.thewandered.com');
   assert.equal(canonicalHost.status, 200, 'No canonical-host redirect loop');
+  for (const host of ['thewandered.com', 'www.thewandered.com']) {
+    const tool = await hostRequest('/travel-resources/live-flights-map?utm_source=legacy', host);
+    assert.equal(tool.status, 308);
+    assert.equal(tool.location, 'https://www.thewandered.com/travel-resources?utm_source=legacy#live-flights-map', 'Legacy redirects avoid an extra host-normalization hop');
+    const support = await hostRequest('/en/support', host);
+    assert.equal(support.status, 308);
+    assert.equal(support.location, 'https://www.yourpricebooking.com/en/support');
+  }
 });
