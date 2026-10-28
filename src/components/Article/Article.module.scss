@@ -289,49 +289,24 @@
 }
 
 .articleBlock.suggested {
-	max-width: 490px;
-	max-height: 490px;
-
-	.authorBlock {
-		p {
-			font-size: 16px;
-
-			@media (max-width: 768px) {
-				font-size: 14px;
-			}
-			@media (max-width: 462px) {
-				font-size: 12px;
-			}
-		}
-	}
-	.titleBlock {
-		p {
-			margin-left: 7px;
-			font-size: 18px;
-
-			@media (max-width: 768px) {
-				font-size: 16px;
-			}
-		}
-	}
-
-	.readMore {
-		p {
-			@media (max-width: 768px) {
-				font-size: 14px;
-			}
-		}
-	}
-
-	@media (max-width: 768px) {
-		max-width: 400px;
-		max-height: 480px;
-	}
-
-	@media (max-width: 462px) {
-		max-width: 330px;
-		max-height: 370px;
-	}
+  width: 100%; max-width: none; max-height: none; margin: 0; display: flex; flex-direction: column;
+  border: 1px solid #e2e5e8; border-radius: 14px; background: white;
+  &:hover { background: #fffaf6; }
+  > header {
+    order: 2; width: calc(100% - 40px); padding: 8px 0 12px; margin-inline: 20px;
+    display: flex; flex-wrap: wrap; gap: 8px 14px; white-space: normal; font-size: 12px; justify-content: flex-start;
+    > div:first-child { flex: 1 1 110px; min-width: 0; }
+    > div:nth-child(2) { width: auto; flex: 0 1 auto; }
+    > div:last-child { flex: 0 0 auto; }
+    p { font-size: 12px; }
+  }
+  .imageBlock { order: 0; width: 100%; height: auto; aspect-ratio: 16 / 9; margin: 0; border-radius: 14px 14px 0 0; overflow: hidden; }
+  .imageBlock:hover img, .imageBlock:hover .defaultImage { padding: 0; }
+  .titleBlock { order: 1; width: 100%; padding: 18px 20px 0; margin: 0; }
+  .title { display: block; -webkit-line-clamp: unset; overflow: visible; margin: 0; font-size: 21px; line-height: 1.35; white-space: normal; overflow-wrap: anywhere; color: #20252b; }
+  .line { display: none; }
+  .readMore { order: 3; margin: auto 20px 18px; padding-top: 8px; align-self: flex-start; }
+  @media (max-width: 600px) { .title { font-size: 20px; } }
 }
 
 .linkContentSkeleton {

@@ -62,13 +62,19 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     assert.equal(articleSchema.url, canonical); assert.equal(articleSchema.mainEntityOfPage['@id'], canonical);
     assert.equal(articleSchema.author.name, 'Fixture Author'); assert.equal(articleSchema.author.url, undefined);
     assert.equal(d.querySelectorAll('h1').length, 1);
+    const primary = d.querySelector('main > article');
+    const heroFigure = primary.querySelector('figure');
+    assert.ok(primary.querySelector('h1').compareDocumentPosition(heroFigure) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.ok(heroFigure.querySelector('button[data-article-image]'));
+    assert.ok(primary.querySelector('dialog'));
+    assert.equal(primary.querySelector('header').textContent.includes('Fixture description'), false);
     const breadcrumbs = schemas.find((value) => value['@type'] === 'BreadcrumbList').itemListElement;
     const visible = [...d.querySelectorAll('nav[aria-label="Breadcrumbs"] li, nav[aria-label="Навігаційний шлях"] li, nav[aria-label="Ścieżka nawigacji"] li')];
     assert.equal(breadcrumbs.length, visible.length);
     breadcrumbs.forEach((crumb, index) => assert.equal(crumb.name, visible[index].textContent));
     assert.equal(breadcrumbs[breadcrumbs.length - 1].item, canonical);
-    assert.ok(d.querySelector('aside[aria-label="More stories"], aside[aria-label="Інші статті"], aside[aria-label="Inne artykuły"] h2 a'));
-    assert.equal(d.querySelector('main aside h2 a').closest('[hidden]'), null);
+    assert.ok(d.querySelector('aside[aria-label="More stories"], aside[aria-label="Інші статті"], aside[aria-label="Inne artykuły"] article h3 a'));
+    assert.equal(d.querySelector('main aside article h3 a').closest('[hidden]'), null);
     assert.ok(!d.querySelector('main > article aside'), 'Promotions/recommendations are outside the primary article');
 
     assert.equal(d.documentElement.lang, country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en');
@@ -253,7 +259,7 @@ for (const [country, language, updated] of [['usa','en','Updated'],['ukraine','u
     const data = [...d.querySelectorAll('script[type="application/ld+json"]')].map(node=>JSON.parse(node.textContent)).find(value=>value['@type']==='BlogPosting');
     assert.equal(data.author.name, 'Viacheslav Nikitenko'); assert.equal(data.inLanguage, language);
     assert.ok([...d.querySelectorAll('a')].some(link=>link.href===data.author.url && link.textContent==='Viacheslav Nikitenko'));
-    assert.equal(data.dateModified, '2026-10-17T08:00:00.000Z');
+    assert.equal(data.dateModified, '2026-10-18T08:00:00.000Z');
     assert.ok([...d.querySelectorAll('time')].some(time=>time.dateTime===data.dateModified && time.parentElement.textContent.includes(updated)));
     const path = new URL(data.author.url).pathname;
     const profile = await page(path); const authorNode = profile.dom.window.document.getElementById(new URL(data.author.url).hash.slice(1));
@@ -324,7 +330,7 @@ test('article hero is responsive while related images and promotion remain lazy'
   assert.equal(response.status, 200);
   const hero = d.querySelector('main > article figure img[data-nimg]'); assert.ok(hero);
   assert.notEqual(hero.getAttribute('loading'), 'lazy');
-  assert.ok(hero.getAttribute('sizes').includes('714px'));
+  assert.ok(hero.getAttribute('sizes').includes('1040px'));
   const deferred = [...d.querySelectorAll('main > aside img[data-nimg]')];
   assert.equal(deferred.length, 5);
   for (const image of deferred) assert.equal(image.getAttribute('loading'), 'lazy');

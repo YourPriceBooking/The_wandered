@@ -263,3 +263,8 @@
 .articleContent { display: flex; flex-direction: column; align-items: center; width: 100%; }
 .promotions { width: 100%; display: flex; flex-direction: column; align-items: center; }
 .disclosure { width: 100%; max-width: 1080px; padding: 16px 24px 0; font-size: 12px; line-height: 1.5; color: #62676b; }
+
+.articleContent > nav {
+  width: calc(100% - 48px); max-width: 720px; padding: 0; margin: 24px auto 20px;
+}
+@media (max-width: 600px) { .articleContent > nav { width: calc(100% - 32px); margin-block: 18px 16px; } }
