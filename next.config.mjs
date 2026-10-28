@@ -1,12 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
-    return [{
-      source: '/:path*',
-      has: [{ type: 'host', value: 'thewandered\\.com' }],
-      destination: 'https://www.thewandered.com/:path*',
-      permanent: true,
-    }];
+    return [
+      // Retired tool URLs now have equivalent sections on the dashboard.
+      ...['live-flights-map', 'travel-news-trends', 'global-weather', 'explore-world-map'].map((tool) => ({
+        source: `/travel-resources/${tool}`,
+        destination: `https://www.thewandered.com/travel-resources#${tool}`,
+        permanent: true,
+      })),
+      {
+        source: '/en/support',
+        destination: 'https://www.yourpricebooking.com/en/support',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'thewandered\\.com' }],
+        destination: 'https://www.thewandered.com/:path*',
+        permanent: true,
+      },
+    ];
   },
   images: {
     domains: ['s3-alpha-sig.figma.com', 'res.cloudinary.com', 'www.thewandered.com'],
