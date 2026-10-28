@@ -10,13 +10,20 @@ import style from './PostBlock.module.scss';
 
 export default function PostAuthor({ name, country }: { name: string; country: string }) {
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
+  const [failedAvatar, setFailedAvatar] = useState<string | null>(null);
   const authorRef = useRef<HTMLDivElement>(null);
+  const avatarRef = useRef<HTMLImageElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   const allAuthors = useAppSelector((state) => state.allAuthors.allAuthorsData || []);
   const currentAuthor = name
     ? (allAuthors.find((author: AuthorType) => author.name === name) || fallbackAuthors.find((author) => author.name === name))
     : null;
+
+  const authorImage = currentAuthor?.image?.replace(/^http:\/\/res\.cloudinary\.com\//, 'https://res.cloudinary.com/') || '';
+  useEffect(() => {
+    if (avatarRef.current?.complete && avatarRef.current.naturalWidth === 0) setFailedAvatar(authorImage);
+  }, [authorImage]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,6 +46,7 @@ export default function PostAuthor({ name, country }: { name: string; country: s
   const bio = name === 'Viacheslav Nikitenko' ? copy.editorBio : name === 'Andy Ray' ? copy.andyBio : '';
   const profile = authorProfile(name, country);
   const links = authorSocialLinks(currentAuthor?.links);
+  if (!name.trim()) return null;
   return (
         <div ref={authorRef} style={{ position: 'relative' }} onFocusCapture={() => setTooltipVisible(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setTooltipVisible(false); }} onKeyDown={(event) => { if (event.key === 'Escape') setTooltipVisible(false); }}>
           <div
@@ -46,7 +54,8 @@ export default function PostAuthor({ name, country }: { name: string; country: s
             onMouseEnter={() => setTooltipVisible(true)}
             onMouseLeave={() => setTooltipVisible(false)}
           >
-            {profile ? <a href={profile.url}>{name}</a> : name}
+            {authorImage && failedAvatar !== authorImage ? <img ref={avatarRef} className={style.authorAvatar} src={authorImage} alt="" width={36} height={36} onError={() => setFailedAvatar(authorImage)} /> : <span className={style.authorInitial} aria-hidden="true">{name.trim().charAt(0)}</span>}
+            {profile ? <a href={profile.url}>{name}</a> : <span>{name}</span>}
           </div>
 
           {currentAuthor && (
@@ -58,12 +67,10 @@ export default function PostAuthor({ name, country }: { name: string; country: s
             >
               <div className={style.authorTooltip}>
                 <div className={style.tooltipMainInfo}>
-                  <img
-                    className={style.tooltipMainImg}
-                    src={currentAuthor.image}
-                    alt={name}
-                    onError={(e) => (e.currentTarget.src = '/no-photo.webp')}
-                  />
+                  {authorImage && failedAvatar !== authorImage ? <img
+                    className={style.tooltipMainImg} src={authorImage} alt=""
+                    onError={() => setFailedAvatar(authorImage)}
+                  /> : <span className={style.authorInitial} aria-hidden="true">{name.trim().charAt(0)}</span>}
                   <div>
                     <p className={style.tooltipName}>{currentAuthor.name}</p>
                     <div className={style.tooltipLinks}>

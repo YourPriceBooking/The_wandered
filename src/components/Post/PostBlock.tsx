@@ -10,38 +10,44 @@ import PageViewes from '../PageViewes';
 import { normalizeImageUrl } from '@/utils/normalizeImageUrl';
 import HeroImage from './HeroImage/HeroImage';
 import PostAuthor from './PostAuthor';
+import ArticleImageViewer from './ArticleImageViewer';
 import { renderArticleHtml } from './helpers/renderArticleHtml';
+import { readingMinutes } from './helpers/readingMinutes';
 
 export default function PostBlock({ data, country, postPageLink }: PostPageProps & { data: postData }) {
+  const language = languageForCountry(country);
   const hero = normalizeImageUrl(data.imageUrl)[0];
   const published = articleDate(data.publicationDate);
   const modified = articleDate(data.changeDate);
-  const copy = editorialCopy[languageForCountry(country)];
+  const publishedText = published ? getReadableDate(data.publicationDate, country) : '';
+  const modifiedText = modified ? getReadableDate(data.changeDate, country) : '';
+  const showUpdated = modified && (!published || (modified > published && modifiedText !== publishedText));
+  const copy = editorialCopy[language];
+  const html = renderArticleHtml(data.markup, data.imageUrl, language);
   return (
-    <>
-      <div className={style.imageWrapper}>
-        <div className={style.post__img}>
-          {hero?.url ? (
-            <HeroImage data={{
-              image: { src: contentImageUrl(hero.url) || hero.url, alt: hero.context.alt || data.heading, focus: 'center' },
-              caption: { text: hero.context.caption },
-            }} />
-          ) : <div className={style.post__img_bg}><HouseIcon color="white" /></div>}
-        </div>
-      </div>
-      <div className={style.post__content}>
+    <ArticleImageViewer language={language}>
+      <header className={style.articleHeader}>
         <h1 className={style.post__title}>{data.heading}</h1>
-        {published && <div className={style.post__date_public}>
-          <time dateTime={published}>{getReadableDate(data.publicationDate, country)}</time>
-        </div>}
-        {modified && <div className={style.post__date_public}>{copy.updated}: <time dateTime={modified}>{getReadableDate(data.changeDate, country)}</time></div>}
-        <div className={style.viewCounter}>
-          <PageViewes country={country} postPageLink={postPageLink} />
-          <img src="/eye.png" alt="views icon" />
+        <div className={style.metadata}>
+          <PostAuthor name={data.author} country={country} />
+          <div className={style.metadataDetails}>
+            {published && <time dateTime={published}>{publishedText}</time>}
+            <span>~{readingMinutes(html)} {copy.reading}</span>
+            <div className={style.viewCounter} title={copy.views}>
+              <img src="/eye.png" alt="" />
+              <PageViewes country={country} postPageLink={postPageLink} />
+            </div>
+          </div>
         </div>
-        <PostAuthor name={data.author} country={country} />
-        <div className={`${style.post__markup} ql-editor`} dangerouslySetInnerHTML={{ __html: renderArticleHtml(data.markup, data.imageUrl, languageForCountry(country)) }} />
-      </div>
-    </>
+        {showUpdated && <p className={style.updated}>{copy.updated}: <time dateTime={modified}>{modifiedText}</time></p>}
+      </header>
+      {hero?.url ? <div className={style.imageWrapper}>
+        <HeroImage language={language} data={{
+          image: { src: contentImageUrl(hero.url) || hero.url, alt: hero.context.alt || data.heading, focus: 'center' },
+          caption: { text: hero.context.caption },
+        }} />
+      </div> : <div className={style.missingImage} aria-hidden="true"><HouseIcon color="#ff6b19" /></div>}
+      <div className={`${style.post__markup} ql-editor`} dangerouslySetInnerHTML={{ __html: html }} />
+    </ArticleImageViewer>
   );
 }

@@ -22,6 +22,7 @@ jobs:
       - run: npm run test:header
       - run: node --test tests/route-loader.test.cjs
       - run: node --test tests/section-views.test.cjs
+      - run: node --test tests/article-layout.test.cjs
       - run: npm run test:performance-cache
       - run: npm run lint:seo-release
       - run: npm run test:seo-release

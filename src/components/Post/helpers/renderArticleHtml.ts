@@ -16,15 +16,20 @@ export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[], la
       section.innerHTML = heading.innerHTML; heading.replaceWith(section);
     });
     document.querySelectorAll('[style]').forEach((element) => element.removeAttribute('style'));
-    document.querySelectorAll('h1,h2,h3,h4,h5,h6,img,iframe,blockquote').forEach((element) => {
-      // Do not insert a block paragraph inside an editor paragraph around an image.
+    const headings = Array.from(document.querySelectorAll('h2,h3,h4,h5,h6'));
+    const baseLevel = Math.min(6, ...headings.map(heading => Number(heading.tagName.slice(1))));
+    if (baseLevel > 2) headings.forEach(heading => {
+      const section = document.createElement(`h${Number(heading.tagName.slice(1)) - baseLevel + 2}`);
+      for (const attribute of Array.from(heading.attributes)) section.setAttribute(attribute.name, attribute.value);
+      section.innerHTML = heading.innerHTML;
+      heading.replaceWith(section);
+    });
+    const emptyParagraph = (element: Element | null): element is Element => Boolean(element?.tagName === 'P' &&
+      Array.from(element.childNodes).every(node => node.nodeType === 3 ? !node.textContent?.trim() : node.nodeName === 'BR'));
+    document.querySelectorAll('h2,h3,h4,h5,h6,img,figure,iframe,blockquote').forEach(element => {
       const target = element.closest('p') || element;
-      const previous = target.previousElementSibling;
-      if (!previous || previous.tagName !== 'P' || previous.innerHTML !== '<br>') {
-        const space = document.createElement('p');
-        space.innerHTML = '<br>';
-        target.before(space);
-      }
+      while (emptyParagraph(target.previousElementSibling)) target.previousElementSibling!.remove();
+      while (emptyParagraph(target.nextElementSibling)) target.nextElementSibling!.remove();
     });
     document.querySelectorAll('blockquote').forEach((element) => {
       const text = element.innerHTML;
@@ -51,6 +56,19 @@ export function renderArticleHtml(markup: string, imageUrls: ImageUrlInput[], la
           } else image.after(caption);
         }
       } else if (image.getAttribute('src')?.includes('imgUrlByIdx')) image.removeAttribute('src');
+    });
+    document.querySelectorAll('img[src]').forEach(image => {
+      if (image.closest('a,button')) return;
+      const src = image.getAttribute('src')!.replace(/^http:\/\/res\.cloudinary\.com\//, 'https://res.cloudinary.com/');
+      image.setAttribute('src', src);
+      if (!src.startsWith('https://') && !src.startsWith('/')) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'article-image-button';
+      button.setAttribute('data-article-image', src);
+      button.setAttribute('aria-label', { en: 'View larger image', uk: 'Переглянути зображення у більшому розмірі', pl: 'Powiększ zdjęcie' }[language]);
+      image.replaceWith(button);
+      button.append(image);
     });
     document.querySelectorAll('iframe').forEach((frame) => {
       frame.setAttribute('loading', 'lazy');

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from './HeroImage.module.scss';
+import { editorialCopy } from '@/defaultData/editorialCopy';
 
 export interface HeroImageData {
   image: {
@@ -17,39 +18,39 @@ export interface HeroImageData {
 
 interface HeroImageProps {
   data: HeroImageData;
+  language?: 'en' | 'uk' | 'pl';
 }
 
-const HeroImage: React.FC<HeroImageProps> = ({ data }) => {
+const HeroImage: React.FC<HeroImageProps> = ({ data, language = 'en' }) => {
   const { image, caption } = data;
 
   return (
     <figure className={styles.heroContainer}>
-      <div className={styles.imageWrapper}>
-        <div className={styles.imageInner}>
+      <button type="button" className={styles.imageWrapper} data-article-image={image.src} aria-label={editorialCopy[language].zoom}>
+        <span className={styles.imageInner}>
           <Image
             src={image.src}
             alt={image.alt}
             width={2400}
             height={1350}
             priority
-            sizes="(max-width: 320px) calc(100vw - 30px), (max-width: 768px) calc(100vw - 50px), (max-width: 1080px) 66vw, 714px"
+            sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1088px) calc(100vw - 48px), 1040px"
             className={styles.heroImage}
             style={{
               objectFit: 'cover',
               objectPosition: image.focus,
             }}
           />
-          <div className={styles.overlay} />
-        </div>
-      </div>
+        </span>
+      </button>
 
-      <figcaption className={styles.captionWrapper}>
+      {(caption.text || caption.subtitle || caption.credit) && <figcaption className={styles.captionWrapper}>
         <div className={styles.caption}>
           <p className={styles.title}>{caption.text}</p>
           <p className={styles.subtitle}>{caption.subtitle}</p>
           {caption.credit && <span className={styles.credit}>{caption.credit}</span>}
         </div>
-      </figcaption>
+      </figcaption>}
     </figure>
   );
 };
