@@ -55,6 +55,7 @@ const Page = async ({ searchParams }: PageProps) => {
 				return (
 					<Article
                 articleUrl={article.articleUrl}
+						country={article.country}
 						key={article._id}
 						slug={country + article?.articleUrl?.split('/').pop()}
 						title={article.title}
