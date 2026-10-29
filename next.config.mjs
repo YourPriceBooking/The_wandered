@@ -14,6 +14,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/terms-conditions-users',
+        destination: 'https://www.yourpricebooking.com/en/terms-conditions-users',
+        permanent: true,
+      },
+      {
         source: '/:path*',
         has: [{ type: 'host', value: 'thewandered\\.com' }],
         destination: 'https://www.thewandered.com/:path*',

@@ -336,6 +336,16 @@ test('misplaced support URL redirects permanently to the actual English Help Cen
   assert.equal(missing.status, 404, 'Other English paths are not redirected to another site');
 });
 
+test('legacy user terms URL redirects permanently to its matching publisher document', async () => {
+  for (const query of ['', '?utm_source=legacy']) {
+    const response = await fetch(base + '/terms-conditions-users' + query, { redirect: 'manual' });
+    assert.equal(response.status, 308);
+    assert.equal(response.headers.get('location'), 'https://www.yourpricebooking.com/en/terms-conditions-users' + query);
+  }
+  const missing = await fetch(base + '/terms-conditions-users/other', { redirect: 'manual' });
+  assert.equal(missing.status, 404, 'No broad terms-prefix redirect');
+});
+
 test('listing images prioritize only the first card and keep lower cards lazy', async () => {
   for (const route of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet']) {
     const { response, dom } = await page(route); const d = dom.window.document;
@@ -411,5 +421,8 @@ test('bare production host redirects permanently to HTTPS www while preserving p
     const support = await hostRequest('/en/support', host);
     assert.equal(support.status, 308);
     assert.equal(support.location, 'https://www.yourpricebooking.com/en/support');
+    const terms = await hostRequest('/terms-conditions-users', host);
+    assert.equal(terms.status, 308);
+    assert.equal(terms.location, 'https://www.yourpricebooking.com/en/terms-conditions-users');
   }
 });
