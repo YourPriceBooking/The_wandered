@@ -1,8 +1,12 @@
 .mainContainer {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	min-height: 50vh;
-	width: 100%;
-	background-color: var(--color-background-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 50vh;
+  width: 100%;
+  min-width: 0;
+  padding: 36px 0;
+  background: #fafaf6;
+  > h1 { width: min(760px, calc(100% - 48px)); margin: 0 auto 28px; color: #25352b; font: 700 clamp(28px, 4vw, 40px)/1.2 Georgia, serif; letter-spacing: -.025em; }
+  @media (max-width: 640px) { padding-top: 24px; > h1 { width: calc(100% - 32px); } }
 }

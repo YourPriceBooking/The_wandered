@@ -354,7 +354,12 @@ test('listing images prioritize only the first card and keep lower cards lazy', 
     assert.equal(images.length, 7, route);
     assert.notEqual(images[0].getAttribute('loading'), 'lazy');
     for (const image of images.slice(1)) assert.equal(image.getAttribute('loading'), 'lazy');
-    for (const image of images) assert.equal(image.getAttribute('sizes'), '(max-width: 768px) 98vw, (max-width: 940px) 758px, 800px');
+    images.forEach((image, index) => {
+      const featured = route === '/' && index === 0;
+      assert.equal(image.getAttribute('sizes'), featured
+        ? '(max-width: 640px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 48px), 570px'
+        : '(max-width: 640px) calc(100vw - 32px), (max-width: 808px) calc(100vw - 48px), 760px');
+    });
     dom.window.close();
   }
 });
@@ -424,5 +429,27 @@ test('bare production host redirects permanently to HTTPS www while preserving p
     const terms = await hostRequest('/terms-conditions-users', host);
     assert.equal(terms.status, 308);
     assert.equal(terms.location, 'https://www.yourpricebooking.com/en/terms-conditions-users');
+  }
+});
+
+
+test('home features one story without duplicate cards or changes to pagination', async () => {
+  for (const [url, featured, first] of [['/', 1, 1], ['/?page=2', 0, 8]]) {
+    const { response, dom } = await page(url);
+    const d = dom.window.document;
+    assert.equal(response.status, 200);
+    const cards = [...d.querySelectorAll('main article')];
+    assert.equal(cards.length, 7);
+    assert.equal(cards.filter((card) => card.className.includes('featured')).length, featured);
+    const urls = cards.map((card) => card.querySelector('h2 a').href);
+    assert.equal(new Set(urls).size, 7);
+    assert.ok(urls[0].endsWith(`fixture-archive-${first}`));
+    assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://www.thewandered.com' + url);
+    assert.equal(d.querySelectorAll('main h1').length, 1);
+    for (const card of cards) {
+      assert.ok(card.querySelector('p[class*="description"]').textContent);
+      assert.equal(card.querySelectorAll('a[aria-label]').length, 2);
+    }
+    dom.window.close();
   }
 });
