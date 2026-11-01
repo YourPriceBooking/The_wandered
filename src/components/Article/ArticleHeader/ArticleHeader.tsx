@@ -8,8 +8,8 @@ import { authorProfile } from '@/utils/authorIdentity';
 import { fallbackAuthors, authorSocialLinks } from '@/defaultData/authorProfiles';
 import { authorsCopy } from '@/defaultData/authorsCopy';
 
-export default function ArticleHeader({ author, date, updated, viewPath, country = 'home' }: {
-  author: string; date: string; updated: string; viewPath?: string; country?: string; isSuggested?: boolean;
+export default function ArticleHeader({ author, date, updated, viewPath, country = 'home', isCard = false }: {
+  author: string; date: string; updated: string; viewPath?: string; country?: string; isSuggested?: boolean; isCard?: boolean;
 }) {
   const authors = useAppSelector((state) => state.allAuthors.allAuthorsData || []);
   const current = authors.find((person) => person.name === author) || fallbackAuthors.find((person) => person.name === author);
@@ -22,7 +22,7 @@ export default function ArticleHeader({ author, date, updated, viewPath, country
   const remainingName = restOfName.join(' ');
   const authorName = <><span className={s.authorNamePart}>{firstName}</span>{remainingName && <> <span className={s.authorNamePart}>{remainingName}</span></>}</>;
   const bio = author === 'Viacheslav Nikitenko' ? copy.editorBio : author === 'Andy Ray' ? copy.andyBio : '';
-  return <header className={s.authorBlock}>
+  return <header className={`${s.authorBlock} ${isCard ? s.card : ''}`}>
     <div className={s.authorIdentity} onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)} onFocusCapture={() => setVisible(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setVisible(false); }} onKeyDown={(event) => { if (event.key === 'Escape') setVisible(false); }}>
       <p className={s.author} title={author}>{profile ? <a href={profile.url}>{authorName}</a> : authorName}</p>
       {current && <div className={`${s.authorTooltipWrapper} ${visible ? s.visible : ''}`}>

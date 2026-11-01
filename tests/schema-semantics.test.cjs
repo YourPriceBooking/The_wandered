@@ -113,7 +113,12 @@ test('a recommendation without a slug passes its canonical URL path to the count
     return () => null;
   } });
   const card = exports.default({ articleUrl: 'https://www.thewandered.com/canada/story-one', country: 'canada', slug: undefined });
-  const header = card.props.children.props.children.find(child => child.type === Header);
+  function findHeader(element) {
+    if (element?.type === Header) return element;
+    const children = element?.props?.children;
+    return (Array.isArray(children) ? children : [children]).filter(Boolean).map(findHeader).find(Boolean);
+  }
+  const header = findHeader(card);
   assert.equal(header.props.viewPath, '/canada/story-one');
   assert.equal(articleViews({ '/': 7481, '/canada/story-one': 31 }, header.props.viewPath), 31);
 });

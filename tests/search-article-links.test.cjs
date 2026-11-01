@@ -65,3 +65,19 @@ test('invalid and mismatched URLs still produce no navigation links', async () =
   const html = renderToStaticMarkup(await Page({ searchParams: { search: 'story' } }));
   assert.equal(new JSDOM(html).window.document.querySelectorAll('article a').length, 0);
 });
+
+
+test('card titles and summaries are readable before images without a hover overlay', async () => {
+  const post = { ...fixtures[0], description: 'A visible summary with <script>plain text</script>.' };
+  const Page = searchPage([post]);
+  const dom = new JSDOM(renderToStaticMarkup(await Page({ searchParams: { search: 'story' } })));
+  const card = dom.window.document.querySelector('article');
+  const heading = card.querySelector('h2');
+  const description = card.querySelector('.description');
+  assert.equal(heading.textContent, post.heading);
+  assert.equal(description.textContent, post.description);
+  assert.equal(card.querySelector('script'), null);
+  assert.equal(card.querySelector('.hoverBlock'), null);
+  assert.ok(heading.compareDocumentPosition(card.querySelector('.imageBlock')) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING);
+  dom.window.close();
+});
