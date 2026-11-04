@@ -33,10 +33,7 @@ export default function RootLayout({
 			<body>
 				<DocumentLanguage />
 				<HotFXLoader />
-				<hotfx-shy-header>
-					<Header />
-  				</hotfx-shy-header>
-				<div className="shy-header-spacer" />
+				<Header />
 				<StoreProvider>
 					<GetDataClient />
 					<RouteLoader>{children}</RouteLoader>

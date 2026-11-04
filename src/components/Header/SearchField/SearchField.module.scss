@@ -55,3 +55,11 @@
 }
 @media (max-width: 480px) { .searchButton { padding: 11px; } .searchBlock { gap: 4px; } }
 @media (prefers-reduced-motion: reduce) { .searchBlock, .searchButton { transition: none; } .searchButton:active { transform: none; } }
+
+.header {
+  min-height: 48px; padding: 2px 6px 2px 10px; border: 1px solid transparent;
+  border-radius: 28px; background: #eff1e8; color: #25352b; box-shadow: none;
+  .input { padding: 10px 6px; color: #25352b; font-size: 15px; &::placeholder { color: #596251; } }
+  .searchButton { min-width: 44px; min-height: 44px; padding: 10px; border-radius: 50%; background: transparent; color: #374733; span { display: none; } &:hover { background: #e1e7d7; } &:focus-visible { outline-color: #b74719; } }
+  &:focus-within { border-color: #b74719; box-shadow: 0 0 0 2px #b7471920; }
+}

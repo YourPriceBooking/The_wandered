@@ -106,3 +106,17 @@ test('pointer focus does not keep the header pinned during subsequent scrolling'
     assert.equal(env.header.classList.contains('hidden'), true);
   } finally { env.dom.window.close(); }
 });
+
+
+test('the editorial masthead stays pinned while its navigation rows remain in document flow', () => {
+  const env = setup();
+  try {
+    env.header.dataset.pinned = 'true';
+    env.scroll(500);
+    assert.equal(env.header.classList.contains('hidden'), false);
+    env.scroll(1000);
+    assert.equal(env.header.classList.contains('hidden'), false);
+    env.scroll(980);
+    assert.equal(env.header.classList.contains('hidden'), false);
+  } finally { env.dom.window.close(); }
+});

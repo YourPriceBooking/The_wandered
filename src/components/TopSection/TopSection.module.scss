@@ -1,45 +1,64 @@
 .topSection {
-  position: relative;
-  width: 100%;
-  padding: 20px 40px 0;
-  background: #fd4606;
-  color: white;
+  width: min(1080px, calc(100% - 64px));
+  margin: 42px auto 0;
+  color: #202622;
 }
-.date { display: flex; justify-content: center; width: 100%; margin-bottom: 20px; }
-.nameBlock { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
-.logoBlock { display: flex; align-items: center; gap: 24px; }
-.topTitle { font-size: 34px; line-height: 1.2; }
-.heroContent { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: end; }
-.copy { min-width: 0; }
-.sectionLabel { display: inline-block; padding: 5px 9px; margin-bottom: 7px; background: #ffffff20; border-radius: 8px; font-size: 13px; }
-.mainTitle { margin: 0 0 12px; font-size: clamp(40px, 5.5vw, 76px); line-height: 1.06; font-weight: 700; letter-spacing: -1.5px; overflow-wrap: anywhere; }
-.mainText { margin: 0; font-size: 18px; line-height: 1.5; font-weight: 600; }
-.search { width: 100%; min-width: 0; }
-.searchLabel { margin: 0 0 9px; font-size: 13px; line-height: 1.4; font-weight: 600; color: #fff4eb; }
-.searchFallback { height: 58px; border-radius: 18px; background: #fff4e9; }
-.countryLine { position: relative; width: calc(100% + 40px); height: 22px; margin-top: 30px; opacity: 0.85; }
-.countryLine svg { display: block; width: 100%; height: 22px; }
-.lineEnd { position: absolute; right: 0; top: 1px; width: 22px; height: 22px; border: 2px solid #ffffff2e; border-radius: 50%; }
-.lineEnd::after { content: ''; position: absolute; width: 10px; height: 10px; left: 4px; top: 4px; border-radius: 50%; background: #ffffffbf; }
-.bottom { height: 22px; margin: 0 -40px; background: #00000008; }
-@media (max-width: 900px) {
-  .topSection { padding: 20px 28px 0; }
-  .heroContent { gap: 24px; }
-  .mainText { font-size: 16px; }
-  .topTitle { font-size: 28px; }
-  .countryLine { width: calc(100% + 28px); }
-  .bottom { margin: 0 -28px; }
+.sectionLabel {
+  color: #a63d13;
+  font: 700 11px/1.5 'Segoe UI', sans-serif;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
 }
-@media (max-width: 600px) {
-  .topSection { padding: 19px 20px 0; }
-  .nameBlock { margin-bottom: 24px; }
-  .logoBlock { gap: 12px; }
-  .topTitle { font-size: 23px; }
-  .heroContent { grid-template-columns: minmax(0, 1fr); gap: 25px; }
-  .mainTitle { font-size: 44px; }
-  .mainText { font-size: 15px; }
-  .countryLine { width: calc(100% + 20px); margin-top: 26px; }
-  .bottom { margin: 0 -20px; }
+.mainTitle {
+  margin: 0 0 14px;
+  font: 700 clamp(36px, 5vw, 58px) / 1.1 Georgia, 'Times New Roman', serif;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
 }
-
-.topTitle { font-weight: 700; }
+.mainText {
+  margin: 0;
+  max-width: 780px;
+  color: #596455;
+  font-size: 18px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  min-height: 36px;
+  margin-top: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e0e4d9;
+  color: #68725f;
+  font-size: 12px;
+}
+.date {
+  min-height: 18px;
+  time {
+    display: block;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+  }
+}
+@media (max-width: 640px) {
+  .topSection {
+    width: calc(100% - 32px);
+    margin-top: 28px;
+  }
+  .mainTitle {
+    font-size: 38px;
+  }
+  .mainText {
+    font-size: 16px;
+  }
+  .meta {
+    margin-top: 14px;
+  }
+}
