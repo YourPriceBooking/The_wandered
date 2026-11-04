@@ -453,3 +453,29 @@ test('home features one story without duplicate cards or changes to pagination',
     dom.window.close();
   }
 });
+
+
+for (const section of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet']) {
+  test(`editorial landing keeps one title, full destinations and four resource anchors: ${section || 'home'}`, async () => {
+    const { response, dom } = await page('/' + section);
+    const d = dom.window.document;
+    assert.equal(response.status, 200);
+    assert.equal(d.querySelectorAll('main h1').length, 1);
+    assert.equal(d.querySelectorAll('hotfx-shy-header').length, 1);
+    const pinned = d.querySelector('hotfx-shy-header');
+    assert.equal(pinned.dataset.pinned, 'true');
+    assert.equal(pinned.querySelector('[class*="toolLinks"]'), null, 'Travel tools remain in document flow');
+    assert.equal(pinned.querySelector('[class*="desktopNav"]'), null, 'Desktop navigation remains in document flow');
+    assert.equal(d.querySelectorAll('[class*="countryPanel"] a').length, 6);
+    const tools = [...d.querySelectorAll('[class*="toolLinks"] a')];
+    assert.deepEqual(tools.map(a => a.getAttribute('href')), [
+      '/travel-resources#live-flights-map', '/travel-resources#global-weather',
+      '/travel-resources#travel-news-trends', '/travel-resources#explore-world-map',
+    ]);
+    const forms = [...d.querySelectorAll('form[role="search"]')];
+    assert.ok(forms.length);
+    forms.forEach(form => { assert.equal(form.getAttribute('action'), '/wandered-posts'); assert.equal(form.method, 'get'); });
+    assert.equal(d.querySelector('[class*="headerShell"]').lang, section === 'ukraine' ? 'uk' : section === 'poland' ? 'pl' : 'en');
+    dom.window.close();
+  });
+}

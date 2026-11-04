@@ -20,6 +20,7 @@ if (typeof window !== 'undefined' && !customElements.get('hotfx-shy-header')) {
 
     private update = () => {
       this.frame = null;
+      if (this.dataset.pinned === 'true') { this.reveal(); return; }
       const scroll = this.scrollPosition();
       const delta = scroll - this.lastScroll;
       this.lastScroll = scroll;

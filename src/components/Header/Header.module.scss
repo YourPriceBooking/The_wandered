@@ -1,179 +1,353 @@
-@font-face {
-  font-family: 'Reddit Sans SemiBold';
-  src: url('../../styles/fonts/reddit/RedditSans-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-display: swap;
-}
-.header {
-  position: relative;
+.headerShell {
   width: 100%;
-  padding: 14px 35px;
-  border: 1px solid silver;
-  border-radius: 19px;
-  background: var(--color-background-2);
-  z-index: 77;
+  color: #202622;
+  background: #fff;
+  font-family: 'Segoe UI', sans-serif;
 }
-.headerContent {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) 366px;
-  align-items: center;
-  gap: 18px 28px;
-}
-.logo { width: 64px; }
-.logo > a { display: block; width: 100%; }
-.navMenu {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-areas: 'home ukraine poland usa' 'back canada australia singapore';
-  gap: 17px 20px;
-  align-items: center;
-}
-.navLink {
+.masthead {
   position: relative;
-  width: fit-content;
-  color: #44413e;
-  font-family: 'Reddit Sans SemiBold', sans-serif;
-  font-size: 16px;
-  line-height: 21px;
-  white-space: nowrap;
-  &:hover { color: #b83b0b; }
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 86px;
+  margin: 0 auto;
+  padding: 16px 32px;
+  background: #fff;
 }
-.active {
-  color: #282625;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  &::before {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    left: -14px;
-    top: 7px;
-    border-radius: 50%;
-    background: #6aff79;
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 12px;
+  color: #202622;
+  font: 700 32px/1.15 Georgia, serif;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  svg {
+    flex-shrink: 0;
   }
 }
-.shortcuts {
-  display: grid;
-  grid-template-columns: repeat(2, 178px);
-  gap: 10px;
+.desktopSearch {
+  flex: 1;
+  min-width: 0;
+  max-width: 530px;
+  margin-left: auto;
 }
-.shortcut { position: relative; min-width: 0; }
-.pill {
+.searchFallback {
+  height: 48px;
+  background: #eff1e8;
+  border-radius: 28px;
+}
+.publisher {
+  flex-shrink: 0;
+  padding-left: 24px;
+  border-left: 1px solid #e0e3da;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #505b50;
+  span {
+    color: #b74719;
+  }
+}
+.navigation {
+  width: 100%;
+  border-bottom: 1px solid #e0e3da;
+}
+.desktopNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  max-width: 1136px;
+  margin: 0 auto;
+  padding: 0 0 10px;
+  min-height: 52px;
+}
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #374138;
+  font-size: 14px;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color: #a63d13;
+  }
+}
+.active {
+  color: #202622;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #b74719;
+  text-underline-offset: 10px;
+  text-decoration-thickness: 3px;
+}
+.destinations {
+  position: relative;
+  z-index: 20;
+}
+.destinations summary {
+  list-style: none;
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+.countryPanel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: -18px;
+  width: 220px;
+  padding: 10px;
+  border: 1px solid #dde2d6;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 28px #20262212;
+  a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    &:hover {
+      background: #f1f3eb;
+    }
+  }
+}
+.currentCountry {
+  color: #a63d13;
+  font-weight: 700;
+}
+.tools {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  width: 178px;
-  height: 30px;
-  padding: 3px 8px;
-  border: 1px solid #787878;
-  border-radius: 22px;
-  background: #0b449b;
-  color: white;
-  font-family: 'Reddit Sans SemiBold', sans-serif;
-  font-size: 13px;
-  line-height: 1.2;
-  font-weight: 600;
-  text-align: center;
-  transition: background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
-  svg { width: 14px; height: 14px; flex-shrink: 0; }
-  &:focus-visible { outline: 3px solid #0b449b; outline-offset: 3px; }
-  &:active { background: #09285d; transform: translateY(1px) scale(0.98); }
+  gap: 28px;
+  padding: 12px 32px;
+  background: #edf0e6;
 }
-.selected { background: #2874a3; }
-.booking {
-  border-color: #f0c8a9;
-  background: #fff8f0;
-  color: #954017;
-  &:active { background: #ffdfc0; color: #80330d; }
+.toolsLabel {
+  flex-shrink: 0;
+  color: #3f4b3c;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-transform: uppercase;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
-.hint {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 10px);
-  width: 280px;
-  max-width: calc(100vw - 32px);
-  padding: 13px 16px;
-  border: 1px solid #344056;
-  border-radius: 13px;
-  background: #172135;
-  color: #f4f6fc;
-  box-shadow: 0 12px 30px #17213530;
-  font: 12px/1.55 'Segoe UI', sans-serif;
-  z-index: 100;
-  &::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 100%; height: 11px; }
+.toolLinks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  max-width: 950px;
 }
-// The empty navigation cell holds Back without adding a row or changing row height.
-.back {
-  grid-area: back;
-  position: relative;
-  width: 44px;
-  height: 21px;
-  > button {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 32px;
-    padding: 6px 10px;
-    border: 1px solid #e3dcd5;
-    border-radius: 9px;
-    background: #fff8f0;
-    &:hover { background: #ffeddc; }
-    &:focus-visible { outline: 2px solid #0b449b; outline-offset: 2px; }
-    svg { opacity: 0.75; }
+.toolLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-left: 1px solid #d8dece;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #293c2b;
+  svg {
+    flex-shrink: 0;
+  }
+  &:hover {
+    color: #a63d13;
   }
 }
-.historyArrow { width: 80px; padding: 0; margin: 15px; border-color: transparent; border-radius: 1px; }
-.historyArrow .back { width: 44px; height: 32px; }
-@media (hover: hover) and (pointer: fine) {
-  .pill:hover { background: #0a2f6c; box-shadow: 0 4px 10px #10499824; }
-  .booking:hover { background: #ffeddc; color: #80330d; }
-  .pill:active { background: #09285d; }
-  .booking:active { background: #ffdfc0; }
+.toolArrow {
+  margin-left: auto;
+  color: #a63d13;
 }
-@media (max-width: 1100px) {
-  .header { padding: 14px 24px; }
-  .headerContent { grid-template-columns: 50px minmax(0, 1fr) 366px; gap: 18px; }
-  .logo { width: 50px; }
-  .navMenu { gap: 17px 12px; }
-  .navLink { font-size: 14px; }
+.mobileActions,
+.mobileSearch,
+.searchPanel {
+  display: none;
 }
-@media (max-width: 900px) and (min-width: 769px) {
-  .header { padding: 14px 18px; }
-  .headerContent { grid-template-columns: 40px minmax(0, 1fr) 366px; gap: 16px; }
-  .logo { width: 40px; }
-  .navMenu { column-gap: 10px; }
-  .navLink { font-size: 12px; }
+.headerShell a:focus-visible,
+.headerShell summary:focus-visible,
+.headerShell button:focus-visible {
+  outline: 3px solid #b74719;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
-@media (max-width: 768px) {
-  .header { padding: 18px 20px; }
-  .headerContent { grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; }
-  .logo { display: none; }
-  .navMenu { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: 'home ukraine' 'poland usa' 'canada australia' 'singapore back'; gap: 12px; padding-left: 12px; }
-  .navLink { font-size: 13px; }
-  .shortcuts { grid-template-columns: repeat(2, 160px); gap: 14px 10px; }
-  .pill { width: 160px; font-size: 12px; }
+@media (max-width: 1200px) {
+  .desktopNav {
+    margin-inline: 32px;
+  }
+  .masthead {
+    gap: 24px;
+  }
 }
-@media (max-width: 600px) {
-  .headerContent { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .navMenu { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland usa' 'back canada australia singapore'; gap: 12px 10px; }
-  .navLink { font-size: 12px; }
-  .shortcuts { justify-content: end; }
-  .shortcut:nth-child(odd) .hint { right: auto; left: 0; }
+@media (max-width: 1000px) {
+  .publisher {
+    display: none;
+  }
+  .toolLink {
+    padding-inline: 12px;
+  }
+  .toolArrow {
+    display: none;
+  }
+  .tools {
+    gap: 16px;
+  }
+  .navLink {
+    font-size: 13px;
+  }
 }
-@media (max-width: 480px) {
-  .header { padding: 12px 14px; }
-  .navMenu { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-areas: 'home ukraine poland' 'usa canada australia' 'singapore back .'; }
-  .shortcuts { width: 100%; grid-template-columns: repeat(2, minmax(0, 160px)); justify-content: space-between; gap: 17px 10px; }
-  .pill { width: 100%; height: 27px; font-size: 10px; border: none; }
-  .shortcut::before { content: ''; position: absolute; inset: -8px 0; }
-  .pill::after { content: ''; position: absolute; inset: -8px 0; }
-  .historyArrow { padding: 0; }
+@media (max-width: 760px) {
+  .masthead {
+    min-height: 72px;
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .brand {
+    gap: 8px;
+    font-size: 27px;
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  .desktopSearch,
+  .desktopNav {
+    display: none;
+  }
+  .mobileActions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 2px;
+  }
+  .iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 0;
+    background: transparent;
+    color: #25352b;
+    cursor: pointer;
+    list-style: none;
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+  .mobileMenu {
+    position: static;
+  }
+  .mobilePanel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 12px 20px 24px;
+    background: #fff;
+    border-bottom: 1px solid #dce2d4;
+    box-shadow: 0 12px 24px #20262212;
+    a {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+      font-size: 14px;
+    }
+    > p {
+      margin: 14px 0 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #67705f;
+      text-transform: uppercase;
+    }
+  }
+  .mobileCountries {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #edf0e6;
+    margin-bottom: 8px;
+  }
+  .searchPanel:not([hidden]) {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 12px 16px;
+    background: #fff;
+    border-bottom: 1px solid #dce2d4;
+  }
+  .mobileSearch {
+    display: block;
+    padding: 0 16px 16px;
+  }
+  .tools {
+    display: block;
+    padding: 14px 16px 16px;
+  }
+  .toolsLabel {
+    min-height: 28px;
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+  .toolLinks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .toolLink {
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 6px 10px;
+    min-height: 66px;
+    padding: 12px;
+    border: 1px solid #dbe1d1;
+    border-radius: 10px;
+    background: #f7f8f3;
+    font-size: 12px;
+    span {
+      flex: 1;
+      min-width: 0;
+    }
+    svg {
+      width: 21px;
+      height: 21px;
+    }
+  }
 }
-@media (prefers-reduced-motion: reduce) {
-  .pill { transition: none; }
-  .pill:active { transform: none; }
+@media (max-width: 360px) {
+  .brand {
+    font-size: 24px;
+    gap: 6px;
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  .masthead {
+    gap: 0;
+    padding-inline: 12px;
+  }
+  .toolLink {
+    padding: 10px;
+    gap: 8px;
+  }
 }

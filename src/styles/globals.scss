@@ -59,9 +59,13 @@ hotfx-shy-header.hidden {
 }
 
 .shy-header-spacer {
-  height: var(--shy-header-height);
+  height: var(--shy-header-height, 86px);
 }
 
 @media (prefers-reduced-motion: reduce) {
   hotfx-shy-header { transition: none; }
 }
+
+@media (max-width: 760px) { .shy-header-spacer { height: var(--shy-header-height, 72px); } }
+
+html { scroll-padding-top: calc(var(--shy-header-height, 86px) + 20px); }
