@@ -54,7 +54,6 @@ export default function Header() {
   const links = [
     { href: '/', text: copy.home, active: pathname === '/' },
     { href: '/uncharted-planet', text: copy.planet, active: section === 'uncharted-planet' },
-    { href: journalPath, text: copy.journal, active: pathname.startsWith(journalPath) },
     { href: authorsPath, text: copy.authors, active: pathname.endsWith('/authors') },
     { href: `${journalPath}#game-zone`, text: copy.games, active: false },
   ];

@@ -8,7 +8,7 @@ export default function LoadingScreen({ fadeOut }: { fadeOut?: boolean }) {
   return (
     <div className={`${styles.splashScreen} ${fadeOut ? styles.fadeOut : ""}`}>
       <div className={styles.logoBlock}>
-        <HouseIcon color="white" />
+        <HouseIcon color="#202622" />
         <h2 className={styles.mainTitle}>the wandered</h2>
       </div>
     </div>
