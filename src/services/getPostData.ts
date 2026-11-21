@@ -1,5 +1,13 @@
+import { articleDate } from '@/utils/articleDate';
 import { apiUrl } from '@/utils/url';
 import type { postData } from '@/types/postTypes';
+
+// These edits were verified against the editor save and corresponding public API
+// record. Do not use updatedAt for other posts: it also changes on bulk DB writes.
+const verifiedEditorialEdits = new Map([
+  ['https://www.thewandered.com/ukraine/etias-oboviazkovyi-dlia-hromadian-yaki-khochut-vidvidaty-krainy-yes-bez-vizy', '2026-11-21T12:36:47.996Z'],
+  ['https://www.thewandered.com/poland/jak-wystawić-wizę-do-wietnamu-dla-obywateli-rp', '2026-11-21T12:39:02.206Z'],
+]);
 
 export class ArticleDataError extends Error {
   constructor(message: string) {
@@ -46,6 +54,10 @@ export async function getPostData({ pageLink, country }: { pageLink: string; cou
       typeof post.markup !== 'string') {
     throw new ArticleDataError('Article service returned an invalid record');
   }
+  const recordedChange = typeof post.changeDate === 'string' ? articleDate(post.changeDate) : undefined;
+  const verifiedEdit = verifiedEditorialEdits.get(articleUrl);
+  const changeDate = verifiedEdit && (!recordedChange || verifiedEdit > recordedChange) ? verifiedEdit : recordedChange;
+
   return {
     ...post,
     title: typeof post.title === 'string' ? post.title : post.heading,
@@ -53,6 +65,6 @@ export async function getPostData({ pageLink, country }: { pageLink: string; cou
     description: typeof post.description === 'string' ? post.description : '',
     imageUrl: Array.isArray(post.imageUrl) ? post.imageUrl : [],
     publicationDate: typeof post.publicationDate === 'string' ? post.publicationDate : '',
-    changeDate: typeof post.changeDate === 'string' ? post.changeDate : '',
+    changeDate: changeDate ?? '',
   };
 }
