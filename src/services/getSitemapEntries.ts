@@ -4,6 +4,7 @@ import { listingCopy, siteUrl } from '@/utils/seoMetadata';
 import { journalPath, newEpisodesPath } from '@/utils/journalSeo';
 import { collectArticleInventory, canonicalArticleUrl, articleCountries, type ArticleInventory } from '@/services/seo/articleArchive';
 import { readSnapshot, writeSnapshot, type Snapshot } from '@/services/seo/persistentCache';
+import { nycTransportNewUrl, nycTransportOldUrl } from '@/utils/nycTransportArticle';
 import seed from '@/defaultData/sitemapSnapshot.json';
 
 const TTL = 60 * 60 * 1000;
@@ -55,5 +56,10 @@ export async function getSitemapSnapshot() {
 }
 export default async function getSitemapEntries(): Promise<MetadataRoute.Sitemap> {
   const snapshot = await getSitemapSnapshot();
-  return [...staticSitemapEntries(), ...snapshot.data.entries];
+  // A disk snapshot may predate the URL change; never re-emit the retired key.
+  const entries = new Map(snapshot.data.entries.map((entry) => {
+    const url = entry.url === nycTransportOldUrl ? nycTransportNewUrl : entry.url;
+    return [url, { ...entry, url }] as const;
+  }));
+  return [...staticSitemapEntries(), ...Array.from(entries.values())];
 }

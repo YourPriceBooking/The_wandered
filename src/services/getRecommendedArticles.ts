@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { getSuggestedArticles } from '@/services/getSuggestedArticles';
 import { canonicalArticleUrl, siteUrl } from '@/utils/articleUrl';
+import { presentNycTransportArticle } from '@/utils/nycTransportArticle';
 import type { postData } from '@/types/postTypes';
 
 const candidates = cache(async (country: string): Promise<postData[]> => {
@@ -12,7 +13,7 @@ const candidates = cache(async (country: string): Promise<postData[]> => {
     const payload = await response.json();
     if (!Array.isArray(payload?.result)) return [];
     return payload.result.filter((post: postData) => post && typeof post._id === 'string' && typeof post.heading === 'string' && typeof post.title === 'string' && canonicalArticleUrl(post.articleUrl, country)).slice(0, 7).map((post: postData) => ({
-      ...post, country, author: typeof post.author === 'string' ? post.author : '',
+      ...presentNycTransportArticle(post), country, author: typeof post.author === 'string' ? post.author : '',
       description: typeof post.description === 'string' ? post.description : '',
       publicationDate: typeof post.publicationDate === 'string' ? post.publicationDate : '',
       imageUrl: Array.isArray(post.imageUrl) ? post.imageUrl : [],

@@ -1,5 +1,6 @@
 import { canonicalArticleUrl, articleCountries, siteUrl } from '@/utils/articleUrl';
 export { canonicalArticleUrl, articleCountries } from '@/utils/articleUrl';
+import { presentNycTransportArticle } from '@/utils/nycTransportArticle';
 import { getPostData } from '@/services/getPostData';
 import type { MetadataRoute } from 'next';
 
@@ -54,7 +55,7 @@ export async function collectArticleInventory(): Promise<ArticleInventory> {
   let excluded = 0;
   const checked = await mapConcurrent(collections.flat(), 4, async (record) => {
     withinBudget();
-    const url = canonicalArticleUrl(record.articleUrl, record.country);
+    const url = canonicalArticleUrl(presentNycTransportArticle(record).articleUrl, record.country);
     if (!url) { excluded++; return undefined; }
     const slug = new URL(url).pathname.split('/').pop()!;
     // Use the same existence contract as the actual article routes. A service

@@ -61,6 +61,7 @@ function recommendations(get) {
   return load('src/services/getRecommendedArticles.ts', { fetch: get, require: (id) => {
     if (id === 'react') return { cache: (fn) => fn };
     if (id === '@/utils/articleUrl') return urls;
+    if (id === '@/utils/nycTransportArticle') return load('src/utils/nycTransportArticle.ts');
     if (id === '@/services/getSuggestedArticles') return load('src/services/getSuggestedArticles.ts');
     throw new Error(id);
   } }).getRecommendedArticles;

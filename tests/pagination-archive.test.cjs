@@ -117,6 +117,7 @@ function sitemapService(collect, fallback) {
     if (id === '@/defaultData/authorsSeo') return { authorsPaths: { en: '/authors', uk: '/ukraine/authors', pl: '/poland/authors' }, authorsAlternates: {} };
     if (id === '@/utils/seoMetadata') return seo;
     if (id === '@/utils/journalSeo') return load('src/utils/journalSeo.ts');
+    if (id === '@/utils/nycTransportArticle') return load('src/utils/nycTransportArticle.ts');
     if (id === '@/services/seo/articleArchive') return { collectArticleInventory: collect, canonicalArticleUrl: real.canonicalArticleUrl, articleCountries: countries };
     if (id === '@/services/seo/persistentCache') return { readSnapshot: async () => undefined, writeSnapshot: async () => {} };
     if (id === '@/defaultData/sitemapSnapshot.json') return fallback || { version: 1, generatedAt: '1970-01-01T00:00:00Z', data: null };
@@ -178,4 +179,16 @@ test('English journal pages filter other source languages before applying page b
     assert.equal(first.result.length, 10); assert.equal(second.result.length, 2);
     assert.ok([...first.result,...second.result].every((record) => record.url.endsWith('-en')));
   } finally { await fs.rm(directory, { recursive: true, force: true }); }
+});
+
+test('a stale sitemap does not republish the retired NYC URL or duplicate the canonical URL', async () => {
+  const { nycTransportOldUrl, nycTransportNewUrl } = load('src/utils/nycTransportArticle.ts');
+  const data = {
+    entries: [{ url: nycTransportOldUrl }, { url: nycTransportNewUrl }], excluded: 0,
+    totals: { home: 0, ukraine: 0, poland: 0, usa: 2, canada: 0, australia: 0, singapore: 0, 'uncharted-planet': 0 },
+  };
+  const source = sitemapService(async () => { throw new Error('503'); }, { version: 1, generatedAt: '2000-01-01T00:00:00Z', data });
+  const urls = (await source.default()).map((entry) => entry.url);
+  assert.ok(!urls.includes(nycTransportOldUrl));
+  assert.equal(urls.filter((url) => url === nycTransportNewUrl).length, 1);
 });

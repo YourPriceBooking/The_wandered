@@ -97,3 +97,15 @@ test('server HTML strips executable markup and works without images or browser g
   assert.ok(!d.querySelector('iframe')?.getAttribute('src'));
   dom.window.close();
 });
+
+test('NYC alias fails closed unless URL and stable ID match the stored record', async () => {
+  const { nycTransportOldUrl, nycTransportNewUrl, nycTransportArticleId, nycTransportHeading, nycTransportNewSlug } = loadTs('src/utils/nycTransportArticle.ts');
+  const input = { country: 'usa', pageLink: nycTransportNewSlug };
+  const original = { ...post, articleUrl: nycTransportOldUrl, _id: nycTransportArticleId };
+  const stored = await service(200, { result: original }, (url) => assert.equal(url.searchParams.get('articleUrl'), nycTransportOldUrl))(input);
+  assert.equal(stored._id, nycTransportArticleId);
+  assert.equal(stored.articleUrl, nycTransportNewUrl);
+  assert.equal(stored.heading, nycTransportHeading);
+  assert.equal(await service(200, { result: { ...original, _id: 'other' } })(input), null);
+  assert.equal(await service(200, { result: { ...original, articleUrl: nycTransportNewUrl } })(input), null);
+});

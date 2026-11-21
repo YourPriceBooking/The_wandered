@@ -1,6 +1,7 @@
 import axios from '../utils/axios';
 import { apiUrl } from '@/utils/url';
 import { routes } from '@/app/routes';
+import { presentNycTransportArticle } from '@/utils/nycTransportArticle';
 import { postData } from '@/types/postTypes';
 
 export async function getAllPosts() {
@@ -15,7 +16,7 @@ export async function getAllPosts() {
 
 		const allPosts: postData[] = responses.flatMap((response) => response.data.result);
 
-		return allPosts || [];
+		return allPosts.map(presentNycTransportArticle);
 	} catch (error: any) {
 		// console.log(error);
 	}
@@ -25,7 +26,7 @@ export async function getPostsByCountry({ country }: { country: string }) {
 	try {
 		const { data } = await axios.get(`${apiUrl}api/post/get-all?typeOfPage=${country}`);
 
-		return data.result;
+		return (data.result as postData[]).map(presentNycTransportArticle);
 	} catch (error: any) {
 		// console.log(error);
 	}
@@ -34,7 +35,7 @@ export async function getPostsByCountry({ country }: { country: string }) {
 export async function getPostsBySearch({ search }: { search: string }) {
 	try {
 		const { data } = await axios.get(`${apiUrl}api/post/search-query`, { params: { search } });
-		return data.result;
+		return (data.result as postData[]).map(presentNycTransportArticle);
 	} catch (error: any) {
 		console.warn(error);
 	}

@@ -1,5 +1,6 @@
 import { articleDate } from '@/utils/articleDate';
 import { apiUrl } from '@/utils/url';
+import { nycTransportArticleId, nycTransportNewSlug, nycTransportOldSlug, nycTransportOldUrl, presentNycTransportArticle } from '@/utils/nycTransportArticle';
 import type { postData } from '@/types/postTypes';
 
 // These edits were verified against the editor save and corresponding public API
@@ -20,6 +21,9 @@ export async function getPostData({ pageLink, country }: { pageLink: string; cou
   // Next can pass an encoded segment. The API stores the decoded public URL.
   let slug = pageLink;
   try { slug = decodeURIComponent(pageLink); } catch { /* Keep literal percent signs. */ }
+  const nycTransportAlias = country === 'usa' && slug === nycTransportNewSlug;
+  if (country === 'usa' && slug === nycTransportOldSlug) return null;
+  if (nycTransportAlias) slug = nycTransportOldSlug;
   const path = !country || country === 'home' ? slug : `${country}/${slug}`;
   const articleUrl = `https://www.thewandered.com/${path}`;
   const endpoint = new URL('api/post/get-by-url', apiUrl);
@@ -54,12 +58,13 @@ export async function getPostData({ pageLink, country }: { pageLink: string; cou
       typeof post.markup !== 'string') {
     throw new ArticleDataError('Article service returned an invalid record');
   }
+  if (nycTransportAlias && (post._id !== nycTransportArticleId || post.articleUrl !== nycTransportOldUrl)) return null;
   const recordedChange = typeof post.changeDate === 'string' ? articleDate(post.changeDate) : undefined;
   const verifiedEdit = verifiedEditorialEdits.get(articleUrl);
   const changeDate = verifiedEdit && (!recordedChange || verifiedEdit > recordedChange) ? verifiedEdit : recordedChange;
 
   return {
-    ...post,
+    ...presentNycTransportArticle(post),
     title: typeof post.title === 'string' ? post.title : post.heading,
     author: typeof post.author === 'string' ? post.author : '',
     description: typeof post.description === 'string' ? post.description : '',

@@ -510,3 +510,42 @@ test('a generic database update is not presented as an editorial update', async 
   assert.ok(!times.some(time => time.dateTime === '2025-11-28T08:49:43.644Z'));
   dom.window.close();
 });
+
+test('NYC guide has only the 2027 public address with one unchanged backend record', async () => {
+  const oldPath = '/usa/public-transport-in-new-york-city-a-2023-travelq-guide';
+  const newPath = '/usa/public-transport-in-new-york-city-2027';
+  const newUrl = 'https://www.thewandered.com' + newPath;
+  const lookups = () => fs.existsSync(logPath) ? fs.readFileSync(logPath, 'utf8').split('\n').filter((line) => line.endsWith(oldPath)).length : 0;
+  const previous = lookups();
+  for (const path of [oldPath, oldPath + '?utm_source=test', oldPath.replace('public-', '%70ublic-')]) {
+    const retired = await fetch(base + path, { redirect: 'manual' });
+    assert.equal(retired.status, 410);
+    assert.equal(retired.headers.get('location'), null);
+    assert.equal(retired.headers.get('x-robots-tag'), 'noindex');
+  }
+  assert.equal(lookups(), previous);
+  const { response, dom } = await page(newPath);
+  assert.equal(response.status, 200);
+  const d = dom.window.document;
+  assert.equal(d.querySelector('h1').textContent, 'Public Transport in New York City: 2027 Guide');
+  assert.equal(d.querySelector('link[rel="canonical"]').href, newUrl);
+  assert.equal(d.querySelector('meta[property="og:url"]').content, newUrl);
+  const schema = [...d.querySelectorAll('script[type="application/ld+json"]')]
+    .map((node) => JSON.parse(node.textContent)).find((value) => value['@type'] === 'BlogPosting');
+  assert.equal(schema.url, newUrl);
+  assert.equal(schema.headline, d.querySelector('h1').textContent);
+  assert.equal(d.querySelector('.ql-editor p').textContent, 'Archive body');
+  assert.equal(lookups(), previous + 1);
+  dom.window.close();
+  for (const path of ['/usa', '/wandered-posts?search=nyc-transport-fixture', '/usa/fixture-archive-6']) {
+    const { dom: listing } = await page(path);
+    const links = [...listing.window.document.querySelectorAll('main a')].map((node) => node.href);
+    assert.ok(links.includes(newUrl), path);
+    assert.ok(!links.some((href) => href.endsWith(oldPath)), path);
+    listing.window.close();
+  }
+  const sitemap = await fetch(base + '/sitemap.xml');
+  const xml = await sitemap.text();
+  assert.ok(xml.includes('<loc>' + newUrl + '</loc>'));
+  assert.ok(!xml.includes(oldPath));
+});
