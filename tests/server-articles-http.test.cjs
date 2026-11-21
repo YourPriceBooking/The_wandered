@@ -17,7 +17,7 @@ before(async () => {
   base = `http://127.0.0.1:${port}`;
   const log = fs.openSync(path.join(temp, 'server.log'), 'w');
   server = spawn(process.execPath, ['--require', path.join(__dirname, 'fixtures/seo-api.cjs'), 'node_modules/next/dist/bin/next', 'start', '--hostname', '127.0.0.1', '--port', String(port)], {
-    cwd: path.join(__dirname, '..'), env: { ...process.env, ARTICLE_FIXTURE_LOG: logPath, SEO_CACHE_DIRECTORY: path.join(temp, 'cache') }, stdio: ['ignore', log, log],
+    cwd: path.join(__dirname, '..'), env: { ...process.env, ARTICLE_FIXTURE_LOG: logPath, SEO_FIXTURE_AUTHOR_DIRECTORY: '1', SEO_CACHE_DIRECTORY: path.join(temp, 'cache') }, stdio: ['ignore', log, log],
   });
   fs.closeSync(log);
   for (let attempt = 0; attempt < 80; attempt++) {
@@ -154,6 +154,23 @@ for (const url of staticPages) {
     assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
     assert.equal(bytes.readUInt32BE(16), 1200); assert.equal(bytes.readUInt32BE(20), 630);
     if (url.endsWith('/authors')) {
+      const main = d.querySelector('main');
+      assert.equal(main.querySelector('h1').textContent, url.startsWith('/ukraine') ? 'Наші автори' : url.startsWith('/poland') ? 'Nasi autorzy' : 'Meet our authors');
+      const cards = [...main.querySelectorAll('article')];
+      assert.deepEqual(cards.map(card => card.querySelector('h2').textContent), ['Viacheslav Nikitenko', 'Andy Ray', 'New Contributor']);
+      assert.ok([...cards[0].querySelectorAll('a')].some(link => link.href === 'https://x.com/mnogobitka'));
+      assert.equal(cards[1].querySelector('a').href, 'https://x.com/X44JOJkiloVtSHV');
+      assert.ok(cards[2].textContent.includes('Bio from the API.'));
+      assert.equal(cards[2].querySelector('img').alt, 'New Contributor');
+      assert.match(cards[2].querySelector('img').getAttribute('src'), /no-photo\.webp/);
+      const social = cards[2].querySelector('a');
+      assert.equal(social.href, 'https://x.com/fixture');
+      assert.equal(social.getAttribute('target'), '_blank');
+      assert.equal(social.getAttribute('rel'), 'noopener noreferrer');
+      assert.match(social.getAttribute('aria-label'), /New Contributor/);
+      assert.ok(main.querySelector('aside[aria-labelledby="behind-the-stories"] p').textContent);
+      assert.ok(main.querySelector('#editorial-information'));
+      assert.ok(main.querySelector('a[href="https://www.yourpricebooking.com/support"]'));
       assert.equal(d.querySelectorAll('link[rel="alternate"][hreflang]').length, 4);
       for (const [language, path] of [['en', '/authors'], ['uk', '/ukraine/authors'], ['pl', '/poland/authors'], ['x-default', '/authors']]) {
         assert.equal(d.querySelector(`link[hreflang="${language}"]`).href, 'https://www.thewandered.com' + path);

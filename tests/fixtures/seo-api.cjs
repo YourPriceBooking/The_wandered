@@ -14,7 +14,13 @@ const nycNew = 'https://www.thewandered.com/usa/public-transport-in-new-york-cit
 const nycRecord = { ...article('usa', 7), _id: '6b01affee75e067d28578ed4', articleUrl: nycOld,
   title: 'Public Transport in New York City for 2027', heading: 'Public Transport in New York City: A 2023 TravelQ Guide' };
 function payload(url) {
-  if (url.pathname.endsWith('/author/get-all-authors')) return { result: [] };
+  if (url.pathname.endsWith('/author/get-all-authors')) {
+    return { result: process.env.SEO_FIXTURE_AUTHOR_DIRECTORY === '1' ? [
+      { _id: '66aa1ed114cefdb240cf70ca', name: 'Viacheslav Nikitenko' },
+      { _id: '693f2b9a6afb2c045cce5f48', name: 'Andy Ray' },
+      { _id: 'new-contributor', name: 'New Contributor', description: 'Bio from the API.', links: { x: 'https://x.com/fixture' } },
+    ] : [] };
+  }
   if (url.pathname.endsWith('/post/search-query')) return { result: url.searchParams.get('search') === 'nyc-transport-fixture' ? [nycRecord] : [] };
   const country = url.searchParams.get('typeOfPage') || 'home';
   const page = Number(url.searchParams.get('page') || 1), limit = Number(url.searchParams.get('limit') || 7);
