@@ -1,5 +1,6 @@
 import type { postsDataType } from '@/types/postTypes';
 import { ARTICLE_PAGE_SIZE } from '@/utils/pagination';
+import { presentNycTransportArticle } from '@/utils/nycTransportArticle';
 import { apiUrl } from '@/utils/url';
 
 const countries = new Set(['home', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet']);
@@ -35,7 +36,7 @@ export function createArticleListService({
             payload.result.length !== Math.min(ARTICLE_PAGE_SIZE, Math.max(0, payload.total - (page - 1) * ARTICLE_PAGE_SIZE))) throw new Error('Incomplete article list');
         const data: postsDataType = { total: payload.total, result: payload.result.map((post: Record<string, unknown>) => {
           if (!post || typeof post._id !== 'string' || typeof post.heading !== 'string' || !post.heading.trim() || typeof post.articleUrl !== 'string') throw new Error('Invalid article card');
-          return {
+          return presentNycTransportArticle({
             _id: post._id, heading: post.heading, articleUrl: post.articleUrl,
             title: typeof post.title === 'string' ? post.title : post.heading,
             country: typeof post.country === 'string' ? post.country : country, author: typeof post.author === 'string' ? post.author : '',
@@ -44,7 +45,7 @@ export function createArticleListService({
             changeDate: typeof post.changeDate === 'string' ? post.changeDate : '',
             imageUrl: Array.isArray(post.imageUrl) ? post.imageUrl : [],
             slug: typeof post.slug === 'string' ? post.slug : '', markup: '',
-          };
+          });
         }) };
         const size = Buffer.byteLength(JSON.stringify(data));
         if (size <= maxBytes && maxEntries > 0 && ttlMs > 0) {

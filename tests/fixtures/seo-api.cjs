@@ -9,12 +9,16 @@ function article(country, index) {
   const heading = `Archive ${country} record ${index}`;
   return { _id: identifier(country, index), country, heading, title: heading, description: 'Archive fixture description', author: 'Fixture Author', publicationDate: '2026-10-17T07:00:00.000Z', changeDate: '', imageUrl: [{ url: `/no-photo.webp?fixture=${country}-${index}`, context: { alt: heading } }], markup: '<p>Archive body</p>', articleUrl: `https://www.thewandered.com/${country === 'home' ? '' : country + '/'}fixture-archive-${index}` };
 }
+const nycOld = 'https://www.thewandered.com/usa/public-transport-in-new-york-city-a-2023-travelq-guide';
+const nycNew = 'https://www.thewandered.com/usa/public-transport-in-new-york-city-2027';
+const nycRecord = { ...article('usa', 7), _id: '6b01affee75e067d28578ed4', articleUrl: nycOld,
+  title: 'Public Transport in New York City for 2027', heading: 'Public Transport in New York City: A 2023 TravelQ Guide' };
 function payload(url) {
   if (url.pathname.endsWith('/author/get-all-authors')) return { result: [] };
-  if (url.pathname.endsWith('/post/search-query')) return { result: [] };
+  if (url.pathname.endsWith('/post/search-query')) return { result: url.searchParams.get('search') === 'nyc-transport-fixture' ? [nycRecord] : [] };
   const country = url.searchParams.get('typeOfPage') || 'home';
   const page = Number(url.searchParams.get('page') || 1), limit = Number(url.searchParams.get('limit') || 7);
-  const records = Array.from({ length: 21 }, (_, i) => article(country, i + 1));
+  const records = Array.from({ length: 21 }, (_, i) => country === 'usa' && i === 6 ? nycRecord : article(country, i + 1));
   return { result: records.slice((page - 1) * limit, page * limit), total: records.length };
 }
 const originalRequest = http.request;
@@ -51,6 +55,11 @@ global.fetch = (input, options) => {
   }
   if (url.origin === 'https://www.thewandered.com' && url.pathname === '/blog/api/post/get-by-url') {
     const articleUrl = new URL(url.searchParams.get('articleUrl'));
+    if (articleUrl.href === nycOld) {
+      if (process.env.ARTICLE_FIXTURE_LOG) fs.appendFileSync(process.env.ARTICLE_FIXTURE_LOG, nycOld + '\n');
+      return Promise.resolve(Response.json({ result: nycRecord }));
+    }
+    if (articleUrl.href === nycNew) return Promise.resolve(Response.json({ result: null }, { status: 404 }));
     const match = articleUrl.pathname.match(/fixture-archive-(\d+)$/);
     if (match) {
       const country = articleUrl.pathname.split('/').length === 2 ? 'home' : articleUrl.pathname.split('/')[1];
