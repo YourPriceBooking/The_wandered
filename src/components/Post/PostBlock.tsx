@@ -21,7 +21,7 @@ export default function PostBlock({ data, country, postPageLink }: PostPageProps
   const modified = articleDate(data.changeDate);
   const publishedText = published ? getReadableDate(data.publicationDate, country) : '';
   const modifiedText = modified ? getReadableDate(data.changeDate, country) : '';
-  const showUpdated = modified && (!published || (modified > published && modifiedText !== publishedText));
+  const showUpdated = modified && (!published || modified > published);
   const copy = editorialCopy[language];
   const html = renderArticleHtml(data.markup, data.imageUrl, language);
   return (

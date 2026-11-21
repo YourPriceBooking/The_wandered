@@ -38,6 +38,15 @@ test('an encoded route segment resolves to the same complete public article URL'
   })({ country: 'usa', pageLink: encodeURIComponent(params.pageLink) });
 });
 
+test('a later explicit editorial date supersedes the verified historical date', async () => {
+  const input = { country: 'poland', pageLink: 'jak-wystawi%C4%87-wiz%C4%99-do-wietnamu-dla-obywateli-rp' };
+  const publicationDate = '2024-12-15T19:58:33.598Z';
+  const changeDate = '2026-11-22T09:42:00.000Z';
+  const data = await service(200, { result: { ...post, publicationDate, changeDate } })(input);
+  assert.equal(data.publicationDate, publicationDate);
+  assert.equal(data.changeDate, changeDate);
+});
+
 test('upstream failures and malformed success payloads do not become missing articles', async () => {
   for (const status of [401, 429, 500, 502, 503]) await assert.rejects(service(status, {})(params), /Article service/);
   for (const result of [undefined, [], {}, { ...post, heading: '' }, { ...post, markup: null }]) {

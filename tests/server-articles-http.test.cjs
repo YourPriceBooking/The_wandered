@@ -479,3 +479,34 @@ for (const section of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     dom.window.close();
   });
 }
+
+test('verified historical edits and explicit same-day edits show an update without overwriting publication date', async () => {
+  const cases = [
+    ['/ukraine/etias-oboviazkovyi-dlia-hromadian-yaki-khochut-vidvidaty-krainy-yes-bez-vizy', 'Оновлено', '2024-10-18T21:22:24.319Z', '2026-11-21T12:36:47.996Z'],
+    ['/poland/jak-wystawi%C4%87-wiz%C4%99-do-wietnamu-dla-obywateli-rp', 'Zaktualizowano', '2024-12-15T19:58:33.598Z', '2026-11-21T12:39:02.206Z'],
+    ['/usa/fixture-same-day', 'Updated', '2026-10-17T07:00:00.000Z', '2026-10-17T08:00:00.000Z'],
+  ];
+  for (const [url, label, published, modified] of cases) {
+    const { response, dom } = await page(url);
+    const d = dom.window.document;
+    assert.equal(response.status, 200);
+    const times = [...d.querySelectorAll('time')];
+    assert.ok(times.some(time => time.dateTime === published));
+    assert.ok(times.some(time => time.dateTime === modified && time.parentElement.textContent.includes(label)));
+    assert.equal(d.querySelector('meta[property="article:modified_time"]').content, modified);
+    const article = [...d.querySelectorAll('script[type="application/ld+json"]')].map(el => JSON.parse(el.textContent)).find(value => value['@type'] === 'BlogPosting');
+    assert.equal(article.datePublished, published);
+    assert.equal(article.dateModified, modified);
+    dom.window.close();
+  }
+});
+
+test('a generic database update is not presented as an editorial update', async () => {
+  const { response, dom } = await page('/usa/fixture-db-touch');
+  assert.equal(response.status, 200);
+  const times = [...dom.window.document.querySelectorAll('time')];
+  assert.ok(times.some(time => time.dateTime === '2024-10-18T21:22:24.319Z'));
+  assert.ok(!times.some(time => time.parentElement.textContent.includes('Updated')));
+  assert.ok(!times.some(time => time.dateTime === '2025-11-28T08:49:43.644Z'));
+  dom.window.close();
+});

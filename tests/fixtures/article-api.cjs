@@ -23,9 +23,17 @@ global.fetch = async (input, options = {}) => {
     }, { once: true });
   });
   const heading = path.startsWith('/ukraine/') ? 'Серверна стаття' : path.startsWith('/poland/') ? 'Artykuł serwerowy' : 'Server article';
+  const isVietnam = slug === 'jak-wystawić-wizę-do-wietnamu-dla-obywateli-rp';
+  const hasConfirmedEdition = slug.startsWith('etias-oboviazkovyi-') || isVietnam;
+  const publicationDate = isVietnam ? '2024-12-15T19:58:33.598Z'
+    : hasConfirmedEdition || slug === 'fixture-db-touch' ? '2024-10-18T21:22:24.319Z' : '2026-10-17T07:00:00.000Z';
+  const changeDate = slug === 'fixture-known' ? '2026-10-18T08:00:00.000Z'
+    : slug === 'fixture-same-day' ? '2026-10-17T08:00:00.000Z'
+    : hasConfirmedEdition || slug === 'fixture-db-touch' ? publicationDate : '';
   return json({ result: {
     _id: '123456789012345678901234', heading, title: heading, description: 'Fixture description', author: slug === 'fixture-known' ? 'Viacheslav Nikitenko' : 'Fixture Author',
-    articleUrl, publicationDate: '2026-10-17T07:00:00.000Z', changeDate: slug === 'fixture-known' ? '2026-10-18T08:00:00.000Z' : '', country: path.split('/')[1],
+    articleUrl, publicationDate, changeDate, country: path.split('/')[1],
+    ...(slug === 'fixture-db-touch' ? { createdAt: publicationDate, updatedAt: '2025-11-28T08:49:43.644Z' } : {}),
     imageUrl: slug === 'fixture-empty' ? [] : [{ url: '/no-photo.webp', context: { alt: 'Hero photo', caption: 'Hero caption' } }, { url: '/no-photo.webp', context: { alt: 'Body photo', caption: 'Body caption' } }],
     markup: '<p id="fixture-body">Server rendered body with a <a href="/authors">real link</a>.</p><h2>Section</h2><table><tr><td>Table content</td></tr></table><img src="imgUrlByIdx"><blockquote>Quote — Author</blockquote><iframe src="https://www.youtube.com/embed/test" allowfullscreen></iframe><script>evil()</script>',
   } });
