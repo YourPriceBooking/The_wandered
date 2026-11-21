@@ -15,18 +15,16 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
   return (
     <main className={s.page} lang={language}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeStructuredData(authorsStructuredData(authors, language)) }} />
-      <div className={s.banner} aria-hidden="true" />
-      <section className={s.intro}>
-        <div className={s.heading}>
-          <div className={s.communityIcon} aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="9" cy="8" r="3" /><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M21 20v-2a6 6 0 0 0-4-5.65" /></svg>
-          </div>
+      <header className={s.hero}>
+        <div className={s.shell}>
+          <p className={s.eyebrow}>The Wandered</p>
           <h1>{copy.title}</h1>
+          <p className={s.intro}>{copy.intro}</p>
         </div>
-        <p>{copy.intro}</p>
-      </section>
-      <div className={s.body}>
-        <div className={s.grid}>
+      </header>
+      <div className={s.shell}>
+        <section className={s.directory} aria-label={copy.count}>
+          <p className={s.count}>{copy.count}: {authors.length}</p>
           <div className={s.feed}>
             {authors.map((author) => {
               const isEditor = author.name === 'Viacheslav Nikitenko';
@@ -37,7 +35,7 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
               return (
                 <article key={author._id} className={s.card} aria-labelledby={`author-${encodeURIComponent(author._id)}`}>
                   <div className={s.person}>
-                    <Image className={s.avatar} src={safeProfileUrl(author.image) || '/no-photo.webp'} alt={author.name} width={70} height={70} />
+                    <Image className={s.avatar} src={safeProfileUrl(author.image) || '/no-photo.webp'} alt={author.name} width={88} height={88} />
                     <div>
                       <h2 id={`author-${encodeURIComponent(author._id)}`}>{author.name}</h2>
                       {role && <p className={s.role}>{role}</p>}
@@ -58,18 +56,20 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
               );
             })}
           </div>
-          <aside className={s.sidebar}>
-            <h2>{copy.about}</h2>
-            <div><p>{copy.aboutText}</p><p className={s.count}><span aria-hidden="true" />{copy.count}: {authors.length}</p></div>
+        </section>
+        <div className={s.notes}>
+          <aside aria-labelledby="behind-the-stories">
+            <h2 id="behind-the-stories">{copy.about}</h2>
+            <p>{copy.aboutText}</p>
           </aside>
+          <section className={s.editorial} aria-labelledby="editorial-information">
+            <h2 id="editorial-information">{editorial.title}</h2>
+            <p>{editorial.publisher} <a href="https://www.yourpricebooking.com/en/about-company" target="_blank" rel="noopener noreferrer">Your Price Booking OÜ <span aria-hidden="true">↗</span></a></p>
+            <p>{editorial.dates} {editorial.sources}</p>
+            <p>{editorial.contact} <a href="https://www.yourpricebooking.com/support" target="_blank" rel="noopener noreferrer">{editorial.help} <span aria-hidden="true">↗</span></a></p>
+          </section>
         </div>
       </div>
-      <section className={s.editorial} aria-labelledby="editorial-information">
-        <h2 id="editorial-information">{editorial.title}</h2>
-        <p>{editorial.publisher} <a href="https://www.yourpricebooking.com/en/about-company" target="_blank" rel="noopener noreferrer">Your Price Booking OÜ ↗</a></p>
-        <p>{editorial.dates} {editorial.sources}</p>
-        <p>{editorial.contact} <a href="https://www.yourpricebooking.com/support" target="_blank" rel="noopener noreferrer">{editorial.help} ↗</a></p>
-      </section>
     </main>
   );
 }
