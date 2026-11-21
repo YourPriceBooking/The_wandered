@@ -123,3 +123,47 @@ test('a recommendation without a slug passes its canonical URL path to the count
   assert.equal(header.props.viewPath, '/canada/story-one');
   assert.equal(articleViews({ '/': 7481, '/canada/story-one': 31 }, header.props.viewPath), 31);
 });
+
+const { authorDirectory, directoryAnchor } = load('src/defaultData/authorDirectory.ts');
+test('Liza appears only as a localized directory fallback when the author API has no match', () => {
+  for (const [locale, role] of [['en', 'Contributor'], ['uk', 'Авторка'], ['pl', 'Autorka']]) {
+    const [editor, andy, liza] = authorDirectory([], locale);
+    assert.equal(editor.name, 'Viacheslav Nikitenko');
+    assert.equal(andy.name, 'Andy Ray');
+    assert.equal(liza.role, role);
+    assert.ok(liza.description.includes('TravelQ'));
+    assert.equal(liza.links.x, 'https://x.com/Liza__Nikitenko');
+    assert.equal(liza.image, '');
+    assert.equal(liza._id, undefined);
+    assert.equal(liza.email, undefined);
+    assert.equal(directoryAnchor(liza), 'author-liza-nikitenko');
+  }
+});
+
+test('a matching API record, by name or X, wins without a duplicate or overwritten data', () => {
+  for (const record of [
+    { _id: 'api-1', name: '  LIZA   NIKITENKO  ', links: [] },
+    { _id: 'api-2', name: 'Ліза Нікітенко', links: [] },
+    { _id: 'api-3', name: 'Different publisher display name', links: [JSON.stringify([{ xsolid: 'https://twitter.com/liza__nikitenko/?s=20' }])] },
+  ]) {
+    record.description = 'Existing bio from the API';
+    const authors = authorDirectory([record], 'pl');
+    assert.equal(authors.length, 1);
+    assert.equal(authors[0]._id, record._id);
+    assert.equal(authors[0].name, record.name);
+    assert.equal(authors[0].description, record.description);
+    assert.equal(authors[0].links, record.links);
+    assert.equal(authors[0].editorialKey, undefined);
+  }
+});
+
+test('directory does not match lookalike domains, or lookalike X handles', () => {
+  const unknown = { _id: 'other', name: 'Another contributor', links: [
+    { x: 'https://x.com.example/liza__nikitenko' },
+    { x: 'https://x.com/liza__nikitenko2' },
+  ] };
+  const authors = authorDirectory([unknown], 'en');
+  assert.equal(authors.length, 2);
+  assert.equal(authors[0]._id, unknown._id);
+  assert.equal(authors[1].name, 'Liza Nikitenko');
+});
