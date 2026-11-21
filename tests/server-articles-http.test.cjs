@@ -157,7 +157,7 @@ for (const url of staticPages) {
       const main = d.querySelector('main');
       assert.equal(main.querySelector('h1').textContent, url.startsWith('/ukraine') ? 'Наші автори' : url.startsWith('/poland') ? 'Nasi autorzy' : 'Meet our authors');
       const cards = [...main.querySelectorAll('article')];
-      assert.deepEqual(cards.map(card => card.querySelector('h2').textContent), ['Viacheslav Nikitenko', 'Andy Ray', 'New Contributor']);
+      assert.deepEqual(cards.map(card => card.querySelector('h2').textContent), ['Viacheslav Nikitenko', 'Andy Ray', 'New Contributor', 'Liza Nikitenko']);
       assert.ok([...cards[0].querySelectorAll('a')].some(link => link.href === 'https://x.com/mnogobitka'));
       assert.equal(cards[1].querySelector('a').href, 'https://x.com/X44JOJkiloVtSHV');
       assert.ok(cards[2].textContent.includes('Bio from the API.'));
@@ -168,6 +168,18 @@ for (const url of staticPages) {
       assert.equal(social.getAttribute('target'), '_blank');
       assert.equal(social.getAttribute('rel'), 'noopener noreferrer');
       assert.match(social.getAttribute('aria-label'), /New Contributor/);
+      const liza = cards[3];
+      assert.equal(liza.getAttribute('aria-labelledby'), 'author-liza-nikitenko');
+      assert.equal(liza.querySelector('a').href, 'https://x.com/Liza__Nikitenko');
+      assert.match(liza.querySelector('img').getAttribute('src'), /no-photo\.webp/);
+      assert.match(liza.textContent, /TravelQ/);
+      const person = [...main.querySelectorAll('script[type="application/ld+json"]')]
+        .map(script => JSON.parse(script.textContent))
+        .find(schema => schema['@type'] === 'CollectionPage').mainEntity.itemListElement[3].item;
+      assert.equal(person.name, 'Liza Nikitenko');
+      assert.equal(person.url, 'https://www.thewandered.com' + url + '#author-liza-nikitenko');
+      assert.equal(person['@id'], undefined);
+      assert.deepEqual(person.sameAs, ['https://x.com/Liza__Nikitenko']);
       assert.ok(main.querySelector('aside[aria-labelledby="behind-the-stories"] p').textContent);
       assert.ok(main.querySelector('#editorial-information'));
       assert.ok(main.querySelector('a[href="https://www.yourpricebooking.com/support"]'));

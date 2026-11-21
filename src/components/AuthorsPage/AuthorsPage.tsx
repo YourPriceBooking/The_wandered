@@ -1,7 +1,8 @@
 import { editorialCopy } from '@/defaultData/editorialCopy';
 import Image from 'next/image';
 import { getAuthors } from '@/services/getAuthors';
-import { authorSocialLinks, directoryAuthors, safeProfileUrl } from '@/defaultData/authorProfiles';
+import { authorSocialLinks, safeProfileUrl } from '@/defaultData/authorProfiles';
+import { authorDirectory, directoryAnchor } from '@/defaultData/authorDirectory';
 import { authorsCopy, type AuthorsLanguage } from '@/defaultData/authorsCopy';
 import s from './AuthorsPage.module.scss';
 import { authorsStructuredData, localizedAuthorBio, serializeStructuredData } from '@/defaultData/authorsSeo';
@@ -10,7 +11,7 @@ export { authorsMetadata } from '@/defaultData/authorsSeo';
 export default async function AuthorsPage({ language = 'en' }: { language?: AuthorsLanguage }) {
   const copy = authorsCopy[language];
   const editorial = editorialCopy[language];
-  const authors = directoryAuthors(await getAuthors());
+  const authors = authorDirectory(await getAuthors(), language);
 
   return (
     <main className={s.page} lang={language}>
@@ -29,15 +30,16 @@ export default async function AuthorsPage({ language = 'en' }: { language?: Auth
             {authors.map((author) => {
               const isEditor = author.name === 'Viacheslav Nikitenko';
               const isAndy = author.name === 'Andy Ray';
-              const role = isEditor ? copy.editorRole : isAndy ? copy.andyRole : '';
+              const role = 'role' in author ? author.role : isEditor ? copy.editorRole : isAndy ? copy.andyRole : '';
               const bio = localizedAuthorBio(author, language);
               const links = authorSocialLinks(author.links);
+              const anchor = directoryAnchor(author);
               return (
-                <article key={author._id} className={s.card} aria-labelledby={`author-${encodeURIComponent(author._id)}`}>
+                <article key={anchor} className={s.card} aria-labelledby={anchor}>
                   <div className={s.person}>
                     <Image className={s.avatar} src={safeProfileUrl(author.image) || '/no-photo.webp'} alt={author.name} width={88} height={88} />
                     <div>
-                      <h2 id={`author-${encodeURIComponent(author._id)}`}>{author.name}</h2>
+                      <h2 id={anchor}>{author.name}</h2>
                       {role && <p className={s.role}>{role}</p>}
                       {(isEditor || isAndy) && <span className={s.tag}>{isAndy ? 'Uncharted Planet' : 'The Wandered'}</span>}
                     </div>

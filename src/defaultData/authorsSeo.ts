@@ -3,7 +3,8 @@ export { serializeStructuredData } from '@/utils/structuredData';
 import { pageMetadata } from '@/utils/seoMetadata';
 import type { Metadata } from 'next';
 import { authorsCopy, type AuthorsLanguage } from './authorsCopy';
-import { authorSocialLinks, safeProfileUrl, type DirectoryAuthor } from './authorProfiles';
+import { authorSocialLinks, safeProfileUrl } from './authorProfiles';
+import { directoryAnchor, type DirectoryEntry } from './authorDirectory';
 
 export const authorsBaseUrl = 'https://www.thewandered.com';
 export const authorsPaths = { en: '/authors', uk: '/ukraine/authors', pl: '/poland/authors' };
@@ -29,13 +30,13 @@ export function authorsMetadata(language: AuthorsLanguage): Metadata {
   };
 }
 
-export function localizedAuthorBio(author: DirectoryAuthor, language: AuthorsLanguage): string {
+export function localizedAuthorBio(author: DirectoryEntry, language: AuthorsLanguage): string {
   if (language !== 'en' && author.name === 'Viacheslav Nikitenko') return authorsCopy[language].editorBio;
   if (language !== 'en' && author.name === 'Andy Ray') return authorsCopy[language].andyBio;
   return author.description;
 }
 
-export function authorsStructuredData(authors: DirectoryAuthor[], language: AuthorsLanguage) {
+export function authorsStructuredData(authors: DirectoryEntry[], language: AuthorsLanguage) {
   const copy = authorsCopy[language];
   const url = `${authorsBaseUrl}${authorsPaths[language]}`;
   return {
@@ -50,9 +51,9 @@ export function authorsStructuredData(authors: DirectoryAuthor[], language: Auth
         '@type': 'ListItem', position: index + 1,
         item: {
           '@type': 'Person',
-          '@id': authorIdentifier(author._id),
+          ...('_id' in author ? { '@id': authorIdentifier(author._id) } : {}),
           name: author.name,
-          url: `${url}#author-${encodeURIComponent(author._id)}`,
+          url: `${url}#${directoryAnchor(author)}`,
           description: localizedAuthorBio(author, language),
           ...(safeProfileUrl(author.image) ? { image: safeProfileUrl(author.image) } : {}),
           sameAs: authorSocialLinks(author.links).map((link) => link.url),
