@@ -39,7 +39,7 @@ const Post = component('src/components/Post/PostBlock.tsx', {
   './helpers/renderArticleHtml':{renderArticleHtml:render},
   './helpers/readingMinutes':load('src/components/Post/helpers/readingMinutes.ts'),
 });
-const record = {heading:'Border crossing queues: a long article title',description:'DO NOT DISPLAY THIS SUMMARY',author:'Viacheslav Nikitenko',publicationDate:'2025-10-11T07:00:00Z',changeDate:'2025-10-11T09:00:00Z',imageUrl:[{url:'/hero.jpg',context:{alt:'Border crossing',caption:'Photo credit'}}],markup:'<p id="intro">An original introduction.</p><h3 id="country">Poland</h3><p>Useful information.</p>'};
+const record = {heading:'Border crossing queues: a long article title',description:'DO NOT DISPLAY THIS SUMMARY',author:'Viacheslav Nikitenko',publicationDate:'2025-10-11T07:00:00Z',changeDate:'2025-10-11T07:00:00Z',imageUrl:[{url:'/hero.jpg',context:{alt:'Border crossing',caption:'Photo credit'}}],markup:'<p id="intro">An original introduction.</p><h3 id="country">Poland</h3><p>Useful information.</p>'};
 for (const [country,language] of [['home','en'],['ukraine','uk'],['poland','pl']]) {
   test(`editorial header precedes image, omits summary and redundant update, keeps body: ${language}`,()=>{
     const dom=new JSDOM(renderToStaticMarkup(React.createElement(Post,{data:record,country,postPageLink:'story'})));
@@ -59,6 +59,14 @@ for (const [country,language] of [['home','en'],['ukraine','uk'],['poland','pl']
     dom.window.close();
   });
 }
+test('same-day editorial update preserves both distinct timestamps',()=>{
+  const data={...record,changeDate:'2025-10-11T09:00:00Z'};
+  const dom=new JSDOM(renderToStaticMarkup(React.createElement(Post,{data,country:'home',postPageLink:'story'})));
+  const d=dom.window.document;
+  assert.equal(d.querySelector('header time').dateTime,'2025-10-11T07:00:00.000Z');
+  assert.equal(d.querySelector('.updated time').dateTime,'2025-10-11T09:00:00.000Z');
+  dom.window.close();
+});
 test('different valid update date is shown, and absent photo caption leaves no empty caption',()=>{
   const dom=new JSDOM(renderToStaticMarkup(React.createElement(Post,{data:{...record,changeDate:'2025-10-12T07:00:00Z',imageUrl:['/hero.jpg']},country:'home',postPageLink:'story'})));
   assert.ok(dom.window.document.querySelector('.updated time'));
