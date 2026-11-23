@@ -160,8 +160,9 @@ test('a matching API author retains identity and public links without replacing 
       const image = 'https://example.com/liza.jpg';
       const unrelated = { _id: 'other', name: 'Another contributor', description: 'Unchanged CMS bio' };
       const authors = authorDirectory([{ ...record, image, description: 'Existing bio from the API', email: 'private@example.com' }, unrelated], locale);
-      assert.equal(authors.length, 2);
-      const [liza, other] = authors;
+      assert.equal(authors.length, 3);
+      const [liza, other, andy] = authors;
+      assert.equal(andy._id, '693f2b9a6afb2c045cce5f48');
       assert.equal(liza._id, record._id);
       assert.equal(liza.name, record.name);
       assert.equal(liza.image, image);
@@ -180,7 +181,21 @@ test('directory does not match lookalike domains, or lookalike X handles', () =>
     { x: 'https://x.com/liza__nikitenko2' },
   ] };
   const authors = authorDirectory([unknown], 'en');
-  assert.equal(authors.length, 2);
+  assert.equal(authors.length, 3);
   assert.equal(authors[0]._id, unknown._id);
-  assert.equal(authors[1].name, 'Liza Nikitenko');
+  assert.equal(authors[1].name, 'Andy Ray');
+  assert.equal(authors[2].name, 'Liza Nikitenko');
+});
+
+
+test('the Authors directory keeps CMS Andy by ID or normalized name without a duplicate', () => {
+  const andyId = '693f2b9a6afb2c045cce5f48';
+  for (const andy of [{ _id: andyId, name: 'Andy R.' }, { _id: 'updated-andy', name: '  ANDY   RAY ' }]) {
+    const [profile, liza] = authorDirectory([{ ...andy, image: '/cms-andy.jpg', description: 'CMS biography' }], 'en');
+    assert.equal(profile._id, andy._id);
+    assert.equal(profile.name, andy.name);
+    assert.equal(profile.image, '/cms-andy.jpg');
+    assert.equal(profile.description, 'CMS biography');
+    assert.equal(liza.name, 'Liza Nikitenko');
+  }
 });
