@@ -172,11 +172,15 @@ for (const url of staticPages) {
       assert.equal(liza.getAttribute('aria-labelledby'), 'author-liza-nikitenko');
       assert.equal(liza.querySelector('a').href, 'https://x.com/Liza__Nikitenko');
       assert.match(liza.querySelector('img').getAttribute('src'), /no-photo\.webp/);
-      assert.match(liza.textContent, /TravelQ/);
+      const lizaBio = url.startsWith('/ukraine') ? /Карпенка-Карого.*документальними проєктами.*журналістика/
+        : url.startsWith('/poland') ? /Karpenki-Karego.*projekty dokumentalne.*dziennikarstwie/
+          : /I\. K\. Karpenko-Karyi.*documentary projects.*journalism/;
+      assert.match(liza.textContent, lizaBio);
       const person = [...main.querySelectorAll('script[type="application/ld+json"]')]
         .map(script => JSON.parse(script.textContent))
         .find(schema => schema['@type'] === 'CollectionPage').mainEntity.itemListElement[3].item;
       assert.equal(person.name, 'Liza Nikitenko');
+      assert.match(person.description, lizaBio);
       assert.equal(person.url, 'https://www.thewandered.com' + url + '#author-liza-nikitenko');
       assert.equal(person['@id'], undefined);
       assert.deepEqual(person.sameAs, ['https://x.com/Liza__Nikitenko']);

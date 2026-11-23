@@ -125,13 +125,20 @@ test('a recommendation without a slug passes its canonical URL path to the count
 });
 
 const { authorDirectory, directoryAnchor } = load('src/defaultData/authorDirectory.ts');
-test('Liza appears only as a localized directory fallback when the author API has no match', () => {
-  for (const [locale, role] of [['en', 'Contributor'], ['uk', 'Авторка'], ['pl', 'Autorka']]) {
+const { authorSocialLinks } = load('src/defaultData/authorProfiles.ts');
+const lizaLocales = [
+  ['en', 'Contributor', /I\. K\. Karpenko-Karyi.*documentary projects.*journalism/],
+  ['uk', 'Авторка', /Карпенка-Карого.*документальними проєктами.*журналістика/],
+  ['pl', 'Autorka', /Karpenki-Karego.*projekty dokumentalne.*dziennikarstwie/],
+];
+
+test('Liza has a localized professional bio when the author API has no match', () => {
+  for (const [locale, role, bio] of lizaLocales) {
     const [editor, andy, liza] = authorDirectory([], locale);
     assert.equal(editor.name, 'Viacheslav Nikitenko');
     assert.equal(andy.name, 'Andy Ray');
     assert.equal(liza.role, role);
-    assert.ok(liza.description.includes('TravelQ'));
+    assert.match(liza.description, bio);
     assert.equal(liza.links.x, 'https://x.com/Liza__Nikitenko');
     assert.equal(liza.image, '');
     assert.equal(liza._id, undefined);
@@ -140,20 +147,30 @@ test('Liza appears only as a localized directory fallback when the author API ha
   }
 });
 
-test('a matching API record, by name or X, wins without a duplicate or overwritten data', () => {
-  for (const record of [
-    { _id: 'api-1', name: '  LIZA   NIKITENKO  ', links: [] },
-    { _id: 'api-2', name: 'Ліза Нікітенко', links: [] },
-    { _id: 'api-3', name: 'Different publisher display name', links: [JSON.stringify([{ xsolid: 'https://twitter.com/liza__nikitenko/?s=20' }])] },
-  ]) {
-    record.description = 'Existing bio from the API';
-    const authors = authorDirectory([record], 'pl');
-    assert.equal(authors.length, 1);
-    assert.equal(authors[0]._id, record._id);
-    assert.equal(authors[0].name, record.name);
-    assert.equal(authors[0].description, record.description);
-    assert.equal(authors[0].links, record.links);
-    assert.equal(authors[0].editorialKey, undefined);
+test('a matching API author retains identity and public links without replacing the localized bio', () => {
+  const publicX = 'https://x.com/Liza__Nikitenko';
+  const legacyX = 'https://twitter.com/liza__nikitenko/?s=20';
+  const linkedIn = 'https://www.linkedin.com/in/fixture';
+  for (const [locale, , bio] of lizaLocales) {
+    for (const [record, expectedLinks] of [
+      [{ _id: 'api-1', name: '  LIZA   NIKITENKO  ', links: [{ linkedin: linkedIn }] }, [publicX, linkedIn]],
+      [{ _id: 'api-2', name: 'Ліза Нікітенко', links: [] }, [publicX]],
+      [{ _id: 'api-3', name: 'Different publisher display name', links: [JSON.stringify([{ xsolid: legacyX }])] }, [legacyX]],
+    ]) {
+      const image = 'https://example.com/liza.jpg';
+      const unrelated = { _id: 'other', name: 'Another contributor', description: 'Unchanged CMS bio' };
+      const authors = authorDirectory([{ ...record, image, description: 'Existing bio from the API', email: 'private@example.com' }, unrelated], locale);
+      assert.equal(authors.length, 2);
+      const [liza, other] = authors;
+      assert.equal(liza._id, record._id);
+      assert.equal(liza.name, record.name);
+      assert.equal(liza.image, image);
+      assert.match(liza.description, bio);
+      assert.deepEqual(Array.from(authorSocialLinks(liza.links), ({ url }) => url), expectedLinks);
+      assert.equal(liza.editorialKey, undefined);
+      assert.equal(liza.email, undefined);
+      assert.equal(other.description, unrelated.description);
+    }
   }
 });
 
