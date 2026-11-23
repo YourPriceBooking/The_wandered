@@ -6,16 +6,23 @@ export type DirectoryEntry = DirectoryAuthor | EditorialContributor;
 
 const lizaProfile = 'https://x.com/Liza__Nikitenko';
 const lizaCopy = {
-  en: { role: 'Contributor', description: 'Liza Nikitenko wrote for TravelQ about Kyiv’s theatre scene, including puppet theatre, operetta, opera and ballet.' },
-  uk: { role: 'Авторка', description: 'Ліза Нікітенко писала для TravelQ про театральне життя Києва: театр ляльок, оперету, оперу та балет.' },
-  pl: { role: 'Autorka', description: 'Liza Nikitenko pisała dla TravelQ o kijowskiej scenie teatralnej, w tym o teatrze lalek, operetce, operze i balecie.' },
+  en: {
+    role: 'Contributor',
+    description: 'Liza Nikitenko studies at the I. K. Karpenko-Karyi Kyiv National University of Theatre, Cinema and Television. She works on videos, documentary projects and interviews, with a focus on audiovisual content, journalism and television production.',
+  },
+  uk: {
+    role: 'Авторка',
+    description: 'Ліза Нікітенко навчається в Київському національному університеті театру, кіно і телебачення імені І. К. Карпенка-Карого. Працює над відеоматеріалами, документальними проєктами та інтерв’ю. Її основні напрями — аудіовізуальний контент, журналістика й телевізійне виробництво.',
+  },
+  pl: {
+    role: 'Autorka',
+    description: 'Liza Nikitenko studiuje na Kijowskim Narodowym Uniwersytecie Teatru, Kina i Telewizji im. Iwana Karpenki-Karego. Tworzy materiały wideo, projekty dokumentalne i wywiady. Koncentruje się na treściach audiowizualnych, dziennikarstwie i produkcji telewizyjnej.',
+  },
 } satisfies Record<AuthorsLanguage, Pick<EditorialContributor, 'role' | 'description'>>;
 
 const lizaNames = new Set(['liza nikitenko', 'ліза нікітенко', 'елізавета нікітенко', 'єлизавета нікітенко', 'лиза никитенко', 'yelyzaveta nikitenko', 'elizaveta nikitenko']);
 
-function isLiza(author: DirectoryAuthor) {
-  const name = author.name.normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' ');
-  if (lizaNames.has(name)) return true;
+function hasLizaProfile(author: DirectoryAuthor) {
   return authorSocialLinks(author.links).some(({ label, url }) => {
     if (label !== 'X') return false;
     const { hostname, pathname } = new URL(url);
@@ -24,10 +31,20 @@ function isLiza(author: DirectoryAuthor) {
   });
 }
 
-/** The attributed TravelQ contributor is a directory card until an API record exists. */
+function isLiza(author: DirectoryAuthor) {
+  const name = author.name.normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' ');
+  return lizaNames.has(name) || hasLizaProfile(author);
+}
+
+/** Keep the localized editorial bio when a CMS record supplies Liza's profile. */
 export function authorDirectory(value: unknown, language: AuthorsLanguage): DirectoryEntry[] {
   const authors = directoryAuthors(value);
-  if (authors.some(isLiza)) return authors;
+  const liza = authors.find(isLiza);
+  if (liza) return authors.map((author) => author === liza ? {
+    ...author,
+    description: lizaCopy[language].description,
+    links: hasLizaProfile(author) ? author.links : [{ x: lizaProfile }, author.links],
+  } : author);
   return [...authors, {
     editorialKey: 'liza-nikitenko',
     name: 'Liza Nikitenko',
