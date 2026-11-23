@@ -1,4 +1,4 @@
-import { authorSocialLinks, directoryAuthors, type DirectoryAuthor } from '@/defaultData/authorProfiles';
+import { authorSocialLinks, directoryAuthors, fallbackAuthors, type DirectoryAuthor } from '@/defaultData/authorProfiles';
 import type { AuthorsLanguage } from './authorsCopy';
 
 type EditorialContributor = Omit<DirectoryAuthor, '_id'> & { editorialKey: string; role: string };
@@ -36,9 +36,17 @@ function isLiza(author: DirectoryAuthor) {
   return lizaNames.has(name) || hasLizaProfile(author);
 }
 
+const normalizeAuthorName = (name: string) => name.normalize('NFKC').trim().toLowerCase().replace(/\s+/g, ' ');
+const andyFallback = fallbackAuthors.find(({ _id }) => _id === '693f2b9a6afb2c045cce5f48');
+
 /** Keep the localized editorial bio when a CMS record supplies Liza's profile. */
 export function authorDirectory(value: unknown, language: AuthorsLanguage): DirectoryEntry[] {
   const authors = directoryAuthors(value);
+  // A partial CMS response must not remove Andy's established public profile.
+  if (andyFallback && !authors.some((author) => author._id === andyFallback._id
+    || normalizeAuthorName(author.name) === normalizeAuthorName(andyFallback.name))) {
+    authors.push(andyFallback);
+  }
   const liza = authors.find(isLiza);
   if (liza) return authors.map((author) => author === liza ? {
     ...author,
