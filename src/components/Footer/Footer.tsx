@@ -25,7 +25,7 @@ export default function Footer() {
 						<p className={s.searchDescription}>{copy.footerDescription}</p>
 					</div>
 					<div className={s.searchForm}>
-						<Suspense fallback={<div className={s.searchFallback} />}><SearchField /></Suspense>
+						<Suspense fallback={<div className={s.searchFallback} />}><SearchField variant="footer" /></Suspense>
 					</div>
 				</section>
 				<div className={s.navContainer}>

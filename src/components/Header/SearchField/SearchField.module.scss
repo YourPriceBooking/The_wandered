@@ -63,3 +63,25 @@
   .searchButton { min-width: 44px; min-height: 44px; padding: 10px; border-radius: 50%; background: transparent; color: #374733; span { display: none; } &:hover { background: #e1e7d7; } &:focus-visible { outline-color: #b74719; } }
   &:focus-within { border-color: #b74719; box-shadow: 0 0 0 2px #b7471920; }
 }
+
+
+.footer {
+  background: #f4f2eb;
+  color: #202622;
+  box-shadow: none;
+
+  .input {
+    color: #202622;
+    &::placeholder { color: #596455; }
+  }
+
+  .searchButton {
+    background: #b74719;
+    color: #fff;
+    &:hover { background: #943b15; }
+    &:active { background: #793211; }
+    &:focus-visible { outline: 3px solid #202622; outline-offset: 2px; }
+  }
+
+  &:focus-within { box-shadow: 0 0 0 3px #d99b78; }
+}
