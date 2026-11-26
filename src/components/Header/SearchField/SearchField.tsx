@@ -10,7 +10,7 @@ import s from './SearchField.module.scss';
 interface SearchFieldProps {
   className?: string;
   inputClass?: string;
-  variant?: 'default' | 'hero' | 'header';
+  variant?: 'default' | 'hero' | 'header' | 'footer';
   placeholder?: string;
   onSearch?: () => void;
   onClick?: () => void;
@@ -43,7 +43,7 @@ export default function SearchField({
       aria-label={copy.label}
       lang={copy.lang}
       className={`${s.searchBlock} ${
-        variant === 'hero' ? s.hero : variant === 'header' ? s.header : ''
+        variant === 'hero' ? s.hero : variant === 'header' ? s.header : variant === 'footer' ? s.footer : ''
       } ${inputClass || ''} ${className}`}
       onClick={onClick}
       onSubmit={(event) => {
