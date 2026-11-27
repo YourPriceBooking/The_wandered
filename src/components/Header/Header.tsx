@@ -9,7 +9,6 @@ import SearchField from './SearchField/SearchField';
 import { getHeaderCopy, travelTools } from '@/defaultData/headerNavigation';
 import s from './Header.module.scss';
 
-const countries = ['ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore'];
 const journalPath = '/daily-journal-of-your-price-booking-service-history';
 
 function ToolIcon({ index }: { index: number }) {
@@ -45,7 +44,7 @@ export default function Header() {
   const searchPanel = useRef<HTMLDivElement>(null);
   const searchButton = useRef<HTMLButtonElement>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const countryActive = countries.includes(section);
+  const countryActive = Object.keys(copy.countryNames).includes(section);
   const authorsPath =
     section === 'ukraine' || section === 'poland' ? `/${section}/authors` : '/authors';
   const onArticle = Boolean(params.postPageLink);
@@ -91,7 +90,7 @@ export default function Header() {
       {link.text}
     </Link>
   );
-  const countryLinks = countries.map((country, index) => (
+  const countryLinks = Object.entries(copy.countryNames).map(([country, name]) => (
     <Link
       key={country}
       href={`/${country}`}
@@ -101,7 +100,7 @@ export default function Header() {
       className={section === country ? s.currentCountry : ''}
       onClick={closeMenus}
     >
-      {copy.countryNames[index]}
+      {name}
     </Link>
   ));
 

@@ -1,15 +1,28 @@
 import type { postsDataType } from '@/types/postTypes';
+import { articleCountries } from '@/utils/articleUrl';
 import { ARTICLE_PAGE_SIZE } from '@/utils/pagination';
 import { presentNycTransportArticle } from '@/utils/nycTransportArticle';
 import { apiUrl } from '@/utils/url';
 
-const countries = new Set(['home', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet']);
+const countries = new Set<string>(articleCountries);
+
+type ArticleListOptions = {
+  fetcher?: typeof fetch;
+  now?: () => number;
+  ttlMs?: number;
+  maxEntries?: number;
+  maxBytes?: number;
+  pageSize?: number;
+  timeoutMs?: number;
+  skipInvalidCards?: boolean;
+};
 
 // A small, process-local cache of validated public card data. Never stores article bodies,
 // missing lookups, errors or stale entries; each Node worker has its own bounded cache.
 export function createArticleListService({
   fetcher = fetch, now = Date.now, ttlMs = 30_000, maxEntries = 64, maxBytes = 4 * 1024 * 1024,
-}: { fetcher?: typeof fetch; now?: () => number; ttlMs?: number; maxEntries?: number; maxBytes?: number } = {}) {
+  pageSize = ARTICLE_PAGE_SIZE, timeoutMs = 10_000, skipInvalidCards = false,
+}: ArticleListOptions = {}) {
   const entries = new Map<string, { data: postsDataType; expires: number; bytes: number }>();
   const inFlight = new Map<string, Promise<postsDataType>>();
   let bytes = 0;
@@ -28,15 +41,18 @@ export function createArticleListService({
     const request = (async () => {
       try {
         const endpoint = new URL('api/post/get-all', apiUrl);
-        endpoint.search = new URLSearchParams({ page: String(page), limit: String(ARTICLE_PAGE_SIZE), typeOfPage: country }).toString();
-        const response = await fetcher(endpoint, { cache: 'no-store', headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(10_000) });
+        endpoint.search = new URLSearchParams({ page: String(page), limit: String(pageSize), typeOfPage: country }).toString();
+        const response = await fetcher(endpoint, { cache: 'no-store', headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(timeoutMs) });
         if (!response.ok) throw new Error('Upstream failure');
         const payload = await response.json();
         if (!Array.isArray(payload?.result) || !Number.isSafeInteger(payload.total) || payload.total < 0 ||
-            payload.result.length !== Math.min(ARTICLE_PAGE_SIZE, Math.max(0, payload.total - (page - 1) * ARTICLE_PAGE_SIZE))) throw new Error('Incomplete article list');
-        const data: postsDataType = { total: payload.total, result: payload.result.map((post: Record<string, unknown>) => {
-          if (!post || typeof post._id !== 'string' || typeof post.heading !== 'string' || !post.heading.trim() || typeof post.articleUrl !== 'string') throw new Error('Invalid article card');
-          return presentNycTransportArticle({
+            payload.result.length !== Math.min(pageSize, Math.max(0, payload.total - (page - 1) * pageSize))) throw new Error('Incomplete article list');
+        const data: postsDataType = { total: payload.total, result: payload.result.flatMap((post: Record<string, unknown>) => {
+          if (!post || typeof post._id !== 'string' || typeof post.heading !== 'string' || !post.heading.trim() || typeof post.articleUrl !== 'string') {
+            if (skipInvalidCards) return [];
+            throw new Error('Invalid article card');
+          }
+          return [presentNycTransportArticle({
             _id: post._id, heading: post.heading, articleUrl: post.articleUrl,
             title: typeof post.title === 'string' ? post.title : post.heading,
             country: typeof post.country === 'string' ? post.country : country, author: typeof post.author === 'string' ? post.author : '',
@@ -45,7 +61,7 @@ export function createArticleListService({
             changeDate: typeof post.changeDate === 'string' ? post.changeDate : '',
             imageUrl: Array.isArray(post.imageUrl) ? post.imageUrl.slice(0, 1) : [],
             slug: typeof post.slug === 'string' ? post.slug : '', markup: '',
-          });
+          })];
         }) };
         const size = Buffer.byteLength(JSON.stringify(data));
         if (size <= maxBytes && maxEntries > 0 && ttlMs > 0) {
