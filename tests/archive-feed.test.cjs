@@ -18,9 +18,13 @@ const batch = (page, total) => ({ total, page, result: Array.from(
 async function withFeed(fetcher, run) {
   const dom = new JSDOM('<div id="root"></div>', { url: 'https://www.thewandered.com/ukraine' });
   const { window } = dom;
-  const previous = { window: global.window, document: global.document, act: global.IS_REACT_ACT_ENVIRONMENT };
+  const previous = {
+    window: global.window, document: global.document, act: global.IS_REACT_ACT_ENVIRONMENT,
+    navigator: Object.getOwnPropertyDescriptor(global, 'navigator'),
+  };
   global.window = window;
   global.document = window.document;
+  Object.defineProperty(global, 'navigator', { value: window.navigator, configurable: true });
   global.IS_REACT_ACT_ENVIRONMENT = true;
   const exports = {};
   vm.runInNewContext(compiled, { exports, window, document: window.document, Element: window.Element, HTMLAnchorElement: window.HTMLAnchorElement, AbortController, URLSearchParams, fetch: fetcher, require(id) {
@@ -45,6 +49,8 @@ async function withFeed(fetcher, run) {
     dom.window.close();
     global.window = previous.window;
     global.document = previous.document;
+    if (previous.navigator) Object.defineProperty(global, 'navigator', previous.navigator);
+    else delete global.navigator;
     global.IS_REACT_ACT_ENVIRONMENT = previous.act;
   }
 }
