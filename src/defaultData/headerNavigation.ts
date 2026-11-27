@@ -20,7 +20,7 @@ const copy = {
     booking: 'Your Price Booking',
     tools: 'Travel tools',
     placeholder: 'Search stories, places and guides',
-    countryNames: ['Ukraine', 'Poland', 'USA', 'Canada', 'Australia', 'Singapore'],
+    countryNames: { ukraine: 'Ukraine', poland: 'Poland', usa: 'USA', canada: 'Canada', australia: 'Australia', singapore: 'Singapore' },
     toolNames: ['Live Flights Map', 'Global Weather', 'Travel News & Trends', 'Explore World Map'],
   },
   uk: {
@@ -37,7 +37,7 @@ const copy = {
     booking: 'Your Price Booking',
     tools: 'Для подорожей',
     placeholder: 'Шукайте історії, місця та путівники',
-    countryNames: ['Україна', 'Польща', 'США', 'Канада', 'Австралія', 'Сінгапур'],
+    countryNames: { ukraine: 'Україна', poland: 'Польща', usa: 'США', canada: 'Канада', australia: 'Австралія', singapore: 'Сінгапур' },
     toolNames: ['Карта польотів', 'Погода у світі', 'Туристичні новини', 'Карта світу'],
   },
   pl: {
@@ -54,7 +54,7 @@ const copy = {
     booking: 'Your Price Booking',
     tools: 'W podróży',
     placeholder: 'Szukaj historii, miejsc i przewodników',
-    countryNames: ['Ukraina', 'Polska', 'USA', 'Kanada', 'Australia', 'Singapur'],
+    countryNames: { ukraine: 'Ukraina', poland: 'Polska', usa: 'USA', canada: 'Kanada', australia: 'Australia', singapore: 'Singapur' },
     toolNames: ['Mapa lotów na żywo', 'Pogoda na świecie', 'Wiadomości turystyczne', 'Mapa świata'],
   },
 };

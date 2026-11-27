@@ -82,6 +82,33 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     }
     assert.ok(!d.querySelector('main > article aside'), 'Promotions/recommendations are outside the primary article');
 
+    const feed = d.querySelector('main > section[aria-labelledby="other-sections-heading"]');
+    const heading = country === 'ukraine' ? 'З інших розділів' : country === 'poland' ? 'Z innych działów' : 'From other sections';
+    assert.equal(feed.querySelector('h2').textContent, heading);
+    const ads = feed.previousElementSibling;
+    assert.deepEqual([...ads.querySelectorAll('a')].map(link => new URL(link.href).hostname), ['www.yourpricebooking.com', 'gptiti.com']);
+    if (related) assert.equal(ads.previousElementSibling.querySelectorAll('article h3 a').length, 4);
+    assert.ok(feed.compareDocumentPosition(d.querySelector('footer')) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING);
+    const otherSections = Object.keys(firstPageCards).filter(section => section !== country && firstPageCards[section] > 0);
+    const expectedLinks = otherSections.flatMap(section => [1, 2].map(i =>
+      'https://www.thewandered.com/' + (section ? section + '/' : '') + 'fixture-archive-' + i));
+    const rows = [...feed.querySelectorAll('ul > li > a')];
+    assert.deepEqual(rows.map(link => link.href), expectedLinks);
+    assert.equal(feed.querySelectorAll('a').length, rows.length);
+    for (const [i, link] of rows.entries()) {
+      const section = otherSections[Math.floor(i / 2)];
+      const language = section === 'ukraine' ? 'uk' : section === 'poland' ? 'pl' : 'en';
+      assert.equal(link.hreflang, language);
+      const [title, label] = link.getAttribute('aria-labelledby').split(' ').map(id => d.getElementById(id));
+      assert.equal(title, link.querySelector('h3'));
+      assert.equal(title.lang, language);
+      assert.equal(title.textContent, `Archive ${section || 'home'} record ${i % 2 + 1}`);
+      assert.ok(label.textContent.includes(language.toUpperCase()));
+      if (section === 'canada') assert.ok(label.textContent.includes(country === 'ukraine' ? 'Канада' : country === 'poland' ? 'Kanada' : 'Canada'));
+      assert.equal(link.querySelector('p').lang, language);
+      assert.equal(link.querySelector('img').getAttribute('loading'), 'lazy');
+    }
+
     assert.equal(d.documentElement.lang, country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en');
     assert.ok(d.querySelector('h1').textContent.includes(country === 'ukraine' ? 'Серверна' : country === 'poland' ? 'Artykuł' : 'Server article'));
     assert.equal(d.querySelector('#fixture-body').textContent, 'Server rendered body with a real link.');

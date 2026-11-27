@@ -12,7 +12,7 @@
     "test:pagination-archive": "node --test tests/pagination-archive.test.cjs tests/archive-feed.test.cjs",
     "test:schema-semantics": "node --test tests/schema-semantics.test.cjs",
     "test:seo-indexing": "node --test tests/seo-indexing.test.cjs",
-    "test:server-articles": "node --test tests/server-articles.test.cjs",
+    "test:server-articles": "node --test tests/server-articles.test.cjs tests/other-section-stories.test.cjs",
     "test:server-articles:http": "node --test tests/server-articles-http.test.cjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

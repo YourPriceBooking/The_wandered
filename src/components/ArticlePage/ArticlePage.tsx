@@ -5,6 +5,7 @@ import type { PostPageProps, postData } from '@/types/postTypes';
 import PostBlock from '../Post/PostBlock';
 import GptItiBanner from '../GptItiBanner/GptItiBanner';
 import SuggestedArticles from '../SuggestedArticles/SuggestedArticles';
+import OtherSectionStories from '../OtherSectionStories/OtherSectionStories';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 import StructuredData from '@/components/StructuredData/StructuredData';
 import { articleBreadcrumbs, articleStructuredData, breadcrumbStructuredData } from '@/utils/structuredData';
@@ -28,6 +29,7 @@ export default function ArticlePage({ data, postPageLink, country = 'home' }: Po
         <Banner />
         <GptItiBanner />
       </aside>
+      <OtherSectionStories country={country} articleId={data._id} />
       <ScrollToTop />
     </main>
   );
