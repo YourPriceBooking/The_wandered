@@ -61,6 +61,8 @@ test('splash covers clicks before route commit and finishes only after the desti
     tick(800); tick(500); assert.equal(splash(), null);
     React.act(() => { dom.window.history.replaceState({}, '', '/canada/story'); dom.window.dispatchEvent(new dom.window.PopStateEvent('popstate')); });
     assert.equal(splash().dataset.splash, 'opaque');
+    React.act(() => dom.window.dispatchEvent(new dom.window.PageTransitionEvent('pageshow', { persisted: true })));
+    assert.equal(splash(), null, 'A browser-cached archive can be used immediately on Back');
     React.act(() => root.unmount()); assert.equal(timers.size, 0);
   } finally {
     React.act(() => root.unmount()); dom.window.close();

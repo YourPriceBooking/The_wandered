@@ -6,6 +6,7 @@ const path = require('node:path');
 const net = require('node:net');
 const { JSDOM } = require('jsdom');
 let server, base, logPath, temp;
+const firstPageCards = { '': 27, ukraine: 27, poland: 27, usa: 15, canada: 9, australia: 0, singapore: 27, 'uncharted-planet': 27 };
 
 before(async () => {
   temp = fs.mkdtempSync(path.join(__dirname, '../.next/article-http-'));
@@ -73,8 +74,12 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     assert.equal(breadcrumbs.length, visible.length);
     breadcrumbs.forEach((crumb, index) => assert.equal(crumb.name, visible[index].textContent));
     assert.equal(breadcrumbs[breadcrumbs.length - 1].item, canonical);
-    assert.ok(d.querySelector('aside[aria-label="More stories"], aside[aria-label="Інші статті"], aside[aria-label="Inne artykuły"] article h3 a'));
-    assert.equal(d.querySelector('main aside article h3 a').closest('[hidden]'), null);
+    const related = d.querySelector('main aside article h3 a');
+    if (country === 'australia') assert.equal(related, null, 'Empty section has no related stories');
+    else {
+      assert.ok(related);
+      assert.equal(related.closest('[hidden]'), null);
+    }
     assert.ok(!d.querySelector('main > article aside'), 'Promotions/recommendations are outside the primary article');
 
     assert.equal(d.documentElement.lang, country === 'ukraine' ? 'uk' : country === 'poland' ? 'pl' : 'en');
@@ -226,12 +231,63 @@ test('journal pages contain disjoint SSR slices, last page has no next link, rel
 });
 test('out-of-range article and journal pages return 404/noindex before streaming', async () => {
   for (const path of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet', journalArchivePath]) {
-    const { response, dom } = await page(path + '?page=4');
+    const { response, dom } = await page(path + '?page=99');
     assert.equal(response.status, 404, path);
     assert.ok([...dom.window.document.querySelectorAll('meta[name="robots"]')].some((meta) => meta.content.includes('noindex')));
     dom.window.close();
   }
 });
+test('retired seven-card archive URLs lead to the batch containing their former first story', async () => {
+  for (const [oldUrl, target] of [
+    ['/?page=9', '/?page=3'], ['/ukraine?page=6', '/ukraine?page=2'],
+    ['/poland?page=4', '/poland'], ['/usa?page=3', '/usa'], ['/canada?page=2', '/canada'],
+  ]) {
+    const response = await fetch(base + oldUrl, { redirect: 'manual' });
+    assert.equal(response.status, 307, oldUrl);
+    assert.equal(response.headers.get('location'), target);
+  }
+});
+
+test('archive controls expose just the next HTML slice, with localized copy, including without JavaScript', async () => {
+  for (const [path, label, next] of [
+    ['/', 'Show more', '/?page=2'], ['/?page=2', 'Show more', '/?page=3'], ['/?page=3', '', null],
+    ['/ukraine', 'Показати ще', '/ukraine?page=2'], ['/poland', 'Pokaż więcej', '/poland?page=2'],
+    ['/singapore', '', null], ['/australia', '', null], ['/canada', '', null],
+    ['/uncharted-planet?page=2', '', null],
+  ]) {
+    const { response, dom } = await page(path);
+    const main = dom.window.document.querySelector('main');
+    assert.equal(response.status, 200);
+    assert.equal([...main.querySelectorAll('a')].some(a => /^\d+$/.test(a.textContent.trim())), false);
+    const link = main.querySelector('a[rel="next"]');
+    assert.equal(link?.getAttribute('href') ?? null, next, path);
+    if (link) assert.equal(link.textContent.trim(), label);
+    if (path.includes('?page=')) assert.ok(main.querySelector('a[rel="prev"]'));
+    dom.window.close();
+  }
+});
+
+test('incremental feed returns only card data in 27s, including the remainder, and validates the section and page', async () => {
+  const ids = new Set();
+  for (const [number, count] of [[1, 27], [2, 27], [3, 5]]) {
+    const response = await fetch(base + '/api/article-feed?section=home&page=' + number);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('x-robots-tag'), 'noindex');
+    const batch = await response.json();
+    assert.equal(batch.total, 59);
+    assert.equal(batch.result.length, count);
+    for (const post of batch.result) {
+      assert.equal(post.markup, '');
+      assert.ok(post.imageUrl.length <= 1);
+      ids.add(post._id);
+    }
+  }
+  assert.equal(ids.size, 59);
+  for (const query of ['section=other&page=1', 'section=home&page=0', 'section=home&page=0.5', 'section=home']) {
+    assert.equal((await fetch(base + '/api/article-feed?' + query)).status, 400, query);
+  }
+});
+
 test('aliases, repeated page values and tracking redirect to their normalized URLs', async () => {
   for (const path of ['/', '/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore', '/uncharted-planet', journalArchivePath]) {
     for (const [query, suffix] of [['?page=1',''], ['?page=0',''], ['?page=02',''], ['?page=2&page=3',''], ['?utm_source=test',''], ['?page=2&utm_source=test','?page=2']]) {
@@ -269,7 +325,7 @@ for (const country of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
   test(`one H1 and canonical linked H2 cards in listing: ${country || 'home'}`, async () => {
     const { response, dom } = await page('/' + country); const d = dom.window.document;
     assert.equal(response.status, 200); assert.equal(d.querySelectorAll('h1').length, 1);
-    const cards = [...d.querySelectorAll('main article')]; assert.equal(cards.length, 7);
+    const cards = [...d.querySelectorAll('main article')]; assert.equal(cards.length, firstPageCards[country]);
     for (const card of cards) {
       const title = card.querySelector('h2 a'); assert.ok(title);
       assert.ok(title.href.startsWith('https://www.thewandered.com/'));
@@ -384,8 +440,8 @@ test('listing images prioritize only the first card and keep lower cards lazy', 
     const { response, dom } = await page(route); const d = dom.window.document;
     assert.equal(response.status, 200);
     const images = [...d.querySelectorAll('main article a[aria-label] img[data-nimg]')];
-    assert.equal(images.length, 7, route);
-    assert.notEqual(images[0].getAttribute('loading'), 'lazy');
+    assert.equal(images.length, firstPageCards[route.slice(1)], route);
+    if (images.length) assert.notEqual(images[0].getAttribute('loading'), 'lazy');
     for (const image of images.slice(1)) assert.equal(image.getAttribute('loading'), 'lazy');
     images.forEach((image, index) => {
       const featured = route === '/' && index === 0;
@@ -466,16 +522,16 @@ test('bare production host redirects permanently to HTTPS www while preserving p
 });
 
 
-test('home features one story without duplicate cards or changes to pagination', async () => {
-  for (const [url, featured, first] of [['/', 1, 1], ['/?page=2', 0, 8]]) {
+test('home features one story and exposes disjoint 27-card archive pages', async () => {
+  for (const [url, featured, first, count] of [['/', 1, 1, 27], ['/?page=2', 0, 28, 27], ['/?page=3', 0, 55, 5]]) {
     const { response, dom } = await page(url);
     const d = dom.window.document;
     assert.equal(response.status, 200);
     const cards = [...d.querySelectorAll('main article')];
-    assert.equal(cards.length, 7);
+    assert.equal(cards.length, count);
     assert.equal(cards.filter((card) => card.className.includes('featured')).length, featured);
     const urls = cards.map((card) => card.querySelector('h2 a').href);
-    assert.equal(new Set(urls).size, 7);
+    assert.equal(new Set(urls).size, count);
     assert.ok(urls[0].endsWith(`fixture-archive-${first}`));
     assert.equal(d.querySelector('link[rel="canonical"]').href, 'https://www.thewandered.com' + url);
     assert.equal(d.querySelectorAll('main h1').length, 1);

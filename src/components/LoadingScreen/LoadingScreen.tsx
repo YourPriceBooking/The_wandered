@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import styles from "./LoadingScreen.module.css";
 import HouseIcon from "../../../public/HouseIcon";
 
 export default function LoadingScreen({ fadeOut }: { fadeOut?: boolean }) {
   return (
     <div className={`${styles.splashScreen} ${fadeOut ? styles.fadeOut : ""}`}>
+      <noscript><style>{`.${styles.splashScreen} { display: none; }`}</style></noscript>
       <div className={styles.logoBlock}>
         <HouseIcon color="#202622" />
         <h2 className={styles.mainTitle}>the wandered</h2>

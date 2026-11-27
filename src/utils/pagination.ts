@@ -1,5 +1,5 @@
 import { journalPage } from '@/utils/journalSeo';
-export const ARTICLE_PAGE_SIZE = 7;
+export const ARTICLE_PAGE_SIZE = 27;
 export const JOURNAL_PAGE_SIZE = 10;
 export type PageQuery = Record<string, string | string[] | undefined>;
 export function pagePath(path: string, page: number): string {

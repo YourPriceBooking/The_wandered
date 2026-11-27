@@ -1,90 +1,32 @@
-import { getListingPage } from '@/services/getListingPage';
-import Pagination from '@/components/Pagination/Pagination';
-import { listingMetadata } from '@/utils/seoMetadata';
-import React from 'react';
-import { Metadata } from 'next';
-import s from '../mainPage.module.scss';
+import type { Metadata } from 'next';
 import TopSection from '@/components/TopSection/TopSection';
-import { postData } from '@/types/postTypes';
-import Article from '@/components/Article/Article';
-import Link from 'next/link';
-import { normalizeImageUrl, getImageUrl } from '@/utils/normalizeImageUrl';
+import ArchiveFeed from '@/components/ArchiveFeed/ArchiveFeed';
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop';
+import { getListingPage } from '@/services/getListingPage';
+import { pagePath, type PageQuery } from '@/utils/pagination';
+import { listingMetadata } from '@/utils/seoMetadata';
+import s from '../mainPage.module.scss';
 
-export function generateMetadata({ searchParams }: { searchParams: { page?: string | string[] } }): Metadata {
-  return listingMetadata('canada', searchParams.page);
+const section = 'canada';
+const path = `/${section}`;
+
+export function generateMetadata({ searchParams }: { searchParams: PageQuery }): Metadata {
+  return listingMetadata(section, searchParams.page);
 }
 
-async function page({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) {
-	const country = 'canada';
-
-
-
-	const data = await getListingPage('canada', '/canada', searchParams);
-  const paramsPage = data.page;
-	const length = Math.ceil(data.total / 7);
-
-	return (
-		<main className={s.main}>
-			<TopSection country={country}
-				countryTitle='Canada'
-				countryDescription='Parks, lakes, cities — routes & practical notes / Parcs, lacs, villes '
-				viewPath={`/${country}${paramsPage > 1 ? `?page=${paramsPage}` : ''}`}
-				/>
-			<div className={s.contentSection}>
-				{data.result.length > 0 ? (
-					data.result.map((article: postData, index: number) => {
-						const normalizedImages = normalizeImageUrl(article.imageUrl as any);
-						const imageSrc = getImageUrl(normalizedImages, 0) || '';
-						return (
-							<Article
-                priority={index === 0}
-                articleUrl={article.articleUrl}
-								key={article._id}
-								slug={country + '/' + article?.articleUrl?.split('/').pop()}
-								title={article.title}
-								country={country}
-								imageSrc={imageSrc}
-								author={article.author}
-								date={article.publicationDate}
-								updated={''}
-								description={article.description}
-								id={article._id}
-								heading={article.heading}
-							></Article>
-						);
-					})
-				) : (
-					<div className={s.temporary}></div>
-				)}
-
-				<div className={s.paginationText}>
-					<img src="/green-home.png" alt="pagination text icon" />
-					<p>the waaandered</p>
-				</div>
-				<Pagination path="/canada" page={paramsPage} totalPages={length} language="en" />
-				<div className={s.navSection}>
-					<ul className={s.navNumbers}>
-						{Array.from({ length }, (_, index) => (
-							<li key={index}>
-								<Link
-									href={index === 0 ? "/canada" : `/canada?page=${index + 1}`}
-									className={`${paramsPage === index + 1 ? s.activePage : s.pageNumber}`}
-								>
-									{index + 1}
-								</Link>
-							</li>
-						))}
-					</ul>
-				</div>
-			</div>
-			<ScrollToTop />
-		</main>
-	);
+export default async function Page({ searchParams }: { searchParams: PageQuery }) {
+  const data = await getListingPage(section, path, searchParams);
+  const archivePath = pagePath(path, data.page);
+  return (
+    <main className={s.main}>
+      <TopSection
+        country={section}
+        countryTitle="Canada"
+        countryDescription="Parks, lakes, cities — routes & practical notes / Parcs, lacs, villes"
+        viewPath={archivePath}
+      />
+      <ArchiveFeed key={archivePath} section={section} initial={data} className={s.contentSection} />
+      <ScrollToTop />
+    </main>
+  );
 }
-
-export default page;

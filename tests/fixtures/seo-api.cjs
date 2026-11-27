@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const http = require('node:http');
 const https = require('node:https');
 const countries = ['home','ukraine','poland','usa','canada','australia','singapore','uncharted-planet'];
+const archiveTotals = { home: 59, ukraine: 42, poland: 28, usa: 15, canada: 9, australia: 0, singapore: 27, 'uncharted-planet': 54 };
 const identifier = (country, index) => (countries.indexOf(country) + 1).toString(16).padStart(2, '0') + index.toString(16).padStart(22, '0');
 function article(country, index) {
   const heading = `Archive ${country} record ${index}`;
@@ -23,8 +24,8 @@ function payload(url) {
   }
   if (url.pathname.endsWith('/post/search-query')) return { result: url.searchParams.get('search') === 'nyc-transport-fixture' ? [nycRecord] : [] };
   const country = url.searchParams.get('typeOfPage') || 'home';
-  const page = Number(url.searchParams.get('page') || 1), limit = Number(url.searchParams.get('limit') || 7);
-  const records = Array.from({ length: 21 }, (_, i) => country === 'usa' && i === 6 ? nycRecord : article(country, i + 1));
+  const page = Number(url.searchParams.get('page') || 1), limit = Number(url.searchParams.get('limit') || 27);
+  const records = Array.from({ length: archiveTotals[country] }, (_, i) => country === 'usa' && i === 6 ? nycRecord : article(country, i + 1));
   return { result: records.slice((page - 1) * limit, page * limit), total: records.length };
 }
 const originalRequest = http.request;
