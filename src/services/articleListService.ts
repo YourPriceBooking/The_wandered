@@ -43,7 +43,7 @@ export function createArticleListService({
             description: typeof post.description === 'string' ? post.description : '',
             publicationDate: typeof post.publicationDate === 'string' ? post.publicationDate : '',
             changeDate: typeof post.changeDate === 'string' ? post.changeDate : '',
-            imageUrl: Array.isArray(post.imageUrl) ? post.imageUrl : [],
+            imageUrl: Array.isArray(post.imageUrl) ? post.imageUrl.slice(0, 1) : [],
             slug: typeof post.slug === 'string' ? post.slug : '', markup: '',
           });
         }) };

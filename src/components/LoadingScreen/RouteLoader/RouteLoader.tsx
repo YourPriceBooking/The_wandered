@@ -46,13 +46,22 @@ export default function RouteLoader({ children }: { children: React.ReactNode })
     const onPopState = () => {
       if (window.location.pathname !== committedPath.current) flushSync(start);
     };
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        // A native Back can restore the outgoing document with its pre-navigation splash.
+        clearTimers();
+        setSplash((previous) => ({ ...previous, visible: false }));
+      }
+    };
     document.addEventListener('click', onClick, true);
+    window.addEventListener('pageshow', onPageShow);
     window.addEventListener('popstate', onPopState);
     return () => {
       document.removeEventListener('click', onClick, true);
       window.removeEventListener('popstate', onPopState);
+      window.removeEventListener('pageshow', onPageShow);
     };
-  }, [start]);
+  }, [start, clearTimers]);
 
   return <>{splash.visible && <LoadingScreen key={splash.generation} fadeOut={splash.fading} />}{children}</>;
 }
