@@ -580,7 +580,7 @@ for (const section of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
     assert.equal(d.querySelectorAll('hotfx-shy-header').length, 1);
     const pinned = d.querySelector('hotfx-shy-header');
     assert.equal(pinned.dataset.pinned, 'true');
-    assert.equal(pinned.querySelector('[class*="toolLinks"]'), null, 'Travel tools remain in document flow');
+    assert.equal(pinned.querySelector('[class*="toolLinks"]'), null, 'The desktop resource strip remains in document flow');
     assert.equal(pinned.querySelector('[class*="desktopNav"]'), null, 'Desktop navigation remains in document flow');
     assert.equal(d.querySelectorAll('[class*="countryPanel"] a').length, 6);
     const tools = [...d.querySelectorAll('[class*="toolLinks"] a')];
@@ -588,6 +588,9 @@ for (const section of ['', 'ukraine', 'poland', 'usa', 'canada', 'australia', 's
       '/travel-resources#live-flights-map', '/travel-resources#global-weather',
       '/travel-resources#travel-news-trends', '/travel-resources#explore-world-map',
     ]);
+    const mobile = pinned.querySelector('#mobile-navigation');
+    assert.equal(mobile.querySelector('a').href, 'https://www.yourpricebooking.com/');
+    assert.deepEqual([...mobile.querySelectorAll('a[href^="/travel-resources#"]')].map(a => a.getAttribute('href')), tools.map(a => a.getAttribute('href')));
     const forms = [...d.querySelectorAll('form[role="search"]')];
     assert.ok(forms.length);
     forms.forEach(form => { assert.equal(form.getAttribute('action'), '/wandered-posts'); assert.equal(form.method, 'get'); });

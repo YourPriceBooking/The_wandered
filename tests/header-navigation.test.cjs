@@ -8,6 +8,10 @@ const { renderToStaticMarkup } = require('react-dom/server');
 const { JSDOM } = require('jsdom');
 const load = require('./helpers/load-ts.cjs');
 const { getHeaderCopy, travelTools } = load('src/defaultData/headerNavigation.ts');
+const sharedRoutes = {
+  '@/defaultData/authorsCopy': load('src/defaultData/authorsCopy.ts'),
+  '@/utils/journalSeo': load('src/utils/journalSeo.ts'),
+};
 
 function component(file, mocks, globals = {}) {
   const exports = {};
@@ -17,14 +21,18 @@ function component(file, mocks, globals = {}) {
   vm.runInNewContext(source, { exports, ...globals, require: (id) => {
     if (id.endsWith('.scss')) return new Proxy({}, { get: (_, key) => key === '__esModule' ? false : String(key) });
     if (id in mocks) return mocks[id];
+    if (id in sharedRoutes) return sharedRoutes[id];
     return require(id);
   } });
   return exports.default;
 }
-for (const section of ['home', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet', 'wandered-posts']) {
-  test(`header retains destinations, localized tools and one fixed masthead: ${section}`, () => {
+for (const route of ['home', 'ukraine', 'poland', 'usa', 'canada', 'australia', 'singapore', 'uncharted-planet', 'wandered-posts', 'fixture-story', 'poland/fixture-story', 'uncharted-planet/fixture-story', 'ukraine/authors']) {
+  test(`header exposes the localized mobile menu and desktop navigation: ${route}`, () => {
+    const section = route.split('/')[0];
+    const pathname = route === 'home' ? '/' : '/' + route;
+    const onArticle = route.endsWith('fixture-story');
     const Header = component('src/components/Header/Header.tsx', {
-      'next/navigation': { usePathname: () => section === 'home' ? '/' : `/${section}`, useParams: () => ({}) },
+      'next/navigation': { usePathname: () => pathname, useParams: () => onArticle ? { postPageLink: 'fixture-story' } : {} },
       'next/link': ({ children, ...props }) => React.createElement('a', props, children),
       '../../../public/HouseIcon': () => null,
       '../TopSection/BackArrow/BackArrow': () => null,
@@ -49,6 +57,29 @@ for (const section of ['home', 'ukraine', 'poland', 'usa', 'canada', 'australia'
     const destinations = [...d.querySelectorAll('.countryPanel a')];
     assert.equal(destinations.length, 6);
     assert.deepEqual(destinations.map(a => a.getAttribute('href')), ['/ukraine', '/poland', '/usa', '/canada', '/australia', '/singapore']);
+    const panel = d.getElementById('mobile-navigation');
+    const links = [...panel.querySelectorAll('a')];
+    const authorsPath = section === 'ukraine' || section === 'poland' ? `/${section}/authors` : '/authors';
+    assert.deepEqual(links.map(a => a.getAttribute('href')), [
+      'https://www.yourpricebooking.com/', '/', '/uncharted-planet', ...destinations.map(a => a.getAttribute('href')),
+      '/daily-journal-of-your-price-booking-service-history#game-zone', '/travel-resources',
+      ...tools.map(a => a.getAttribute('href')), authorsPath,
+    ]);
+    assert.equal(links[0].target, '_blank');
+    assert.ok(links[0].relList.contains('noopener'));
+    assert.equal(links[0].querySelector('small').textContent, copy.bookingDescription);
+    assert.deepEqual([...panel.querySelectorAll('h2')].map(h => h.textContent), [copy.sections, copy.mobileTools]);
+    assert.deepEqual([...panel.querySelectorAll('.mobileCountries a')].map(a => a.textContent), Object.values(copy.countryNames));
+    assert.deepEqual([...panel.querySelectorAll('.mobileToolGrid a')].map(a => a.querySelector('span').textContent), [...copy.toolNames]);
+    assert.equal(panel.querySelector('a[href="/travel-resources"]').getAttribute('aria-label'), copy.allTools);
+    const current = panel.querySelectorAll('[aria-current]');
+    if (route === 'wandered-posts') assert.equal(current.length, 0);
+    else {
+      assert.equal(current.length, 1);
+      const expected = onArticle ? (route.includes('/') ? '/' + section : '/') : pathname;
+      assert.equal(current[0].getAttribute('href'), expected);
+      assert.equal(current[0].getAttribute('aria-current'), onArticle ? 'location' : 'page');
+    }
     const ids = [...d.querySelectorAll('[id]')].map(x => x.id);
     assert.equal(new Set(ids).size, ids.length);
     dom.window.close();
@@ -81,6 +112,8 @@ test('menus and search close on Escape, outside press and route changes, restori
   dom.window.HTMLElement.prototype.attachEvent = () => {};
   dom.window.HTMLElement.prototype.detachEvent = () => {};
   let pathname = '/ukraine';
+  const viewport = new dom.window.EventTarget();
+  dom.window.matchMedia = () => viewport;
   const Header = component('src/components/Header/Header.tsx', {
     'next/navigation': { usePathname: () => pathname, useParams: () => ({}) },
     'next/link': ({ children, ...props }) => React.createElement('a', props, children),
@@ -88,7 +121,7 @@ test('menus and search close on Escape, outside press and route changes, restori
     '../TopSection/BackArrow/BackArrow': () => null,
     './SearchField/SearchField': () => React.createElement('form', null, React.createElement('input', { type: 'search' })),
     '@/defaultData/headerNavigation': { getHeaderCopy, travelTools },
-  }, { document: dom.window.document });
+  }, { document: dom.window.document, window: dom.window });
   const { createRoot } = require('react-dom/client');
   const root = createRoot(dom.window.document.getElementById('root'));
   const d = dom.window.document;
@@ -96,6 +129,7 @@ test('menus and search close on Escape, outside press and route changes, restori
     await React.act(async () => root.render(React.createElement(Header)));
     const menu = d.querySelector('.mobileMenu');
     const summary = menu.querySelector('summary');
+    assert.equal(summary.getAttribute('aria-controls'), 'mobile-navigation');
     await React.act(async () => { summary.click(); });
     assert.equal(menu.open, true);
     const link = menu.querySelector('a');
@@ -106,13 +140,27 @@ test('menus and search close on Escape, outside press and route changes, restori
     await React.act(async () => d.querySelector('#outside').dispatchEvent(new dom.window.MouseEvent('pointerdown', { bubbles: true })));
     assert.equal(menu.open, false);
     const toggle = d.querySelector('button[aria-controls="header-search-panel"]');
+    await React.act(async () => summary.click());
     await React.act(async () => toggle.click());
+    assert.equal(menu.open, false);
     const panel = d.getElementById('header-search-panel');
     assert.equal(panel.hidden, false);
     assert.equal(d.activeElement, panel.querySelector('input'));
     await React.act(async () => panel.querySelector('input').dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
     assert.equal(panel.hidden, true);
     assert.equal(d.activeElement, toggle);
+    d.addEventListener('click', event => { if (event.target.closest('a')) event.preventDefault(); });
+    for (const selector of ['.booking', 'a[href$="#global-weather"]', 'a[href$="#game-zone"]']) {
+      await React.act(async () => summary.click());
+      await React.act(async () => menu.querySelector(selector).click());
+      assert.equal(menu.open, false);
+    }
+    await React.act(async () => summary.click());
+    await React.act(async () => viewport.dispatchEvent(new dom.window.Event('change')));
+    assert.equal(menu.open, false);
+    await React.act(async () => summary.click());
+    await React.act(async () => dom.window.dispatchEvent(new dom.window.Event('popstate')));
+    assert.equal(menu.open, false);
     await React.act(async () => summary.click());
     pathname = '/poland';
     await React.act(async () => root.render(React.createElement(Header)));
