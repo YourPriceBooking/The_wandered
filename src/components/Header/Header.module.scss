@@ -223,7 +223,8 @@
     }
   }
   .desktopSearch,
-  .desktopNav {
+  .desktopNav,
+  .tools {
     display: none;
   }
   .mobileActions {
@@ -231,6 +232,7 @@
     align-items: center;
     margin-left: auto;
     gap: 2px;
+    -webkit-tap-highlight-color: rgba(183, 71, 25, .12);
   }
   .iconButton {
     display: flex;
@@ -244,6 +246,7 @@
     color: #25352b;
     cursor: pointer;
     list-style: none;
+    border-radius: 6px;
     &::-webkit-details-marker {
       display: none;
     }
@@ -251,40 +254,124 @@
   .mobileMenu {
     position: static;
   }
+  :global(html):has(.mobileMenu[open]) {
+    overflow-y: hidden;
+  }
+  .mobileMenu:not([open]) .whenOpen,
+  .mobileMenu[open] .whenClosed {
+    display: none;
+  }
+  .srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   .mobilePanel {
+    --rule: #d9d7ce;
+    --accent: #b74719;
     position: absolute;
     top: 100%;
     right: 0;
     left: 0;
-    max-height: calc(100dvh - 72px);
+    height: calc(100vh - var(--shy-header-height, 72px));
+    height: calc(100dvh - var(--shy-header-height, 72px));
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 12px 20px 24px;
-    background: #fff;
-    border-bottom: 1px solid #dce2d4;
-    box-shadow: 0 12px 24px #20262212;
+    padding: 12px max(16px, env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    background: #faf9f5;
+    color: #202622;
     a {
       display: flex;
       align-items: center;
       min-height: 44px;
-      font-size: 14px;
     }
-    > p {
-      margin: 14px 0 6px;
-      font-size: 11px;
+    .navLink {
+      gap: 10px;
+      color: inherit;
+      font-size: 16px;
+    }
+  }
+  .booking {
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    svg { flex: none; width: 26px; height: 26px; }
+    svg:last-child { margin-left: auto; width: 19px; height: 19px; }
+    strong { display: block; font: 700 21px/1.15 Georgia, serif; }
+    small { display: block; margin-top: 2px; font-size: 13px; line-height: 1.35; }
+  }
+  .menuHeading {
+    margin: 18px 0 4px;
+    font: 700 clamp(22px, 5vw, 26px)/1.2 Georgia, serif;
+    letter-spacing: -.025em;
+  }
+  .mobileSections {
+    > a { border-bottom: 1px solid var(--rule); }
+    .navLink, .mobileCountries a { font: 500 18px/1.3 Georgia, serif; }
+    a[aria-current], .mobileCountries a[aria-current] {
+      gap: 8px;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      color: #67705f;
-      text-transform: uppercase;
+      text-decoration: none;
+      &::before { content: ''; width: 3px; height: 18px; flex: none; background: var(--accent); }
     }
   }
   .mobileCountries {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #edf0e6;
-    margin-bottom: 8px;
+    a { padding: 6px 10px; color: inherit; }
+    a:nth-child(2n) { border-left: 1px solid var(--rule); }
+    a:nth-child(n + 3) { border-top: 1px solid var(--rule); }
+  }
+  .gameRow {
+    margin-top: 10px;
+    padding-block: 3px;
+    border-block: 1px solid var(--rule);
+    .navLink { font: 700 18px/1.3 Georgia, serif; }
+  }
+  .chevron { margin-left: auto; padding-inline: 6px; font: 22px/1 sans-serif; }
+  .toolsHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-block: 8px 3px;
+    .menuHeading { margin: 0; }
+    a { min-width: 44px; flex: none; justify-content: flex-end; gap: 4px; padding-inline: 4px; color: #963d19; font-size: 14px; font-weight: 600; }
+  }
+  .mobileToolGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    .toolLink {
+      min-height: 52px;
+      padding: 8px 10px;
+      gap: 8px;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      color: inherit;
+      font-size: 14px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+  }
+  .menuFooter {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 14px;
+    border-top: 1px solid var(--rule);
+    a { flex: 1; }
+    button {
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      svg { width: 22px; height: 22px; opacity: .75; }
+    }
   }
   .searchPanel:not([hidden]) {
     display: block;
@@ -300,38 +387,18 @@
     display: block;
     padding: 0 16px 16px;
   }
-  .tools {
-    display: block;
-    padding: 14px 16px 16px;
-  }
-  .toolsLabel {
-    min-height: 28px;
-    margin-bottom: 8px;
-    font-size: 10px;
-  }
-  .toolLinks {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-  .toolLink {
-    flex-wrap: wrap;
-    align-content: center;
-    gap: 6px 10px;
-    min-height: 66px;
-    padding: 12px;
-    border: 1px solid #dbe1d1;
-    border-radius: 10px;
-    background: #f7f8f3;
-    font-size: 12px;
-    span {
-      flex: 1;
-      min-width: 0;
-    }
-    svg {
-      width: 21px;
-      height: 21px;
+}
+// A native same-document fragment follows its target without closing <details>.
+// Let the menu scroll away with the document on those two pages without JavaScript.
+@media (max-width: 760px) and (scripting: none) {
+  .headerShell[data-fragment-links] {
+    :global(hotfx-shy-header) { position: relative; }
+    :global(.shy-header-spacer) { display: none; }
+    &:has(.mobileMenu[open]) :global(hotfx-shy-header) {
+      padding-bottom: calc(100dvh - var(--shy-header-height, 72px));
     }
   }
+  :global(html):has(.headerShell[data-fragment-links] .mobileMenu[open]) { overflow-y: auto; }
 }
 @media (max-width: 360px) {
   .brand {
@@ -345,9 +412,5 @@
   .masthead {
     gap: 0;
     padding-inline: 12px;
-  }
-  .toolLink {
-    padding: 10px;
-    gap: 8px;
   }
 }
